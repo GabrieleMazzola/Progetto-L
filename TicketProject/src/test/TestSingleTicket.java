@@ -1,5 +1,6 @@
 package test;
 
+import exceptions.TicketExausted;
 import java.util.concurrent.TimeUnit;
 import ticket.SingleTicket;
 import ticket.Ticket;
@@ -17,7 +18,8 @@ public class TestSingleTicket {
         
         Ticket sTicket = new SingleTicket(1.30, 5);
         System.out.println("Valido:"+sTicket.isValid());
-        sTicket.validate();
+        try {sTicket.validate();}
+        catch(TicketExausted exc) {System.out.println(exc);}
         System.out.println("Valido dopo convalida:"+sTicket.isValid());
         try {
             

@@ -1,5 +1,6 @@
 package ticket;
 
+import exceptions.TicketExausted;
 import java.util.Calendar;
 
 /**
@@ -22,23 +23,25 @@ public class MultiTicket extends Ticket{
     }
     
     @Override
-    public void validate() {
+    public void validate() throws TicketExausted{
         
-        if(transpNum < maxTranspNum-1) {
+        if(hasTravelsLeft()) {
             
             transpNum++;
             validationDate[transpNum] = Calendar.getInstance();
         }
+        
+        else throw new TicketExausted("You cannot use this ticket more than " + maxTranspNum + " times");
     }
     
     @Override
     public boolean isValid() {
         
-        if(hasTravelsLeft() && validationDate[transpNum] != null) {
+        if(validated()) {
             
             Calendar now = Calendar.getInstance(); //ora attuale
             Calendar val = (Calendar)validationDate[transpNum].clone(); //ora della convalida
-            val.add(Calendar.MINUTE, validityTime);          //più il tempo per cui vale il biglietto
+            val.add(Calendar.SECOND, validityTime);          //più il tempo per cui vale il biglietto
             //Aggiungere tempo con la classe Date è una rottura. Molto più semplice con calendar
         
             return now.getTime().before(val.getTime());
@@ -49,8 +52,14 @@ public class MultiTicket extends Ticket{
     
     private boolean hasTravelsLeft() {
         
-        return transpNum < maxTranspNum && transpNum > -1;
+        return transpNum < maxTranspNum - 1;
+        //Uso transpNum come puntatore per accedere al vettore di Calendar.
+        //Se transpNum < maxTranspNum -1, ho ancora almeno un viaggio disponibile
+        //con il biglietto
     }
     
-    //Da rivedere. Così funziona ma è brutto
+    private boolean validated() {
+        
+        return transpNum > -1 && transpNum < maxTranspNum && validationDate[transpNum] != null;
+    }
 }
