@@ -7,16 +7,12 @@ import java.util.Calendar;
  * @author Manuele
  */
 public class SingleTicket extends Ticket{
-    
-//    private String code; //Il codice in genere non esiste per i biglietti singoli
-//    private double cost;
     //Uso Calendar perché è più facile gestire il tempo in questo modo
     private Calendar validationDate; //quando è stato convalidato il biglietto
     private int validityTime; //per quanto è valido in minuti
     
-    public SingleTicket(/*String code,*/ double cost, int validityTime) {
+    public SingleTicket( double cost, int validityTime) {
         
-//        this.code = code;
         this.cost = cost;
         this.validityTime = validityTime;
     }
@@ -49,7 +45,6 @@ public class SingleTicket extends Ticket{
     /*
     *Metodi getter
     */
-//    public String getCode() {return code;}
     public Calendar getValidationDate() {return validationDate;}
     public int getValidityTime() {return validityTime;}
 }

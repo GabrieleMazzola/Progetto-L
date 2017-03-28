@@ -7,7 +7,6 @@ import exceptions.TicketExausted;
  * @author Manuele
  */
 public abstract class Ticket {
-    
     protected double cost;
     
     //Convalida il biglietto
