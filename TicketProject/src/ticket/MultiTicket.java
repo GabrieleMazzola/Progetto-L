@@ -8,6 +8,7 @@ import java.util.Calendar;
  * @author Manuele
  */
 public class MultiTicket extends Ticket{
+    
     private Calendar[] validationDate; //può essere timbrato più volte
     private int validityTime, maxTranspNum, transpNum;
     
