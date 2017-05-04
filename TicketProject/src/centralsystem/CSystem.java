@@ -8,19 +8,32 @@ package centralsystem;
 import TicketCollector.Fine;
 import databaseadapter.DatabaseAdapter;
 import databaseadapter.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Gabriele
  */
-public class CSystem {
-    private DatabaseAdapter database;
 
+public class CSystem {
+    private int PORTA_SERVER = 5000;
+    private int NUMERO_MACCHINETTE = 1;
+  
+    private DatabaseAdapter database;
+    private ServerSocket socketListener;
+    private SocketHandler scHandler;
+   
+    
     public CSystem() {
         this.database = new DatabaseAdapter();
-        
         initTickets();
         initUsers();
+        initServer();
     }
     
     private void initTickets() {
@@ -74,4 +87,18 @@ public class CSystem {
     public void printUsers() {
         database.printUsers();
     }
+    private void initServer() {
+        try {
+            socketListener = new ServerSocket(PORTA_SERVER);
+        } catch (IOException ex) {
+            System.err.println("Errore apertura porta serverSocket");
+        }
+       
+       scHandler = new SocketHandler(socketListener);
+       scHandler.start();
+       
+         
+        
+    }
+    
 }
