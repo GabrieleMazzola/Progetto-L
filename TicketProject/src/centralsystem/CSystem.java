@@ -5,6 +5,7 @@
  */
 package centralsystem;
 
+import TicketCollector.Fine;
 import databaseadapter.DatabaseAdapter;
 import databaseadapter.*;
 
@@ -50,10 +51,11 @@ public class CSystem {
     /*
     public boolean addUser(User user) {
         return database.addUser(user.getName, user.getSurname, user.getCf);
+    
     }
     */
 
-    public boolean addFine(FineDB fine) {
+    public boolean addFine(Fine fine) {
         return database.addFine(fine);
     }
     
