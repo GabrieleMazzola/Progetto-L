@@ -16,12 +16,12 @@ public class DatabaseAdapter {
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
         this.users = new HashSet<>();
-        addUser(new UserDB("ADMIN", "ADMIN", "ADMIN"));
+        addUser("ADMIN", "ADMIN", "ADMIN");
         this.fines = new HashSet<>();
     }
 
-    public boolean addUser(UserDB user) {
-        return users.add(user);
+    public boolean addUser(String name, String surname, String cf) {
+        return users.add(new UserDB(name, surname, cf));
     }
     
     public boolean addTicket(TicketDB ticket){
