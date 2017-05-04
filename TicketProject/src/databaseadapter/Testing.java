@@ -13,7 +13,7 @@ public class Testing {
     
     public static void main(String[] args) {
         DatabaseAdapter mongoDB = new DatabaseAdapter();
-        mongoDB.addUser(new UserDB("Simone", "Colosi", "Millisecondi"));
+        mongoDB.addUser("Simone", "Colosi", "Millisecondi");
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.activateTicket("0");
