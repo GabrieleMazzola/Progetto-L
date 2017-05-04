@@ -21,12 +21,15 @@ public class TicketCollector {
         mongoDb=new DatabaseAdapter();
     }
     
+    /*
     public boolean verifyValidation(String idTicket){
         
          Ticket ticket = mongoDb.getTicketByCode(idTicket);
          return ticket.isValid();
          
     }
+    */
+    
     
     public boolean fine(String cf,Date today){
     
@@ -35,5 +38,6 @@ public class TicketCollector {
         throw new FineException("Non è stato possibile aggiungere la multa");
         
     }
+    
     
 }

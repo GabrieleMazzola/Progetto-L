@@ -1,6 +1,7 @@
 
 package databaseadapter;
 
+import TicketCollector.Fine;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ public class DatabaseAdapter {
     
     private Set<UserDB> users;
     private Set<TicketDB> tickets;
-    private Set<FineDB> fines;      //Verrà eliminata una volta che Simo invierà la sua parte del codice
+    private Set<Fine> fines;      
 
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
@@ -66,14 +67,14 @@ public class DatabaseAdapter {
         return false;
     }
     
-    public boolean addFine(FineDB fine) {
+    public boolean addFine(Fine fine) {
         return fines.add(fine);
     }
     
-    public Set<FineDB> getFineByCFCode(String cfCode) {
-        Set<FineDB> fittingFines = new HashSet<>();
+    public Set<Fine> getFineByCFCode(String cfCode) {
+        Set<Fine> fittingFines = new HashSet<>();
         
-        for(FineDB fine : fines) {
+        for(Fine fine : fines) {
             if(fine.getCfCode().equals(cfCode)) fittingFines.add(fine);
         }
         
