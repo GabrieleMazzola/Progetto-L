@@ -21,6 +21,8 @@ public class TicketMachine {
     //private State s;    
     public MoneyHandler moneyTank;
     
+    
+    
     public TicketMachine(int cod){
         //this.s = State.FULL;
         this.cod = cod;

@@ -20,12 +20,12 @@ import java.util.logging.Logger;
  *
  * @author Zubeer
  */
-public class StubTicket extends Thread{
+public class Skeleton extends Thread{
     Socket clientSocket = null;
     BufferedReader in = null;
     PrintWriter out = null;
     
-    public StubTicket(Socket clientSocket) {
+    public Skeleton(Socket clientSocket) {
        this.clientSocket = clientSocket;
 
     }

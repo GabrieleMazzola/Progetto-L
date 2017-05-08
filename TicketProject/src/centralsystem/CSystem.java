@@ -95,10 +95,7 @@ public class CSystem {
         }
        
        scHandler = new SocketHandler(socketListener);
-       scHandler.start();
-       
-         
-        
+       scHandler.start();  
     }
     
 }

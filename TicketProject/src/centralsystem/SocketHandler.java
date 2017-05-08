@@ -19,13 +19,11 @@ import java.util.logging.Logger;
 public class SocketHandler extends Thread {
      ServerSocket socketListener = null;
      Socket newSocket  = null;
-     ArrayList<StubTicket> connectionList;
+     ArrayList<Skeleton> connectionList;
      
     public SocketHandler (ServerSocket socketListener) {
        this.socketListener = socketListener;
-       connectionList = new ArrayList<StubTicket>();
-
-      
+       connectionList = new ArrayList<Skeleton>();
     }
 
     @Override
@@ -33,7 +31,7 @@ public class SocketHandler extends Thread {
         while(true){
             try {
                 newSocket = socketListener.accept();
-                connectionList.add(new StubTicket(newSocket));
+                connectionList.add(new Skeleton(newSocket));
                 connectionList.get(connectionList.size()-1).start();
                 removeDeadThread();          
             } catch (IOException ex) {
@@ -44,8 +42,8 @@ public class SocketHandler extends Thread {
     }
 
     private void removeDeadThread() {
-        ArrayList<StubTicket> toRemove = new ArrayList<>();
-        for (StubTicket stubTicket : connectionList) {
+        ArrayList<Skeleton> toRemove = new ArrayList<>();
+        for (Skeleton stubTicket : connectionList) {
                     if(!stubTicket.isAlive()) toRemove.add(stubTicket);
         }
          connectionList.removeAll(toRemove);

@@ -18,7 +18,7 @@ public class TestMultiTicket {
     public static void main(String[] args) {
         
         
-        /* test macchinetta
+        // test macchinetta
         TicketMachine tm = new TicketMachine(0);
         tm.moneyTank.setSingleQuantity(1, 6);
         tm.moneyTank.setSingleQuantity(2, 5);
@@ -32,7 +32,7 @@ public class TestMultiTicket {
         tm.insertMoney(1);
         tm.insertMoney(5);
         System.out.println("totale è " + tm.moneyTank.getTotal());
-        */
+        
           /* test money holder
           MoneyHandler mh =  new MoneyHandler();
           
