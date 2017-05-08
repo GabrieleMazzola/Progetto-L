@@ -34,13 +34,13 @@ public class StubMachine implements CentralSystemTicketInterface{
         }
     }
     
-    public void InitCOnnessione(){
+    public void initConnection(){
        // input reader e writer per connessione a server
     }
 
     @Override
     public boolean login(String username, String psw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       loginJSONPacket();
     }
 
     @Override
