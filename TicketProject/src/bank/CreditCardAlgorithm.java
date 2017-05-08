@@ -14,6 +14,7 @@ public class CreditCardAlgorithm {
     
     public static boolean isValidNumber(String code) {
         int[] codes = getCodeFromString(code);
+        return true;
     }
     
     private static int getDoubledEvenDigitsSum() {
@@ -26,7 +27,7 @@ public class CreditCardAlgorithm {
     }
     
     private static int getOddDigitsSum() {
-        
+        return 1;
     }
     
     private static int[] doubleEvenDigits() {
