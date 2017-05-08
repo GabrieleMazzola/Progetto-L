@@ -1,64 +1,136 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package machines;
+
 import centralsystem.CentralSystemTicketInterface;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-/**
- *
- * @author Andrea
- */
-public class StubMachine implements CentralSystemTicketInterface{
-    
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
+
+public class StubMachine implements CentralSystemTicketInterface {
+
     String ipAdress;
     int port;
-    
-    Socket s;
-    BufferedReader bufferIn;
-    PrintWriter bw;
+    Socket socket;
+    BufferedReader fromServer;
+    PrintWriter toServer;
 
     public StubMachine(String ipAdress, int port) {
         this.ipAdress = ipAdress;
         this.port = port;
+    }
+
+    private void initConnection() {
         try {
-            s= new Socket(ipAdress,port);
+            socket = new Socket(ipAdress, port);
+            fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            toServer = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException ex) {
-            Logger.getLogger(StubMachine.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+
+    }
+    
+    private void closeConnection(){
+        try {
+            fromServer.close();
+            toServer.close();
+            socket.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
     
-    public void InitCOnnessione(){
-       // input reader e writer per connessione a server
-    }
-
     @Override
     public boolean login(String username, String psw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            initConnection();
+            
+            String packet = loginJSONPacket(username, psw);
+            System.out.println(packet);
+            toServer.println(packet);
+            
+            String line = fromServer.readLine();
+            closeConnection();
+            //System.out.println(line);
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject)parser.parse(line);
+            
+            return (Boolean)obj.get("data");
+                
+        }catch(IOException|ParseException ex){
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }        
     }
 
     @Override
     public String requestCodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    }
-      
-/*
-    @Override
-    public boolean login(String username, String psw) {
-        return false;
+        initConnection();
+        String packet = requestCodesJSONPacket();
+        toServer.println(packet);
+        
+        
+        //TODO thread per richiesta codici
+        closeConnection();
+        return "CODICIBELLISSIMIINARRIVO";
     }
 
     @Override
-    public String requestCodes() {
-        return null;
+    public boolean cardPayment(String cardNumber) {
+        try{
+            initConnection();
+            String packet = cardPaymentJSONPacket(cardNumber);
+            toServer.println(packet);
+
+            String line = fromServer.readLine();
+            closeConnection();
+            //System.out.println(line);
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject)parser.parse(line);
+            return (Boolean)obj.get("data");
+            
+        }catch(IOException|ParseException ex){
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
     }
-*/ 
     
+    private String cardPaymentJSONPacket(String cardNumber){
+        //{"method":"CARDPAYMENT","data":{"cardNumber":"..."}}
+        
+        JSONObject root = new JSONObject();
+        root.put("method", "CARDPAYMENT");
+        JSONObject data = new JSONObject();
+        data.put("cardNumber", cardNumber);
+        root.put("data", data);
+        return root.toJSONString();
+    }
+    
+    private String loginJSONPacket(String username, String psw) {
+        //{"method":"LOGIN","data":{"username":"...","psw":"..."}}
 
+        JSONObject root = new JSONObject();
+        root.put("method", "LOGIN");
+        JSONObject data = new JSONObject();
+        data.put("username", username);
+        data.put("psw", psw);
+        root.put("data", data);
+
+        return root.toJSONString();
+    }
+
+    private String requestCodesJSONPacket() {
+        //{"method":"REQUESTCODES"}
+        
+        JSONObject root = new JSONObject();
+        root.put("method", "REQUESTCODES");
+        return root.toJSONString();
+    }
+
+
+}

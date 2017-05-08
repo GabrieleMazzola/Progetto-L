@@ -14,4 +14,6 @@ public interface CentralSystemTicketInterface {
     public boolean login(String username,String psw);
     
     public String requestCodes();
+    
+    public boolean cardPayment(String cardNumber);
 }
