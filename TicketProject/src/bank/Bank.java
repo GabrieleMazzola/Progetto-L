@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package machines;
-
+package bank;
 /**
  *
  * @author Andrea
  */
-public class MachineTest {
+public class Bank {
     
-    public static void main(String[] args) {
-         //TicketMachine tm = new TicketMachine(0,);
-         
-    }
-    
+//    public boolean ehiHoUnaCartaDiCreditoConQuestoCodiceMethod(String codice) {
+//        return true;
+//    }
 }

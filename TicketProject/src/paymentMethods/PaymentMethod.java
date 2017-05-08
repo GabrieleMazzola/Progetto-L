@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package machines;
+package paymentMethods;
 
 /**
  *
  * @author Andrea
  */
-public class MachineTest {
+public enum PaymentMethod {
     
-    public static void main(String[] args) {
-         //TicketMachine tm = new TicketMachine(0,);
-         
-    }
+    CASH, CREDITCARD
     
 }
