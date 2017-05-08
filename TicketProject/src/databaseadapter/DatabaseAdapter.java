@@ -94,6 +94,13 @@ public class DatabaseAdapter {
             System.out.println(t.toString());
         }
     }
+
+    
+    
+    public boolean login(String username, String psw) {
+        return username.equals(psw);
+        
+    }
     
     
 }

@@ -20,9 +20,11 @@ public class SocketHandler extends Thread {
      ServerSocket socketListener = null;
      Socket newSocket  = null;
      ArrayList<Skeleton> connectionList;
+     CSystem centralSystem;
      
-    public SocketHandler (ServerSocket socketListener) {
+    public SocketHandler (ServerSocket socketListener,CSystem centralSystem) {
        this.socketListener = socketListener;
+       this.centralSystem = centralSystem;
        connectionList = new ArrayList<Skeleton>();
     }
 
@@ -31,7 +33,7 @@ public class SocketHandler extends Thread {
         while(true){
             try {
                 newSocket = socketListener.accept();
-                connectionList.add(new Skeleton(newSocket));
+                connectionList.add(new Skeleton(newSocket,centralSystem));
                 connectionList.get(connectionList.size()-1).start();
                 removeDeadThread();          
             } catch (IOException ex) {
