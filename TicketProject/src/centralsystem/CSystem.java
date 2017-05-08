@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Gabriele
  */
 
-public class CSystem {
+public class CSystem implements CentralSystemCollectorInterface{
     private int PORTA_SERVER = 5000;
     private int NUMERO_MACCHINETTE = 1;
   
@@ -94,8 +94,18 @@ public class CSystem {
             System.err.println("Errore apertura porta serverSocket");
         }
        
-       scHandler = new SocketHandler(socketListener);
+       scHandler = new SocketHandler(socketListener,this);
        scHandler.start();  
+    }
+
+    @Override
+    public void makeFine(Fine f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean login(String username, String psw) {
+        return  database.login(username,psw);
     }
     
 }
