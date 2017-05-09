@@ -104,8 +104,4 @@ public class StubMachine implements CentralSystemTicketInterface {
             return false;
         }
     }
-
-    public boolean checkCreditCard(String credCardNumber) {
-        return true;
-    }
 }

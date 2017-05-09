@@ -56,7 +56,7 @@ public class TicketMachine {
     }
 
     public void buyTicketCreditCard(Ticket ticket) {
-        if(stub.checkCreditCard(getCredCardNumber()))
+        if(checkCreditCard(getCredCardNumber()))
             printTicket();
         else
             System.out.println("Sei un pirla");
@@ -140,6 +140,13 @@ public class TicketMachine {
     
     private String getCredCardNumber() {
         return "8888 8888 8888 8888";
+    }
+
+    private boolean checkCreditCard(String credCardNumber) {
+        
+        //TODO
+        
+        return true;
     }
 
 }

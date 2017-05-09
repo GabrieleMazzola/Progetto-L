@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import ticketCollector.Fine;
 
-public class CSystem implements CentralSystemCollectorInterface {
+public class CSystem implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
 
     private final int PORTA_SERVER = 5000;
     private final int NUMERO_MACCHINETTE = 3;
@@ -14,9 +14,11 @@ public class CSystem implements CentralSystemCollectorInterface {
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
+    private BankAdapter bank;
 
     public CSystem() {
         this.database = new DatabaseAdapter();
+        this.bank = new BankAdapter();
         initTickets();
         initUsers();
         initServer();
@@ -84,6 +86,19 @@ public class CSystem implements CentralSystemCollectorInterface {
 
     public void makeFine(Fine f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String requestCodes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean cardPayment(String cardNumber) {
+        
+        //TODO
+        
+        return bank.checkCreditCard(cardNumber);
     }
 
 }
