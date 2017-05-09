@@ -56,7 +56,7 @@ public class TicketMachine {
     }
 
     public void buyTicketCreditCard(Ticket ticket) {
-        if(stub.checkCrediCard(getCredCardNumber()))
+        if(stub.checkCreditCard(getCredCardNumber()))
             printTicket();
         else
             System.out.println("Sei un pirla");

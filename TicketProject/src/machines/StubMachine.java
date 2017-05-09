@@ -133,5 +133,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         return root.toJSONString();
     }
 
-
+    public boolean checkCreditCard(String credCardNumber) {
+        return true;
+    }
 }
