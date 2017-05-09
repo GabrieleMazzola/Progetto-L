@@ -90,7 +90,9 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
 
     @Override
     public String requestCodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String result = "MAZZOLAINARRIVO";
+        return result;
     }
 
     @Override
