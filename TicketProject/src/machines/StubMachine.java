@@ -70,15 +70,30 @@ public class StubMachine implements CentralSystemTicketInterface {
 
     @Override
     public String requestCodes() {
+        try{
         initConnection();
         //String packet = requestCodesJSONPacket();
         String packet = JSONOperator.requestCodesPacket();
         toServer.println(packet);
+        //System.out.println(packet);
 
         //TODO thread per richiesta codici
+        String line = fromServer.readLine();
         closeConnection();
-        return "CODICIBELLISSIMIINARRIVO";
+        
+        JSONParser parser = new JSONParser();
+        
+        //Struttura JSON di risposta : {"data":"String"}
+        JSONObject obj = (JSONObject) parser.parse(line);
+        return (String) obj.get("data");
+        
+        }catch(IOException | ParseException ex) {
+            ex.printStackTrace();
+            closeConnection();
+            return "ERROR";
+        }   
     }
+        
 
     @Override
     public boolean cardPayment(String cardNumber) {
@@ -86,6 +101,7 @@ public class StubMachine implements CentralSystemTicketInterface {
             initConnection();
             //String packet = cardPaymentJSONPacket(cardNumber);
             String packet = JSONOperator.cardPaymentPacket(cardNumber);
+            //System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             //Aspetto risposta da parte del server
