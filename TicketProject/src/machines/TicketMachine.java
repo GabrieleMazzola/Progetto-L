@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package machines;
 
+import java.util.HashMap;
+import java.util.Map;
 import paymentMethods.PaymentMethod;
 import ticket.*;
 import people.User;
@@ -14,68 +11,50 @@ import people.User;
  * @author Andrea
  */
 public class TicketMachine {
-
     private int cod;
     private double insertedMoney;
     private double cost;
-    private double ink; //valore percentuale
-    private int paper; //valore percentuale
-    //private State s;    
+    public ResourcesHandler resources;
     public MoneyHandler moneyTank;
-
     private StubMachine stub;
+    private Map<String,Double> ticketTemplate;
 
     public TicketMachine(int cod, String ipAdress) {
-        //this.s = State.FULL;
         this.cod = cod;
         this.moneyTank = new MoneyHandler();
-        ink = 5;
-        paper = 4;
+        this.resources = new ResourcesHandler();
+        ticketTemplate = new HashMap();
+        setupTicketTemplate();
         stub = new StubMachine(ipAdress, cod);
     }
-
-    public void setInk(double ink) {
-        this.ink = ink;
-    }
-
-    public void setPaper(int paper) {
-        this.paper = paper;
-    }
-
+    
     public double getInk() {
-        return ink;
+        return resources.getInkPercentage();
+    }
+    
+    public double getPaper() {
+        return resources.getPaperPercentage();
     }
 
-    public int getPaper() {
-        return paper;
+    public void buyTicket(TicketType type, PaymentMethod method) {
+        getCost(type);
+        switch (method) {
+            case CASH:
+                insertedMoney = 0;
+                return;
+            case CREDITCARD:
+                return;
+            default:
+                throw new AssertionError(method.name());
+        }
     }
-
-    public void buyTicketCash(Ticket ticket) {
-        insertedMoney = 0;
-        cost = ticket.getCost();
-    }
-
+    
     public void buyTicketCreditCard(Ticket ticket) {
         if(checkCreditCard(getCredCardNumber()))
             printTicket();
         else
             System.out.println("Sei un pirla");
     }
-
-//    //todo
-    public void buyTicket(Ticket t, PaymentMethod method) {
-        switch (method) {
-            case CASH:
-                buyTicketCash(t);
-                return;
-            case CREDITCARD:
-                buyTicketCreditCard(t);
-                return;
-            default:
-                throw new AssertionError(method.name());
-        }
-    }
-//    //todo
 
     void logIn(User u) {
     }
@@ -119,18 +98,8 @@ public class TicketMachine {
         printTicket();
     }
 
-    private int printTicket() {
-        if (ink > 0) {
-            ink -= 0.5;
-        } else {
-            return -1;      // do exeption
-        }
-        if (paper > 0) {
-            paper--;
-        } else {
-            return -1; // do exeption
-        }
-        return 1;
+    private void printTicket() {
+        resources.printTicket();
     }
 
     private void outputChange() {
@@ -143,10 +112,17 @@ public class TicketMachine {
     }
 
     private boolean checkCreditCard(String credCardNumber) {
-        
-        //TODO
-        
         return true;
     }
-
+    
+    private void setupTicketTemplate() {
+        ticketTemplate.put("Single", 1.50);
+        ticketTemplate.put("Multi", 5.70);
+    }
+    
+    private void getCost(TicketType type) {
+        if(ticketTemplate.containsKey(type.name()))
+            cost = ticketTemplate.get(type.name());
+        else cost = 0; //to do eccezzione
+    }
 }

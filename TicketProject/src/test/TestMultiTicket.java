@@ -26,7 +26,7 @@ public class TestMultiTicket {
         
         System.out.println("totale è " + tm.moneyTank.getTotal());
         
-        tm.buyTicketCash(new SingleTicket(3,3));
+        //tm.buyTicketCash(new SingleTicket("3",3));
         
         tm.insertMoney(1);       
         tm.insertMoney(1);
