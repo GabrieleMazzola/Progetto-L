@@ -1,5 +1,6 @@
 package ticketCollector;
 
+import JSONSingleton.JSONOperations;
 import TicketCollector.Fine;
 import centralsystem.CentralSystemCollectorInterface;
 import java.io.BufferedReader;
@@ -19,10 +20,12 @@ public class StubCollector implements CentralSystemCollectorInterface{
     Socket socket;
     BufferedReader fromServer;
     PrintWriter toServer;
+    JSONOperations JSONOperator;
     
     public StubCollector(String ipAddress,int port){
         this.ipAdress = ipAddress;
         this.port = port;
+        this.JSONOperator = JSONOperations.getInstance();   //pattern singleton
     }
     
     private void initConnection() {
@@ -51,7 +54,8 @@ public class StubCollector implements CentralSystemCollectorInterface{
         try{
             initConnection();
 
-            String packet = existsJSONPacket(ticketCode);
+            //String packet = existsJSONPacket(ticketCode);
+            String packet = JSONOperator.existsTicketPacket(ticketCode);
             System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
@@ -80,7 +84,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         try {
             initConnection();
             
-            String packet = loginJSONPacket(username, psw);
+            String packet = JSONOperator.loginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
             
             String line = fromServer.readLine();
@@ -97,31 +101,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
             closeConnection();
             return false;
         }        
-    }
-    
-    private String loginJSONPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
-
-        JSONObject root = new JSONObject();
-        root.put("method", "LOGIN");
-        JSONObject data = new JSONObject();
-        data.put("username", username);
-        data.put("psw", psw);
-        root.put("data", data);
-
-        return root.toJSONString();
-    }
-
-    private String existsJSONPacket(String ticketCode) {
-        //{"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
-        
-        JSONObject root = new JSONObject();
-        root.put("method", "EXISTSTICKET");
-        JSONObject data = new JSONObject();
-        data.put("ticketCode", ticketCode);
-        root.put("data", data);
-
-        return root.toJSONString();
     }
     
 }
