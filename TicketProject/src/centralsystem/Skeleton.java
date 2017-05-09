@@ -73,11 +73,15 @@ public class Skeleton extends Thread {
         data = new JSONObject();
         data.put("data", result);
 
-        return data.toString();
+        return data.toJSONString();
     }
 
     private String callCardPayment(JSONObject data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
+        data = new JSONObject();
+        data.put("data",result);
+        
+        return data.toJSONString();
     }
 
    
@@ -87,7 +91,7 @@ public class Skeleton extends Thread {
         data = new JSONObject();
         data.put("data", result);
         
-        return data.toString();
+        return data.toJSONString();
 
     }
 
