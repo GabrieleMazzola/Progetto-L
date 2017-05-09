@@ -48,7 +48,7 @@ public class Skeleton extends Thread {
         try {
             obj = (JSONObject) parser.parse(inputData);
 
-            switch ((String) obj.get("method")) {
+            switch (((String) obj.get("method")).trim().toUpperCase()) {
                 case "LOGIN":
                     result.append(callLogin((JSONObject) obj.get("data")));
                     break;
@@ -58,6 +58,9 @@ public class Skeleton extends Thread {
                 case "EXISTSTICKET":
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
+                case "REQUESTCODES":
+                    result.append(callRequestCodes());
+                    break;    
                 default:
                     throw new AssertionError();
             }
@@ -93,6 +96,14 @@ public class Skeleton extends Thread {
         
         return data.toJSONString();
 
+    }
+
+    private String callRequestCodes() {
+        String result = centralSystem.requestCodes();
+        JSONObject data = new JSONObject();
+        data.put("data", result);
+        
+        return data.toJSONString();
     }
 
 }
