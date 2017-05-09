@@ -1,6 +1,7 @@
 package centralsystem;
 
-import TicketCollector.Fine;
+import ticketCollector.Fine;
+
 
 
 public interface CentralSystemCollectorInterface {

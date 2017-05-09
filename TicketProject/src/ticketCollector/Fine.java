@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TicketCollector;
+package ticketCollector;
 
 import java.util.Date;
 
@@ -44,5 +44,12 @@ public class Fine {
     public Date getSecondDeadline() {
         return secondDeadline;
     }
+
+    @Override
+    public String toString() {
+        return "Fine{" + "cfCode=" + cfCode + ", amount=" + amount + ", firstDeadline=" + firstDeadline + ", secondDeadline=" + secondDeadline + '}';
+    }
+    
+    
     
 }

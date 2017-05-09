@@ -1,8 +1,8 @@
 
 package databaseadapter;
 
-import TicketCollector.Fine;
 import java.util.*;
+import ticketCollector.Fine;
 
 
 public class DatabaseAdapter {
@@ -26,7 +26,7 @@ public class DatabaseAdapter {
         return tickets.add(ticket);
     }
     
-    private TicketDB getTicketByCode(String ticketCode){
+    public TicketDB getTicketByCode(String ticketCode){
         for(TicketDB t: tickets){
             if(t.getCode().trim().equalsIgnoreCase(ticketCode.trim())){
                 return t;
@@ -93,7 +93,10 @@ public class DatabaseAdapter {
     }
     
     public boolean login(String username, String psw) {
-        return username.equals(psw);
+        for (UserDB user : users) {
+            if(user.getName().equals(username) && user.getPassword().equals(psw)) return true;
+        }
+        return false;
     }
     
     
