@@ -4,9 +4,7 @@ import centralsystem.CentralSystemTicketInterface;
 import java.io.*;
 import java.net.Socket;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import org.json.simple.parser.*;
 
 
 public class StubMachine implements CentralSystemTicketInterface {
@@ -49,15 +47,15 @@ public class StubMachine implements CentralSystemTicketInterface {
             initConnection();
             
             String packet = loginJSONPacket(username, psw);
-            System.out.println(packet);
-            toServer.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
             
             String line = fromServer.readLine();
             closeConnection();
-            //System.out.println(line);
-            JSONParser parser = new JSONParser();
+            
+            JSONParser parser = new JSONParser();               
             JSONObject obj = (JSONObject)parser.parse(line);
             
+            //Struttura JSON di risposta : {"data":"boolean"}
             return (Boolean)obj.get("data");
                 
         }catch(IOException|ParseException ex){
@@ -84,12 +82,15 @@ public class StubMachine implements CentralSystemTicketInterface {
         try{
             initConnection();
             String packet = cardPaymentJSONPacket(cardNumber);
-            toServer.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
 
+            //Aspetto risposta da parte del server
             String line = fromServer.readLine();
             closeConnection();
-            //System.out.println(line);
+            
             JSONParser parser = new JSONParser();
+            
+            //Struttura JSON di risposta : {"data":"boolean"}
             JSONObject obj = (JSONObject)parser.parse(line);
             return (Boolean)obj.get("data");
             
@@ -101,7 +102,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     private String cardPaymentJSONPacket(String cardNumber){
-        //{"method":"CARDPAYMENT","data":{"cardNumber":"..."}}
+        //{"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
         
         JSONObject root = new JSONObject();
         root.put("method", "CARDPAYMENT");
@@ -112,7 +113,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     private String loginJSONPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"...","psw":"..."}}
+        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
 
         JSONObject root = new JSONObject();
         root.put("method", "LOGIN");

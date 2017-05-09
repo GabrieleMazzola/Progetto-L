@@ -1,19 +1,28 @@
-
 package databaseadapter;
 
-/**
- *
- * @author Gabriele
- */
-public class UserDB {
-    private String name,surname,CF,mail;
 
-    public UserDB(String name, String surname, String CF) {
+public class UserDB {
+    private String name,surname,CF,mail,password;
+
+    public UserDB(String name, String surname, String CF,String password) {
         this.name = name;
         this.surname = surname;
         this.CF = CF;
+        this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean setPassword(String oldPsw,String newPsw) {
+        if(oldPsw.equals(this.password)){
+            this.password = newPsw;
+            return true;
+        }
+        return false;
+    }
+    
     public void setMail(String mail) {
         this.mail = mail;
     }

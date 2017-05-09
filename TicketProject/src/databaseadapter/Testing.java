@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package databaseadapter;
 
-/**
- *
- * @author Gabriele
- */
+
 public class Testing {
     
     public static void main(String[] args) {
         DatabaseAdapter mongoDB = new DatabaseAdapter();
-        mongoDB.addUser("Simone", "Colosi", "Millisecondi");
+        mongoDB.addUser("Simone", "Colosi", "Millisecondi","OreMinuti");
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.activateTicket("0");

@@ -4,10 +4,7 @@ package databaseadapter;
 import TicketCollector.Fine;
 import java.util.*;
 
-/**
- *
- * @author Gabriele
- */
+
 public class DatabaseAdapter {
     
     private Set<UserDB> users;
@@ -17,12 +14,12 @@ public class DatabaseAdapter {
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
         this.users = new HashSet<>();
-        addUser("ADMIN", "ADMIN", "ADMIN");
+        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN");
         this.fines = new HashSet<>();
     }
 
-    public boolean addUser(String name, String surname, String cf) {
-        return users.add(new UserDB(name, surname, cf));
+    public boolean addUser(String name, String surname, String cf,String psw) {
+        return users.add(new UserDB(name, surname, cf, psw));
     }
     
     public boolean addTicket(TicketDB ticket){
