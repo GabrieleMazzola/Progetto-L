@@ -43,6 +43,7 @@ public class Skeleton extends Thread {
 
     private String decodeRead(String inputData) {
         JSONObject obj;
+        System.out.println(inputData);
         StringBuilder result = new StringBuilder();
         try {
             obj = (JSONObject) parser.parse(inputData);
@@ -54,8 +55,8 @@ public class Skeleton extends Thread {
                 case "CARDPAYMENT":
                     result.append(callCardPayment((JSONObject) obj.get("data")));
                     break;
-                case "ISVALID":
-                    result.append(callIsValid((JSONObject) obj.get("data")));
+                case "EXISTSTICKET":
+                    result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
                 default:
                     throw new AssertionError();
@@ -79,12 +80,15 @@ public class Skeleton extends Thread {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private String callIsValid(JSONObject data) {
-        boolean result = centralSystem.isValid((String) data.get("ticketCode"));
+   
+
+    private String callexistsTicket(JSONObject data) {
+        boolean result = centralSystem.existsTicket((String) data.get("ticketCode"));
         data = new JSONObject();
         data.put("data", result);
-
+        
         return data.toString();
+
     }
 
 }
