@@ -9,7 +9,7 @@ import ticketCollector.Fine;
 public class CSystem implements CentralSystemCollectorInterface {
 
     private final int PORTA_SERVER = 5000;
-    private final int NUMERO_MACCHINETTE = 1;
+    private final int NUMERO_MACCHINETTE = 3;
 
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
