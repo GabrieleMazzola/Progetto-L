@@ -1,6 +1,6 @@
 package ticketCollector;
 
-import TicketCollector.Fine;
+import ticketCollector.Fine;
 import centralsystem.CentralSystemCollectorInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
