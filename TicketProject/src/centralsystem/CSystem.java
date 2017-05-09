@@ -1,10 +1,10 @@
 package centralsystem;
 
-import TicketCollector.Fine;
 import databaseadapter.DatabaseAdapter;
 import databaseadapter.*;
 import java.io.IOException;
 import java.net.ServerSocket;
+import ticketCollector.Fine;
 
 public class CSystem implements CentralSystemCollectorInterface {
 
@@ -76,14 +76,14 @@ public class CSystem implements CentralSystemCollectorInterface {
         scHandler.start();
     }
 
-    @Override
-    public void makeFine(Fine f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+   
     @Override
     public boolean login(String username, String psw) {
         return database.login(username, psw);
+    }
+
+    public void makeFine(Fine f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
