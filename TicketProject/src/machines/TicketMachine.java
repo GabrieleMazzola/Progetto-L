@@ -18,8 +18,8 @@ public class TicketMachine {
     private int cod;
     private double insertedMoney;
     private double cost;
-    private double ink;
-    private int paper;
+    private double ink; //valore percentuale
+    private int paper; //valore percentuale
     //private State s;    
     public MoneyHandler moneyTank;
 
