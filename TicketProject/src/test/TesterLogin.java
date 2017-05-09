@@ -1,20 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package test;
 
 import machines.StubMachine;
+import ticketCollector.StubCollector;
 
-/**
- *
- * @author Gabriele
- */
 public class TesterLogin {
     
     public static void main(String[] args) {
+        
         StubMachine machine = new StubMachine("10.87.232.53", 5000);
-        System.out.println(machine.login("ADMIN", "AcDMIN"));
+        System.out.println(machine.login("ADMIN", "ADMIN"));
+        System.out.println(machine.login("ADMIN", "ADMIASCN"));
+        
+        
+        StubCollector collector = new StubCollector("10.87.232.53", 5000);
+        System.out.println(collector.existsTicket("10"));
+        System.out.println(collector.existsTicket("5"));
+
     }
 }

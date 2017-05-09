@@ -33,9 +33,8 @@ public class CSystem implements CentralSystemCollectorInterface {
     }
 
     private void initUsers() {
-        for (int i = 0; i < 10; i++) {
-            database.addUser(i + "", i + "", i + "",i + "");
-        }
+        database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K", "pizza123");
+        database.addUser("Manuele", "Longhi", "ASCAKJSCAKSBCAKSJBHC", "manumanu");
     }
 
     public boolean checkUser(String cf) {
@@ -45,13 +44,7 @@ public class CSystem implements CentralSystemCollectorInterface {
     public boolean addUser(String name, String surname, String cf,String psw) {
         return database.addUser(name, surname, cf, psw);
     }
-
-    /*
-    public boolean addUser(User user) {
-        return database.addUser(user.getName, user.getSurname, user.getCf);
     
-    }
-     */
     public boolean addFine(Fine fine) {
         return database.addFine(fine);
     }

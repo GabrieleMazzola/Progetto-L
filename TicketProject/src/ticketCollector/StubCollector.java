@@ -1,25 +1,30 @@
-package machines;
+package ticketCollector;
 
-import centralsystem.CentralSystemTicketInterface;
-import java.io.*;
+import TicketCollector.Fine;
+import centralsystem.CentralSystemCollectorInterface;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
-public class StubMachine implements CentralSystemTicketInterface {
+public class StubCollector implements CentralSystemCollectorInterface{
 
     String ipAdress;
     int port;
     Socket socket;
     BufferedReader fromServer;
     PrintWriter toServer;
-
-    public StubMachine(String ipAdress, int port) {
-        this.ipAdress = ipAdress;
+    
+    public StubCollector(String ipAddress,int port){
+        this.ipAdress = ipAddress;
         this.port = port;
     }
-
+    
     private void initConnection() {
         try {
             socket = new Socket(ipAdress, port);
@@ -41,6 +46,35 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
     
+    @Override
+    public boolean existsTicket(String ticketCode) {
+        try{
+            initConnection();
+
+            String packet = existsJSONPacket(ticketCode);
+            System.out.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
+
+            String line = fromServer.readLine();
+            closeConnection();
+
+            JSONParser parser = new JSONParser();               
+            JSONObject obj = (JSONObject)parser.parse(line);
+
+            //Struttura JSON di risposta : {"data":"boolean"}
+            return (Boolean)obj.get("data");
+        }catch(IOException|ParseException ex){
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
+    }
+
+    @Override
+    public void makeFine(Fine f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public boolean login(String username, String psw) {
         try {
@@ -64,53 +98,6 @@ public class StubMachine implements CentralSystemTicketInterface {
             return false;
         }        
     }
-
-    @Override
-    public String requestCodes() {
-        initConnection();
-        String packet = requestCodesJSONPacket();
-        toServer.println(packet);
-        
-        
-        //TODO thread per richiesta codici
-        closeConnection();
-        return "CODICIBELLISSIMIINARRIVO";
-    }
-
-    @Override
-    public boolean cardPayment(String cardNumber) {
-        try{
-            initConnection();
-            String packet = cardPaymentJSONPacket(cardNumber);
-            toServer.println(packet);                           //Invio verso server della richiesta JSON
-
-            //Aspetto risposta da parte del server
-            String line = fromServer.readLine();
-            closeConnection();
-            
-            JSONParser parser = new JSONParser();
-            
-            //Struttura JSON di risposta : {"data":"boolean"}
-            JSONObject obj = (JSONObject)parser.parse(line);
-            return (Boolean)obj.get("data");
-            
-        }catch(IOException|ParseException ex){
-            ex.printStackTrace();
-            closeConnection();
-            return false;
-        }
-    }
-    
-    private String cardPaymentJSONPacket(String cardNumber){
-        //{"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
-        
-        JSONObject root = new JSONObject();
-        root.put("method", "CARDPAYMENT");
-        JSONObject data = new JSONObject();
-        data.put("cardNumber", cardNumber);
-        root.put("data", data);
-        return root.toJSONString();
-    }
     
     private String loginJSONPacket(String username, String psw) {
         //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
@@ -125,15 +112,16 @@ public class StubMachine implements CentralSystemTicketInterface {
         return root.toJSONString();
     }
 
-    private String requestCodesJSONPacket() {
-        //{"method":"REQUESTCODES"}
+    private String existsJSONPacket(String ticketCode) {
+        //{"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
         
         JSONObject root = new JSONObject();
-        root.put("method", "REQUESTCODES");
+        root.put("method", "EXISTSTICKET");
+        JSONObject data = new JSONObject();
+        data.put("ticketCode", ticketCode);
+        root.put("data", data);
+
         return root.toJSONString();
     }
-
-    public boolean checkCreditCard(String credCardNumber) {
-        return true;
-    }
+    
 }

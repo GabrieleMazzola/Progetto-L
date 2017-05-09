@@ -19,14 +19,14 @@ public class TestMultiTicket {
         
         
         // test macchinetta
-        TicketMachine tm = new TicketMachine(0);
+        TicketMachine tm = new TicketMachine(0,"localhost");
         tm.moneyTank.setSingleQuantity(1, 6);
         tm.moneyTank.setSingleQuantity(2, 5);
         tm.moneyTank.setSingleQuantity(5, 1);
         
         System.out.println("totale è " + tm.moneyTank.getTotal());
         
-        tm.buyTicket(new SingleTicket(3,3));
+        tm.buyTicketCash(new SingleTicket(3,3));
         
         tm.insertMoney(1);       
         tm.insertMoney(1);

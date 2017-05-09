@@ -91,8 +91,6 @@ public class DatabaseAdapter {
             System.out.println(t.toString());
         }
     }
-
-    
     
     public boolean login(String username, String psw) {
         for (UserDB user : users) {
