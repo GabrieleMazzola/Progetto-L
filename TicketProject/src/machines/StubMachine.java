@@ -78,6 +78,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         //System.out.println(packet);
 
         //TODO thread per richiesta codici
+        
         String line = fromServer.readLine();
         closeConnection();
         

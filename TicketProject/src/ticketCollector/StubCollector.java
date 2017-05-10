@@ -75,7 +75,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
 
     @Override
-    public void makeFine(Fine f) {
+    public boolean makeFine(Fine f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -102,5 +102,10 @@ public class StubCollector implements CentralSystemCollectorInterface{
             return false;
         }        
     }
+
+	public boolean loginCollector(String username, String psw) {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
 }
