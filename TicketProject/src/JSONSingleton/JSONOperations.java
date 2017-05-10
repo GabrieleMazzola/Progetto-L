@@ -17,10 +17,10 @@ public class JSONOperations {
     }
 
     public String userLoginPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
+        //{"method":"USERLOGIN","data":{"username":"String","psw":"String"}}
 
         JSONObject root = new JSONObject();
-        root.put("method", "LOGIN");
+        root.put("method", "USERLOGIN");
         JSONObject data = new JSONObject();
         data.put("username", username);
         data.put("psw", psw);
@@ -59,5 +59,29 @@ public class JSONOperations {
 
         return root.toJSONString();
     }
+
+	public String collectorLoginPacket(String username, String psw) {
+        //{"method":"COLLECTORLOGIN","data":{"username":"String","psw":"String"}}
+
+        JSONObject root = new JSONObject();
+        root.put("method", "COLLECTORLOGIN");
+        JSONObject data = new JSONObject();
+        data.put("username", username);
+        data.put("psw", psw);
+        root.put("data", data);
+
+        return root.toJSONString();
+	}
+
+	public String centralSystemTESTPacket(String sentTest) {
+        //{"method":"TEST","data":{"test":"String"}}
+
+		JSONObject root = new JSONObject();
+        root.put("method", "TEST");
+        JSONObject data = new JSONObject();
+        data.put("test", sentTest);
+        root.put("data", data);
+        return root.toJSONString();
+	}
 
 }

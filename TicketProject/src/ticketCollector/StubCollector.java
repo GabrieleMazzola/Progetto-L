@@ -4,6 +4,7 @@ package ticketCollector;
 import JSONSingleton.JSONOperations;
 import ticketCollector.Fine;
 import centralsystem.CentralSystemCollectorInterface;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class StubCollector implements CentralSystemCollectorInterface{
+public class StubCollector{
     String ipAdress;
     int port;
     Socket socket;
@@ -49,7 +50,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         }
     }
     
-    @Override
+    
     public boolean existsTicket(String ticketCode) {
         try{
             initConnection();
@@ -74,17 +75,19 @@ public class StubCollector implements CentralSystemCollectorInterface{
         }
     }
 
-    @Override
-    public boolean makeFine(Fine f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    public boolean makeFine(Fine f){
+    	//TODO : scelta JSON lato skeleton e processamento
+    	return true;
     }
 
-    @Override
-    public boolean userLogin(String username, String psw) {
+
+
+	public boolean collectorLogin(String username, String psw) {
         try {
             initConnection();
             
-            String packet = JSONOperator.userLoginPacket(username, psw);
+            String packet = JSONOperator.collectorLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
             
             String line = fromServer.readLine();
@@ -100,12 +103,32 @@ public class StubCollector implements CentralSystemCollectorInterface{
             ex.printStackTrace();
             closeConnection();
             return false;
-        }        
-    }
+        }   
+	}
 
-	public boolean loginCollector(String username, String psw) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean centralSystemTEST() {
+		 try {
+	            initConnection();
+	            String sentTest = "abc";
+	            String packet = JSONOperator.centralSystemTESTPacket(sentTest);
+	            toServer.println(packet);                           //Invio verso server della richiesta JSON
+	            
+	            String line = fromServer.readLine();
+	            closeConnection();
+	            
+	            JSONParser parser = new JSONParser();               
+	            JSONObject obj = (JSONObject)parser.parse(line);
+	            
+	            //Struttura JSON di risposta : {"data":"String"}
+	            String receivedTest = (String)obj.get("data");
+	            return(sentTest.equals(receivedTest));
+	                
+	        }catch(IOException|ParseException ex){
+	            ex.printStackTrace();
+	            closeConnection();
+	            return false;
+	        }   
 	}
     
 }

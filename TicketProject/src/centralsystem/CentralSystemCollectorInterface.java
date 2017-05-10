@@ -1,5 +1,6 @@
 package centralsystem;
 
+
 import ticketCollector.Fine;
 
 
@@ -8,7 +9,7 @@ import ticketCollector.Fine;
  * 	@author Gabriele
  *
  *	
- *	Interfaccia usata per chiamare metodi da parte del TicketCollector(
+ *	Interfaccia usata per creare i metodi chiamati dal TicketCollector(
  */
 public interface CentralSystemCollectorInterface {
     
@@ -16,6 +17,7 @@ public interface CentralSystemCollectorInterface {
     
     public boolean makeFine(Fine f);
     
-    public boolean userLogin(String username,String psw);
+    public boolean collectorLogin(String username,String psw);
 
+    public String centralSystemTEST(String sentTest);
 }

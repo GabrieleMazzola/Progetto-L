@@ -74,6 +74,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
             System.err.println("Errore apertura porta serverSocket");
         }
 
+        //non andrebbero dentro il try?
         scHandler = new SocketHandler(socketListener, this);
         scHandler.start();
     }
@@ -84,6 +85,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         return database.userLogin(username, psw);
     }
 
+    @Override
     public boolean makeFine(Fine f) {
     	//TODO
     	return true;
@@ -91,7 +93,6 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
 
     @Override
     public String requestCodes() {
-        
         String result = "MAZZOLAINARRIVO";
         return result;
     }
@@ -103,5 +104,16 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         
         return bank.checkCreditCard(cardNumber);
     }
+
+	@Override
+	public String centralSystemTEST(String sentTest) {
+		return sentTest;
+	}
+
+	@Override
+	public boolean collectorLogin(String username, String psw) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

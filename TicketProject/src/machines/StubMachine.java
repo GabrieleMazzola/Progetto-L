@@ -7,7 +7,7 @@ import java.net.Socket;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-public class StubMachine implements CentralSystemTicketInterface {
+public class StubMachine {
 
     String ipAdress;
     int port;
@@ -43,7 +43,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
 
-    @Override
+    
     public boolean userLogin(String username, String psw) {
         try {
             initConnection();
@@ -68,7 +68,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
 
-    @Override
+    
     public String requestCodes() {
         try{
         initConnection();
@@ -96,7 +96,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
         
 
-    @Override
+    
     public boolean cardPayment(String cardNumber) {
         try {
             initConnection();

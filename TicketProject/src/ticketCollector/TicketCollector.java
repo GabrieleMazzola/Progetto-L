@@ -1,16 +1,21 @@
 package ticketCollector;
 
+import java.util.ArrayList;
 
 public class TicketCollector {
+	
     private final int cod;					//codice della macchinetta fisica
     private final StubCollector stub;		
     private boolean connected = false;
     private String username;
     private String psw;
+    private ArrayList<Fine> offlineFines;
+    
     
     public TicketCollector(int cod,String ipAddress){
         this.cod = cod;
         stub = new StubCollector(ipAddress, 5000);
+        offlineFines = new ArrayList<>();
     }
     
     
@@ -24,7 +29,7 @@ public class TicketCollector {
     		logOut();
     		return false;
     	}
-    	if(stub.loginCollector(username,psw)){
+    	if(stub.collectorLogin(username,psw)){
     		connected = true;
     		System.out.println("Controllore loggato!");
     		this.username = username;
@@ -47,7 +52,7 @@ public class TicketCollector {
     	this.psw = null;
     }    
    
-    private boolean checkConnection(){
+    private boolean isLogged(){
     	if(!connected){
     		System.out.println("LoginControllore richiesto.");
     		return false;
@@ -55,11 +60,14 @@ public class TicketCollector {
     	return true;
     }
     
+    /*
+    /*
     /**
      * Controllo degli abbonamenti //TODO
      */
-    public boolean verifyValidation(String code){
-    	if(checkConnection()){
+    /*
+    public void verifyValidation(String code){
+    	if(isLogged()){
 	    	//TODO
 	    		
             if(stub.existsTicket(code))
@@ -72,15 +80,21 @@ public class TicketCollector {
     	}
     }
       
-
+    */
     
-    public boolean makeFine(String cf, double amount){
-    	if(checkConnection()){
+    
+    
+    
+    public void makeFine(String cf, double amount){
+    	if(isLogged()){
             Fine fine = new Fine(cf, amount);
-            return stub.makeFine(fine);
-    	}else{
-    		//TODO exception
-    		return false;
+            
+            if(stub.centralSystemTEST()){
+            	stub.makeFine(fine);
+            	return;
+            }        	
+        	//TODO salvataggio offline
     	}
+		
     }
 }
