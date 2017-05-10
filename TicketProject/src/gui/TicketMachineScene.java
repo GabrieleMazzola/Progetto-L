@@ -4,7 +4,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import machines.TicketMachine;
+import paymentMethods.PaymentMethod;
 import ticket.SingleTicket;
+import ticket.TicketType;
 
 /**
  *
@@ -53,13 +55,13 @@ public class TicketMachineScene {
         grid.add(moneyGrid, 0, 1);
         
         //Istanzio i bottoni di funzionalità
-        buyTicket = new Button("Buy ticket");
+        buyTicket = new Button("Buy single ticket");
         renewSeason = new Button("Renew season ticket");
         login = new Button("Login");
         
         //Aggiungo le azioni dei bottoni
         buyTicket.setOnAction(e -> {
-            //machine.buyTicket();
+            machine.buyTicket(TicketType.SINGLE, PaymentMethod.CASH);
         });
     }
 }

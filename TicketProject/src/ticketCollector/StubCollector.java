@@ -15,7 +15,6 @@ import org.json.simple.parser.ParseException;
 
 
 public class StubCollector implements CentralSystemCollectorInterface{
-
     String ipAdress;
     int port;
     Socket socket;

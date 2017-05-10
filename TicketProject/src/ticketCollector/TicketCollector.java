@@ -14,32 +14,37 @@ import java.util.Date;
  * @author Simone
  */
 public class TicketCollector {
+    private final int cod;
+    private String username, psw;
+    private final StubCollector stub;
     
-    private final DatabaseAdapter mongoDb;
-    
-    public TicketCollector(DatabaseAdapter mongoDB){
-        this.mongoDb=mongoDB;
+    public TicketCollector(int cod, String username, String psw, String ipAddress){
+        this.cod = cod;
+        this.username = username;
+        this.psw = psw;
+        stub = new StubCollector(ipAddress, 5000);
     }
     
     public boolean verifyValidation(String idTicket){
-        
-         
-         TicketDB t = mongoDb.getTicketByCode(idTicket);
-         if(t == null){
-             throw new FineException("Non esiste un biglietto con questo codice: " + idTicket);
-         }     
-         return t.isActive();
-         
+         if(stub.login(username, psw)) {
+             
+            if(stub.existsTicket(idTicket))
+                return true;
+             //return stub.isValid(idTicket); //Da aggiungere allo stub
+            return false;
+         }
+         else return false;
+         //TODO
     }
       
     
-    public boolean fine(String cf,Date today){
-    
-        if(mongoDb.addFine(new Fine(cf,today)))
+    public boolean fine(String cf, double amount){
+        if(stub.login(username, psw)) {
+            
+            Fine fine = new Fine(cf, amount);
+            stub.makeFine(fine);
             return true;
-        throw new FineException("Non è stato possibile aggiungere la multa: "+ cf);
-        
+        }
+        return false;
     }
-    
-    
 }
