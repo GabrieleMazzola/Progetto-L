@@ -44,12 +44,12 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
 
     @Override
-    public boolean login(String username, String psw) {
+    public boolean userLogin(String username, String psw) {
         try {
             initConnection();
 
             //String packet = loginJSONPacket(username, psw);
-            String packet = JSONOperator.loginPacket(username, psw);
+            String packet = JSONOperator.userLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             String line = fromServer.readLine();

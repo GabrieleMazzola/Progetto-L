@@ -11,7 +11,7 @@ package centralsystem;
  */
 public interface CentralSystemTicketInterface {
     
-    public boolean login(String username,String psw);
+    public boolean userLogin(String username,String psw);
     
     public String requestCodes();
     

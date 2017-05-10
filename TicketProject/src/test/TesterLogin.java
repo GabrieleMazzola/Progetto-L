@@ -20,7 +20,7 @@ public class TesterLogin {
         StubCollector collector = new StubCollector("10.87.232.53", 5000);
         System.out.println(collector.existsTicket("5"));		//true
         System.out.println(collector.existsTicket("51"));		//false
-        System.out.println(collector.login("ADMIN", "ADMIN"));
+        System.out.println(collector.userLogin("ADMIN", "ADMIN"));
         collector.makeFine(new Fine("ashcbascjhb",100));
         
 

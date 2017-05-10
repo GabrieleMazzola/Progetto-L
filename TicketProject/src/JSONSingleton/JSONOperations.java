@@ -16,7 +16,7 @@ public class JSONOperations {
         return instance;
     }
 
-    public String loginPacket(String username, String psw) {
+    public String userLoginPacket(String username, String psw) {
         //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
 
         JSONObject root = new JSONObject();

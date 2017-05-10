@@ -72,7 +72,7 @@ public class Skeleton extends Thread {
     }
 
     private String callLogin(JSONObject data) {
-        boolean result = centralSystem.login((String) data.get("username"), (String) data.get("psw"));
+        boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
         data = new JSONObject();
         data.put("data", result);
 

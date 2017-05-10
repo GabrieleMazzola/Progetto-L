@@ -80,8 +80,8 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
 
    
     @Override
-    public boolean login(String username, String psw) {
-        return database.login(username, psw);
+    public boolean userLogin(String username, String psw) {
+        return database.userLogin(username, psw);
     }
 
     public boolean makeFine(Fine f) {

@@ -16,6 +16,6 @@ public interface CentralSystemCollectorInterface {
     
     public boolean makeFine(Fine f);
     
-    public boolean login(String username,String psw);
+    public boolean userLogin(String username,String psw);
 
 }
