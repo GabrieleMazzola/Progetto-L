@@ -1,10 +1,19 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package databaseadapter;
 
-
-public class UserDB {
+/**
+ *
+ * @author Andrea
+ */
+public class CollectorDB {
+    
     private String name,surname,CF,mail,password;
 
-    public UserDB(String name, String surname, String CF,String password) {
+    public CollectorDB(String name, String surname, String CF,String password) {
         this.name = name;
         this.surname = surname;
         this.CF = CF;

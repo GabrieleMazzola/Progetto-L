@@ -47,6 +47,15 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         return database.addUser(name, surname, cf, psw);
     }
     
+    private void initCollectors() {
+        database.addCollector("Andrea", "Rossi", "RSSNDR95A13G388U", "IOBOHIOBOH");
+        database.addCollector("Mario", "bioanchi", "mrreaosdnvaoen", "manumanu");
+    }
+    
+    public boolean addCollector(String name, String surname, String cf,String psw) {
+        return database.addCollector(name, surname, cf, psw);
+    }
+    
     public boolean addFine(Fine fine) {
         return database.addFine(fine);
     }
@@ -90,8 +99,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
 
     @Override
-    public String requestCodes() {
-        
+    public String requestCodes() {        
         String result = "MAZZOLAINARRIVO";
         return result;
     }
@@ -102,6 +110,11 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         //TODO
         
         return bank.checkCreditCard(cardNumber);
+    }
+
+    @Override
+    public boolean collectorLogin(String username, String psw) {
+        return database.collectorLogin(username, psw);
     }
 
 }

@@ -80,7 +80,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
 
     @Override
-    public boolean userLogin(String username, String psw) {
+    public boolean collectorLogin(String username, String psw) {
         try {
             initConnection();
             
