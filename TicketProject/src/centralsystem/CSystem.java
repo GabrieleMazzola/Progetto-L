@@ -84,8 +84,9 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         return database.login(username, psw);
     }
 
-    public void makeFine(Fine f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean makeFine(Fine f) {
+    	//TODO
+    	return true;
     }
 
     @Override
