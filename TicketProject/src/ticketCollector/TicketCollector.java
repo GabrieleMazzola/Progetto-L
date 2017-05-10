@@ -1,18 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ticketCollector;
 
-import databaseadapter.DatabaseAdapter;
-import databaseadapter.TicketDB;
-import java.util.Date;
 
-/**
- *
- * @author Simone
- */
 public class TicketCollector {
     private final int cod;
     private String username, psw;

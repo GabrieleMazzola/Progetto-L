@@ -2,6 +2,7 @@
 package test;
 
 import machines.StubMachine;
+import ticketCollector.Fine;
 import ticketCollector.StubCollector;
 
 public class TesterLogin {
@@ -15,10 +16,13 @@ public class TesterLogin {
         System.out.println(machine.cardPayment("685165316"));   //true
         */
         
-        
+        //test stubCollector
         StubCollector collector = new StubCollector("10.87.232.53", 5000);
-        System.out.println(collector.existsTicket("10"));
-        System.out.println(collector.existsTicket("5"));
+        System.out.println(collector.existsTicket("5"));		//true
+        System.out.println(collector.existsTicket("51"));		//false
+        System.out.println(collector.login("ADMIN", "ADMIN"));
+        collector.makeFine(new Fine("ashcbascjhb",100));
         
+
     }
 }
