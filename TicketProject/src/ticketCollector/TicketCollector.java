@@ -20,7 +20,7 @@ public class TicketCollector {
      */
     public boolean loginCollector(String username,String psw){
     	if(connected){
-    		System.out.println("Controllore già connesso.Logout eseguito, rieffettuare login.");
+    		System.out.println("Controllore gia' connesso.Logout eseguito, rieffettuare login.");
     		logOut();
     		return false;
     	}
@@ -39,7 +39,7 @@ public class TicketCollector {
 
     private void logOut(){
     	if(!connected){
-    		System.out.println("Controllore già disconnesso.");
+    		System.out.println("Controllore gia' disconnesso.");
     		return;
     	}
     	connected = false;
