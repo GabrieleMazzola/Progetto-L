@@ -4,13 +4,16 @@ import databaseadapter.DatabaseAdapter;
 import databaseadapter.*;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import machines.MachineStatus;
+import machines.TicketMachine;
 import ticketCollector.Fine;
 
 public class CSystem implements CentralSystemCollectorInterface {
 
     private final int PORTA_SERVER = 5000;
-    private final int NUMERO_MACCHINETTE = 3;
-
+    HashMap<Integer,MachineStatus> machineList;
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
@@ -34,7 +37,7 @@ public class CSystem implements CentralSystemCollectorInterface {
 
     private void initUsers() {
         database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K", "pizza123");
-        database.addUser("Manuele", "Longhi", "ASCAKJSCAKSBCAKSJBHC", "manumanu");
+        database.addUser("ciao", "Longhi", "ASCAKJSCAKSBCAKSJBHC", "ciao");
     }
 
     public boolean checkUser(String cf) {
@@ -81,9 +84,14 @@ public class CSystem implements CentralSystemCollectorInterface {
     public boolean login(String username, String psw) {
         return database.login(username, psw);
     }
-
+    
     public void makeFine(Fine f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+        
+        return true;
+    }
+    
 
 }
