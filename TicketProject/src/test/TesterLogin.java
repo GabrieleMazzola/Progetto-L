@@ -10,15 +10,15 @@ public class TesterLogin {
     
     public static void main(String[] args) {
         
-        TicketMachine machine123 = new TicketMachine(5000,"10.87.130.83"); 
+        TicketMachine machine123 = new TicketMachine(5000,"192.168.137.1"); 
         
-        StubMachine machine = new StubMachine("10.87.130.83", 5000,machine123);
+        StubMachine machine = new StubMachine("192.168.137.1", 5000,machine123);
         System.out.println(machine.userLogin("ADMIN", "ADMIN"));    //true
         System.out.println(machine.userLogin("ADMIN", "ADMIASCN")); //false
-        System.out.println(machine.requestCodes());
+        System.out.println(machine.requestCodes());                //Thread Attivo 
         System.out.println(machine.cardPayment("685165316"));   //true
-        
-        System.out.println(machine123.getTicketCode());
+        for(int i=0;i<1000000;i++);                             //serve per far completare il thread
+        System.out.println(machine123.getTicketCode());         //MAZZOLAINARRIVO
         
         
         //test stubCollector

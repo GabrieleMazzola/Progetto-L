@@ -15,11 +15,13 @@ public class StubMachine implements CentralSystemTicketInterface {
     BufferedReader fromServer;
     PrintWriter toServer;
     JSONOperations JSONOperator;
+    private TicketMachine machine;
 
-    public StubMachine(String ipAdress, int port) {
+    public StubMachine(String ipAdress, int port, TicketMachine machine) {
         this.ipAdress = ipAdress;
         this.port = port;
         JSONOperator = JSONOperations.getInstance();
+        this.machine = machine;
     }
 
     private void initConnection() {
@@ -70,29 +72,10 @@ public class StubMachine implements CentralSystemTicketInterface {
 
     @Override
     public String requestCodes() {
-        try{
-        initConnection();
-        //String packet = requestCodesJSONPacket();
-        String packet = JSONOperator.requestCodesPacket();
-        toServer.println(packet);
-        //System.out.println(packet);
-
-        //TODO thread per richiesta codici
         
-        String line = fromServer.readLine();
-        closeConnection();
+        (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port)).start();
+        return "Thread Attivo";
         
-        JSONParser parser = new JSONParser();
-        
-        //Struttura JSON di risposta : {"data":"String"}
-        JSONObject obj = (JSONObject) parser.parse(line);
-        return (String) obj.get("data");
-        
-        }catch(IOException | ParseException ex) {
-            ex.printStackTrace();
-            closeConnection();
-            return "ERROR";
-        }   
     }
         
 

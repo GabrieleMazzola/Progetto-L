@@ -18,6 +18,7 @@ public class TicketMachine {
     public MoneyHandler moneyTank;
     private StubMachine stub;
     private Map<String,Double> ticketTemplate;
+    private String ticketCodes;
 
     public TicketMachine(int cod, String ipAdress) {
         this.cod = cod;
@@ -25,7 +26,7 @@ public class TicketMachine {
         this.resources = new ResourcesHandler();
         ticketTemplate = new HashMap();
         setupTicketTemplate();
-        stub = new StubMachine(ipAdress, cod);
+        stub = new StubMachine(ipAdress, cod,this);
     }
     
     public double getInk() {
@@ -125,4 +126,13 @@ public class TicketMachine {
             cost = ticketTemplate.get(type.name());
         else cost = 0; //to do eccezzione
     }
+
+    public void setTicketCode(String ticketCodes) {
+        this.ticketCodes = ticketCodes;
+    }
+    
+    public String getTicketCode(){
+        return this.ticketCodes;
+    }
+    
 }

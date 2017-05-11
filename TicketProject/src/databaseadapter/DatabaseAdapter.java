@@ -17,6 +17,7 @@ public class DatabaseAdapter {
         this.users = new HashSet<>();
         addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN");
         this.fines = new HashSet<>();
+        collectors = new HashSet<>();
     }
 
     public boolean addUser(String name, String surname, String cf,String psw) {
