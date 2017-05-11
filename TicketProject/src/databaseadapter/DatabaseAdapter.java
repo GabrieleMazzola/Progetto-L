@@ -95,6 +95,7 @@ public class DatabaseAdapter {
     public boolean login(String username, String psw) {
         for (UserDB user : users) {
             if(user.getName().equals(username) && user.getPassword().equals(psw)) return true;
+            System.out.println(user.getName() + " " + user.getPassword() +  " " +psw );
         }
         return false;
     }
