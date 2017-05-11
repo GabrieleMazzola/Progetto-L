@@ -1,4 +1,3 @@
-
 package databaseadapter;
 
 import java.util.*;

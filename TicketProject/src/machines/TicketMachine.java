@@ -11,8 +11,6 @@ import people.User;
 
 public class TicketMachine {
     private int cod;
-    private double insertedMoney;
-    private double cost;
     public ResourcesHandler resources;
     public MoneyHandler moneyTank;
     private CentralSystemTicketInterface stub;
@@ -35,17 +33,31 @@ public class TicketMachine {
     public double getPaper() {
         return resources.getPaperPercentage();
     }
+    
+    public double getInsertedMoney() {
+        return insertedMoney;
+    }
+    
+    public void setTicketToSell(TicketType type) {
+        this.type = type;
+        setCostForType(type);
+        System.out.println(cost);
+    }
+    
+    public void setPaymentMethod(PaymentMethod pMethod) {
+        this.pMethod = pMethod;
+    }
 
-    public void buyTicket(TicketType type, PaymentMethod method) {
-        getCost(type);
-        switch (method) {
+    public void buyTicket() {
+        switch (pMethod) {
             case CASH:
                 insertedMoney = 0;
+                System.out.println("Selected: Single Ticket. Payment: Cash. Cost: " + cost);
                 return;
             case CREDITCARD:
                 return;
             default:
-                throw new AssertionError(method.name());
+                throw new AssertionError(pMethod.name());
         }
     }
     
@@ -61,17 +73,19 @@ public class TicketMachine {
 
     public void insertMoney(double money) {
         moneyTank.addMoney(money);
+        notifyChange(money);
         insertedMoney += money;
+        int temp = (int)Math.floor(insertedMoney*100);
+        insertedMoney = (double)temp/(double)100;
+        System.out.println(insertedMoney);
+        notifyChange(insertedMoney);
         if (isEnoughMoney(insertedMoney)) {
             sellTicket(PaymentMethod.CASH);
         }
     }
 
     private boolean isEnoughMoney(double money) {
-        if (money >= cost) {
-            return true;
-        }
-        return false;
+        return money >= cost;
     }
 
     private void sellTicket(PaymentMethod method) {
@@ -92,6 +106,7 @@ public class TicketMachine {
         outputChange();
         cost = 0;
         insertedMoney = 0;
+        notifyChange(insertedMoney);
     }
 
     private void sellTicketNotCash() {   //serve sia per bancomat e per carta di credito
@@ -104,7 +119,7 @@ public class TicketMachine {
 
     private void outputChange() {
         //do exeption
-        System.out.println("RESTO DI: " + moneyTank.giveChange(cost, insertedMoney));
+        moneyTank.giveChange(cost, insertedMoney);
     }
     
     private String getCredCardNumber() {
@@ -116,13 +131,15 @@ public class TicketMachine {
     }
     
     private void setupTicketTemplate() {
-        ticketTemplate.put("Single", 1.50);
-        ticketTemplate.put("Multi", 5.70);
+        ticketTemplate.put(TicketType.SINGLE, 1.50);
+        ticketTemplate.put(TicketType.MULTI, 5.70);
     }
     
-    private void getCost(TicketType type) {
-        if(ticketTemplate.containsKey(type.name()))
-            cost = ticketTemplate.get(type.name());
+    private void setCostForType(TicketType type) {
+        if(ticketTemplate.containsKey(type)) {
+            System.out.println("Found");
+            cost = ticketTemplate.get(type);
+        }
         else cost = 0; //to do eccezzione
     }
 

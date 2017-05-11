@@ -17,27 +17,25 @@ public class MoneyHandler {
     
     protected List <Tank> moneyTank = new ArrayList<>();
     HashMap <Double,Integer> maxQuantityMoney = new HashMap<>();
-    
-    //private Tank cent1 = new Tank(0.01f);
-    
 
-    public MoneyHandler() {moneyTank.add( new Tank(200));
-    moneyTank.add( new Tank(100));
-    moneyTank.add( new Tank(50));
-    moneyTank.add( new Tank(20));
-    moneyTank.add( new Tank(10));
-    moneyTank.add( new Tank(5));
-    moneyTank.add( new Tank(2));
-    moneyTank.add( new Tank(1));
-    moneyTank.add( new Tank(0.50f));
-    moneyTank.add( new Tank(0.20f));
-    moneyTank.add( new Tank(0.10f));
-    moneyTank.add( new Tank(0.05f));
-    moneyTank.add( new Tank(0.02f));
-    moneyTank.add( new Tank(0.01f));
+    public MoneyHandler() {
+        moneyTank.add(new Tank(200));
+        moneyTank.add(new Tank(100));
+        moneyTank.add(new Tank(50));
+        moneyTank.add(new Tank(20));
+        moneyTank.add(new Tank(10));
+        moneyTank.add(new Tank(5));
+        moneyTank.add(new Tank(2));
+        moneyTank.add(new Tank(1));
+        moneyTank.add(new Tank(0.50f));
+        moneyTank.add(new Tank(0.20f));
+        moneyTank.add(new Tank(0.10f));
+        moneyTank.add(new Tank(0.05f));
+        moneyTank.add(new Tank(0.02f));
+        moneyTank.add(new Tank(0.01f));
     }
    
-    public int getSingleQuantity(double value){
+    public int getQuantityOf(double value){
         for(Tank tank: moneyTank){
             if(tank.getValue() == value){
                 return tank.getQuantity();
@@ -79,20 +77,36 @@ public class MoneyHandler {
     }
     
     public double giveChange(double cost, double insertedMoney){
-        double sillToGive = insertedMoney - cost;       //stillToGive tiene memoria di quanto dobbiamo ancora dare all-utente, piano piano si "svuota" e va nel resto 
-        double change=0;
-        int coinQuantity;
+//        double stillToGive = insertedMoney - cost;       //stillToGive tiene memoria di quanto dobbiamo ancora dare all-utente, piano piano si "svuota" e va nel resto 
+//        double change=0;
+//        int coinQuantity;
+//        
+//        for(Tank tank: moneyTank){
+//            coinQuantity=(int)((stillToGive - change) /tank.getValue());            
+//            if(coinQuantity>tank.getQuantity()){
+//                change+=tank.getQuantity()*tank.getValue();
+//                tank.setQuantity(0);
+//            }else{
+//                change+=coinQuantity*tank.getValue();
+//                tank.subtractQuantity(coinQuantity);
+//            }
+//        }
+//        return change;
+        int stillToGive = (int)Math.round(insertedMoney*100 - cost*100);
+        double change = 0;
         
-        for(Tank tank: moneyTank){
-            coinQuantity=(int)((sillToGive - change) /tank.getValue());            
-            if(coinQuantity>tank.getQuantity()){
-                change+=tank.getQuantity()*tank.getValue();
-                tank.setQuantity(0);
-            }else{
-                change+=coinQuantity*tank.getValue();
-                tank.subtractQuantity(coinQuantity);
-            }
+        for(Tank tank : moneyTank) {
+            int quantity =  (int) (stillToGive/(tank.getValue()*100));
+            if(quantity > tank.getQuantity()) quantity = tank.getQuantity();
+            tank.subtractQuantity(quantity);
+            stillToGive -= quantity*tank.getValue()*100;
+            change += quantity*tank.getValue();
         }
-        return change;
-    }    
+        return stillToGive;
+    }
+    
+    public void printCoinsInTank() {
+        for(Tank tank : moneyTank)
+            System.out.println(tank.getValue()+ " euro: " + tank.getQuantity());
+    }
 }
