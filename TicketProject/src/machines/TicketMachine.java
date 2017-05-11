@@ -2,21 +2,20 @@ package machines;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import centralsystem.CentralSystemTicketInterface;
 import paymentMethods.PaymentMethod;
 import ticket.*;
 import people.User;
 
-/**
- *
- * @author Andrea
- */
+
 public class TicketMachine {
     private int cod;
     private double insertedMoney;
     private double cost;
     public ResourcesHandler resources;
     public MoneyHandler moneyTank;
-    private StubMachine stub;
+    private CentralSystemTicketInterface stub;
     private Map<String,Double> ticketTemplate;
     private String ticketCodes;
 

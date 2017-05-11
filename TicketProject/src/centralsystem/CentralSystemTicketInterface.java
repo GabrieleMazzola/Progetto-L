@@ -16,4 +16,6 @@ public interface CentralSystemTicketInterface {
     public String requestCodes();
     
     public boolean cardPayment(String cardNumber);
+    
+    public boolean createUser(String name,String surname,String cf,String username,String psw);
 }

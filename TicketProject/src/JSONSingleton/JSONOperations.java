@@ -83,5 +83,24 @@ public class JSONOperations {
         root.put("data", data);
         return root.toJSONString();
     }
+
+    
+    /**
+    * Struttura JSON:
+    * {"method":"CREATEUSER","data":{"name":"String","surname":"String","username":"String","cf":"String","psw":"String"}}
+    */
+	public String createUser(String name, String surname, String username,String cf, String psw) {
+        JSONObject root = new JSONObject();
+        root.put("method", "CREATEUSER");
+        JSONObject data = new JSONObject();
+        data.put("name", name);
+        data.put("surname", surname);
+        data.put("username", username);
+        data.put("cf", cf);
+        data.put("psw", psw);
+        
+        root.put("data", data);
+        return root.toJSONString();
+	}
     
 }

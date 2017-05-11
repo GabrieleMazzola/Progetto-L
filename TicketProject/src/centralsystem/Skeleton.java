@@ -49,9 +49,13 @@ public class Skeleton extends Thread {
             obj = (JSONObject) parser.parse(inputData);
 
             switch (((String) obj.get("method")).trim().toUpperCase()) {
+
                 case "TEST":
                     result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
                     break;
+	            case "CREATEUSER":
+	                result.append(callCreateUser((JSONObject) obj.get("data")));
+	                break;
                 case "COLLECTORLOGIN":
                     result.append(callCollectorLogin((JSONObject) obj.get("data")));
                     break;
@@ -78,7 +82,20 @@ public class Skeleton extends Thread {
     }
 
     
-    private String callCardPayment(JSONObject data) {
+    private String callCreateUser(JSONObject data) {
+    	String name = ((String) data.get("name"));
+    	String surname = ((String) data.get("surname"));
+    	String username = ((String) data.get("username"));
+    	String cf = ((String) data.get("cf"));
+    	String psw = ((String) data.get("psw"));
+        boolean result = centralSystem.createUser(name,surname,username,cf,psw);
+        data = new JSONObject();
+        data.put("data",result);
+        
+        return data.toJSONString();
+	}
+
+	private String callCardPayment(JSONObject data) {
         boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
         data = new JSONObject();
         data.put("data",result);

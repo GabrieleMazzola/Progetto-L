@@ -36,16 +36,16 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
 
     private void initUsers() {
-        database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K", "pizza123");
-        database.addUser("Manuele", "Longhi", "ASCAKJSCAKSBCAKSJBHC", "manumanu");
+        database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K","gabriele.m1995@gmail.com", "pizza123");
+        database.addUser("Manuele", "Longhi", "ASCAKJSCAKSBCAKSJBHC","manumanu@gmail.com", "manumanu");
     }
 
     public boolean checkUser(String cf) {
         return database.checkUser(cf);
     }
 
-    public boolean addUser(String name, String surname, String cf,String psw) {
-        return database.addUser(name, surname, cf, psw);
+    public boolean addUser(String name, String surname, String username,String cf,String psw) {
+        return database.addUser(name, surname, username,cf, psw);
     }
     
     private void initCollectors() {
@@ -123,5 +123,10 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     public String centralSystemTEST(String sentTest) {
         return sentTest;
     }
+
+	@Override
+	public boolean createUser(String name, String surname, String username,String cf, String psw) {
+		return database.addUser(name, surname, username, cf, psw);
+	}
 
 }

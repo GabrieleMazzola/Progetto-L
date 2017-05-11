@@ -15,13 +15,13 @@ public class DatabaseAdapter {
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
         this.users = new HashSet<>();
-        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN");
+        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN","ADMIN");
         this.fines = new HashSet<>();
         collectors = new HashSet<>();
     }
 
-    public boolean addUser(String name, String surname, String cf,String psw) {
-        return users.add(new UserDB(name, surname, cf, psw));
+    public boolean addUser(String name, String surname,String username, String cf,String psw) {
+        return users.add(new UserDB(name, surname, username,cf, psw));
     }
     
     public boolean addTicket(TicketDB ticket){

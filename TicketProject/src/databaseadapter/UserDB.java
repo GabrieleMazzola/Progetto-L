@@ -2,15 +2,20 @@ package databaseadapter;
 
 
 public class UserDB {
-    private String name,surname,CF,mail,password;
+    private String name,surname,CF,mail,password,username;
 
-    public UserDB(String name, String surname, String CF,String password) {
+    public UserDB(String name, String surname,String username, String CF,String password) {
         this.name = name;
         this.surname = surname;
         this.CF = CF;
         this.password = password;
+        this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
+    
     public String getPassword() {
         return password;
     }

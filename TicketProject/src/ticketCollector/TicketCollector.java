@@ -2,10 +2,12 @@ package ticketCollector;
 
 import java.util.ArrayList;
 
+import centralsystem.CentralSystemCollectorInterface;
+
 
 public class TicketCollector {
     private final int cod;					//codice della macchinetta fisica
-    private final StubCollector stub;		
+    private final CentralSystemCollectorInterface stub;		
     private boolean connected = false;
     private String username;
     private String psw;
@@ -65,6 +67,7 @@ public class TicketCollector {
     		return false;
     	}
     	return true;
+    	
     }
     
     /**

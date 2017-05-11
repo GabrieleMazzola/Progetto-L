@@ -104,4 +104,29 @@ public class StubMachine implements CentralSystemTicketInterface {
             return false;
         }
     }
+
+	@Override
+	public boolean createUser(String name, String surname, String username,String cf, String psw) {
+        try {
+            initConnection();
+            String packet = JSONOperator.createUser(name,surname,username,cf,psw);
+            //System.out.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
+
+            //Aspetto risposta da parte del server
+            String line = fromServer.readLine();
+            closeConnection();
+
+            JSONParser parser = new JSONParser();
+
+            //Struttura JSON di risposta : {"data":"boolean"}
+            JSONObject obj = (JSONObject) parser.parse(line);
+            return (Boolean) obj.get("data");
+
+        } catch (IOException | ParseException ex) {
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
+	}
 }
