@@ -58,6 +58,9 @@ public class Skeleton extends Thread {
                 case "EXISTSTICKET":
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
+                case "UPDATEMACHINESTATUS":
+                    result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -89,6 +92,15 @@ public class Skeleton extends Thread {
         
         return data.toString();
 
+    }
+
+    private String callupdateMachineStatus(JSONObject data) {
+
+        centralSystem.updateMachineStatus((int) data.get("machineCode"), (double) data.get("inkLevel"), (double) data.get("papaerLevel"), (boolean) data.get("active"));
+        data = new JSONObject();
+        data.put("data", true);
+        
+        return data.toString();
     }
 
 }
