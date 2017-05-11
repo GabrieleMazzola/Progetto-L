@@ -49,8 +49,14 @@ public class Skeleton extends Thread {
             obj = (JSONObject) parser.parse(inputData);
 
             switch (((String) obj.get("method")).trim().toUpperCase()) {
-                case "LOGIN":
-                    result.append(callLogin((JSONObject) obj.get("data")));
+                case "TEST":
+                    result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
+                    break;
+                case "COLLECTORLOGIN":
+                    result.append(callCollectorLogin((JSONObject) obj.get("data")));
+                    break;
+                case "USERLOGIN":
+                    result.append(callUserLogin((JSONObject) obj.get("data")));
                     break;
                 case "CARDPAYMENT":
                     result.append(callCardPayment((JSONObject) obj.get("data")));
@@ -71,14 +77,7 @@ public class Skeleton extends Thread {
         return result.toString();
     }
 
-    private String callLogin(JSONObject data) {
-        boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
-        data = new JSONObject();
-        data.put("data", result);
-
-        return data.toJSONString();
-    }
-
+    
     private String callCardPayment(JSONObject data) {
         boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
         data = new JSONObject();
@@ -103,6 +102,30 @@ public class Skeleton extends Thread {
         JSONObject data = new JSONObject();
         data.put("data", result);
         
+        return data.toJSONString();
+    }
+
+    private String callCentralSystemTEST(JSONObject data) {
+        String result = centralSystem.centralSystemTEST((String) data.get("test"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callCollectorLogin(JSONObject data) {
+        boolean result = centralSystem.collectorLogin((String) data.get("username"), (String) data.get("psw"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callUserLogin(JSONObject data) {
+        boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
+        data = new JSONObject();
+        data.put("data", result);
+
         return data.toJSONString();
     }
 

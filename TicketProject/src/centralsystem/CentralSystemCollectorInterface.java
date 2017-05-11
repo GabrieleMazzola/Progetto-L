@@ -17,5 +17,7 @@ public interface CentralSystemCollectorInterface {
     public boolean makeFine(Fine f);
     
     public boolean collectorLogin(String username,String psw);
+    
+    public String centralSystemTEST(String sentTest);
 
 }

@@ -21,6 +21,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         this.bank = new BankAdapter();
         initTickets();
         initUsers();
+        initCollectors();
         initServer();
     }
 
@@ -60,6 +61,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         return database.addFine(fine);
     }
 
+    @Override
     public boolean existsTicket(String ticketCode) {
         return database.existsTicket(ticketCode);
     }
@@ -115,6 +117,11 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     @Override
     public boolean collectorLogin(String username, String psw) {
         return database.collectorLogin(username, psw);
+    }
+
+    @Override
+    public String centralSystemTEST(String sentTest) {
+        return sentTest;
     }
 
 }

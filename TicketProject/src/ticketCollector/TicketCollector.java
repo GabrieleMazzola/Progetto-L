@@ -1,5 +1,7 @@
 package ticketCollector;
 
+import java.util.ArrayList;
+
 
 public class TicketCollector {
     private final int cod;					//codice della macchinetta fisica
@@ -7,10 +9,17 @@ public class TicketCollector {
     private boolean connected = false;
     private String username;
     private String psw;
+    private ArrayList<Fine> offlineFines;
     
+    /**
+     *
+     * @param cod : codice identificativo della macchina
+     * @param ipAddress : indirizzo IP del sistema centrale
+     */
     public TicketCollector(int cod,String ipAddress){
         this.cod = cod;
         stub = new StubCollector(ipAddress, 5000);
+        offlineFines = new ArrayList<>();
     }
     
     
@@ -24,7 +33,7 @@ public class TicketCollector {
     		logOut();
     		return false;
     	}
-    	if(stub.loginCollector(username,psw)){
+    	if(stub.collectorLogin(username,psw)){
     		connected = true;
     		System.out.println("Controllore loggato!");
     		this.username = username;
@@ -37,7 +46,10 @@ public class TicketCollector {
     	}
     }
 
-    private void logOut(){
+    /**
+     * Disconnette il controllore dalla macchina
+     */
+    public void logOut(){
     	if(!connected){
     		System.out.println("Controllore gia' disconnesso.");
     		return;
@@ -47,7 +59,7 @@ public class TicketCollector {
     	this.psw = null;
     }    
    
-    private boolean checkConnection(){
+    private boolean isLogged(){
     	if(!connected){
     		System.out.println("LoginControllore richiesto.");
     		return false;
@@ -58,29 +70,33 @@ public class TicketCollector {
     /**
      * Controllo degli abbonamenti //TODO
      */
+    /*
     public boolean verifyValidation(String code){
-    	if(checkConnection()){
-	    	//TODO
-	    		
-            if(stub.existsTicket(code))
-                return true;
-             //return stub.isValid(idTicket); //Da aggiungere allo stub
-            return false;
-    	}else{
-    		//TODO exception
-    		return false;
-    	}
+    	//TODO
+        return true;
     }
-      
+    */  
 
-    
-    public boolean makeFine(String cf, double amount){
-    	if(checkConnection()){
+    /**
+     * @param cf : codice fiscale della persona multata
+     * @param amount : cifra della multa
+     * 
+     *  Nel caso in cui la connessione con il sistema centrale non sia possibile
+     *  la multa viene salvata nell'array delle multe offline e inviata
+     *  in un secondo momento.
+     */
+    public void createFine(String cf, double amount){
+    	if(isLogged()){
             Fine fine = new Fine(cf, amount);
-            return stub.makeFine(fine);
-    	}else{
-    		//TODO exception
-    		return false;
-    	}
+            String test = "zuzzuprovolone";
+            if(stub.centralSystemTEST(test).equals(test)){
+            
+            	stub.makeFine(fine);
+            }else{
+                offlineFines.add(fine);
+                //TODO decidere come e ogni quanto provare ad inviare le multe offline
+            }
+        }
     }
+    
 }

@@ -2,7 +2,6 @@ package ticketCollector;
 
 
 import JSONSingleton.JSONOperations;
-import ticketCollector.Fine;
 import centralsystem.CentralSystemCollectorInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,7 +53,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
         try{
             initConnection();
 
-            //String packet = existsJSONPacket(ticketCode);
             String packet = JSONOperator.existsTicketPacket(ticketCode);
             System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
@@ -75,8 +73,9 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
 
     @Override
-    public boolean makeFine(Fine f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean makeFine(Fine f){
+    	//TODO : scelta JSON lato skeleton e processamento
+        return true;
     }
 
     @Override
@@ -84,7 +83,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         try {
             initConnection();
             
-            String packet = JSONOperator.userLoginPacket(username, psw);
+            String packet = JSONOperator.collectorLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
             
             String line = fromServer.readLine();
@@ -103,9 +102,9 @@ public class StubCollector implements CentralSystemCollectorInterface{
         }        
     }
 
-	public boolean loginCollector(String username, String psw) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public String centralSystemTEST(String sentTest) {
+            return sentTest;
+    }
     
 }

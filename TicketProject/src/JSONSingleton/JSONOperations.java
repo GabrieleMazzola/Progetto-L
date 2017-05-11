@@ -9,6 +9,10 @@ public class JSONOperations {
     private JSONOperations() {
     }
 
+    /**
+     *
+     * Restituisce un riferimento al JSONOperator, secondo pattern singleton
+     */
     public static synchronized JSONOperations getInstance() {
         if (instance == null) {
             instance = new JSONOperations();
@@ -16,30 +20,49 @@ public class JSONOperations {
         return instance;
     }
 
+    /**
+    * Struttura JSON:
+    * {"method":"USERLOGIN","data":{"username":"String","psw":"String"}}
+    */
     public String userLoginPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
-
         JSONObject root = new JSONObject();
-        root.put("method", "LOGIN");
+        root.put("method", "USERLOGIN");
         JSONObject data = new JSONObject();
         data.put("username", username);
         data.put("psw", psw);
         root.put("data", data);
-
         return root.toJSONString();
     }
-
+    
+    /**
+    * Struttura JSON:
+    * {"method":"COLLECTORLOGIN","data":{"username":"String","psw":"String"}}
+    */
+    public String collectorLoginPacket(String username, String psw) {
+        JSONObject root = new JSONObject();
+        root.put("method", "COLLECTORLOGIN");
+        JSONObject data = new JSONObject();
+        data.put("username", username);
+        data.put("psw", psw);
+        root.put("data", data);
+        return root.toJSONString();
+    }
+    
+    /**
+    * Struttura JSON:
+    * {"method":"REQUESTCODES"}
+    */
     public String requestCodesPacket() {
-        //{"method":"REQUESTCODES"}
-
         JSONObject root = new JSONObject();
         root.put("method", "REQUESTCODES");
         return root.toJSONString();
     }
 
+    /**
+    * Struttura JSON:
+    * {"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
+    */
     public String cardPaymentPacket(String cardNumber) {
-        //{"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
-
         JSONObject root = new JSONObject();
         root.put("method", "CARDPAYMENT");
         JSONObject data = new JSONObject();
@@ -48,16 +71,17 @@ public class JSONOperations {
         return root.toJSONString();
     }
 
+    /**
+     *  Struttura JSON:
+     * {"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
+     */
     public String existsTicketPacket(String ticketCode) {
-        //{"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
-        
         JSONObject root = new JSONObject();
         root.put("method", "EXISTSTICKET");
         JSONObject data = new JSONObject();
         data.put("ticketCode", ticketCode);
         root.put("data", data);
-
         return root.toJSONString();
     }
-
+    
 }
