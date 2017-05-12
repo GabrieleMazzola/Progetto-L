@@ -42,7 +42,11 @@ public class RequestCodesThread extends Thread{
         this.port = port;
         
     }
-
+    
+    /**
+     * Viene stabilita una connessione con il server. Quando sono necessari nuovi
+     * codici si prende in carico la lettura della stringa dal server
+     */
     @Override
     public void run() {
         try{

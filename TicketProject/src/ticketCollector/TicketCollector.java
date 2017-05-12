@@ -81,12 +81,11 @@ public class TicketCollector {
     */  
 
     /**
+     * Crea una nuova multa. Nel caso in cui la connessione con il sistema centrale non sia possibile
+     * la multa viene salvata nell'array delle multe offline e inviata
+     * in un secondo momento.
      * @param cf : codice fiscale della persona multata
      * @param amount : cifra della multa
-     * 
-     *  Nel caso in cui la connessione con il sistema centrale non sia possibile
-     *  la multa viene salvata nell'array delle multe offline e inviata
-     *  in un secondo momento.
      */
     public void createFine(String cf, double amount){
     	if(isLogged()){
@@ -101,5 +100,4 @@ public class TicketCollector {
             }
         }
     }
-    
 }

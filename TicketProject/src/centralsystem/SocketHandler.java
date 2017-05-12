@@ -50,6 +50,5 @@ public class SocketHandler extends Thread {
         }
          connectionList.removeAll(toRemove);
     }
-     
     
 }

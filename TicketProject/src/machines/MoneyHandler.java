@@ -39,7 +39,7 @@ public class MoneyHandler {
     /**
      * 
      * @param value
-     * @return Ritorna la quantità di monete/banconote del valore specificato
+     * @return La quantità di monete/banconote del valore specificato
      * attualmente presenti nel MoneyHandler
      */
     public int getQuantityOf(double value){
@@ -54,18 +54,18 @@ public class MoneyHandler {
     /**
      * 
      * @param index
-     * @return Ritorna la quantità di monete/banconote del Tank dell'indice specificato
+     * @return La quantità di monete/banconote del Tank dell'indice specificato
      */
     public int getSingleQuantitybyIndex(int index){
         return moneyTank.get(index).getQuantity();
     }
     
     /**
-     * 
+     * Setta la quantità di monete/banconote del valore specificato alla 
+     * quantità specificata.
      * @param value
      * @param quantity
-     * @return Setta la quantità di monete/banconote del valore specificato alla 
-     * quantità specificata. Ritorna 1 se la modifica viene correttamente eseguita, 
+     * @return 1 se la modifica viene correttamente eseguita, 
      * altrimenti ritorna -1
      */
     public int setSingleQuantity(double value,int quantity){
@@ -79,10 +79,9 @@ public class MoneyHandler {
     }
     
     /**
-     * 
+     * Aggiunge una moneta/banconota del valore indicato al MoneyHandler.
      * @param value
-     * @return Aggiunge una moneta/banconota del valore indicato al MoneyHandler.
-     * Ritorna 1 se viene correttamente aggiornato il contenuto del MoneyHandler,
+     * @return 1 se viene correttamente aggiornato il contenuto del MoneyHandler,
      */
     public int addMoney(double value){
         for(Tank tank: moneyTank){
@@ -95,8 +94,8 @@ public class MoneyHandler {
     }
     
     /**
-     * 
-     * @return Calcola e ritorna l'ammontare totale di soldi all'interno del MoneyHandler
+     * Calcola l'ammontare totale di soldi all'interno del MoneyHandler
+     * @return L'ammontare totale di soldi all'interno del MoneyHandler
      */
     public float getTotal(){
         float total = 0;
@@ -107,11 +106,12 @@ public class MoneyHandler {
     }
     
     /**
-     * 
+     * Fornisce il resto, calcolato come insertedMoney - cost. Il resto viene
+     * sempre fornito con il minor numero di monete possibili, se è possibile
+     * fornire il resto
      * @param cost
      * @param insertedMoney
-     * @return Fornisce il resto, calcolato come insertedMoney - cost.
-     * Ritorna 0 se il resto viene dato correttamente. Il resto viene fornito con
+     * @return 0 se il resto viene dato correttamente. Il resto viene fornito con
      * il minor numero di monete possibili
      */
     public double giveChange(double cost, double insertedMoney){

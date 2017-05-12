@@ -6,6 +6,8 @@
 package test;
 
 import centralsystem.CSystem;
+import centralsystem.Skeleton;
+import java.net.Socket;
 
 /**
  *
@@ -14,7 +16,6 @@ import centralsystem.CSystem;
 public class MachineTest {
     
     public static void main(String[] args) {
-         
     }
     
 }

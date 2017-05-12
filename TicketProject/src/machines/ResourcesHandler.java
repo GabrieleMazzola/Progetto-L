@@ -37,7 +37,7 @@ public class ResourcesHandler {
     
     /**
      * 
-     * @return Calcola e ritorna la percentuale di carta rispetto al massimo all'interno del 
+     * @return La percentuale di carta rispetto al massimo all'interno del 
      * ResourceHandler. Viene chiamato quando si vuole verificare l'operatività
      * della TicketMachine
      */
@@ -46,7 +46,7 @@ public class ResourcesHandler {
     }
     /**
      * 
-     * @return Calcola e ritorna la percentuale di inchiostro rispetto al massimo all'interno del 
+     * @return La percentuale di inchiostro rispetto al massimo all'interno del 
      * ResourceHandler. Viene chiamato quando si vuole verificare l'operatività
      * della TicketMachine
      */

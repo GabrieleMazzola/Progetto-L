@@ -11,7 +11,6 @@ import machines.TicketMachine;
 import ticketCollector.Fine;
 
 public class CSystem implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
-
     private final int PORTA_SERVER = 5000;
     HashMap<Integer,MachineStatus> machineList;
     private final DatabaseAdapter database;
@@ -32,23 +31,28 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     //__________________Metodi riguardanti l'utente_____________________________
     /**
      * 
+     * Controlla nel database se esiste un utente con codice fiscale cf. 
      * @param cf
-     * @return Controlla nel database se esiste un utente con codice fiscale cf.
-     * Ritorna vero se l'utente viene trovato
+     * @return Vero se viene trovato un utente con codice fiscale cf
      */
     public boolean checkUser(String cf) {
         return database.checkUser(cf);
     }
     
     /**
-     * 
+     * Aggiunge un utente, i cui dati sono specificati come parametri, al
+     * database. Perché l'utente venga aggiunto con successo al database
+     * è necessario che 
+     * a) ci sia connessione al database (per il momento il database è un Set di utenti)
+     * b) non sia già presente un utente con i dati indicati
+     * Se una di queste due condizioni non è verificata il metodo ritorna falso.
+     * Se l'operazione va a buon fine il metodo ritorna vero
      * @param name
      * @param surname
+     * @param username
      * @param cf
      * @param psw
-     * @return Aggiunge un utente, i cui dati sono specificati come parametri, al
-     * database. Se l'operazione va a buon fine il metodo ritorna vero, altrimenti 
-     * ritorna falso
+     * @return Vero se l'utente con i dati indicati viene aggiunto al database
      */
     public boolean addUser(String name, String surname, String username,String cf,String psw) {
         return database.addUser(name, surname, username,cf, psw);
@@ -70,13 +74,13 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     /**
-    * 
+    * Effettua il login per gli utenti con i dati passati come parametri.
+    * Esiste un login speciale per gli utenti per evitare conflitti nell'accesso al
+    * proprio account
     * @param username
     * @param psw
-    * @return Effettua il login per gli utenti con i dati passati come parametri.
-    * Ritorna vero se il login va a buon fine, mentre falso se non viene effettuato
-    * il login. Esistono login differenti per evitare conflitti nell'accesso al
-    * proprio account
+    * @return Vero se il login va a buon fine, mentre falso se non viene effettuato
+    * il login
     */
     @Override
     public boolean userLogin(String username, String psw) {
@@ -85,27 +89,32 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     
     //__________________Metodi riguardanti il controllore_______________________
     /**
-     * 
+     * /**
+     * Aggiunge un controllore, i cui dati sono specificati come parametri, al
+     * database. Perché il controllore venga aggiunto con successo al database
+     * è necessario che 
+     * a) ci sia connessione al database (per il momento il database è un Set di utenti)
+     * b) non sia già presente un utente con i dati indicati
+     * Se una di queste due condizioni non è verificata il metodo ritorna falso.
+     * Se l'operazione va a buon fine il metodo ritorna vero
      * @param name
      * @param surname
      * @param cf
      * @param psw
-     * @return Aggiunge un controllore, i cui dati sono specificati come parametri,
-     * al database. Se l'operazione va a buon fine il metodo ritorna vero, altrimenti
-     * ritorna falso
+     * @return Vero se il controllore viene aggiunto al database
      */
     public boolean addCollector(String name, String surname,String username, String cf,String psw) {
         return database.addCollector(name, surname,username, cf, psw);
     }
     
     /**
-     * 
+    * Effettua il login per i controllori con i dati passati come parametri.
+    * Esiste un login speciale per i controllori per evitare conflitti nell'accesso al
+    * proprio account
      * @param username
      * @param psw
-     * @return Effettua il login per i constrollori con i dati passati come parametri.
-     * Ritorna vero se il login va a buon fine, mentre falso se non viene effettuato
-     * il login. Esistono login differenti per evitare conflitti nell'accesso al
-     * proprio account
+     * @return Vero se il login va a buon fine, mentre falso se non viene effettuato
+    * il login
      */
     @Override
     public boolean collectorLogin(String username, String psw) {
@@ -119,21 +128,20 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     /**
-     * 
+     * Aggiunge una multa, passata come parametro, al database
      * @param fine
-     * @return Aggiunge una multa, passata come parametro, al database.Se l'operazione 
-     * va a buon fine il metodo ritorna vero, altrimenti ritorna falso
+     * @return Vero se l'operazione va a buon fine, altrimenti falso
      */
     public boolean addFine(Fine fine) {
         return database.addFine(fine);
     }
     
     /**
-     * 
+     * Ricerca nel database un biglietto con codice uguale a quello passato
+     * come parametro. Se nel database viene trovato un biglietto con tale codice
+     * il metodo ritorna vero
      * @param ticketCode
-     * @return Ricerca nel database un biglietto con il codice uguale a quello
-     * indicato come parametro. Se tale ricerca non produce alcun risultato il metodo
-     * ritorna falso, altrimenti ritorna vero
+     * @return ero se esiste un biglietto nel database con il codice indicato
      */
     @Override
     public boolean existsTicket(String ticketCode) {
@@ -141,12 +149,12 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     /**
-     * 
+     * Prende dal database il biglietto con codice uguale a quello passato
+     * come parametro, e verifica la sua validità. Viene usato in congiunzione
+     * con il metodo existsTicket per garantire l'esistenza del biglietto con 
+     * codice indicato (per evitare NullPointerException)
      * @param ticketCode
-     * @return Prende dal database il biglietto con il codice uguale a quello
-     * indicato come parametro. Se tale biglietto è valido il metodo ritorna vero,
-     * altrimenti ritorna falso. Usato in congiunzione con existsTicket per verificare
-     * l'esistenza del biglietto prima della sua validità
+     * @return Vero se il biglietto è valido
      */
     public boolean isValid(String ticketCode) {
         return database.isValid(ticketCode);
@@ -154,8 +162,9 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     
     //__________________Metodi riguardanti la macchinetta_______________________
     /**
-     * 
-     * @return Richiede dei codici nuovi
+     * Chiamato quando la macchinetta richiede dei nuovi codici. La generazione
+     * dei codici avviene tramite [...]
+     * @return I nuovi codici generati
      */
     @Override
     public String requestCodes() {        
@@ -164,10 +173,13 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     /**
-     * 
+     * Permette il pagamento via carta di credito usando l'adapter della
+     * banca. Per effettuare il pagamento viene controllata la validità del numero
+     * di carta passato come argomento. Se il pagamento va a buon fine, ossia se
+     * il numero di carta è valido e ci sono dei soldi sul conto associato a tale
+     * carta, il metodo ritorna vero
      * @param cardNumber
-     * @return Effettua il pagamento via carta di credito con la carta di credito
-     * specificata. Ritorna vero se il pagamento va a buon fine, mentre falso altrimenti
+     * @return Vero se il pagamento va a buon fine
      */
     @Override
     public boolean cardPayment(String cardNumber) {
@@ -190,9 +202,10 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     /**
-     * 
+     * Effettua un test di connessione. Ritorna al client la stringa che questo
+     * gli ha mandato. Usato per debuggare
      * @param sentTest
-     * @return Fa un test di connessione. Ritorna al client la stringa che arriva
+     * @return La stringa in ingresso
      */
     @Override
     public String centralSystemTEST(String sentTest) {

@@ -58,10 +58,9 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * 
-     * @param type 
      * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
      * quanto bisogna che l'utente paghi
+     * @param type
      */
     public void setTicketToSell(TicketType type) {
         this.type = type;
@@ -70,9 +69,8 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * 
-     * @param pMethod
      * Setta il tipo di pagamento scelto per pagare
+     * @param pMethod
      */
     public void setPaymentMethod(PaymentMethod pMethod) {
         this.pMethod = pMethod;
@@ -80,7 +78,7 @@ public class TicketMachine extends Observable{
     
     /**
      * Effettua la vendita del biglietto in base al tipo di biglietto e al metodo
-     * di pagamento scelto
+     * di pagamento scelto.
      */
     public void buyTicket() {
         switch (pMethod) {
@@ -97,13 +95,12 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * 
-     * @param money 
      * Consente di inserire una moneta/banconota del valore specificato. Nel caso 
      * in cui i soldi inseriti siano sufficienti per comprare il biglietto selezionato
      * viene automaticamente effettuata la vendita restituendo eventualmente il resto.
      * Se non è stato selezionato alcun biglietto o il metodo di pagamento CASH,
      * le monete inserite non vengono salvate
+     * @param money
      */
     public void insertMoney(double money) {
         moneyTank.addMoney(money);
@@ -119,9 +116,8 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * 
-     * @param ticketCodes
      * Setta i codici che la macchinetta può usare
+     * @param ticketCodes
      */
     public void setTicketCode(String ticketCodes) {
         this.ticketCodes = ticketCodes;
@@ -129,7 +125,7 @@ public class TicketMachine extends Observable{
     
     /**
      * 
-     * @return Ritorna i codici che la macchinetta può usare
+     * @return I codici che la macchinetta può usare
      */
     public String getTicketCode(){
         return this.ticketCodes;

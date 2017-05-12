@@ -11,7 +11,6 @@ import org.json.simple.parser.ParseException;
 import ticketCollector.Fine;
 
 public class Skeleton extends Thread {
-
     Socket clientSocket;
     CSystem centralSystem;
     BufferedReader in;
@@ -25,7 +24,24 @@ public class Skeleton extends Thread {
         this.centralSystem = centralSystem;
         parser = new JSONParser();
     }
-
+    
+    /**
+     * Si mette in ascolto del client fino a che questo invia una socket. La richiesta
+     * arriva dal client come pacchetto JSON. Il pacchetto JSON viene quindi decodificato
+     * e ne viene letto il metodo (la richiesta del client). I metodi supportati 
+     * sono:
+     * <p> -TEST: fa un test di connessione</p>
+     * <p> -CREATEUSER: aggiunge un utente con i dati specificati nel resto del pacchetto
+     * JSON</p>
+     * <p> COLLECTORLOGIN: effettua il login per il controllore. I dati del login
+     * sono specificati nel resto del pacchetto JSON </p>
+     * <p> -USERLOGIN: effettua il login per l'utente. I dati del login sono
+     * specificati nel resto del pacchetto JSON</p>
+     * <p> -CARDPAYMENT: effettua un pagamento tramite carta di credito </p>
+     * <p> -EXISTSTICKET: verifica l'esistenza di un biglietto </p>
+     * <p> -REQUESTCODES: richiesta da parte della macchinetta di inviare nuovi 
+     * codici</p>
+     */
     @Override
     public void run() {
         try {
@@ -41,7 +57,13 @@ public class Skeleton extends Thread {
             System.err.println("Error: socket opening fail");
         }
     }
-
+    
+    /**
+     * Viene interpretata la stringa in ingresso. In base al suo valore viene
+     * fatta un'azione diversa
+     * @param inputData
+     * @return 
+     */
     private String decodeRead(String inputData) {
         JSONObject obj;
         StringBuilder result = new StringBuilder();
@@ -85,7 +107,6 @@ public class Skeleton extends Thread {
         }
         return result.toString();
     }
-
     
     private String callCreateUser(JSONObject data) {
     	String name = ((String) data.get("name"));
@@ -100,16 +121,14 @@ public class Skeleton extends Thread {
         return data.toJSONString();
 	}
 
-	private String callCardPayment(JSONObject data) {
+    private String callCardPayment(JSONObject data) {
         boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
         data = new JSONObject();
         data.put("data",result);
         
         return data.toJSONString();
     }
-
-   
-
+    
     private String callexistsTicket(JSONObject data) {
         boolean result = centralSystem.existsTicket((String) data.get("ticketCode"));
         data = new JSONObject();

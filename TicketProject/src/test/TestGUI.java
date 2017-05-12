@@ -1,7 +1,7 @@
 package test;
 
 import gui.MoneyTankFrame;
-import gui.SwingFrame;
+import gui.TicketMachineSwingFrame;
 import machines.TicketMachine;
 
 /**
@@ -16,7 +16,7 @@ public class TestGUI {
     public static void main(String[] args) {
         TicketMachine tm = new TicketMachine(0, "ipAddress");
         
-        SwingFrame frame = new SwingFrame(tm);
+        TicketMachineSwingFrame frame = new TicketMachineSwingFrame(tm);
         frame.setVisible(true);
         
         tm.printCoins();

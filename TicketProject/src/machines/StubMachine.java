@@ -48,12 +48,10 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     /**
-     * 
+     * Manda al server una richiesta di login con i dati per effettuarlo.
      * @param username
      * @param psw
-     * @return Manda al server una richiesta di login con i dati per effettuarlo.
-     * Se il server riceve i dati e riesce ad effettuare il login il metodo ritorna
-     * vero, altrimenti ritorna falso
+     * @return Vero se il server riceve i dati e riesce ad effettuare il login.
      */
     @Override
     public boolean userLogin(String username, String psw) {
@@ -81,9 +79,8 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     /**
-     * 
-     * @return Effettua una richiesta al server di inviare nuovi codici. Usato
-     * quando la macchinetta sta per finire i codici disponibili
+     * Effettua una richiesta al server di inviare nuovi codici
+     * @return I nuovi codici
      */
     @Override
     public String requestCodes() {
@@ -94,11 +91,9 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     /**
-     * 
+     * Richiede al server di effettuare un pagamento via carta di credito.
      * @param cardNumber
-     * @return Richiede al server di effettuare un pagamento via carta di credito.
-     * Se la richiesta viene ricevuta e il pagamento effettuato il metodo ritorna
-     * vero, altrimenti ritorna falso
+     * @return Verp se la richiesta viene ricevuta e il pagamento effettuato.
      */
     @Override
     public boolean cardPayment(String cardNumber) {
@@ -125,7 +120,18 @@ public class StubMachine implements CentralSystemTicketInterface {
             return false;
         }
     }
-
+    
+    /**
+     * Crea un nuovo utente con i dati specificati nei parametri. La richiesta
+     * viene inoltrata al server che si occuperà di aggiungere il nuovo utente
+     * al database
+     * @param name
+     * @param surname
+     * @param username
+     * @param cf
+     * @param psw
+     * @return 
+     */
     @Override
     public boolean createUser(String name, String surname, String username,String cf, String psw) {
     try {

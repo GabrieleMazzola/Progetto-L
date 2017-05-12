@@ -13,11 +13,12 @@ public class Bank {
     }
     
     /**
-     * 
+     * Controlla la validità del numero di carta di credito indicato 
+     * secondo il proprio algoritmo di verifica. L'algoritmo di verifica viene
+     * specificato al momento della creazione (per il momento viene istanziato
+     * sempre un algoritmo di tipo Luhn).
      * @param creditCardNumber
-     * @return Controlla la validità del numero di carta di credito indicato 
-     * secondo il proprio algoritmo di verifica. Ritorna vero se il numero di carta
-     * di credito risulta essere valido, falso altrimenti
+     * @return  Vero se il numero di carta è valido, falso altrimenti
      */
     public boolean checkValidity(String creditCardNumber) {
         return algorithm.check(creditCardNumber);
