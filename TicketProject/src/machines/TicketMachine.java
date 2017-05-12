@@ -2,20 +2,27 @@ package machines;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import centralsystem.CentralSystemTicketInterface;
+import java.util.Observable;
 import paymentMethods.PaymentMethod;
 import ticket.*;
 import people.User;
 
-
-public class TicketMachine {
+/**
+ *
+ * @author Andrea
+ */
+public class TicketMachine extends Observable{
     private int cod;
     public ResourcesHandler resources;
     public MoneyHandler moneyTank;
-    private CentralSystemTicketInterface stub;
-    private Map<String,Double> ticketTemplate;
+    private StubMachine stub;
+    private Map<TicketType,Double> ticketTemplate;
     private String ticketCodes;
+    
+    private double insertedMoney;
+    private double cost;
+    private TicketType type;
+    private PaymentMethod pMethod;
 
     public TicketMachine(int cod, String ipAdress) {
         this.cod = cod;
@@ -23,7 +30,7 @@ public class TicketMachine {
         this.resources = new ResourcesHandler();
         ticketTemplate = new HashMap();
         setupTicketTemplate();
-        stub = new StubMachine(ipAdress, cod,this);
+        stub = new StubMachine(ipAdress, cod, this);
     }
     
     public double getInk() {
@@ -38,16 +45,31 @@ public class TicketMachine {
         return insertedMoney;
     }
     
+    /**
+     * 
+     * @param type 
+     * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
+     * quanto bisogna che l'utente paghi
+     */
     public void setTicketToSell(TicketType type) {
         this.type = type;
         setCostForType(type);
         System.out.println(cost);
     }
     
+    /**
+     * 
+     * @param pMethod
+     * Setta il tipo di pagamento scelto per pagare
+     */
     public void setPaymentMethod(PaymentMethod pMethod) {
         this.pMethod = pMethod;
     }
-
+    
+    /**
+     * Effettua la vendita del biglietto in base al tipo di biglietto e al metodo
+     * di pagamento scelto
+     */
     public void buyTicket() {
         switch (pMethod) {
             case CASH:
@@ -55,22 +77,22 @@ public class TicketMachine {
                 System.out.println("Selected: Single Ticket. Payment: Cash. Cost: " + cost);
                 return;
             case CREDITCARD:
+                buyTicketCreditCard();
                 return;
             default:
                 throw new AssertionError(pMethod.name());
         }
     }
     
-    public void buyTicketCreditCard(Ticket ticket) {
-        if(checkCreditCard(getCredCardNumber()))
-            printTicket();
-        else
-            System.out.println("Sei un pirla");
-    }
-
-    void logIn(User u) {
-    }
-
+    /**
+     * 
+     * @param money 
+     * Consente di inserire una moneta/banconota del valore specificato. Nel caso 
+     * in cui i soldi inseriti siano sufficienti per comprare il biglietto selezionato
+     * viene automaticamente effettuata la vendita restituendo eventualmente il resto.
+     * Se non è stato selezionato alcun biglietto o il metodo di pagamento CASH,
+     * le monete inserite non vengono salvate
+     */
     public void insertMoney(double money) {
         moneyTank.addMoney(money);
         notifyChange(money);
@@ -82,6 +104,33 @@ public class TicketMachine {
         if (isEnoughMoney(insertedMoney)) {
             sellTicket(PaymentMethod.CASH);
         }
+    }
+    
+    /**
+     * 
+     * @param ticketCodes
+     * Setta i codici che la macchinetta può usare
+     */
+    public void setTicketCode(String ticketCodes) {
+        this.ticketCodes = ticketCodes;
+    }
+    
+    /**
+     * 
+     * @return Ritorna i codici che la macchinetta può usare
+     */
+    public String getTicketCode(){
+        return this.ticketCodes;
+    }
+    
+    private void buyTicketCreditCard() {
+        if(checkCreditCard(getCredCardNumber()))
+            printTicket();
+        else
+            System.out.println("Carta di credito non riconosciuta");
+    }
+
+    void logIn(User u) {
     }
 
     private boolean isEnoughMoney(double money) {
@@ -127,7 +176,7 @@ public class TicketMachine {
     }
 
     private boolean checkCreditCard(String credCardNumber) {
-        return true;
+        return stub.cardPayment(credCardNumber);
     }
     
     private void setupTicketTemplate() {
@@ -142,13 +191,21 @@ public class TicketMachine {
         }
         else cost = 0; //to do eccezzione
     }
-
-    public void setTicketCode(String ticketCodes) {
-        this.ticketCodes = ticketCodes;
+    
+    private void notifyChange(Object arg) {
+        setChanged();
+        notifyObservers(arg);
     }
     
-    public String getTicketCode(){
-        return this.ticketCodes;
+    public void printCoins() {
+        moneyTank.printCoinsInTank();
     }
     
+    public int getAmountOf(double value) {
+        return moneyTank.getQuantityOf(value);
+    }
+    
+    public int getAmountByIndex(int index) {
+        return moneyTank.getSingleQuantitybyIndex(index);
+    }
 }

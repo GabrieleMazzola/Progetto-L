@@ -12,6 +12,7 @@ import java.util.List;
 /**
  *
  * @author Andrea
+ * Gestisce i soldi all'interno della Ticket Machine.
  */
 public class MoneyHandler {
     
@@ -35,6 +36,12 @@ public class MoneyHandler {
         moneyTank.add(new Tank(0.01f));
     }
    
+    /**
+     * 
+     * @param value
+     * @return Ritorna la quantità di monete/banconote del valore specificato
+     * attualmente presenti nel MoneyHandler
+     */
     public int getQuantityOf(double value){
         for(Tank tank: moneyTank){
             if(tank.getValue() == value){
@@ -44,10 +51,23 @@ public class MoneyHandler {
         return -1;    //DO EXCEPTION
     }
     
+    /**
+     * 
+     * @param index
+     * @return Ritorna la quantità di monete/banconote del Tank dell'indice specificato
+     */
     public int getSingleQuantitybyIndex(int index){
         return moneyTank.get(index).getQuantity();
     }
     
+    /**
+     * 
+     * @param value
+     * @param quantity
+     * @return Setta la quantità di monete/banconote del valore specificato alla 
+     * quantità specificata. Ritorna 1 se la modifica viene correttamente eseguita, 
+     * altrimenti ritorna -1
+     */
     public int setSingleQuantity(double value,int quantity){
         for(Tank tank: moneyTank){
             if(tank.getValue() == value){
@@ -58,6 +78,12 @@ public class MoneyHandler {
         return -1;    //DO EXCEPTION
     }
     
+    /**
+     * 
+     * @param value
+     * @return Aggiunge una moneta/banconota del valore indicato al MoneyHandler.
+     * Ritorna 1 se viene correttamente aggiornato il contenuto del MoneyHandler,
+     */
     public int addMoney(double value){
         for(Tank tank: moneyTank){
             if(tank.getValue() == value){
@@ -67,7 +93,11 @@ public class MoneyHandler {
         }
         return -1;    //DO EXCEPTION
     }
-         
+    
+    /**
+     * 
+     * @return Calcola e ritorna l'ammontare totale di soldi all'interno del MoneyHandler
+     */
     public float getTotal(){
         float total = 0;
         for(Tank tank: moneyTank){
@@ -76,35 +106,30 @@ public class MoneyHandler {
         return total;
     }
     
+    /**
+     * 
+     * @param cost
+     * @param insertedMoney
+     * @return Fornisce il resto, calcolato come insertedMoney - cost.
+     * Ritorna 0 se il resto viene dato correttamente. Il resto viene fornito con
+     * il minor numero di monete possibili
+     */
     public double giveChange(double cost, double insertedMoney){
-//        double stillToGive = insertedMoney - cost;       //stillToGive tiene memoria di quanto dobbiamo ancora dare all-utente, piano piano si "svuota" e va nel resto 
-//        double change=0;
-//        int coinQuantity;
-//        
-//        for(Tank tank: moneyTank){
-//            coinQuantity=(int)((stillToGive - change) /tank.getValue());            
-//            if(coinQuantity>tank.getQuantity()){
-//                change+=tank.getQuantity()*tank.getValue();
-//                tank.setQuantity(0);
-//            }else{
-//                change+=coinQuantity*tank.getValue();
-//                tank.subtractQuantity(coinQuantity);
-//            }
-//        }
-//        return change;
         int stillToGive = (int)Math.round(insertedMoney*100 - cost*100);
-        double change = 0;
         
         for(Tank tank : moneyTank) {
             int quantity =  (int) (stillToGive/(tank.getValue()*100));
             if(quantity > tank.getQuantity()) quantity = tank.getQuantity();
             tank.subtractQuantity(quantity);
             stillToGive -= quantity*tank.getValue()*100;
-            change += quantity*tank.getValue();
         }
         return stillToGive;
     }
     
+    /**
+     * Stampa a video per ogni Tank la quantità di monete/banconote che ha all'interno.
+     * Usato per il debugging
+     */
     public void printCoinsInTank() {
         for(Tank tank : moneyTank)
             System.out.println(tank.getValue()+ " euro: " + tank.getQuantity());

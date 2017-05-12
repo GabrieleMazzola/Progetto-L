@@ -89,6 +89,4 @@ public class RequestCodesThread extends Thread{
             ex.printStackTrace();
         }
     }
-    
-    
 }

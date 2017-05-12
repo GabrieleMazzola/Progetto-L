@@ -3,6 +3,7 @@ package machines;
 /**
  *
  * @author Manuele
+ * Classe usata per comunicare lo stato della macchinetta al server
  */
 public class State {
     private int machineCode;

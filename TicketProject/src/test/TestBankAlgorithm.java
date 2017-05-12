@@ -5,7 +5,8 @@
  */
 package test;
 
-import bank.CreditCardAlgorithm;
+import bank.CheckValidityAlgorithm;
+import bank.LuhnAlgorithm;
 
 
 /**
@@ -17,7 +18,8 @@ public class TestBankAlgorithm {
     public static void main(String[] args) {
         String code ="4388576018410707";//"5 3 4 2 0 7 0 0 1 3 1 9 5 8 3 8";
         
-        if(CreditCardAlgorithm.check(code)) System.out.println("Yeah");
+        CheckValidityAlgorithm algorithm = new LuhnAlgorithm();
+        if(algorithm.check(code)) System.out.println("Yeah");
         else System.out.println("Fuuuuuuuuuuuu");      
     }
 }

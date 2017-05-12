@@ -75,28 +75,69 @@ public class GUITicketMachine extends Application {
     }
     
     private void buildMoneyScene() {
-        Button oneEuro = new Button("1"), fiftyCents = new Button("0,50"), twentyCents = new Button("0,20");
+        Button  oneHundred = new Button("100"),
+                fifty = new Button("50"),
+                twenty = new Button("20"),
+                ten = new Button("10"),
+                five = new Button("5"),
+                two = new Button("2"),
+                one = new Button("1"),
+                fiftyCents = new Button("0,50"),
+                twentyCents = new Button("0,20"),
+                tenCents = new Button("0,10"),
+                fiveCents = new Button("0,05"),
+                twoCents = new Button("0,02"),
+                oneCent = new Button("0,01");
         
-        oneEuro.setOnAction(e -> {
-            tMachine.insertMoney(1);
-            System.out.println(tMachine.getInsertedMoney());
-        });
-        fiftyCents.setOnAction(e -> {
-            tMachine.insertMoney(0.5f);
-            System.out.println(tMachine.getInsertedMoney());
-        });
-        twentyCents.setOnAction(e -> {
-            tMachine.insertMoney(0.2f);
-            System.out.println(tMachine.getInsertedMoney());
-        });
+        double size = fiveCents.getScaleX();
+        oneHundred.setMinWidth(size);
+        fifty.setMinWidth(size);
+        twenty.setMinWidth(size);
+        ten.setMinWidth(size);
+        five.setMinWidth(size);
+        two.setMinWidth(size);
+        one.setMinWidth(size);
+        fiftyCents.setMinWidth(size);
+        twentyCents.setMinWidth(size);
+        tenCents.setMinWidth(size);
+        fiveCents.setMinWidth(size);
+        twoCents.setMinWidth(size);
+        oneCent.setMinWidth(size);
+        
+        oneHundred.setOnAction(e -> {tMachine.insertMoney(100);});
+        fifty.setOnAction(e -> {tMachine.insertMoney(50);});
+        twenty.setOnAction(e -> {tMachine.insertMoney(20);});
+        ten.setOnAction(e -> {tMachine.insertMoney(10);});
+        five.setOnAction(e -> {tMachine.insertMoney(5);});
+        two.setOnAction(e -> {tMachine.insertMoney(2);});
+        one.setOnAction(e -> {tMachine.insertMoney(1);});
+        fiftyCents.setOnAction(e -> {tMachine.insertMoney(0.5f);});
+        twentyCents.setOnAction(e -> { tMachine.insertMoney(0.2f);});
+        tenCents.setOnAction(e -> { tMachine.insertMoney(0.1f);});
+        fiveCents.setOnAction(e -> { tMachine.insertMoney(0.05f);});
+        twoCents.setOnAction(e -> { tMachine.insertMoney(0.02f);});
+        oneCent.setOnAction(e -> { tMachine.insertMoney(0.01f);});
+        
         
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(10);
+        grid.setHgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        grid.add(oneEuro, 0, 0);
-        grid.add(fiftyCents, 0, 1);
+        
+        grid.add(oneHundred, 0, 0);
+        grid.add(fifty, 1, 0);
+        grid.add(twenty, 2, 0);
+        grid.add(ten, 3, 0);
+        grid.add(five, 0, 1);
+        grid.add(two, 1, 1);
+        grid.add(one, 2, 1);
+        grid.add(fiftyCents, 3, 1);
         grid.add(twentyCents, 0, 2);
+        grid.add(tenCents, 1, 2);
+        grid.add(fiveCents, 2, 2);
+        grid.add(twoCents, 3, 2);
+        grid.add(oneCent, 0, 3);
         
         moneyScene = new Scene(grid);
     }

@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 public class StubMachine implements CentralSystemTicketInterface {
-
     String ipAdress;
     int port;
     Socket socket;
@@ -44,7 +43,15 @@ public class StubMachine implements CentralSystemTicketInterface {
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * 
+     * @param username
+     * @param psw
+     * @return Manda al server una richiesta di login con i dati per effettuarlo.
+     * Se il server riceve i dati e riesce ad effettuare il login il metodo ritorna
+     * vero, altrimenti ritorna falso
+     */
     @Override
     public boolean userLogin(String username, String psw) {
         try {
@@ -69,7 +76,12 @@ public class StubMachine implements CentralSystemTicketInterface {
             return false;
         }
     }
-
+    
+    /**
+     * 
+     * @return Effettua una richiesta al server di inviare nuovi codici. Usato
+     * quando la macchinetta sta per finire i codici disponibili
+     */
     @Override
     public String requestCodes() {
         
@@ -77,8 +89,14 @@ public class StubMachine implements CentralSystemTicketInterface {
         return "Thread Attivo";
         
     }
-        
-
+    
+    /**
+     * 
+     * @param cardNumber
+     * @return Richiede al server di effettuare un pagamento via carta di credito.
+     * Se la richiesta viene ricevuta e il pagamento effettuato il metodo ritorna
+     * vero, altrimenti ritorna falso
+     */
     @Override
     public boolean cardPayment(String cardNumber) {
         try {
@@ -105,28 +123,28 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
 
-	@Override
-	public boolean createUser(String name, String surname, String username,String cf, String psw) {
-        try {
-            initConnection();
-            String packet = JSONOperator.createUser(name,surname,username,cf,psw);
-            //System.out.println(packet);
-            toServer.println(packet);                           //Invio verso server della richiesta JSON
-
-            //Aspetto risposta da parte del server
-            String line = fromServer.readLine();
-            closeConnection();
-
-            JSONParser parser = new JSONParser();
-
-            //Struttura JSON di risposta : {"data":"boolean"}
-            JSONObject obj = (JSONObject) parser.parse(line);
-            return (Boolean) obj.get("data");
-
-        } catch (IOException | ParseException ex) {
-            ex.printStackTrace();
-            closeConnection();
-            return false;
+    @Override
+    public boolean createUser(String name, String surname, String username,String cf, String psw) {
+    try {
+        initConnection();
+        String packet = JSONOperator.createUser(name,surname,username,cf,psw);
+        //System.out.println(packet);
+        toServer.println(packet);                           //Invio verso server della richiesta JSON
+        
+        //Aspetto risposta da parte del server
+        String line = fromServer.readLine();
+        closeConnection();
+        
+        JSONParser parser = new JSONParser();
+        
+        //Struttura JSON di risposta : {"data":"boolean"}
+        JSONObject obj = (JSONObject) parser.parse(line);
+        return (Boolean) obj.get("data");
+        
+    } catch (IOException | ParseException ex) {
+        ex.printStackTrace();
+        closeConnection();
+        return false;
         }
-	}
+    }
 }
