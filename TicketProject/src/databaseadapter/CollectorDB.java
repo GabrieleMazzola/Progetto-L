@@ -1,25 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package databaseadapter;
 
+/**
+ *
+ * @author Andrea
+ */
+public class CollectorDB {
+    
+    private String name,surname,CF,username,password;
 
-public class UserDB {
-    private String name,surname,CF,mail,password,username;
-
-    public UserDB(String name, String surname,String username, String CF,String password) {
+    public CollectorDB(String name, String surname,String username, String CF,String password) {
         this.name = name;
         this.surname = surname;
         this.CF = CF;
-        this.password = password;
         this.username = username;
+        this.password = password;
     }
 
-    public String getUsername() {
-        return username;
-    }
-    
     public String getPassword() {
         return password;
     }
 
+    public String getUsername(){
+        return this.username;
+    }
+    
     public boolean setPassword(String oldPsw,String newPsw) {
         if(oldPsw.equals(this.password)){
             this.password = newPsw;
@@ -28,9 +37,6 @@ public class UserDB {
         return false;
     }
     
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 
     public String getName() {
         return name;
@@ -44,9 +50,6 @@ public class UserDB {
         return CF;
     }
 
-    public String getMail() {
-        return mail;
-    }
     
     @Override
     public String toString() {

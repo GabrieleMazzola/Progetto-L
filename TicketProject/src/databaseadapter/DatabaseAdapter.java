@@ -1,4 +1,3 @@
-
 package databaseadapter;
 
 import java.util.*;
@@ -9,21 +8,27 @@ public class DatabaseAdapter {
     
     private Set<UserDB> users;
     private Set<TicketDB> tickets;
-    private Set<Fine> fines;      
+    private Set<Fine> fines;
+    private Set<CollectorDB> collectors;
 
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
         this.users = new HashSet<>();
-        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN");
+        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN","ADMIN");
         this.fines = new HashSet<>();
+        collectors = new HashSet<>();
     }
 
-    public boolean addUser(String name, String surname, String cf,String psw) {
-        return users.add(new UserDB(name, surname, cf, psw));
+    public boolean addUser(String name, String surname,String username, String cf,String psw) {
+        return users.add(new UserDB(name, surname, username,cf, psw));
     }
     
     public boolean addTicket(TicketDB ticket){
         return tickets.add(ticket);
+    }
+    
+    public boolean addCollector(String name, String surname,String username, String cf,String psw) {
+        return collectors.add(new CollectorDB(name, surname,username, cf, psw));
     }
     
     public TicketDB getTicketByCode(String ticketCode){
@@ -92,12 +97,17 @@ public class DatabaseAdapter {
         }
     }
     
-    public boolean login(String username, String psw) {
+    public boolean userLogin(String username, String psw) {
         for (UserDB user : users) {
             if(user.getName().equals(username) && user.getPassword().equals(psw)) return true;
         }
         return false;
     }
     
-    
+    public boolean collectorLogin(String username, String psw) {
+        for (CollectorDB collector : collectors) {
+            if(collector.getUsername().equals(username) && collector.getPassword().equals(psw)) return true;
+        }
+        return false;
+    }    
 }

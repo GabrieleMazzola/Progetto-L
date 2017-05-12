@@ -5,7 +5,7 @@ public class Testing {
     
     public static void main(String[] args) {
         DatabaseAdapter mongoDB = new DatabaseAdapter();
-        mongoDB.addUser("Simone", "Colosi", "Millisecondi","OreMinuti");
+        mongoDB.addUser("Simone", "Colosi", "Millisecondi","bo@gmail.com","OreMinuti");
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.addTicket(new TicketDB(TicketType.SINGLE));
         mongoDB.activateTicket("0");

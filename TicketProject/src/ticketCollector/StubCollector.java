@@ -1,6 +1,7 @@
 package ticketCollector;
 
-import ticketCollector.Fine;
+
+import JSONSingleton.JSONOperations;
 import centralsystem.CentralSystemCollectorInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,16 +14,17 @@ import org.json.simple.parser.ParseException;
 
 
 public class StubCollector implements CentralSystemCollectorInterface{
-
     String ipAdress;
     int port;
     Socket socket;
     BufferedReader fromServer;
     PrintWriter toServer;
+    JSONOperations JSONOperator;
     
     public StubCollector(String ipAddress,int port){
         this.ipAdress = ipAddress;
         this.port = port;
+        this.JSONOperator = JSONOperations.getInstance();   //pattern singleton
     }
     
     private void initConnection() {
@@ -51,7 +53,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         try{
             initConnection();
 
-            String packet = existsJSONPacket(ticketCode);
+            String packet = JSONOperator.existsTicketPacket(ticketCode);
             System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
@@ -71,16 +73,35 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
 
     @Override
-    public void makeFine(Fine f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean makeFine(Fine f){
+        try{
+            initConnection();
+
+            String packet = JSONOperator.makeFinePacket(f);
+            //System.out.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
+
+            String line = fromServer.readLine();
+            closeConnection();
+
+            JSONParser parser = new JSONParser();               
+            JSONObject obj = (JSONObject)parser.parse(line);
+
+            //Struttura JSON di risposta : {"data":"boolean"}
+            return (Boolean)obj.get("data");
+        }catch(IOException|ParseException ex){
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
     }
 
     @Override
-    public boolean login(String username, String psw) {
+    public boolean collectorLogin(String username, String psw) {
         try {
             initConnection();
             
-            String packet = loginJSONPacket(username, psw);
+            String packet = JSONOperator.collectorLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
             
             String line = fromServer.readLine();
@@ -98,30 +119,10 @@ public class StubCollector implements CentralSystemCollectorInterface{
             return false;
         }        
     }
-    
-    private String loginJSONPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
 
-        JSONObject root = new JSONObject();
-        root.put("method", "LOGIN");
-        JSONObject data = new JSONObject();
-        data.put("username", username);
-        data.put("psw", psw);
-        root.put("data", data);
-
-        return root.toJSONString();
-    }
-
-    private String existsJSONPacket(String ticketCode) {
-        //{"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
-        
-        JSONObject root = new JSONObject();
-        root.put("method", "EXISTSTICKET");
-        JSONObject data = new JSONObject();
-        data.put("ticketCode", ticketCode);
-        root.put("data", data);
-
-        return root.toJSONString();
+    @Override
+    public String centralSystemTEST(String sentTest) {
+            return sentTest;
     }
     
 }

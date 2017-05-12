@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import ticket.MultiTicket;
 import ticket.Ticket;
 import machines.*;
+import paymentMethods.PaymentMethod;
 import ticket.SingleTicket;
+import ticket.TicketType;
 /**
  *
  * @author Manuele
@@ -20,17 +22,16 @@ public class TestMultiTicket {
         
         // test macchinetta
         TicketMachine tm = new TicketMachine(0,"localhost");
-        tm.moneyTank.setSingleQuantity(1, 6);
-        tm.moneyTank.setSingleQuantity(2, 5);
+        tm.moneyTank.setSingleQuantity(0.2, 6);
+        tm.moneyTank.setSingleQuantity(0.1, 5);
         tm.moneyTank.setSingleQuantity(5, 1);
         
         System.out.println("totale è " + tm.moneyTank.getTotal());
         
-        tm.buyTicketCash(new SingleTicket(3,3));
         
-        tm.insertMoney(1);       
+        tm.insertMoney(0.2);       
         tm.insertMoney(1);
-        tm.insertMoney(5);
+        tm.insertMoney(0.5);
         System.out.println("totale è " + tm.moneyTank.getTotal());
         
           /* test money holder

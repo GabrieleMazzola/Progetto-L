@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package machines;
+package test;
 
-import java.util.ArrayList;
-import java.util.List;
+import centralsystem.CSystem;
 
 /**
  *
  * @author Andrea
  */
-public abstract class MoneyCluster {
-
+public class MachineTest {
+    
+    public static void main(String[] args) {
+         
+    }
     
 }

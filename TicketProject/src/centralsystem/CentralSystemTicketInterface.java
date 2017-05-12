@@ -11,9 +11,13 @@ package centralsystem;
  */
 public interface CentralSystemTicketInterface {
     
-    public boolean login(String username,String psw);
+    public boolean userLogin(String username,String psw);
     
     public String requestCodes();
     
     public boolean cardPayment(String cardNumber);
+    
+    public boolean createUser(String name,String surname,String cf,String username,String psw);
+    
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active);
 }

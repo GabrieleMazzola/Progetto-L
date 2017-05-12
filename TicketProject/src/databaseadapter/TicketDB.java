@@ -13,6 +13,7 @@ public class TicketDB {
     private TicketType type;
     private String code;
     private boolean active;
+    private int validityTime;
     private static int counter = 0;
 
     public TicketDB(TicketType type) {

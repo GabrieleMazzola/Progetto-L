@@ -1,18 +1,15 @@
 package ticket;
 
-import exceptions.TicketExausted;
-
 /**
  *
  * @author Manuele
  */
 public abstract class Ticket {
+    protected String code;
+    protected static double cost;
+    protected TicketType type;
     
-    protected double cost;    
-    //Convalida il biglietto
-    public abstract void validate() throws TicketExausted;
-    //Ritorna vero se il biglietto è valido
-    public abstract boolean isValid();
-    
+    public String getCode() {return code;}
     public double getCost() {return cost;}
+    public boolean isType(TicketType type) { return(this.type.equals(type));}
 }

@@ -1,23 +1,28 @@
 package machines;
 
+import JSONSingleton.JSONOperations;
 import centralsystem.CentralSystemTicketInterface;
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-
 public class StubMachine implements CentralSystemTicketInterface {
-
     String ipAdress;
     int port;
     Socket socket;
     BufferedReader fromServer;
     PrintWriter toServer;
+    JSONOperations JSONOperator;
+    private TicketMachine machine;
 
-    public StubMachine(String ipAdress, int port) {
+    public StubMachine(String ipAdress, int port, TicketMachine machine) {
         this.ipAdress = ipAdress;
         this.port = port;
+        JSONOperator = JSONOperations.getInstance();
+        this.machine = machine;
     }
 
     private void initConnection() {
@@ -27,11 +32,12 @@ public class StubMachine implements CentralSystemTicketInterface {
             toServer = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException ex) {
             ex.printStackTrace();
+            System.err.println("Errore connessione");
         }
 
     }
-    
-    private void closeConnection(){
+
+    private void closeConnection() {
         try {
             fromServer.close();
             toServer.close();
@@ -41,99 +47,127 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
     
+    /**
+     * 
+     * @param username
+     * @param psw
+     * @return Manda al server una richiesta di login con i dati per effettuarlo.
+     * Se il server riceve i dati e riesce ad effettuare il login il metodo ritorna
+     * vero, altrimenti ritorna falso
+     */
     @Override
-    public boolean login(String username, String psw) {
+    public boolean userLogin(String username, String psw) {
         try {
             initConnection();
-            
-            String packet = loginJSONPacket(username, psw);
-            toServer.println(packet);                           //Invio verso server della richiesta JSON
-            
-            String line = fromServer.readLine();
-            closeConnection();
-            
-            JSONParser parser = new JSONParser();               
-            JSONObject obj = (JSONObject)parser.parse(line);
-            
-            //Struttura JSON di risposta : {"data":"boolean"}
-            return (Boolean)obj.get("data");
-                
-        }catch(IOException|ParseException ex){
-            ex.printStackTrace();
-            closeConnection();
-            return false;
-        }        
-    }
 
-    @Override
-    public String requestCodes() {
-        initConnection();
-        String packet = requestCodesJSONPacket();
-        toServer.println(packet);
-        
-        
-        //TODO thread per richiesta codici
-        closeConnection();
-        return "CODICIBELLISSIMIINARRIVO";
-    }
-
-    @Override
-    public boolean cardPayment(String cardNumber) {
-        try{
-            initConnection();
-            String packet = cardPaymentJSONPacket(cardNumber);
+            //String packet = loginJSONPacket(username, psw);
+            String packet = JSONOperator.userLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
-            //Aspetto risposta da parte del server
             String line = fromServer.readLine();
             closeConnection();
-            
+
             JSONParser parser = new JSONParser();
-            
+            JSONObject obj = (JSONObject) parser.parse(line);
+
             //Struttura JSON di risposta : {"data":"boolean"}
-            JSONObject obj = (JSONObject)parser.parse(line);
-            return (Boolean)obj.get("data");
-            
-        }catch(IOException|ParseException ex){
+            return (Boolean) obj.get("data");
+
+        } catch (IOException | ParseException ex) {
             ex.printStackTrace();
             closeConnection();
             return false;
         }
     }
     
-    private String cardPaymentJSONPacket(String cardNumber){
-        //{"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
+    /**
+     * 
+     * @return Effettua una richiesta al server di inviare nuovi codici. Usato
+     * quando la macchinetta sta per finire i codici disponibili
+     */
+    @Override
+    public String requestCodes() {
         
-        JSONObject root = new JSONObject();
-        root.put("method", "CARDPAYMENT");
-        JSONObject data = new JSONObject();
-        data.put("cardNumber", cardNumber);
-        root.put("data", data);
-        return root.toJSONString();
+        (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port)).start();
+        return "Thread Attivo";
+        
     }
     
-    private String loginJSONPacket(String username, String psw) {
-        //{"method":"LOGIN","data":{"username":"String","psw":"String"}}
+    /**
+     * 
+     * @param cardNumber
+     * @return Richiede al server di effettuare un pagamento via carta di credito.
+     * Se la richiesta viene ricevuta e il pagamento effettuato il metodo ritorna
+     * vero, altrimenti ritorna falso
+     */
+    @Override
+    public boolean cardPayment(String cardNumber) {
+        try {
+            initConnection();
+            //String packet = cardPaymentJSONPacket(cardNumber);
+            String packet = JSONOperator.cardPaymentPacket(cardNumber);
+            //System.out.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
 
-        JSONObject root = new JSONObject();
-        root.put("method", "LOGIN");
-        JSONObject data = new JSONObject();
-        data.put("username", username);
-        data.put("psw", psw);
-        root.put("data", data);
+            //Aspetto risposta da parte del server
+            String line = fromServer.readLine();
+            closeConnection();
 
-        return root.toJSONString();
+            JSONParser parser = new JSONParser();
+
+            //Struttura JSON di risposta : {"data":"boolean"}
+            JSONObject obj = (JSONObject) parser.parse(line);
+            return (Boolean) obj.get("data");
+
+        } catch (IOException | ParseException ex) {
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
     }
 
-    private String requestCodesJSONPacket() {
-        //{"method":"REQUESTCODES"}
+    @Override
+    public boolean createUser(String name, String surname, String username,String cf, String psw) {
+    try {
+        initConnection();
+        String packet = JSONOperator.createUser(name,surname,username,cf,psw);
+        //System.out.println(packet);
+        toServer.println(packet);                           //Invio verso server della richiesta JSON
         
-        JSONObject root = new JSONObject();
-        root.put("method", "REQUESTCODES");
-        return root.toJSONString();
+        //Aspetto risposta da parte del server
+        String line = fromServer.readLine();
+        closeConnection();
+        
+        JSONParser parser = new JSONParser();
+        
+        //Struttura JSON di risposta : {"data":"boolean"}
+        JSONObject obj = (JSONObject) parser.parse(line);
+        return (Boolean) obj.get("data");
+        
+    } catch (IOException | ParseException ex) {
+        ex.printStackTrace();
+        closeConnection();
+        return false;
+        }
     }
 
-    public boolean checkCreditCard(String credCardNumber) {
-        return true;
+    @Override
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+        try {
+            initConnection();
+            String packet = JSONOperator.updateMachineStatus(machineCode, inkLevel, paperLevel, active);
+            toServer.println(packet);
+            String line = fromServer.readLine();
+            closeConnection();
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(line);
+            return (boolean)obj.get("data");
+            } catch (ParseException ex) {
+                System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
+            } catch (IOException ex) {
+                System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
+            }
+            
+        return false;
     }
 }

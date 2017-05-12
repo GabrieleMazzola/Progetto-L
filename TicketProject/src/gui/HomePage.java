@@ -53,11 +53,11 @@ public class HomePage extends Application {
         primaryStage.show();
     }
     
-    private void buildShopScene(Stage stage) {
-        
-        Scene shop = new Scene(new ShopScene().asParent(), 400, 400);
-        stage.setScene(shop);
-    }
+//    private void buildShopScene(Stage stage) {
+//        
+//        Scene shop = new Scene(new ShopScene().asParent(), 400, 400);
+//        stage.setScene(shop);
+//    }
 
     /**
      * @param args the command line arguments

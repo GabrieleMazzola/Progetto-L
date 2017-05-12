@@ -16,7 +16,7 @@ public class Tank {
 
     public Tank(float value) {
         this.value = value;
-        this.quantity = 0;
+        this.quantity = 10;
     }
 
     public void setQuantity(int quantity) {

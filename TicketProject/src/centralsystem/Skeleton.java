@@ -8,6 +8,7 @@ import java.net.Socket;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import ticketCollector.Fine;
 
 public class Skeleton extends Thread {
 
@@ -43,14 +44,26 @@ public class Skeleton extends Thread {
 
     private String decodeRead(String inputData) {
         JSONObject obj;
-        System.out.println(inputData);
         StringBuilder result = new StringBuilder();
         try {
             obj = (JSONObject) parser.parse(inputData);
 
-            switch ((String) obj.get("method")) {
-                case "LOGIN":
-                    result.append(callLogin((JSONObject) obj.get("data")));
+            switch (((String) obj.get("method")).trim().toUpperCase()) {
+
+                case "TEST":
+                    result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
+                    break;
+                case "CREATEUSER":
+                    result.append(callCreateUser((JSONObject) obj.get("data")));
+                    break;
+                case "MAKEFINE":
+                    result.append(callMakeFine((JSONObject) obj.get("data")));
+                    break;
+                case "COLLECTORLOGIN":
+                    result.append(callCollectorLogin((JSONObject) obj.get("data")));
+                    break;
+                case "USERLOGIN":
+                    result.append(callUserLogin((JSONObject) obj.get("data")));
                     break;
                 case "CARDPAYMENT":
                     result.append(callCardPayment((JSONObject) obj.get("data")));
@@ -58,6 +71,9 @@ public class Skeleton extends Thread {
                 case "EXISTSTICKET":
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
+                case "REQUESTCODES":
+                    result.append(callRequestCodes());
+                    break;    
                 case "UPDATEMACHINESTATUS":
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
@@ -67,20 +83,29 @@ public class Skeleton extends Thread {
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
         }
-
         return result.toString();
     }
 
-    private String callLogin(JSONObject data) {
-        boolean result = centralSystem.login((String) data.get("username"), (String) data.get("psw"));
+    
+    private String callCreateUser(JSONObject data) {
+    	String name = ((String) data.get("name"));
+    	String surname = ((String) data.get("surname"));
+    	String username = ((String) data.get("username"));
+    	String cf = ((String) data.get("cf"));
+    	String psw = ((String) data.get("psw"));
+        boolean result = centralSystem.createUser(name,surname,username,cf,psw);
         data = new JSONObject();
-        data.put("data", result);
+        data.put("data",result);
+        
+        return data.toJSONString();
+	}
 
-        return data.toString();
-    }
-
-    private String callCardPayment(JSONObject data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	private String callCardPayment(JSONObject data) {
+        boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
+        data = new JSONObject();
+        data.put("data",result);
+        
+        return data.toJSONString();
     }
 
    
@@ -90,16 +115,54 @@ public class Skeleton extends Thread {
         data = new JSONObject();
         data.put("data", result);
         
-        return data.toString();
+        return data.toJSONString();
 
     }
 
-    private String callupdateMachineStatus(JSONObject data) {
+    private String callRequestCodes() {
+        String result = centralSystem.requestCodes();
+        JSONObject data = new JSONObject();
+        data.put("data", result);
+        
+        return data.toJSONString();
+    }
 
-        centralSystem.updateMachineStatus((int) data.get("machineCode"), (double) data.get("inkLevel"), (double) data.get("papaerLevel"), (boolean) data.get("active"));
+    private String callCentralSystemTEST(JSONObject data) {
+        String result = centralSystem.centralSystemTEST((String) data.get("test"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callCollectorLogin(JSONObject data) {
+        boolean result = centralSystem.collectorLogin((String) data.get("username"), (String) data.get("psw"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callUserLogin(JSONObject data) {
+        boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callMakeFine(JSONObject data) {
+        Fine fine = new Fine((String)data.get("cf"),(Double)data.get("amount"));
+        boolean result = centralSystem.addFine(fine);
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    } 
+    private String callupdateMachineStatus(JSONObject data) {
+        centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"));
         data = new JSONObject();
         data.put("data", true);
-        
         return data.toString();
     }
 
