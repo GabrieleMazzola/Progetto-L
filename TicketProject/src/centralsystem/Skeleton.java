@@ -8,6 +8,7 @@ import java.net.Socket;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import ticketCollector.Fine;
 
 public class Skeleton extends Thread {
 
@@ -55,6 +56,9 @@ public class Skeleton extends Thread {
                     break;
                 case "CREATEUSER":
                     result.append(callCreateUser((JSONObject) obj.get("data")));
+                    break;
+                case "MAKEFINE":
+                    result.append(callMakeFine((JSONObject) obj.get("data")));
                     break;
                 case "COLLECTORLOGIN":
                     result.append(callCollectorLogin((JSONObject) obj.get("data")));
@@ -140,6 +144,15 @@ public class Skeleton extends Thread {
 
     private String callUserLogin(JSONObject data) {
         boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
+        data = new JSONObject();
+        data.put("data", result);
+
+        return data.toJSONString();
+    }
+
+    private String callMakeFine(JSONObject data) {
+        Fine fine = new Fine((String)data.get("cf"),(Double)data.get("amount"));
+        boolean result = centralSystem.addFine(fine);
         data = new JSONObject();
         data.put("data", result);
 

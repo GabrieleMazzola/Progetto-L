@@ -1,6 +1,7 @@
 package JSONSingleton;
 
 import org.json.simple.JSONObject;
+import ticketCollector.Fine;
 
 public class JSONOperations {
 
@@ -102,5 +103,20 @@ public class JSONOperations {
         root.put("data", data);
         return root.toJSONString();
 	}
+        
+    /**
+    * Struttura JSON:
+    * {"method":"MAKEFINE","data":{"cf":"String","amount":"Double"}}
+    */
+    public String makeFinePacket(Fine f) {
+        JSONObject root = new JSONObject();
+        root.put("method", "MAKEFINE");
+        JSONObject data = new JSONObject();
+        data.put("cf", f.getCfCode());
+        data.put("amount", f.getAmount());
+        
+        root.put("data", data);
+        return root.toJSONString();
+    }
     
 }

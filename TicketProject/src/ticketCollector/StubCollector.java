@@ -74,8 +74,26 @@ public class StubCollector implements CentralSystemCollectorInterface{
 
     @Override
     public boolean makeFine(Fine f){
-    	//TODO : scelta JSON lato skeleton e processamento
-        return true;
+        try{
+            initConnection();
+
+            String packet = JSONOperator.makeFinePacket(f);
+            //System.out.println(packet);
+            toServer.println(packet);                           //Invio verso server della richiesta JSON
+
+            String line = fromServer.readLine();
+            closeConnection();
+
+            JSONParser parser = new JSONParser();               
+            JSONObject obj = (JSONObject)parser.parse(line);
+
+            //Struttura JSON di risposta : {"data":"boolean"}
+            return (Boolean)obj.get("data");
+        }catch(IOException|ParseException ex){
+            ex.printStackTrace();
+            closeConnection();
+            return false;
+        }
     }
 
     @Override
