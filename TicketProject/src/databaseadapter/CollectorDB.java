@@ -11,12 +11,13 @@ package databaseadapter;
  */
 public class CollectorDB {
     
-    private String name,surname,CF,mail,password;
+    private String name,surname,CF,username,password;
 
-    public CollectorDB(String name, String surname, String CF,String password) {
+    public CollectorDB(String name, String surname,String username, String CF,String password) {
         this.name = name;
         this.surname = surname;
         this.CF = CF;
+        this.username = username;
         this.password = password;
     }
 
@@ -24,6 +25,10 @@ public class CollectorDB {
         return password;
     }
 
+    public String getUsername(){
+        return this.username;
+    }
+    
     public boolean setPassword(String oldPsw,String newPsw) {
         if(oldPsw.equals(this.password)){
             this.password = newPsw;
@@ -32,9 +37,6 @@ public class CollectorDB {
         return false;
     }
     
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 
     public String getName() {
         return name;
@@ -48,9 +50,6 @@ public class CollectorDB {
         return CF;
     }
 
-    public String getMail() {
-        return mail;
-    }
     
     @Override
     public String toString() {

@@ -53,9 +53,9 @@ public class Skeleton extends Thread {
                 case "TEST":
                     result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
                     break;
-	            case "CREATEUSER":
-	                result.append(callCreateUser((JSONObject) obj.get("data")));
-	                break;
+                case "CREATEUSER":
+                    result.append(callCreateUser((JSONObject) obj.get("data")));
+                    break;
                 case "COLLECTORLOGIN":
                     result.append(callCollectorLogin((JSONObject) obj.get("data")));
                     break;

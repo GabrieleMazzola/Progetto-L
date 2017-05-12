@@ -90,8 +90,8 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * al database. Se l'operazione va a buon fine il metodo ritorna vero, altrimenti
      * ritorna falso
      */
-    public boolean addCollector(String name, String surname, String cf,String psw) {
-        return database.addCollector(name, surname, cf, psw);
+    public boolean addCollector(String name, String surname,String username, String cf,String psw) {
+        return database.addCollector(name, surname,username, cf, psw);
     }
     
     /**
@@ -227,7 +227,6 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     }
     
     private void initCollectors() {
-        database.addCollector("Andrea", "Rossi", "RSSNDR95A13G388U", "IOBOHIOBOH");
-        database.addCollector("Mario", "bioanchi", "mrreaosdnvaoen", "manumanu");
+        database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
     }
 }

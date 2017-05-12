@@ -27,8 +27,8 @@ public class DatabaseAdapter {
         return tickets.add(ticket);
     }
     
-    public boolean addCollector(String name, String surname, String cf,String psw) {
-        return collectors.add(new CollectorDB(name, surname, cf, psw));
+    public boolean addCollector(String name, String surname,String username, String cf,String psw) {
+        return collectors.add(new CollectorDB(name, surname,username, cf, psw));
     }
     
     public TicketDB getTicketByCode(String ticketCode){
@@ -106,7 +106,7 @@ public class DatabaseAdapter {
     
     public boolean collectorLogin(String username, String psw) {
         for (CollectorDB collector : collectors) {
-            if(collector.getName().equals(username) && collector.getPassword().equals(psw)) return true;
+            if(collector.getUsername().equals(username) && collector.getPassword().equals(psw)) return true;
         }
         return false;
     }    
