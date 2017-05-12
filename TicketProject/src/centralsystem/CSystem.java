@@ -20,6 +20,7 @@ public class CSystem implements CentralSystemCollectorInterface {
 
     public CSystem() {
         this.database = new DatabaseAdapter();
+        machineList = new HashMap();
         initTickets();
         initUsers();
         initServer();
@@ -89,7 +90,13 @@ public class CSystem implements CentralSystemCollectorInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
-        
+        if(machineList.containsKey(machineCode)){
+            ((MachineStatus)machineList.get(machineCode)).setActive(active);            
+            ((MachineStatus)machineList.get(machineCode)).setPaperLevel(paperLevel);
+            ((MachineStatus)machineList.get(machineCode)).setInkLevel(inkLevel);
+        }else{
+            machineList.put(machineCode, new MachineStatus(machineCode,inkLevel,paperLevel,active));
+        }
         return true;
     }
     

@@ -19,7 +19,7 @@ public class TicketMachine {
     private double insertedMoney;
     private double cost;
     private double ink; //valore percentuale
-    private int paper; //valore percentuale
+    private int paper; 
     //private State s;    
     public MoneyHandler moneyTank;
 
@@ -29,7 +29,7 @@ public class TicketMachine {
         //this.s = State.FULL;
         this.cod = cod;
         this.moneyTank = new MoneyHandler();
-        ink = 5;
+        ink = 51;
         paper = 4;
         stub = new StubMachine(ipAdress, cod);
     }
@@ -141,5 +141,7 @@ public class TicketMachine {
     private String getCredCardNumber() {
         return "8888 8888 8888 8888";
     }
+    
+   
 
 }

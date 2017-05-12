@@ -33,6 +33,7 @@ public class SocketHandler extends Thread {
         while(true){
             try {
                 newSocket = socketListener.accept();
+                System.out.println(newSocket.getInetAddress());
                 connectionList.add(new Skeleton(newSocket,centralSystem));
                 connectionList.get(connectionList.size()-1).start();
                 removeDeadThread();          
