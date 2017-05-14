@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import machines.TicketMachine;
@@ -41,9 +42,11 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
         
         display = new Label(tMachine.getInsertedMoney() + "");
         display.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
+        HBox boxDisplay = new HBox();
+        boxDisplay.setStyle("background-color: white");
         
         istantiateGrid();
-        grid.add(display, 0, 0);
+        grid.add(display, 0, 0, 4, 1);
         grid.add(twoHundred, 0, 1);
         grid.add(oneHundred, 1, 1);
         grid.add(fifty, 2, 1);
@@ -59,6 +62,11 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
         grid.add(twoCents, 0, 4);
         grid.add(oneCent, 1, 4);
         
+        //TODO: classi CSS per fare questa cosa
+        CSSingleton css = CSSingleton.getInstance();
+        grid.setStyle(css.colorText("white") + css.colorBackroundGradient("#61a2b1", "#2A5058") + css.addDropshadowEffect()
+                      +css.addBackgroundImage("LeafBackground.jpg", 400, 200));
+        //grid.setId("grid");
         addActionToButtons();
     }
     

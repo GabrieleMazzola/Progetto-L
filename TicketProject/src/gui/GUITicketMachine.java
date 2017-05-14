@@ -28,13 +28,17 @@ public class GUITicketMachine extends Application {
         goOn.setOnAction(e -> {window.setScene(moneyScene);});
         Button homePage = new Button("Homepage");
         homePage.setOnAction(e -> {window.setScene(chooseLoginScene);});
+        homePage.setMinWidth(130);
+        homePage.setMaxWidth(130);
         
         loginGrid.add(login, 0, 1);
         loginGrid.add(goOn, 1, 1);
-        moneyGrid.add(homePage, 4, 4);
+        moneyGrid.add(homePage, 4, 2, 2, 1);
         
         chooseLoginScene = new Scene(loginGrid.asParent());
         moneyScene = new Scene(moneyGrid.asParent());
+        
+        //moneyScene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
         
         window.setScene(chooseLoginScene);
         window.show();

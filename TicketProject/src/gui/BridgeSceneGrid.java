@@ -29,4 +29,8 @@ public abstract class BridgeSceneGrid {
     public void add(Node node, int row, int column) {
         grid.add(node, column, row);
     }
+    
+    public void add(Node node, int row, int column, int rowSpan, int columnSpan) {
+        grid.add(node, column, row, rowSpan, columnSpan);
+    }
 }

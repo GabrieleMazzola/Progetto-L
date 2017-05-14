@@ -1,11 +1,6 @@
 package gui;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -19,5 +14,7 @@ public class ChooseLoginGrid extends BridgeSceneGrid{
         
         istantiateGrid();
         grid.add(greetings, 0, 0);
+        
+        grid.setStyle("-fx-background-image: url(\"LeafBackground.jpg\");");
     }
 }
