@@ -89,12 +89,12 @@ public class DatabaseAdapter {
     
     /**
      * Ricerca nel database un utente con codice fiscale cf
-     * @param cf
+     * @param username
      * @return Vero se esiste un utente con codice fiscale cf nel database
      */
-    public boolean checkUser(String cf){
+    public boolean checkUser(String username){
         for(UserDB u : users){
-            if(u.getCF().trim().equalsIgnoreCase(cf.trim())) return true;
+            if(u.getUsername().trim().equalsIgnoreCase(username.trim())) return true;
         }
         return false;
     }

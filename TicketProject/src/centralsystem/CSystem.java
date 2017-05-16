@@ -31,12 +31,12 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     //__________________Metodi riguardanti l'utente_____________________________
     /**
      * 
-     * Controlla nel database se esiste un utente con codice fiscale cf. 
-     * @param cf
-     * @return Vero se viene trovato un utente con codice fiscale cf
+     * Controlla nel database se esiste un utente con username. 
+     * @param username
+     * @return Vero se viene trovato un utente con username
      */
-    public boolean checkUser(String cf) {
-        return database.checkUser(cf);
+    private boolean checkUser(String username) {
+        return(database.checkUser(username));
     }
     
     /**
@@ -55,6 +55,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * @return Vero se l'utente con i dati indicati viene aggiunto al database
      */
     public boolean addUser(String name, String surname, String username,String cf,String psw) {
+        
         return database.addUser(name, surname, username,cf, psw);
     }
     
@@ -70,6 +71,9 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      */
     @Override
     public boolean createUser(String name, String surname, String username,String cf, String psw) {
+        if(checkUser(username)){
+            return false;
+        }
         return database.addUser(name, surname, username, cf, psw);
     }
     
@@ -246,15 +250,10 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     private void initCollectors() {
         database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
     }
-
-    
-
-   
    
     public boolean userLoginogin(String username, String psw) {
         return database.userLogin(username, psw);
-    }
-    
+    }    
    
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
         if(machineList.containsKey(machineCode)){
@@ -271,6 +270,4 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         */
         return true;
     }
-    
-
 }
