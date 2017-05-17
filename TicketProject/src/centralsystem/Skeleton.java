@@ -47,6 +47,9 @@ public class Skeleton extends Thread {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
+            
+            LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
+
             String result = decodeRead(in.readLine());
             out.println(result);
 
@@ -66,10 +69,12 @@ public class Skeleton extends Thread {
      */
     private String decodeRead(String inputData) {
         JSONObject obj;
+        LogCS.getInstance().stampa("out", "Socket in ingresso: "  + inputData);
+        
         StringBuilder result = new StringBuilder();
         try {
             obj = (JSONObject) parser.parse(inputData);
-
+            
             switch (((String) obj.get("method")).trim().toUpperCase()) {
 
                 case "TEST":
@@ -94,7 +99,7 @@ public class Skeleton extends Thread {
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
                 case "REQUESTCODES":
-                    result.append(callRequestCodes());
+                    result.append(callRequestCodes((JSONObject) obj.get("data")));
                     break;    
                 case "UPDATEMACHINESTATUS":
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
@@ -138,11 +143,12 @@ public class Skeleton extends Thread {
 
     }
 
-    private String callRequestCodes() {
-        String result = centralSystem.requestCodes();
-        JSONObject data = new JSONObject();
-        data.put("data", result);
+    private String callRequestCodes(JSONObject data) {
+        Long ciao = (Long)data.get("numberOfCodes");
         
+        int numberOfCodes = centralSystem.requestCodes(((Long)data.get("numberOfCodes")).intValue());
+        JSONObject result = new JSONObject();
+        data.put("data", numberOfCodes);
         return data.toJSONString();
     }
 
@@ -158,7 +164,7 @@ public class Skeleton extends Thread {
         boolean result = centralSystem.collectorLogin((String) data.get("username"), (String) data.get("psw"));
         data = new JSONObject();
         data.put("data", result);
-
+        
         return data.toJSONString();
     }
 

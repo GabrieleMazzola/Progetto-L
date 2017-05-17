@@ -25,15 +25,18 @@ public class StubMachine implements CentralSystemTicketInterface {
         this.machine = machine;
     }
 
-    private void initConnection() {
+    private boolean initConnection() {
         try {
             socket = new Socket(ipAdress, port);
             fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             toServer = new PrintWriter(socket.getOutputStream(), true);
+            
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Errore connessione");
+            return false;
         }
+        return true;
 
     }
 
@@ -78,17 +81,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
     
-    /**
-     * Effettua una richiesta al server di inviare nuovi codici
-     * @return I nuovi codici
-     */
-    @Override
-    public String requestCodes() {
-        
-        (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port)).start();
-        return "Thread Attivo";
-        
-    }
+    
     
     /**
      * Richiede al server di effettuare un pagamento via carta di credito.
@@ -176,4 +169,16 @@ public class StubMachine implements CentralSystemTicketInterface {
             
         return false;
     }
+/**
+     * Effettua una richiesta al server di inviare nuovi codici
+     * @return I nuovi codici
+     */
+    @Override
+    public int requestCodes(int numberOfCodes) {
+        
+        (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port, numberOfCodes)).start();
+        return 1;
+        
+    }
+    
 }

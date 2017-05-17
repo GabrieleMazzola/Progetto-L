@@ -17,6 +17,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     private ServerSocket socketListener;
     private SocketHandler scHandler;
     private BankAdapter bank;
+    public static int codesCounter;
 
     public CSystem() {
         this.database = new DatabaseAdapter();
@@ -166,11 +167,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * dei codici avviene tramite [...]
      * @return I nuovi codici generati
      */
-    @Override
-    public String requestCodes() {        
-        String result = "MAZZOLAINARRIVO";
-        return result;
-    }
+   
     
     /**
      * Permette il pagamento via carta di credito usando l'adapter della
@@ -270,6 +267,12 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         }
         */
         return true;
+    }
+
+    @Override
+    public synchronized int requestCodes(int numberOfCodes) {
+        codesCounter +=numberOfCodes;
+        return codesCounter - numberOfCodes;
     }
     
 

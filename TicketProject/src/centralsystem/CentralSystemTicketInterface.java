@@ -13,7 +13,7 @@ public interface CentralSystemTicketInterface {
     
     public boolean userLogin(String username,String psw);
     
-    public String requestCodes();
+    public int requestCodes(int numberOfCodes);
     
     public boolean cardPayment(String cardNumber);
     

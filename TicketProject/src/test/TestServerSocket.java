@@ -6,6 +6,7 @@
 package test;
 
 import centralsystem.CSystem;
+import codegeneration.CodeHandler;
 
 /**
  *
@@ -13,7 +14,15 @@ import centralsystem.CSystem;
  */
 public class TestServerSocket {
     public static void main(String[] args) {
-        CSystem cs = new CSystem();
+       // CSystem cs = new CSystem();
+       CodeHandler code =  CodeHandler.getInstance();
+       String ciao;
+       double  c=999999999999L;
+        for (long  i = 0; i < c; i+=10000000) {
+                ciao = code.encoder(i, "A");
+                //System.out.println(ciao);
+                code.decoder(ciao);
+        }
         
     }
 }

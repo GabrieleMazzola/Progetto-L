@@ -52,9 +52,12 @@ public class JSONOperations {
     /**
      * Struttura JSON: {"method":"REQUESTCODES"}
      */
-    public String requestCodesPacket() {
+    public String requestCodesPacket(int numberOfCodes) {
         JSONObject root = new JSONObject();
         root.put("method", "REQUESTCODES");
+        JSONObject data = new JSONObject();
+        data.put("numberOfCodes", numberOfCodes);
+        root.put("data", data);
         return root.toJSONString();
     }
 

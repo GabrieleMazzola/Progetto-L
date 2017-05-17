@@ -1,5 +1,7 @@
 package machines;
 
+import codegeneration.CodeHandler;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -15,6 +17,7 @@ import people.User;
  */
 public class TicketMachine extends Observable{
     private int cod;
+    private int numberOfCodes = 10;
     public ResourcesHandler resources;
     public MoneyHandler moneyTank;
     private StubMachine stub;
@@ -28,6 +31,7 @@ public class TicketMachine extends Observable{
     private double cost;
     private TicketType type;
     private PaymentMethod pMethod;
+    private ArrayList<Integer> serialNumber;
 
     public TicketMachine(int PORTA_SERVER, String ipAdress) {
         this.cod =(int)( Math.random()*10);
@@ -36,7 +40,7 @@ public class TicketMachine extends Observable{
         ticketTemplate = new HashMap();
         setupTicketTemplate();
         stub = new StubMachine(ipAdress, PORTA_SERVER, this);
-        
+        serialNumber = new ArrayList();
         timer=new Timer();
         initUpdateMachineTask();
         
@@ -220,11 +224,9 @@ public class TicketMachine extends Observable{
     }
 
     private void initUpdateMachineTask() {
-
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-                
                if(resources.getInkPercentage()>0 || resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
                else stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), false);
             }
@@ -232,5 +234,12 @@ public class TicketMachine extends Observable{
         };
     }
     
+    public void startUpdateSerial(){
+        stub.requestCodes(numberOfCodes);
+    }
+    
+    public void endUpdateSerial(ArrayList<Integer> serialNumbers){
+        this.serialNumber.addAll(serialNumbers);
+    }
     
 }

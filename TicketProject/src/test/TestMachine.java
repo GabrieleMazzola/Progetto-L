@@ -1,6 +1,7 @@
 package test;
 
 import centralsystem.CSystem;
+import centralsystem.LogCS;
 import machines.MoneyHandler;
 import machines.TicketMachine;
 import paymentMethods.PaymentMethod;
@@ -17,9 +18,10 @@ public class TestMachine {
      */
     public static void main(String[] args) {
          CSystem cs = new CSystem();
+         LogCS.getInstance().abilita();
         TicketMachine tMachine = new TicketMachine(5000, "10.87.232.53");
          
-        tMachine.setTicketToSell(TicketType.SINGLE);
+        tMachine.startUpdateSerial();
         while(true);
 //        tMachine.setPaymentMethod(PaymentMethod.CASH);
 //        tMachine.buyTicket();

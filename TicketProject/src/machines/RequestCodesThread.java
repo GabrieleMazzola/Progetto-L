@@ -6,11 +6,13 @@
 package machines;
 
 import JSONSingleton.JSONOperations;
+import codegeneration.CodeHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,7 +22,8 @@ import org.json.simple.parser.ParseException;
  * @author Simone
  */
 public class RequestCodesThread extends Thread{
- 
+    private int startNumber;
+    private int numberOfCodes;
     private TicketMachine machine;
     private Socket socket;
     private BufferedReader fromServer;
@@ -28,8 +31,9 @@ public class RequestCodesThread extends Thread{
     private JSONOperations JSONOperator;
     private String ipAdress;
     private int port;
-    
-    public RequestCodesThread(TicketMachine machine,Socket socket,BufferedReader fromServer,PrintWriter toServer,JSONOperations JSONOperator,String ipAdress, int port){
+    private CodeHandler code;
+    ArrayList<Integer> SerialNumbers = new ArrayList();
+    public RequestCodesThread(TicketMachine machine,Socket socket,BufferedReader fromServer,PrintWriter toServer,JSONOperations JSONOperator,String ipAdress, int port, int numberOfCodes){
         
         super();
         this.machine = machine;
@@ -40,7 +44,9 @@ public class RequestCodesThread extends Thread{
         this.JSONOperator = JSONOperator;
         this.ipAdress = ipAdress;
         this.port = port;
-        
+        this.numberOfCodes = numberOfCodes;
+        this.code = CodeHandler.getInstance();
+        this.SerialNumbers = new ArrayList();
     }
     
     /**
@@ -52,7 +58,7 @@ public class RequestCodesThread extends Thread{
         try{
         initConnection();
         //String packet = requestCodesJSONPacket();
-        String packet = JSONOperator.requestCodesPacket();
+        String packet = JSONOperator.requestCodesPacket(numberOfCodes);
         toServer.println(packet);
         //System.out.println(packet);
 
@@ -65,7 +71,9 @@ public class RequestCodesThread extends Thread{
         
         //Struttura JSON di risposta : {"data":"String"}
         JSONObject obj = (JSONObject) parser.parse(line);
-        machine.setTicketCode((String) obj.get("data"));    //salva in macchinetta
+        startNumber = (((Long)obj.get("numberOfCodes")).intValue());    //salva in macchinetta
+        makeSerialsArray(startNumber,startNumber+numberOfCodes);
+        machine.endUpdateSerial(SerialNumbers);
         
         }catch(IOException | ParseException ex) {
             ex.printStackTrace();
@@ -92,5 +100,13 @@ public class RequestCodesThread extends Thread{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private ArrayList<Integer> makeSerialsArray(int startNumber, int finalNumber) {
+      
+        for (int i = startNumber; i < finalNumber; i++) {
+            SerialNumbers.add(i);
+        }
+        return SerialNumbers;
     }
 }
