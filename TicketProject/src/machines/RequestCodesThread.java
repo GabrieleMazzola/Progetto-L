@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
  * @author Simone
  */
 public class RequestCodesThread extends Thread{
- 
     private TicketMachine machine;
     private Socket socket;
     private BufferedReader fromServer;

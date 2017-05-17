@@ -1,6 +1,7 @@
 package creator;
 
 import centralsystem.CSystem;
+import gui.CSystemSwingFrame;
 
 /**
  *
@@ -15,6 +16,8 @@ public class CSystemRunningClass {
         CSystemFactory csFactory = CSystemFactory.getInstance();
         CSystem cSystem = csFactory.getCentralSystemInstance();
         
+        CSystemSwingFrame view = new CSystemSwingFrame(cSystem);
+        view.setVisible(true);
         //TODO: aggiungere una gui al sistema centrale
     }
 }

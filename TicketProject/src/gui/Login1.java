@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  *
  * @author Manuele
  */
-public class Login {
+public class Login1 {
     private static User user;
     private static GridPane grid;
     private static Text text, username, password, 

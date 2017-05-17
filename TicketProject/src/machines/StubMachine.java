@@ -4,8 +4,6 @@ import JSONSingleton.JSONOperations;
 import centralsystem.CentralSystemTicketInterface;
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -84,30 +82,29 @@ public class StubMachine implements CentralSystemTicketInterface {
      */
     @Override
     public String requestCodes() {
-        
         (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port)).start();
         return "Thread Attivo";
-        
     }
     
     /**
      * Richiede al server di effettuare un pagamento via carta di credito.
      * @param cardNumber
+     * @param amount
      * @return Verp se la richiesta viene ricevuta e il pagamento effettuato.
      */
     @Override
-    public boolean cardPayment(String cardNumber) {
+    public boolean cardPayment(String cardNumber, double amount) {
         try {
             initConnection();
             //String packet = cardPaymentJSONPacket(cardNumber);
-            String packet = JSONOperator.cardPaymentPacket(cardNumber);
+            String packet = JSONOperator.cardPaymentPacket(cardNumber, amount);
             //System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             //Aspetto risposta da parte del server
             String line = fromServer.readLine();
             closeConnection();
-
+            
             JSONParser parser = new JSONParser();
 
             //Struttura JSON di risposta : {"data":"boolean"}

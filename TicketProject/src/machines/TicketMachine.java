@@ -20,6 +20,7 @@ public class TicketMachine extends Observable{
     private StubMachine stub;
     private Map<TicketType,Double> ticketTemplate;
     private String ticketCodes;
+    private String logged;
  
     Timer timer;
     TimerTask updateMachineTask;
@@ -41,8 +42,6 @@ public class TicketMachine extends Observable{
         initUpdateMachineTask();
         
         timer.schedule(updateMachineTask,3000,3000);
-       
-        
     }
     
     public double getInk() {
@@ -55,6 +54,18 @@ public class TicketMachine extends Observable{
     
     public double getInsertedMoney() {
         return insertedMoney;
+    }
+    
+    public String getLoggedUsername() {
+        return logged;
+    }
+    
+    public double getSelectedTicketCost() {
+        return cost;
+    }
+    
+    public float getMoneyInTank() {
+        return moneyTank.getTotal();
     }
     
     /**
@@ -80,18 +91,17 @@ public class TicketMachine extends Observable{
      * Effettua la vendita del biglietto in base al tipo di biglietto e al metodo
      * di pagamento scelto.
      */
-    public void buyTicket() {
+    public boolean buyTicket() {
         switch (pMethod) {
             case CASH:
                 insertedMoney = 0;
-                System.out.println("Selected: Single Ticket. Payment: Cash. Cost: " + cost);
-                return;
+                break;
             case CREDITCARD:
-                buyTicketCreditCard();
-                return;
+                return buyTicketCreditCard();
             default:
-                throw new AssertionError(pMethod.name());
+                return false;
         }
+        return true;
     }
     
     /**
@@ -131,14 +141,27 @@ public class TicketMachine extends Observable{
         return this.ticketCodes;
     }
     
-    private void buyTicketCreditCard() {
-        if(checkCreditCard(getCredCardNumber()))
+    private boolean buyTicketCreditCard() {
+        if(checkCreditCard(getCredCardNumber())) {
+            System.out.println("Pagamento effettuato. Stampa biglietto");
             printTicket();
-        else
-            System.out.println("Carta di credito non riconosciuta");
+            System.out.println("Biglietto stampato");
+            return true;
+        }
+        else {
+            System.out.println("Pagamento non effettuato");
+            return false;
+        }
     }
 
-    void logIn(User u) {
+    public boolean login(String username, String password) {
+        if(stub.userLogin(username, password)) {
+            logged = username;
+            notifyChange(logged);
+            return true;
+        }
+        else 
+            return false;
     }
 
     private boolean isEnoughMoney(double money) {
@@ -180,13 +203,12 @@ public class TicketMachine extends Observable{
     }
     
     private String getCredCardNumber() {
-        return "8888 8888 8888 8888";
+        return "0000000000000000";
+        //return "8888 8888 8888 8888";
     }
     
-   
-
     private boolean checkCreditCard(String credCardNumber) {
-        return stub.cardPayment(credCardNumber);
+        return stub.cardPayment(credCardNumber, cost);
     }
     
     private void setupTicketTemplate() {
@@ -231,6 +253,4 @@ public class TicketMachine extends Observable{
     
         };
     }
-    
-    
 }

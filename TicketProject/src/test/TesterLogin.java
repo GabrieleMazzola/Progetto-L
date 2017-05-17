@@ -15,7 +15,7 @@ public class TesterLogin {
         System.out.println(machine.userLogin("ADMIN", "ADMIN"));    //true
         System.out.println(machine.userLogin("ADMIN", "ADMIASCN")); //false
         System.out.println(machine.requestCodes());                //Thread Attivo 
-        System.out.println(machine.cardPayment("685165316"));   //true
+        System.out.println(machine.cardPayment("685165316", 1.5));   //true
         for(int i=0;i<1000000;i++);                             //serve per far completare il thread
         System.out.println(machine123.getTicketCode());         //MAZZOLAINARRIVO
         

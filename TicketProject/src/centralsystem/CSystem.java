@@ -6,26 +6,38 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
 import machines.MachineStatus;
-import machines.TicketMachine;
 import ticketCollector.Fine;
 
-public class CSystem implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
+public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
     private final int PORTA_SERVER = 5000;
     HashMap<Integer,MachineStatus> machineList;
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
     private BankAdapter bank;
+    private List<String> log;
 
     public CSystem() {
         this.database = new DatabaseAdapter();
         this.bank = new BankAdapter();
         machineList = new HashMap();
+        log = new ArrayList();
         initTickets();
         initUsers();
         initCollectors();
         initServer();
+    }
+    
+    public void addMessageToLog(String message) {
+        log.add(message);
+        notifyChange(message);
+    }
+    
+    public List<String> getLog() {
+        return log;
     }
     
     //__________________Metodi riguardanti l'utente_____________________________
@@ -183,11 +195,12 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * il numero di carta è valido e ci sono dei soldi sul conto associato a tale
      * carta, il metodo ritorna vero
      * @param cardNumber
+     * @param amount
      * @return Vero se il pagamento va a buon fine
      */
     @Override
-    public boolean cardPayment(String cardNumber) {
-        return bank.checkCreditCard(cardNumber);
+    public boolean cardPayment(String cardNumber, double amount) {
+        return bank.paymentAttempt(cardNumber, amount);
     }
     
     //__________________Metodi per il debugging_________________________________
@@ -269,5 +282,10 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         }
         */
         return true;
+    }
+    
+    private void notifyChange(Object arg) {
+        setChanged();
+        notifyObservers(arg);
     }
 }
