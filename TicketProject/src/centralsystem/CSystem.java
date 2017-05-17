@@ -6,38 +6,50 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
 import machines.MachineStatus;
-import machines.TicketMachine;
 import ticketCollector.Fine;
 
-public class CSystem implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
+public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
     private final int PORTA_SERVER = 5000;
     HashMap<Integer,MachineStatus> machineList;
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
     private BankAdapter bank;
+    private List<String> log;
     public static int codesCounter;
 
     public CSystem() {
         this.database = new DatabaseAdapter();
         this.bank = new BankAdapter();
         machineList = new HashMap();
+        log = new ArrayList();
         initTickets();
         initUsers();
         initCollectors();
         initServer();
     }
     
+    public void addMessageToLog(String message) {
+        log.add(message);
+        notifyChange(message);
+    }
+    
+    public List<String> getLog() {
+        return log;
+    }
+    
     //__________________Metodi riguardanti l'utente_____________________________
     /**
      * 
-     * Controlla nel database se esiste un utente con codice fiscale cf. 
-     * @param cf
-     * @return Vero se viene trovato un utente con codice fiscale cf
+     * Controlla nel database se esiste un utente con username. 
+     * @param username
+     * @return Vero se viene trovato un utente con username
      */
-    public boolean checkUser(String cf) {
-        return database.checkUser(cf);
+    private boolean checkUser(String username) {
+        return(database.checkUser(username));
     }
     
     /**
@@ -56,6 +68,7 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * @return Vero se l'utente con i dati indicati viene aggiunto al database
      */
     public boolean addUser(String name, String surname, String username,String cf,String psw) {
+        
         return database.addUser(name, surname, username,cf, psw);
     }
     
@@ -71,6 +84,9 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      */
     @Override
     public boolean createUser(String name, String surname, String username,String cf, String psw) {
+        if(checkUser(username)){
+            return false;
+        }
         return database.addUser(name, surname, username, cf, psw);
     }
     
@@ -176,11 +192,12 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
      * il numero di carta è valido e ci sono dei soldi sul conto associato a tale
      * carta, il metodo ritorna vero
      * @param cardNumber
+     * @param amount
      * @return Vero se il pagamento va a buon fine
      */
     @Override
-    public boolean cardPayment(String cardNumber) {
-        return bank.checkCreditCard(cardNumber);
+    public boolean cardPayment(String cardNumber, double amount) {
+        return bank.paymentAttempt(cardNumber, amount);
     }
     
     //__________________Metodi per il debugging_________________________________
@@ -243,15 +260,10 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
     private void initCollectors() {
         database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
     }
-
-    
-
-   
    
     public boolean userLoginogin(String username, String psw) {
         return database.userLogin(username, psw);
-    }
-    
+    }    
    
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
         if(machineList.containsKey(machineCode)){
@@ -275,5 +287,8 @@ public class CSystem implements CentralSystemCollectorInterface,CentralSystemTic
         return codesCounter - numberOfCodes;
     }
     
-
+    private void notifyChange(Object arg) {
+        setChanged();
+        notifyObservers(arg);
+    }
 }

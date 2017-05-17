@@ -13,13 +13,21 @@ import bank.Bank;
  */
 public class BankAdapter {
    
-    private Bank the_bank;
+    private Bank bank;
+    
+    public BankAdapter() {
+        bank = new Bank();
+    }
     
     public boolean checkBancomat(long bancomatNumber, int pin){
         return true;
     }
     
+    public boolean paymentAttempt(String creditCardNumber, double amout) {
+        return bank.pay(creditCardNumber, amout);
+    }
+    
     public boolean checkCreditCard(String creditCardNumber){
-        return true;
+        return bank.checkValidity(creditCardNumber);
     }
 }

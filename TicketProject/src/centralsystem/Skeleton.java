@@ -18,7 +18,6 @@ public class Skeleton extends Thread {
     PrintWriter out;
     JSONParser parser;
     
-
     public Skeleton(Socket clientSocket, CSystem centralSystem) {
         this.clientSocket = clientSocket;
         this.centralSystem = centralSystem;
@@ -73,6 +72,8 @@ public class Skeleton extends Thread {
         
         StringBuilder result = new StringBuilder();
         try {
+            System.out.println("Inputdata");
+            centralSystem.addMessageToLog(inputData);
             obj = (JSONObject) parser.parse(inputData);
             
             switch (((String) obj.get("method")).trim().toUpperCase()) {
@@ -127,7 +128,7 @@ public class Skeleton extends Thread {
 	}
 
     private String callCardPayment(JSONObject data) {
-        boolean result = centralSystem.cardPayment((String) data.get("cardNumber"));
+        boolean result = centralSystem.cardPayment((String) data.get("cardNumber"), (double) data.get("amount"));
         data = new JSONObject();
         data.put("data",result);
         

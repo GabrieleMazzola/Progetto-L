@@ -64,11 +64,12 @@ public class JSONOperations {
     /**
      * Struttura JSON: {"method":"CARDPAYMENT","data":{"cardNumber":"String"}}
      */
-    public String cardPaymentPacket(String cardNumber) {
+    public String cardPaymentPacket(String cardNumber, double amount) {
         JSONObject root = new JSONObject();
         root.put("method", "CARDPAYMENT");
         JSONObject data = new JSONObject();
         data.put("cardNumber", cardNumber);
+        data.put("amount", amount);
         root.put("data", data);
         return root.toJSONString();
     }

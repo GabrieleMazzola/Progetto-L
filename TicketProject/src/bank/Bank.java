@@ -1,4 +1,8 @@
 package bank;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Andrea
@@ -6,10 +10,19 @@ package bank;
  */
 public class Bank {
     private CheckValidityAlgorithm algorithm;
+    private Map<String,Double> accounts;
     
     //TODO: istanziare la banca con un possibile algoritmo diverso dal Luhn
     public Bank() {
         algorithm = new LuhnAlgorithm();
+        initAccounts();
+    }
+    
+    public boolean pay(String cCardNumber, double toPay) {
+        if(accounts.containsKey(cCardNumber)) {
+            return accounts.get(cCardNumber) - toPay >= 0;
+        }
+        else return false;
     }
     
     /**
@@ -22,5 +35,12 @@ public class Bank {
      */
     public boolean checkValidity(String creditCardNumber) {
         return algorithm.check(creditCardNumber);
+    }
+    
+    private void initAccounts() {
+        accounts = new HashMap();
+        accounts.put("0000000000000000", 100d);
+        accounts.put("1111111111111111", 0.5);
+        accounts.put("2222222222222222", 20.5);
     }
 }

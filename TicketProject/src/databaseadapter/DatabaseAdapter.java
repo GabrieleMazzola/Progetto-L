@@ -5,7 +5,6 @@ import ticketCollector.Fine;
 
 
 public class DatabaseAdapter {
-    
     private Set<UserDB> users;
     private Set<TicketDB> tickets;
     private Set<Fine> fines;
@@ -43,6 +42,15 @@ public class DatabaseAdapter {
         return tickets.add(ticket);
     }
     
+    /**
+     * Aggiunge un controllore al database. I campi del controllore da aggiungere sono
+     * specificati come parametri della funzione
+     * @param name
+     * @param surname
+     * @param cf
+     * @param psw
+     * @return Vero se l'operazione va a buon fine
+     */
     public boolean addCollector(String name, String surname,String username, String cf,String psw) {
         return collectors.add(new CollectorDB(name, surname,username, cf, psw));
     }
@@ -89,12 +97,12 @@ public class DatabaseAdapter {
     
     /**
      * Ricerca nel database un utente con codice fiscale cf
-     * @param cf
+     * @param username
      * @return Vero se esiste un utente con codice fiscale cf nel database
      */
-    public boolean checkUser(String cf){
+    public boolean checkUser(String username){
         for(UserDB u : users){
-            if(u.getCF().trim().equalsIgnoreCase(cf.trim())) return true;
+            if(u.getUsername().trim().equalsIgnoreCase(username.trim())) return true;
         }
         return false;
     }
@@ -170,8 +178,12 @@ public class DatabaseAdapter {
      */
     public boolean userLogin(String username, String psw) {
         for (UserDB user : users) {
-            if(user.getName().equals(username) && user.getPassword().equals(psw)) return true;
+            if(user.getName().equals(username) && user.getPassword().equals(psw)) {
+                //System.out.println(username);
+                return true;
+            }
         }
+        System.out.println("Non trovato");
         return false;
     }
     
