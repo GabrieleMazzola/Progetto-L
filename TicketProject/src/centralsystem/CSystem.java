@@ -34,6 +34,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     public void addMessageToLog(String message) {
         log.add(message);
+        System.out.println(message);
         notifyChange(message);
     }
     
@@ -265,6 +266,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.userLogin(username, psw);
     }    
    
+    @Override
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
         if(machineList.containsKey(machineCode)){
             ((MachineStatus)machineList.get(machineCode)).setActive(active);            

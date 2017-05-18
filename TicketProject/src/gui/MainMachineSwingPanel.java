@@ -39,7 +39,7 @@ public class MainMachineSwingPanel extends JPanel implements Observer{
         paymentMethod = PaymentMethod.CASH;
         tMachine.setPaymentMethod(paymentMethod);
         
-        bottoneCompra = new JButton("Compra");
+        bottoneCompra = new JButton("Single Ticket");
         bottoneCompra.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {

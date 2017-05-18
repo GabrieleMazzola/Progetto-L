@@ -35,7 +35,7 @@ public class TicketMachine extends Observable{
     private ArrayList<Integer> serialNumber;
 
     public TicketMachine(int PORTA_SERVER, String ipAdress) {
-        this.cod =(int)( Math.random()*10);
+        this.cod =(int)( Math.random()*100);
         this.moneyTank = new MoneyHandler();
         this.resources = new ResourcesHandler();
         ticketTemplate = new HashMap();
@@ -122,7 +122,6 @@ public class TicketMachine extends Observable{
         insertedMoney += money;
         int temp = (int)Math.floor(insertedMoney*100);
         insertedMoney = (double)temp/(double)100;
-        System.out.println(insertedMoney);
         notifyChange(insertedMoney);
         if (isEnoughMoney(insertedMoney)) {
             sellTicket(PaymentMethod.CASH);
@@ -149,7 +148,6 @@ public class TicketMachine extends Observable{
         if(checkCreditCard(getCredCardNumber())) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
             printTicket();
-            System.out.println("Biglietto stampato");
             return true;
         }
         else {
@@ -199,6 +197,7 @@ public class TicketMachine extends Observable{
 
     private void printTicket() {
         resources.printTicket();
+        System.out.println("Ticket printed");
     }
 
     private void outputChange() {
@@ -222,7 +221,6 @@ public class TicketMachine extends Observable{
     
     private void setCostForType(TicketType type) {
         if(ticketTemplate.containsKey(type)) {
-            System.out.println("Found");
             cost = ticketTemplate.get(type);
         }
         else cost = 0; //to do eccezzione

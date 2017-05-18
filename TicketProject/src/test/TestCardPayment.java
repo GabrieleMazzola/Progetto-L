@@ -14,7 +14,7 @@ public class TestCardPayment {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TicketMachine tMachine = new TicketMachine(5000, "10.87.156.248");
+        TicketMachine tMachine = new TicketMachine(5000, "192.168.1.9");
         
         tMachine.setTicketToSell(TicketType.SINGLE);
         tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
