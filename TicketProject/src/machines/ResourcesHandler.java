@@ -20,7 +20,7 @@ public class ResourcesHandler {
         
         //Vengono settati ad un valore arbitrario
         paperToPrint = 1;
-        inkToPrint = 5;
+        inkToPrint = 50;
     }
     
     /**

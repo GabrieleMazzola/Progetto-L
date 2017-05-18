@@ -14,13 +14,13 @@ import javax.swing.JScrollPane;
  *
  * @author Manuele
  */
-public class CSystemSwingPanel extends JPanel implements Observer{
+public class CSystemJSONSwingPanel extends JPanel implements Observer{
     private CSystem cSystem;
     private DefaultListModel listModelMessages;
     private JList listMessages;
     private JScrollPane messagesPanel;
     
-    public CSystemSwingPanel(CSystem cSystem) {
+    public CSystemJSONSwingPanel(CSystem cSystem) {
         this.cSystem = cSystem;
         cSystem.addObserver(this);
         

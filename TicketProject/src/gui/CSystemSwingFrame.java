@@ -18,7 +18,7 @@ public class CSystemSwingFrame extends JFrame{
         
         mainPanel = new JTabbedPane();
         mainPanel.add("Machines Status", new MachineStatusPanel(cSystem));
-        mainPanel.add("For the PROs", new CSystemSwingPanel(cSystem));
+        mainPanel.add("For the PROs", new CSystemJSONSwingPanel(cSystem));
         
         this.add(mainPanel);
     }
