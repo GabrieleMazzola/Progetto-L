@@ -247,7 +247,8 @@ public class TicketMachine extends Observable{
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-               if(resources.getInkPercentage()>0 || resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
+                
+               if(resources.getInkPercentage()>0 && resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
                else stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), false);
             }
     

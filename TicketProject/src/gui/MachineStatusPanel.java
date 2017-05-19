@@ -81,7 +81,6 @@ public class MachineStatusPanel extends Container implements Observer{
                 if(alredyHas((int)id)) {
                     contents.get((int)Math.round(id)).updateInkLevel((int)Math.round(inkLvl));
                     contents.get((int)Math.round(id)).updatePaperLevel((int)Math.round(paperLvl));
-                    if(!active) contents.get((int)Math.round(id)).colorImage(Color.RED);
                 }
                 else {
                     MachineLeafPanel newPanel = new MachineLeafPanel(id + "", inkLvl, paperLvl);
@@ -91,6 +90,8 @@ public class MachineStatusPanel extends Container implements Observer{
 //                    contents.get((int)data.get("machineCode")).updateInkLevel((int)inkLvl);
 //                    contents.get((int)data.get("machineCode")).updatePaperLevel((int)paperLvl);
                 }
+                if(!active) contents.get((int)Math.round(id)).colorImage(Color.RED);
+                this.repaint();
             }
         } 
         

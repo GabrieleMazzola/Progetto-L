@@ -53,6 +53,7 @@ public class MachineLeafPanel extends Container{
         graphics.setColor(color);
         graphics.fillRect(0, 0, size, size);
         labelImage.setIcon(new ImageIcon(image));
+        this.repaint();
     }
     
     private void setupImageGraphics() {
