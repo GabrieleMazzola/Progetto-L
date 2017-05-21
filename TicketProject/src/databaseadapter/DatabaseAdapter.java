@@ -178,7 +178,7 @@ public class DatabaseAdapter {
      */
     public boolean userLogin(String username, String psw) {
         for (UserDB user : users) {
-            if(user.getName().equals(username) && user.getPassword().equals(psw)) {
+            if(user.getUsername().equals(username) && user.getPassword().equals(psw)) {
                 //System.out.println(username);
                 return true;
             }
