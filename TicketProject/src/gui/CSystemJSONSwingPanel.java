@@ -12,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -23,15 +24,16 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
     private CSystem cSystem;
     private DefaultListModel listModelMessages;
     private JList listMessages;
+    private JTextArea decodedMessage;
+    
     private JScrollPane messagesPanel;
+    private JPanel clearMessagePanel;
     
     public CSystemJSONSwingPanel(CSystem cSystem) {
         this.cSystem = cSystem;
         cSystem.addObserver(this);
         
         decoder = JSONOperations.getInstance();
-        
-        int height = this.getHeight();
         
         listModelMessages = new DefaultListModel();
         for(String message : cSystem.getLog()) listModelMessages.addElement(message);
@@ -44,23 +46,25 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
                 if(e.getClickCount() >= 2) {
                     String encodedString = (String)listMessages.getSelectedValue();
 
-                    JPanel panel = new JPanel();
-                    JTextArea decodedMessage = new JTextArea();
-                    decodedMessage.setEditable(false);
                     try {
-                        setupDecodedMessage(encodedString, decodedMessage);
+                        setupDecodedMessage(encodedString);
                     }
-                    catch(ParseException ex) {
-                        decodedMessage.setText("Could not parse this message");
+                    catch(ParseException exc) {
+                        decodedMessage.setText("Could not decode");
                     }
-                    panel.add(decodedMessage);
-                    add(panel, BorderLayout.EAST);
                 }
             }
         });
         
+        clearMessagePanel = new JPanel();
+        
+        decodedMessage = new JTextArea();
+        decodedMessage.setEditable(false);
+        clearMessagePanel.add(decodedMessage);
+        
         this.setLayout(new BorderLayout());
         this.add(messagesPanel);
+        this.add(clearMessagePanel, BorderLayout.EAST);
     }
     
     @Override
@@ -70,11 +74,35 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
         }
     }
     
-    private void setupDecodedMessage(String encodedString, JTextArea textArea) throws ParseException{
+    private void setupDecodedMessage(String encodedString) throws ParseException{
         String[] decodedString = decoder.decodeRead(encodedString).split("\t");
         switch(decodedString[0]) {
             case "UPDATEMACHINESTATUS":
-                textArea.setText("Updating machine status:\nMachine id: " + decodedString[1] + "\nInk level: " + decodedString[2] + "\nPaper level: " + decodedString[3]);
+                decodedMessage.setText("Updating machine status:\nMachine id: " + decodedString[1] + "\nInk level: " + decodedString[2] + "\nPaper level: " + decodedString[3]);
+                break;
+            case "TEST":
+                decodedMessage.setText("This is just a test");
+                break;
+            case "CREATEUSER":
+                decodedMessage.setText("Creating new user:\nName:" + decodedString[1] + "\nSurname: " + decodedString[2] + "\nUsername: " + decodedString[3]);
+                break;
+            case "MAKEFINE":
+                decodedMessage.setText("Creating new fine:\nReciever: " + decodedString[1] + "\nAmount: " + decodedString[2]);
+                break;
+            case "COLLECTORLOGIN":
+                decodedMessage.setText("Collector login with these credentials:\nUsename: " + decodedString[1] + "\nPassword: " + decodedString[2]);
+                break;
+            case "USERLOGIN":
+                decodedMessage.setText("User login with these credentials:\nUsename: " + decodedString[1] + "\nPassword: " + decodedString[2]);
+                break;
+            case "CARDPAYMENT":
+                decodedMessage.setText("Paying with credit card:\nCredit card number: " + decodedString[1] + "\nAmount paid: " + decodedString[2]);
+                break;
+            case "EXISTSTICKET":
+                decodedMessage.setText("Verifying ticket existance:\nTicket code: " + decodedString[1]);
+                break;
+            case "REQUESTCODES":
+                decodedMessage.setText("Request new codes");
                 break;
         }
     }

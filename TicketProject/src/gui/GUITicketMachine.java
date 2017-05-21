@@ -13,7 +13,7 @@ import machines.TicketMachine;
  * @author Manuele
  */
 public class GUITicketMachine extends Application implements Observer{
-    private Scene mainScene, paymentMethodScene, moneyScene, loginScene, showTicketScene;
+    private Scene mainScene, paymentMethodScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene;
     private static TicketMachine tMachine;
     private Stage window;
     
@@ -38,6 +38,10 @@ public class GUITicketMachine extends Application implements Observer{
         //Costruisco la scena di login
         LoginGrid loginGrid = new LoginGrid(tMachine);
         loginScene = new Scene(loginGrid.asParent());
+        
+        //Costruisco la scena del numero della carta di credito
+        InsertCreditCardScene cCardScene = new InsertCreditCardScene(tMachine);
+        insertCardNumberScene = new Scene(cCardScene.asParent());
         
         window.setScene(mainScene);
         window.show();
@@ -83,6 +87,9 @@ public class GUITicketMachine extends Application implements Observer{
                     ShowTicketGrid showTicketGrid = new ShowTicketGrid(tMachine);
                     showTicketScene = new Scene(showTicketGrid.asParent());
                     window.setScene(showTicketScene);
+                    break;
+                case INSERTING_CCARD:
+                    window.setScene(insertCardNumberScene);
                     break;
             }
         }

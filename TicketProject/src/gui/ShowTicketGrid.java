@@ -23,7 +23,7 @@ public class ShowTicketGrid extends BridgeSceneGrid{
             tMachine.setOperation(Operation.SELLING_TICKET);
         });
         
-        qrCode = new Image("qrbuffer.png");
+        qrCode = new Image("file:///C:/Users/user/Desktop/Progetto/Sorgente/TicketProject/TicketProject/images/qrbuffer.png");
         
         qrCodeView = new ImageView();
         qrCodeView.setImage(qrCode);

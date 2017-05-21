@@ -140,7 +140,7 @@ public class TicketMachine extends Observable{
                 insertedMoney = 0;
                 break;
             case CREDITCARD:
-                return buyTicketCreditCard();
+                return true;
             default:
                 return false;
         }
@@ -167,8 +167,8 @@ public class TicketMachine extends Observable{
         }
     }
     
-    private boolean buyTicketCreditCard() {
-        if(checkCreditCard(getCredCardNumber())) {
+    public boolean buyTicketCreditCard(String cCardNumber) {
+        if(checkCreditCard(cCardNumber)) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
             printTicket();
             return true;
