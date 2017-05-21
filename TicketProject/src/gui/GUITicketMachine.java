@@ -3,10 +3,7 @@ package gui;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import machines.Operation;
 import machines.TicketMachine;
@@ -16,7 +13,7 @@ import machines.TicketMachine;
  * @author Manuele
  */
 public class GUITicketMachine extends Application implements Observer{
-    private Scene mainScene, paymentMethodScene, moneyScene, loginScene;
+    private Scene mainScene, paymentMethodScene, moneyScene, loginScene, showTicketScene;
     private static TicketMachine tMachine;
     private Stage window;
     
@@ -52,6 +49,10 @@ public class GUITicketMachine extends Application implements Observer{
     public static void main(String[] args) {
         TicketMachine tm = new TicketMachine(5000, "localhost");
         tMachine = tm;
+        
+        MoneyTankFrame debug = new MoneyTankFrame(tMachine);
+        debug.setVisible(true);
+        
         launch(args);
     }
     
@@ -77,6 +78,11 @@ public class GUITicketMachine extends Application implements Observer{
                     break;
                 case LOGGING_IN:
                     window.setScene(loginScene);
+                    break;
+                case PRINTING_TICKET:
+                    ShowTicketGrid showTicketGrid = new ShowTicketGrid(tMachine);
+                    showTicketScene = new Scene(showTicketGrid.asParent());
+                    window.setScene(showTicketScene);
                     break;
             }
         }

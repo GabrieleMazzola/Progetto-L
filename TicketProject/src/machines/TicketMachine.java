@@ -212,7 +212,7 @@ public class TicketMachine extends Observable{
     private void printTicket() {
         resources.printTicket();
         System.out.println("Ticket printed");
-        operation = Operation.SELLING_TICKET;
+        operation = Operation.PRINTING_TICKET;
         notifyChange(operation);
     }
 

@@ -22,7 +22,7 @@ public class Fine {
         
 //        long first=15*24*60*60*1000; 
 //        long second=first*2;
-//        this.cfCode=cfCode;
+        this.cfCode=cfCode;
 //        this.amount=999;
 //        this.firstDeadline=new Date(today.getTime()+first);
 //        this.secondDeadline=new Date(today.getTime()+second);
