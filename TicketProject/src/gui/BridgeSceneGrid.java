@@ -15,7 +15,6 @@ public abstract class BridgeSceneGrid {
     
     protected void istantiateGrid() {
         grid = new GridPane();
-        grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setAlignment(Pos.CENTER);

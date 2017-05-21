@@ -20,6 +20,10 @@ public class TicketMachineRunningClass {
         TicketMachineSwingFrame view = new TicketMachineSwingFrame(tMachine);
         view.setVisible(true);
         
+//        GUITicketMachine view = new GUITicketMachine();
+//        view.setTicketMachine(tMachine);
+//        view.start(new Stage());
+        
         MoneyTankFrame debug = new MoneyTankFrame(tMachine);
         debug.setVisible(true);
     }

@@ -24,9 +24,10 @@ public class TicketMachine extends Observable{
     private Map<TicketType,Double> ticketTemplate;
     private String ticketCodes;
     private String logged;
+    private Operation operation;
  
-    Timer timer;
-    TimerTask updateMachineTask;
+    private Timer timer;
+    private TimerTask updateMachineTask;
     
     private double insertedMoney;
     private double cost;
@@ -42,12 +43,14 @@ public class TicketMachine extends Observable{
         setupTicketTemplate();
         stub = new StubMachine(ipAdress, PORTA_SERVER, this);
         serialNumber = new ArrayList();
+        operation = Operation.SELLING_TICKET;
         timer=new Timer();
         initUpdateMachineTask();
         
         timer.schedule(updateMachineTask,3000,3000);
     }
     
+    //__________________Metodi getter___________________________________________
     public double getInk() {
         return resources.getInkPercentage();
     }
@@ -68,10 +71,35 @@ public class TicketMachine extends Observable{
         return cost;
     }
     
+    public PaymentMethod getPaymentMethod() {
+        return pMethod;
+    }
+    
     public float getMoneyInTank() {
         return moneyTank.getTotal();
     }
     
+    public boolean hasTicketSelected() {
+        return type != null;
+    }
+    
+    public int getAmountOf(double value) {
+        return moneyTank.getQuantityOf(value);
+    }
+    
+    public int getAmountByIndex(int index) {
+        return moneyTank.getSingleQuantitybyIndex(index);
+    }
+    
+    /**
+     * 
+     * @return I codici che la macchinetta può usare
+     */
+    public String getTicketCode(){
+        return this.ticketCodes;
+    }
+    
+    //__________________Metodi per la vendita di biglietti______________________
     /**
      * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
      * quanto bisogna che l'utente paghi
@@ -80,7 +108,8 @@ public class TicketMachine extends Observable{
     public void setTicketToSell(TicketType type) {
         this.type = type;
         setCostForType(type);
-        System.out.println(cost);
+        operation = Operation.SELECTING_PAYMENT;
+        notifyChange(operation);
     }
     
     /**
@@ -89,6 +118,16 @@ public class TicketMachine extends Observable{
      */
     public void setPaymentMethod(PaymentMethod pMethod) {
         this.pMethod = pMethod;
+        switch (pMethod) {
+            case CASH:
+                operation = Operation.INSERTING_COINS;
+                notifyChange(operation);
+                break;
+            case CREDITCARD:
+                operation = Operation.INSERTING_CCARD;
+                notifyChange(operation);
+                break;
+        }
     }
     
     /**
@@ -128,22 +167,6 @@ public class TicketMachine extends Observable{
         }
     }
     
-    /**
-     * Setta i codici che la macchinetta può usare
-     * @param ticketCodes
-     */
-    public void setTicketCode(String ticketCodes) {
-        this.ticketCodes = ticketCodes;
-    }
-    
-    /**
-     * 
-     * @return I codici che la macchinetta può usare
-     */
-    public String getTicketCode(){
-        return this.ticketCodes;
-    }
-    
     private boolean buyTicketCreditCard() {
         if(checkCreditCard(getCredCardNumber())) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
@@ -155,17 +178,7 @@ public class TicketMachine extends Observable{
             return false;
         }
     }
-
-    public boolean login(String username, String password) {
-        if(stub.userLogin(username, password)) {
-            logged = username;
-            notifyChange(logged);
-            return true;
-        }
-        else 
-            return false;
-    }
-
+    
     private boolean isEnoughMoney(double money) {
         return money >= cost;
     }
@@ -174,30 +187,33 @@ public class TicketMachine extends Observable{
         switch (method) {
             case CASH:
                 sellTicketCash();
-                return;
+                break;
             case CREDITCARD:
                 sellTicketNotCash();
-                return;
+                break;
             default:
                 throw new AssertionError(method.name());
         }
+        type = null;
+        cost = 0;
+        insertedMoney = 0;
+        notifyChange(insertedMoney);
     }
     
     private void sellTicketCash() {
         printTicket();
         outputChange();
-        cost = 0;
-        insertedMoney = 0;
-        notifyChange(insertedMoney);
     }
 
     private void sellTicketNotCash() {   //serve sia per bancomat e per carta di credito
         printTicket();
     }
-
+    
     private void printTicket() {
         resources.printTicket();
         System.out.println("Ticket printed");
+        operation = Operation.SELLING_TICKET;
+        notifyChange(operation);
     }
 
     private void outputChange() {
@@ -212,6 +228,38 @@ public class TicketMachine extends Observable{
     
     private boolean checkCreditCard(String credCardNumber) {
         return stub.cardPayment(credCardNumber, cost);
+    }
+    
+    public void cancel() {
+        operation = Operation.SELLING_TICKET;
+        notifyChange(operation);
+    }
+    
+    //__________________Metodi per la gestione dei codici_______________________
+    /**
+     * Setta i codici che la macchinetta può usare
+     * @param ticketCodes
+     */
+    public void setTicketCode(String ticketCodes) {
+        this.ticketCodes = ticketCodes;
+    }
+
+    public boolean login(String username, String password) {
+        if(stub.userLogin(username, password)) {
+            operation = Operation.SELLING_TICKET;
+            notifyChange(operation);
+            logged = username;
+            notifyChange(logged);
+            return true;
+        }
+        else 
+            return false;
+    }
+    
+    public boolean logout() {
+        logged = "-";
+        notifyChange(logged);
+        return true;
     }
     
     private void setupTicketTemplate() {
@@ -234,14 +282,6 @@ public class TicketMachine extends Observable{
     public void printCoins() {
         moneyTank.printCoinsInTank();
     }
-    
-    public int getAmountOf(double value) {
-        return moneyTank.getQuantityOf(value);
-    }
-    
-    public int getAmountByIndex(int index) {
-        return moneyTank.getSingleQuantitybyIndex(index);
-    }
 
     private void initUpdateMachineTask() {
         updateMachineTask = new TimerTask () {
@@ -251,7 +291,6 @@ public class TicketMachine extends Observable{
                if(resources.getInkPercentage()>0 && resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
                else stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), false);
             }
-    
         };
     }
     
@@ -263,4 +302,8 @@ public class TicketMachine extends Observable{
         this.serialNumber.addAll(serialNumbers);
     }
     
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+        notifyChange(operation);
+    }
 }

@@ -2,6 +2,7 @@ package gui;
 
 import java.util.Observable;
 import java.util.Observer;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -16,7 +17,7 @@ import machines.TicketMachine;
 public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
     private Button  twoHundred, oneHundred, fifty, twenty, ten, five,
                     two, one, fiftyCents, twentyCents, tenCents, fiveCents,
-                    twoCents, oneCent;
+                    twoCents, oneCent, homePage;
     private Label display;
     private TicketMachine tMachine;
     
@@ -38,6 +39,13 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
         fiveCents = new Button("0,05€");
         twoCents = new Button("0,02€");
         oneCent = new Button("0,01€");
+        homePage = new Button("Homepage");
+        homePage.setOnAction(e -> {
+            tMachine.cancel();
+        });
+        HBox boxHomePage = new HBox();
+        boxHomePage.setAlignment(Pos.CENTER_RIGHT);
+        boxHomePage.getChildren().add(homePage);
         rescaleButtons();
         
         display = new Label(tMachine.getInsertedMoney() + "");
@@ -61,11 +69,8 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
         grid.add(fiveCents, 3, 3);
         grid.add(twoCents, 0, 4);
         grid.add(oneCent, 1, 4);
+        grid.add(homePage, 2, 4, 2, 1);
         
-        //TODO: classi CSS per fare questa cosa
-        CSSingleton css = CSSingleton.getInstance();
-        grid.setStyle(css.colorText("white") + css.colorBackroundGradient("#61a2b1", "#2A5058") + css.addDropshadowEffect()
-                      +css.addBackgroundImage("LeafBackground.jpg", 400, 200));
         //grid.setId("grid");
         addActionToButtons();
     }

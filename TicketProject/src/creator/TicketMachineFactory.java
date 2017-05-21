@@ -45,6 +45,6 @@ public class TicketMachineFactory {
 //           .append((int) Math.floor(Math.random()*250 + 1)).append(".")
 //           .append((int) Math.floor(Math.random()*250 + 1)).append(".");
 //        return str.toString();
-        return "192.168.1.9";
+        return "localhost";
     }
 }

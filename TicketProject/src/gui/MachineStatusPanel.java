@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Manuele
  */
-public class MachineStatusPanel extends Container implements Observer{
+public class MachineStatusPanel extends JPanel implements Observer{
     private Map<Integer, MachineLeafPanel> contents;
     private Box box;
     private JLabel activeLabel, idLabel, inkLvlLabel, paperLvlLabel;
@@ -91,6 +91,7 @@ public class MachineStatusPanel extends Container implements Observer{
 //                    contents.get((int)data.get("machineCode")).updatePaperLevel((int)paperLvl);
                 }
                 if(!active) contents.get((int)Math.round(id)).colorImage(Color.RED);
+                this.revalidate();
                 this.repaint();
             }
         } 

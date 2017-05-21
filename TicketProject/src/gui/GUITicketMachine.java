@@ -3,9 +3,12 @@ package gui;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import machines.Operation;
 import machines.TicketMachine;
 
 /**
@@ -13,7 +16,7 @@ import machines.TicketMachine;
  * @author Manuele
  */
 public class GUITicketMachine extends Application implements Observer{
-    private Scene chooseLoginScene, chooseTicketScene, moneyScene, loginScene;
+    private Scene mainScene, paymentMethodScene, moneyScene, loginScene;
     private static TicketMachine tMachine;
     private Stage window;
     
@@ -22,42 +25,24 @@ public class GUITicketMachine extends Application implements Observer{
         window = primaryStage;
         
         tMachine.addObserver(this);
-        ChooseLoginGrid chooseLoginGrid = new ChooseLoginGrid();
+        
+        //Costruisco la scena principale
+        TicketMachineMainScene mainSceneGrid = new TicketMachineMainScene(tMachine);
+        mainScene = new Scene(mainSceneGrid.asParent());
+        
+        //Costruisco la scena della scelta del metodo di pagamento
+        TicketMachinePaymentScene paymentGrid = new TicketMachinePaymentScene(tMachine);
+        paymentMethodScene = new Scene(paymentGrid.asParent());
+        
+        //Costruisco la scena della tastiera
         PushbuttonMachineGrid moneyGrid = new PushbuttonMachineGrid(tMachine);
-        LoginGrid loginGrid = new LoginGrid(tMachine);
-        
-        //Bottone Login. Quando viene premuto l'utente viene portato alla pagina
-        //in cui si chiede di inserire i propri dati per effettura il login
-        Button login = new Button("Login");
-        login.setOnAction(e -> {
-            window.setScene(loginScene);
-        });
-        //Bottone Continua. Quando viene premuto l'utente viene portato alla pagina
-        //di acquisto del biglietto senza effettuare login
-        Button goOn = new Button("Continue");
-        goOn.setOnAction(e -> {
-            window.setScene(moneyScene);
-        });
-        //Bottone HomePage. Tramite questo bottone l'utente è in grado di ritornare
-        //alla schermata iniziale
-        Button homePage = new Button("Homepage");
-        homePage.setOnAction(e -> {
-            window.setScene(chooseLoginScene);
-        });
-        homePage.setMinWidth(130);
-        homePage.setMaxWidth(130);
-        
-        chooseLoginGrid.add(login, 0, 1);
-        chooseLoginGrid.add(goOn, 1, 1);
-        moneyGrid.add(homePage, 4, 2, 2, 1);
-        
-        chooseLoginScene = new Scene(chooseLoginGrid.asParent());
         moneyScene = new Scene(moneyGrid.asParent());
+        
+        //Costruisco la scena di login
+        LoginGrid loginGrid = new LoginGrid(tMachine);
         loginScene = new Scene(loginGrid.asParent());
         
-        //moneyScene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
-        
-        window.setScene(chooseLoginScene);
+        window.setScene(mainScene);
         window.show();
     }
 
@@ -65,7 +50,7 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TicketMachine tm = new TicketMachine(5000, "192.168.1.7");
+        TicketMachine tm = new TicketMachine(5000, "localhost");
         tMachine = tm;
         launch(args);
     }
@@ -76,7 +61,24 @@ public class GUITicketMachine extends Application implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof String)
-            window.setScene(moneyScene);
+        if(arg instanceof String) {
+            
+        }
+        else if(arg instanceof Operation) {
+            switch((Operation)arg) {
+                case SELLING_TICKET:
+                    window.setScene(mainScene);
+                    break;
+                case SELECTING_PAYMENT:
+                    window.setScene(paymentMethodScene);
+                    break;
+                case INSERTING_COINS:
+                    window.setScene(moneyScene);
+                    break;
+                case LOGGING_IN:
+                    window.setScene(loginScene);
+                    break;
+            }
+        }
     }
 }

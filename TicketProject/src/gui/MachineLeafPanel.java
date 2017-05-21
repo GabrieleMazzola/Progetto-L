@@ -6,13 +6,14 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 /**
  *
  * @author Manuele
  */
-public class MachineLeafPanel extends Container{
+public class MachineLeafPanel extends JPanel{
     private JLabel machineId, labelImage;
     private JProgressBar inkBar, paperBar;
     private BufferedImage image;
@@ -53,6 +54,7 @@ public class MachineLeafPanel extends Container{
         graphics.setColor(color);
         graphics.fillRect(0, 0, size, size);
         labelImage.setIcon(new ImageIcon(image));
+        this.revalidate();
         this.repaint();
     }
     
