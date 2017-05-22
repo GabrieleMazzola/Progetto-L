@@ -32,8 +32,11 @@ public class RequestCodesThread extends Thread{
     private String ipAdress;
     private int port;
     private CodeHandler code;
-    ArrayList<Integer> SerialNumbers = new ArrayList();
-    public RequestCodesThread(TicketMachine machine,Socket socket,BufferedReader fromServer,PrintWriter toServer,JSONOperations JSONOperator,String ipAdress, int port, int numberOfCodes){
+    ArrayList<Integer> serialNumbers = new ArrayList();
+    
+    public RequestCodesThread(TicketMachine machine,Socket socket,
+            BufferedReader fromServer,PrintWriter toServer,JSONOperations JSONOperator,
+            String ipAdress, int port, int numberOfCodes){
         
         super();
         this.machine = machine;
@@ -46,7 +49,7 @@ public class RequestCodesThread extends Thread{
         this.port = port;
         this.numberOfCodes = numberOfCodes;
         this.code = CodeHandler.getInstance();
-        this.SerialNumbers = new ArrayList();
+        this.serialNumbers = new ArrayList();
     }
     
     /**
@@ -75,7 +78,7 @@ public class RequestCodesThread extends Thread{
             JSONObject obj = (JSONObject) parser.parse(line);
             startNumber = (((Long)obj.get("data")).intValue());    //salva in macchinetta
             makeSerialsArray(startNumber,startNumber+numberOfCodes);
-            machine.endUpdateSerial(SerialNumbers);
+            machine.endUpdateSerial(serialNumbers);
         
             machine.requestCodesThreadisDead();
         }catch(IOException | ParseException ex) {
@@ -105,11 +108,17 @@ public class RequestCodesThread extends Thread{
         }
     }
 
+    /**
+     * 
+     * @param startNumber da dove partono i biglietti validi
+     * @param finalNumber è numero che ci segnala quanti biglietti dobbimo validare da starNumber
+     * @return serialNumbers un vettore che contiene i codici validi da passare alla macchinetta
+     */
     private ArrayList<Integer> makeSerialsArray(int startNumber, int finalNumber) {
       
         for (int i = startNumber; i < finalNumber; i++) {
-            SerialNumbers.add(i);
+            serialNumbers.add(i);
         }
-        return SerialNumbers;
+        return serialNumbers;
     }
 }

@@ -211,6 +211,9 @@ public class TicketMachine extends Observable{
         printTicket();
     }
     
+    /**
+     * funzione che stampa il Ticket
+     */
     private void printTicket() {
         controlCode();
         System.out.println("numero ticket:"+createTicket());
@@ -220,7 +223,7 @@ public class TicketMachine extends Observable{
         notifyChange(operation);
     }
     
-        /**
+    /**
      * funzione che crea il biglietto quando lo si compra 
      * @return ticketcode
      */
@@ -229,8 +232,9 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * Controlla che che i codici siano sopra un certo valore. Se il numero è sotto, e non ci sono attivi thread per la richiesta, ne manda una. Se i bilglietti sono zero attende. 
-     * @return false se i codici rimanenti sono sotto un valore
+     * Controlla che che i codici siano sopra un certo valore.
+     * Se il numero è sotto, e non ci sono attivi thread per la richiesta, 
+     * ne manda una. Se i bilglietti sono zero attende. 
      */
     private void controlCode(){
         if(serialNumber.size()<=20 && this.requestCodesThread){ //il venti al momento è aliatorio
@@ -323,6 +327,11 @@ public class TicketMachine extends Observable{
     }
     
     //__________________Metodi per l'inizializazione______________________
+    /**
+     * Inizializa il vettore che conterrà i codici validi per questa macchinetta.
+     * Richiede al CS i primi biglietti e la macchinetta non inizierà a lavorare
+     * finche non ha completato la richiesta
+    */
     private synchronized void initSerialNumber() {
         try{
             serialNumber = new ArrayList();
@@ -357,7 +366,7 @@ public class TicketMachine extends Observable{
         notifyChange(operation);
     }
     
-        /**
+    /**
      * questo metodo serve solo per fare dei test
      * E' una funzione che ritorna il quantitativo di codici disponibili nella macchinetta
      * @return serialNumber.size()
@@ -366,17 +375,13 @@ public class TicketMachine extends Observable{
         return serialNumber.size();
     }
     
+    /**
+     * stampa i biglietti della macchineatta
+     */
     public void toStringSerialNumberSize(){
         for(Integer c: serialNumber){
             System.out.println(c);
         }
     }
-       
-    /**
-     * 
-     * @return 
-     */
-    private boolean c(){
-        return this.requestCodesThread;
-    }
+      
 }
