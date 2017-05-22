@@ -35,6 +35,8 @@ public class TicketMachine extends Observable{
     private PaymentMethod pMethod;
     private ArrayList<Integer> serialNumber;
 
+    private boolean requestCodesThread;/*per controllare se il thread è ancora vivo*/
+    
     public TicketMachine(int PORTA_SERVER, String ipAdress) {
         this.cod =(int)( Math.random()*100);
         this.moneyTank = new MoneyHandler();
@@ -42,9 +44,9 @@ public class TicketMachine extends Observable{
         ticketTemplate = new HashMap();
         setupTicketTemplate();
         stub = new StubMachine(ipAdress, PORTA_SERVER, this);
-        serialNumber = new ArrayList();
         operation = Operation.SELLING_TICKET;
         timer=new Timer();
+        initSerialNumber();
         initUpdateMachineTask();
         
         timer.schedule(updateMachineTask,3000,3000);
@@ -210,10 +212,32 @@ public class TicketMachine extends Observable{
     }
     
     private void printTicket() {
+        controlCode();
+        System.out.println("numero ticket:"+createTicket());
         resources.printTicket();
         System.out.println("Ticket printed");
         operation = Operation.PRINTING_TICKET;
         notifyChange(operation);
+    }
+    
+        /**
+     * funzione che crea il biglietto quando lo si compra 
+     * @return ticketcode
+     */
+    private int createTicket(){
+        return this.serialNumber.remove(0);
+    }
+    
+    /**
+     * Controlla che che i codici siano sopra un certo valore. Se il numero è sotto, e non ci sono attivi thread per la richiesta, ne manda una. Se i bilglietti sono zero attende. 
+     * @return false se i codici rimanenti sono sotto un valore
+     */
+    private void controlCode(){
+        if(serialNumber.size()<=20 && this.requestCodesThread){ //il venti al momento è aliatorio
+                this.startUpdateSerial();
+            if(serialNumber.size()==0)
+                  while(!this.requestCodesThread){}   //entra in ciclo infinito se non ci sono biblietti e attende la ricezione di biglietti
+        }    
     }
 
     private void outputChange() {
@@ -283,6 +307,32 @@ public class TicketMachine extends Observable{
         moneyTank.printCoinsInTank();
     }
 
+    //__________________Metodi per thread______________________
+        /**
+     *funzione che imposta un attr. boolean a false se requestCodesThread è in esecuzione
+     */
+    public void requestCodesThreadisAlive(){
+        this.requestCodesThread=false;
+    }
+    
+    /**
+     *funzione che imposta un attr. boolean a true se requestCodesThread è morto
+     */
+    public void requestCodesThreadisDead(){
+        this.requestCodesThread=true;
+    }
+    
+    //__________________Metodi per l'inizializazione______________________
+    private synchronized void initSerialNumber() {
+        try{
+            serialNumber = new ArrayList();
+            this.startUpdateSerial();
+            while(!requestCodesThread){this.wait(1000);} //metodo da sistemare                
+        }catch(InterruptedException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
     private void initUpdateMachineTask() {
         updateMachineTask = new TimerTask () {
             @Override
@@ -305,5 +355,28 @@ public class TicketMachine extends Observable{
     public void setOperation(Operation operation) {
         this.operation = operation;
         notifyChange(operation);
+    }
+    
+        /**
+     * questo metodo serve solo per fare dei test
+     * E' una funzione che ritorna il quantitativo di codici disponibili nella macchinetta
+     * @return serialNumber.size()
+     */
+    public int getSerialNumberSize(){
+        return serialNumber.size();
+    }
+    
+    public void toStringSerialNumberSize(){
+        for(Integer c: serialNumber){
+            System.out.println(c);
+        }
+    }
+       
+    /**
+     * 
+     * @return 
+     */
+    private boolean c(){
+        return this.requestCodesThread;
     }
 }

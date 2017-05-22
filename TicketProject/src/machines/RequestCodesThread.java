@@ -56,25 +56,28 @@ public class RequestCodesThread extends Thread{
     @Override
     public void run() {
         try{
-        initConnection();
-        //String packet = requestCodesJSONPacket();
-        String packet = JSONOperator.requestCodesPacket(numberOfCodes);
-        toServer.println(packet);
-        //System.out.println(packet);
+            machine.requestCodesThreadisAlive();
+            
+            initConnection();
+            //String packet = requestCodesJSONPacket();
+            String packet = JSONOperator.requestCodesPacket(numberOfCodes);
+            toServer.println(packet);
+            //System.out.println(packet);
 
-        //TODO thread per richiesta codici
+            //TODO thread per richiesta codici
+
+            String line = fromServer.readLine();
+            closeConnection();
+
+            JSONParser parser = new JSONParser();
+
+            //Struttura JSON di risposta : {"data":"String"}
+            JSONObject obj = (JSONObject) parser.parse(line);
+            startNumber = (((Long)obj.get("data")).intValue());    //salva in macchinetta
+            makeSerialsArray(startNumber,startNumber+numberOfCodes);
+            machine.endUpdateSerial(SerialNumbers);
         
-        String line = fromServer.readLine();
-        closeConnection();
-        
-        JSONParser parser = new JSONParser();
-        
-        //Struttura JSON di risposta : {"data":"String"}
-        JSONObject obj = (JSONObject) parser.parse(line);
-        startNumber = (((Long)obj.get("numberOfCodes")).intValue());    //salva in macchinetta
-        makeSerialsArray(startNumber,startNumber+numberOfCodes);
-        machine.endUpdateSerial(SerialNumbers);
-        
+            machine.requestCodesThreadisDead();
         }catch(IOException | ParseException ex) {
             ex.printStackTrace();
             closeConnection();
