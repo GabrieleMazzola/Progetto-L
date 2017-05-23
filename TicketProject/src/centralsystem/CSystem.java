@@ -5,6 +5,7 @@ import databaseadapter.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -18,7 +19,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     private ServerSocket socketListener;
     private SocketHandler scHandler;
     private BankAdapter bank;
-    private List<String> log;
+    private List<Message> log;
     public static int codesCounter;
 
     public CSystem() {
@@ -33,11 +34,12 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     public void addMessageToLog(String message) {
-        log.add(message);
-        notifyChange(message);
+        Message msg = new Message(message, Calendar.getInstance());
+        log.add(msg);
+        notifyChange(msg);
     }
     
-    public List<String> getLog() {
+    public List<Message> getLog() {
         return log;
     }
     

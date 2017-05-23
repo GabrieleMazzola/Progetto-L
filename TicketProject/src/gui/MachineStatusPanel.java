@@ -53,7 +53,6 @@ public class MachineStatusPanel extends JPanel implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof String) {
-            System.out.println(arg);
             decodeRead((String) arg);
         }
     }
@@ -68,9 +67,11 @@ public class MachineStatusPanel extends JPanel implements Observer{
         try {
             JSONParser parser = new JSONParser();
             obj = (JSONObject) parser.parse(inputData);
-            String method = ((String) obj.get("method")).trim().toUpperCase();
+            String method = null;
+            if(obj.containsKey("method")) 
+                method = ((String) obj.get("method")).trim().toUpperCase();
 
-            if(method.equals("UPDATEMACHINESTATUS")) {
+            if(method != null && method.equals("UPDATEMACHINESTATUS")) {
                 JSONObject data = (JSONObject) obj.get("data");
                 
                 double id = (double)data.get("machineCode");
@@ -84,11 +85,8 @@ public class MachineStatusPanel extends JPanel implements Observer{
                 }
                 else {
                     MachineLeafPanel newPanel = new MachineLeafPanel(id + "", inkLvl, paperLvl);
-                    //this.add(newPanel);
                     box.add(newPanel);
                     contents.put((int)id, newPanel);
-//                    contents.get((int)data.get("machineCode")).updateInkLevel((int)inkLvl);
-//                    contents.get((int)data.get("machineCode")).updatePaperLevel((int)paperLvl);
                 }
                 if(!active) contents.get((int)Math.round(id)).colorImage(Color.RED);
                 this.revalidate();

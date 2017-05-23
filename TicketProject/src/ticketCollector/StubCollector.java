@@ -54,7 +54,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
             initConnection();
 
             String packet = JSONOperator.existsTicketPacket(ticketCode);
-            System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             String line = fromServer.readLine();
@@ -78,7 +77,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
             initConnection();
 
             String packet = JSONOperator.makeFinePacket(f);
-            //System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             String line = fromServer.readLine();

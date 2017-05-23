@@ -114,8 +114,14 @@ public class Skeleton extends Thread {
             System.err.println("Error: packet parsing error " + inputData);
         }
         System.out.println(result.toString());
-        //centralSystem.addMessageToLog(result.toString());
+        centralSystem.addMessageToLog(result.toString());
         return result.toString();
+    }
+    
+    private String addMethodHeader() {
+        JSONObject header = new JSONObject();
+        header.put("method", "RESPONSE");
+        return header.toJSONString();
     }
     
     private String callCreateUser(JSONObject data) {

@@ -391,7 +391,7 @@ public class TicketMachine extends Observable{
     /**
      * stampa i biglietti della macchineatta
      */
-    public void toStringSerialNumberSize(){
+    public void printSerialNumberSize(){
         for(Integer c: serialNumber){
             System.out.println(c);
         }
