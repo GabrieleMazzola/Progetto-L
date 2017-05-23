@@ -34,7 +34,6 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     public void addMessageToLog(String message) {
         log.add(message);
-        System.out.println(message);
         notifyChange(message);
     }
     
