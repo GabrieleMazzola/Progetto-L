@@ -20,7 +20,7 @@ public class ResourcesHandler {
         
         //Vengono settati ad un valore arbitrario
         paperToPrint = 1;
-        inkToPrint = 5;
+        inkToPrint = 500;
     }
     
     /**
@@ -28,7 +28,7 @@ public class ResourcesHandler {
      * inchiostro e carta decrementano di un valore predefinito
      */
     public void printTicket() {
-        if(paper >= paperToPrint && ink >= inkToPrint) {
+        if(hasEnoughResources()) {
             paper -= paperToPrint;
             ink -= inkToPrint;
         }
@@ -52,5 +52,9 @@ public class ResourcesHandler {
      */
     public double getInkPercentage() {
         return (double)ink*100/(double)maxInk;
+    }
+    
+    public boolean hasEnoughResources() {
+        return paper >= paperToPrint && ink >= inkToPrint;
     }
 }

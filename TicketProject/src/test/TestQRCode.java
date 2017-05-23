@@ -16,7 +16,7 @@ public class TestQRCode {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws WriterException, IOException{
-        QRCodeHandler qrCode = new QRCodeHandler();
+        QRCodeHandler qrCode = QRCodeHandler.getInstance();
         qrCode.buildQRCodeFromString("This is how I roll, bitches");
     }
 }

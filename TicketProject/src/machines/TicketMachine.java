@@ -1,15 +1,14 @@
 package machines;
 
-import codegeneration.CodeHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 import paymentMethods.PaymentMethod;
 import ticket.*;
-import people.User;
 
 /**
  *
@@ -18,42 +17,52 @@ import people.User;
 public class TicketMachine extends Observable{
     private int cod;
     private int numberOfCodes = 10;
-    public ResourcesHandler resources;
-    public MoneyHandler moneyTank;
+    private ResourcesHandler resources;
+    private MoneyHandler moneyTank;
     private StubMachine stub;
     private Map<TicketType,Double> ticketTemplate;
     private String ticketCodes;
     private String logged;
+    private Operation operation;
+    private String path;
  
-    Timer timer;
-    TimerTask updateMachineTask;
+    private Timer timer;
+    private TimerTask updateMachineTask;
     
     private double insertedMoney;
     private double cost;
     private TicketType type;
     private PaymentMethod pMethod;
-    private ArrayList<Integer> serialNumber;
+    private List<Integer> serialNumber;
 
+    private boolean requestCodesThread;/*per controllare se il thread è ancora vivo*/
+    
     public TicketMachine(int PORTA_SERVER, String ipAdress) {
-        this.cod =(int)( Math.random()*10);
+        this.cod =(int)( Math.random()*100);
         this.moneyTank = new MoneyHandler();
         this.resources = new ResourcesHandler();
         ticketTemplate = new HashMap();
         setupTicketTemplate();
         stub = new StubMachine(ipAdress, PORTA_SERVER, this);
-        serialNumber = new ArrayList();
+        operation = Operation.SELLING_TICKET;
         timer=new Timer();
+        initSerialNumber();
         initUpdateMachineTask();
         
         timer.schedule(updateMachineTask,3000,3000);
     }
     
+    //__________________Metodi getter___________________________________________
     public double getInk() {
         return resources.getInkPercentage();
     }
     
     public double getPaper() {
         return resources.getPaperPercentage();
+    }
+    
+    public boolean canPrint() {
+        return resources.hasEnoughResources();
     }
     
     public double getInsertedMoney() {
@@ -68,10 +77,43 @@ public class TicketMachine extends Observable{
         return cost;
     }
     
+    public PaymentMethod getPaymentMethod() {
+        return pMethod;
+    }
+    
     public float getMoneyInTank() {
         return moneyTank.getTotal();
     }
     
+    public boolean hasTicketSelected() {
+        return type != null;
+    }
+    
+    public boolean isActive() {
+        return getPaper() > 0 && getInk() > 0;
+    }
+    
+    public int getAmountOf(double value) {
+        return moneyTank.getQuantityOf(value);
+    }
+    
+    public int getAmountByIndex(int index) {
+        return moneyTank.getSingleQuantitybyIndex(index);
+    }
+    
+    public String getPath() {
+        return path;
+    }
+    
+    /**
+     * 
+     * @return I codici che la macchinetta può usare
+     */
+    public String getTicketCode(){
+        return this.ticketCodes;
+    }
+    
+    //__________________Metodi per la vendita di biglietti______________________
     /**
      * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
      * quanto bisogna che l'utente paghi
@@ -80,7 +122,9 @@ public class TicketMachine extends Observable{
     public void setTicketToSell(TicketType type) {
         this.type = type;
         setCostForType(type);
-        System.out.println(cost);
+        operation = Operation.SELECTING_PAYMENT;
+        notifyChange(operation);
+        notifyChange(canPrint());
     }
     
     /**
@@ -89,6 +133,16 @@ public class TicketMachine extends Observable{
      */
     public void setPaymentMethod(PaymentMethod pMethod) {
         this.pMethod = pMethod;
+        switch (pMethod) {
+            case CASH:
+                operation = Operation.INSERTING_COINS;
+                notifyChange(operation);
+                break;
+            case CREDITCARD:
+                operation = Operation.INSERTING_CCARD;
+                notifyChange(operation);
+                break;
+        }
     }
     
     /**
@@ -101,7 +155,7 @@ public class TicketMachine extends Observable{
                 insertedMoney = 0;
                 break;
             case CREDITCARD:
-                return buyTicketCreditCard();
+                return true;
             default:
                 return false;
         }
@@ -122,34 +176,16 @@ public class TicketMachine extends Observable{
         insertedMoney += money;
         int temp = (int)Math.floor(insertedMoney*100);
         insertedMoney = (double)temp/(double)100;
-        System.out.println(insertedMoney);
         notifyChange(insertedMoney);
         if (isEnoughMoney(insertedMoney)) {
             sellTicket(PaymentMethod.CASH);
         }
     }
     
-    /**
-     * Setta i codici che la macchinetta può usare
-     * @param ticketCodes
-     */
-    public void setTicketCode(String ticketCodes) {
-        this.ticketCodes = ticketCodes;
-    }
-    
-    /**
-     * 
-     * @return I codici che la macchinetta può usare
-     */
-    public String getTicketCode(){
-        return this.ticketCodes;
-    }
-    
-    private boolean buyTicketCreditCard() {
-        if(checkCreditCard(getCredCardNumber())) {
+    public boolean buyTicketCreditCard(String cCardNumber) {
+        if(checkCreditCard(cCardNumber)) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
             printTicket();
-            System.out.println("Biglietto stampato");
             return true;
         }
         else {
@@ -157,17 +193,7 @@ public class TicketMachine extends Observable{
             return false;
         }
     }
-
-    public boolean login(String username, String password) {
-        if(stub.userLogin(username, password)) {
-            logged = username;
-            notifyChange(logged);
-            return true;
-        }
-        else 
-            return false;
-    }
-
+    
     private boolean isEnoughMoney(double money) {
         return money >= cost;
     }
@@ -176,29 +202,60 @@ public class TicketMachine extends Observable{
         switch (method) {
             case CASH:
                 sellTicketCash();
-                return;
+                break;
             case CREDITCARD:
                 sellTicketNotCash();
-                return;
+                break;
             default:
                 throw new AssertionError(method.name());
         }
+        type = null;
+        cost = 0;
+        insertedMoney = 0;
+        notifyChange(insertedMoney);
     }
     
     private void sellTicketCash() {
         printTicket();
         outputChange();
-        cost = 0;
-        insertedMoney = 0;
-        notifyChange(insertedMoney);
     }
 
     private void sellTicketNotCash() {   //serve sia per bancomat e per carta di credito
         printTicket();
     }
-
+    
+    /**
+     * funzione che stampa il Ticket
+     */
     private void printTicket() {
+        controlCode();
+        System.out.println("numero ticket:"+createTicket());
         resources.printTicket();
+        notifyChange(isActive());
+        System.out.println("Ticket printed");
+        operation = Operation.PRINTING_TICKET;
+        notifyChange(operation);
+    }
+    
+    /**
+     * funzione che crea il biglietto quando lo si compra 
+     * @return ticketcode
+     */
+    private int createTicket(){
+        return this.serialNumber.remove(0);
+    }
+    
+    /**
+     * Controlla che che i codici siano sopra un certo valore.
+     * Se il numero è sotto, e non ci sono attivi thread per la richiesta, 
+     * ne manda una. Se i bilglietti sono zero attende. 
+     */
+    private void controlCode(){
+        if(serialNumber.size()<=20 && this.requestCodesThread){ //il venti al momento è aliatorio
+                this.startUpdateSerial();
+            if(serialNumber.size()==0)
+                  while(!this.requestCodesThread){}   //entra in ciclo infinito se non ci sono biblietti e attende la ricezione di biglietti
+        }    
     }
 
     private void outputChange() {
@@ -215,6 +272,38 @@ public class TicketMachine extends Observable{
         return stub.cardPayment(credCardNumber, cost);
     }
     
+    public void cancel() {
+        operation = Operation.SELLING_TICKET;
+        notifyChange(operation);
+    }
+    
+    //__________________Metodi per la gestione dei codici_______________________
+    /**
+     * Setta i codici che la macchinetta può usare
+     * @param ticketCodes
+     */
+    public void setTicketCode(String ticketCodes) {
+        this.ticketCodes = ticketCodes;
+    }
+
+    public boolean login(String username, String password) {
+        if(stub.userLogin(username, password)) {
+            operation = Operation.SELLING_TICKET;
+            notifyChange(operation);
+            logged = username;
+            notifyChange(logged);
+            return true;
+        }
+        else 
+            return false;
+    }
+    
+    public boolean logout() {
+        logged = "-";
+        notifyChange(logged);
+        return true;
+    }
+    
     private void setupTicketTemplate() {
         ticketTemplate.put(TicketType.SINGLE, 1.50);
         ticketTemplate.put(TicketType.MULTI, 5.70);
@@ -222,7 +311,6 @@ public class TicketMachine extends Observable{
     
     private void setCostForType(TicketType type) {
         if(ticketTemplate.containsKey(type)) {
-            System.out.println("Found");
             cost = ticketTemplate.get(type);
         }
         else cost = 0; //to do eccezzione
@@ -236,23 +324,45 @@ public class TicketMachine extends Observable{
     public void printCoins() {
         moneyTank.printCoinsInTank();
     }
-    
-    public int getAmountOf(double value) {
-        return moneyTank.getQuantityOf(value);
-    }
-    
-    public int getAmountByIndex(int index) {
-        return moneyTank.getSingleQuantitybyIndex(index);
-    }
 
+    //__________________Metodi per thread______________________
+        /**
+     *funzione che imposta un attr. boolean a false se requestCodesThread è in esecuzione
+     */
+    public void requestCodesThreadisAlive(){
+        this.requestCodesThread=false;
+    }
+    
+    /**
+     *funzione che imposta un attr. boolean a true se requestCodesThread è morto
+     */
+    public void requestCodesThreadisDead(){
+        this.requestCodesThread=true;
+    }
+    
+    //__________________Metodi per l'inizializazione______________________
+    /**
+     * Inizializa il vettore che conterrà i codici validi per questa macchinetta.
+     * Richiede al CS i primi biglietti e la macchinetta non inizierà a lavorare
+     * finche non ha completato la richiesta
+    */
+    private synchronized void initSerialNumber() {
+        try{
+            serialNumber = new ArrayList();
+            this.startUpdateSerial();
+            //System.out.println("Ok");
+            while(!requestCodesThread){this.wait(1000);} //metodo da sistemare
+        }catch(InterruptedException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
     private void initUpdateMachineTask() {
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-               if(resources.getInkPercentage()>0 || resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
-               else stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), false);
-            }
-    
+                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive());
+            };
         };
     }
     
@@ -264,4 +374,27 @@ public class TicketMachine extends Observable{
         this.serialNumber.addAll(serialNumbers);
     }
     
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+        notifyChange(operation);
+    }
+    
+    /**
+     * questo metodo serve solo per fare dei test
+     * E' una funzione che ritorna il quantitativo di codici disponibili nella macchinetta
+     * @return serialNumber.size()
+     */
+    public int getSerialNumberSize(){
+        return serialNumber.size();
+    }
+    
+    /**
+     * stampa i biglietti della macchineatta
+     */
+    public void toStringSerialNumberSize(){
+        for(Integer c: serialNumber){
+            System.out.println(c);
+        }
+    }
+      
 }

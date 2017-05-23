@@ -21,7 +21,11 @@ import javax.imageio.ImageIO;
 public class QRCodeHandler {
     private final String filePath = "images/qrbuffer.png";
     private final int size = 125;
+    private static QRCodeHandler instance;
     
+    private QRCodeHandler() {
+        
+    }
     /**
      * Costruisce il QR Code a partire dalla stringa indicata. Di default il QR Code
      * viene salvato come file .png nella cartella images, sotto il nome di qrbuffer.png
@@ -67,6 +71,12 @@ public class QRCodeHandler {
     private void setGraphicsBackground(Graphics2D graphics, Color color) {
         graphics.setColor(color);
         graphics.fillRect(0, 0, size, size);
+    }
+    
+    public static synchronized QRCodeHandler getInstance() {
+        if(instance == null)
+            instance = new QRCodeHandler();
+        return instance;
     }
     
     /**

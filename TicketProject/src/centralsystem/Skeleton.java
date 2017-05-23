@@ -74,7 +74,6 @@ public class Skeleton extends Thread {
         
         StringBuilder result = new StringBuilder();
         try {
-            System.out.println("Inputdata");
             centralSystem.addMessageToLog(inputData);
             obj = (JSONObject) parser.parse(inputData);
             
@@ -107,8 +106,8 @@ public class Skeleton extends Thread {
                 case "UPDATEMACHINESTATUS":
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
-                case "BUYONLINETICKET":
-                    result.append(callBuyOnlineTicket((JSONObject) obj.get("data")));                    
+                case "ADDTICKETSALE":
+                    result.append(callAddTicketSale((JSONObject) obj.get("data")));
                     break;
                 default:
                     throw new AssertionError();
@@ -116,6 +115,8 @@ public class Skeleton extends Thread {
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
         }
+        System.out.println(result.toString());
+        //centralSystem.addMessageToLog(result.toString());
         return result.toString();
     }
     
@@ -151,10 +152,7 @@ public class Skeleton extends Thread {
     }
 
     private String callRequestCodes(JSONObject data) {
-        Long ciao = (Long)data.get("numberOfCodes");
-        
         int numberOfCodes = centralSystem.requestCodes(((Long)data.get("numberOfCodes")).intValue());
-        JSONObject result = new JSONObject();
         data.put("data", numberOfCodes);
         return data.toJSONString();
     }
@@ -191,22 +189,17 @@ public class Skeleton extends Thread {
 
         return data.toJSONString();
     } 
+    
     private String callupdateMachineStatus(JSONObject data) {
         centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"));
         data = new JSONObject();
         data.put("data", true);
         return data.toString();
     }
-
-    private String callBuyOnlineTicket(JSONObject data) {
-        
-        
-        
+    
+    private String callAddTicketSale(JSONObject data) {
         data = new JSONObject();
         data.put("data", true);
         return data.toString();
     }
-
- 
-
 }

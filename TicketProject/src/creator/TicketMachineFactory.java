@@ -22,7 +22,7 @@ public class TicketMachineFactory {
      */
     public TicketMachine createTicketMachine() {
         cod++;
-        return new TicketMachine(cod, generateRandomIPAddress());
+        return new TicketMachine(5000, generateRandomIPAddress());
     }
     
     /**
@@ -39,11 +39,12 @@ public class TicketMachineFactory {
     }
     
     private String generateRandomIPAddress() {
-        StringBuilder str = new StringBuilder();
-        str.append((int) Math.floor(Math.random()*250 + 1)).append(".")
-           .append((int) Math.floor(Math.random()*250 + 1)).append(".")
-           .append((int) Math.floor(Math.random()*250 + 1)).append(".")
-           .append((int) Math.floor(Math.random()*250 + 1)).append(".");
-        return str.toString();
+//        StringBuilder str = new StringBuilder();
+//        str.append((int) Math.floor(Math.random()*250 + 1)).append(".")
+//           .append((int) Math.floor(Math.random()*250 + 1)).append(".")
+//           .append((int) Math.floor(Math.random()*250 + 1)).append(".")
+//           .append((int) Math.floor(Math.random()*250 + 1)).append(".");
+//        return str.toString();
+        return "localhost";
     }
 }

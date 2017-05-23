@@ -27,7 +27,7 @@ public class LogCS{
         if(enable){
             switch (tag) {
                 case "out":
-                    System.out.println(stampa);
+                    //System.out.println(stampa);
                     break;
                 case "err":
                     System.err.println(stampa);

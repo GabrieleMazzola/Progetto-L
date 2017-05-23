@@ -20,7 +20,8 @@ public class Bank {
     
     public boolean pay(String cCardNumber, double toPay) {
         if(accounts.containsKey(cCardNumber)) {
-            return accounts.get(cCardNumber) - toPay >= 0;
+            accounts.put(cCardNumber, accounts.get(cCardNumber) - toPay);
+            return accounts.get(cCardNumber) >= 0;
         }
         else return false;
     }

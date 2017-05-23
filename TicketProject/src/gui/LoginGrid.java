@@ -19,8 +19,8 @@ import machines.TicketMachine;
  */
 public class LoginGrid extends BridgeSceneGrid{
     private Text text, username, password, 
-                        noCredentials = new Text("Please enter your credentials"),
-                        fail = new Text("Wrong credentials");
+                 noCredentials = new Text("Please enter your credentials"),
+                 fail = new Text("Wrong credentials");
     private TextField textUser;
     private PasswordField textPassword;
     private Button signIn, cancel;
@@ -66,9 +66,13 @@ public class LoginGrid extends BridgeSceneGrid{
                 boxError.getChildren().add(fail);
             }
         });
+        cancel = new Button("Cancel");
+        cancel.setOnAction(e -> {
+            tMachine.cancel();
+        });
         
         boxBtns = new HBox();
-        boxBtns.getChildren().addAll(signIn);
+        boxBtns.getChildren().addAll(signIn, cancel);
         boxBtns.setAlignment(Pos.BOTTOM_RIGHT);
         boxBtns.setSpacing(5);
         grid.add(boxBtns, 1, 5);
