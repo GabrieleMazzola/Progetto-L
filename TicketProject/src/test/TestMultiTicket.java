@@ -21,18 +21,18 @@ public class TestMultiTicket {
         
         
         // test macchinetta
-        TicketMachine tm = new TicketMachine(0,"localhost");
-        tm.moneyTank.setSingleQuantity(0.2, 6);
-        tm.moneyTank.setSingleQuantity(0.1, 5);
-        tm.moneyTank.setSingleQuantity(5, 1);
-        
-        System.out.println("totale è " + tm.moneyTank.getTotal());
-        
-        
-        tm.insertMoney(0.2);       
-        tm.insertMoney(1);
-        tm.insertMoney(0.5);
-        System.out.println("totale è " + tm.moneyTank.getTotal());
+//        TicketMachine tm = new TicketMachine(0,"localhost");
+//        tm.moneyTank.setSingleQuantity(0.2, 6);
+//        tm.moneyTank.setSingleQuantity(0.1, 5);
+//        tm.moneyTank.setSingleQuantity(5, 1);
+//        
+//        System.out.println("totale è " + tm.moneyTank.getTotal());
+//        
+//        
+//        tm.insertMoney(0.2);       
+//        tm.insertMoney(1);
+//        tm.insertMoney(0.5);
+//        System.out.println("totale è " + tm.moneyTank.getTotal());
         
           /* test money holder
           MoneyHandler mh =  new MoneyHandler();

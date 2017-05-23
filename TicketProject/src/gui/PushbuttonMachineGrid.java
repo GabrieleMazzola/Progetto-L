@@ -76,6 +76,7 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
     }
     
     private void addActionToButtons() {
+        twoHundred.setOnAction(e -> {tMachine.insertMoney(200);});
         oneHundred.setOnAction(e -> {tMachine.insertMoney(100);});
         fifty.setOnAction(e -> {tMachine.insertMoney(50);});
         twenty.setOnAction(e -> {tMachine.insertMoney(20);});

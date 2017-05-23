@@ -31,7 +31,7 @@ public class MachineLeafPanel extends JPanel{
         paperBar = new JProgressBar(0, 100);
         paperBar.setValue((int)Math.round(inkLvl));
         paperBar.setStringPainted(true);
-        BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         image.createGraphics();
         graphics = (Graphics2D) image.getGraphics();
         setupImageGraphics();

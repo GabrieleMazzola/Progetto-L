@@ -174,7 +174,6 @@ public class StubMachine implements CentralSystemTicketInterface {
      */
     @Override
     public int requestCodes(int numberOfCodes) {
-        
         (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port, numberOfCodes)).start();
         return 1;
         

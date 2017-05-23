@@ -1,7 +1,11 @@
 package gui;
 
+import centralsystem.CSystem;
+import creator.CSystemFactory;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +17,8 @@ import machines.TicketMachine;
  * @author Manuele
  */
 public class GUITicketMachine extends Application implements Observer{
-    private Scene mainScene, paymentMethodScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene;
+    private Scene mainScene, paymentMethodScene, moneyScene, loginScene, 
+                  showTicketScene, insertCardNumberScene, errorScene;
     private static TicketMachine tMachine;
     private Stage window;
     
@@ -43,6 +48,10 @@ public class GUITicketMachine extends Application implements Observer{
         InsertCreditCardScene cCardScene = new InsertCreditCardScene(tMachine);
         insertCardNumberScene = new Scene(cCardScene.asParent());
         
+        //Costruisco la scena d'errore
+        ErrorGrid errorGrid = new ErrorGrid(tMachine, "Ticket machine unable to operate. Waiting for assistance");
+        errorScene = new Scene(errorGrid.asParent());
+        
         window.setScene(mainScene);
         window.show();
     }
@@ -51,6 +60,12 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        CSystemFactory csFactory = CSystemFactory.getInstance();
+        CSystem cSystem = csFactory.getCentralSystemInstance();
+        
+        CSystemSwingFrame viewCSystem = new CSystemSwingFrame(cSystem);
+        viewCSystem.setVisible(true);
+        
         TicketMachine tm = new TicketMachine(5000, "localhost");
         tMachine = tm;
         
@@ -89,9 +104,13 @@ public class GUITicketMachine extends Application implements Observer{
                     window.setScene(showTicketScene);
                     break;
                 case INSERTING_CCARD:
-                    window.setScene(insertCardNumberScene);
+                    //window.setScene(insertCardNumberScene);
                     break;
             }
+        }
+        
+        else if (arg instanceof Boolean) {
+            if(!(boolean)arg) window.setScene(errorScene);
         }
     }
 }

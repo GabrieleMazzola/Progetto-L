@@ -1,15 +1,14 @@
 package machines;
 
-import codegeneration.CodeHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 import paymentMethods.PaymentMethod;
 import ticket.*;
-import people.User;
 
 /**
  *
@@ -18,13 +17,14 @@ import people.User;
 public class TicketMachine extends Observable{
     private int cod;
     private int numberOfCodes = 10;
-    public ResourcesHandler resources;
-    public MoneyHandler moneyTank;
+    private ResourcesHandler resources;
+    private MoneyHandler moneyTank;
     private StubMachine stub;
     private Map<TicketType,Double> ticketTemplate;
     private String ticketCodes;
     private String logged;
     private Operation operation;
+    private String path;
  
     private Timer timer;
     private TimerTask updateMachineTask;
@@ -33,7 +33,7 @@ public class TicketMachine extends Observable{
     private double cost;
     private TicketType type;
     private PaymentMethod pMethod;
-    private ArrayList<Integer> serialNumber;
+    private List<Integer> serialNumber;
 
     private boolean requestCodesThread;/*per controllare se il thread è ancora vivo*/
     
@@ -61,6 +61,10 @@ public class TicketMachine extends Observable{
         return resources.getPaperPercentage();
     }
     
+    public boolean canPrint() {
+        return resources.hasEnoughResources();
+    }
+    
     public double getInsertedMoney() {
         return insertedMoney;
     }
@@ -85,12 +89,20 @@ public class TicketMachine extends Observable{
         return type != null;
     }
     
+    public boolean isActive() {
+        return getPaper() > 0 && getInk() > 0;
+    }
+    
     public int getAmountOf(double value) {
         return moneyTank.getQuantityOf(value);
     }
     
     public int getAmountByIndex(int index) {
         return moneyTank.getSingleQuantitybyIndex(index);
+    }
+    
+    public String getPath() {
+        return path;
     }
     
     /**
@@ -112,6 +124,7 @@ public class TicketMachine extends Observable{
         setCostForType(type);
         operation = Operation.SELECTING_PAYMENT;
         notifyChange(operation);
+        notifyChange(canPrint());
     }
     
     /**
@@ -218,6 +231,7 @@ public class TicketMachine extends Observable{
         controlCode();
         System.out.println("numero ticket:"+createTicket());
         resources.printTicket();
+        notifyChange(isActive());
         System.out.println("Ticket printed");
         operation = Operation.PRINTING_TICKET;
         notifyChange(operation);
@@ -336,7 +350,8 @@ public class TicketMachine extends Observable{
         try{
             serialNumber = new ArrayList();
             this.startUpdateSerial();
-            while(!requestCodesThread){this.wait(1000);} //metodo da sistemare                
+            //System.out.println("Ok");
+            while(!requestCodesThread){this.wait(1000);} //metodo da sistemare
         }catch(InterruptedException e){
             System.out.println(e.getMessage());
         }
@@ -346,10 +361,8 @@ public class TicketMachine extends Observable{
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-                
-               if(resources.getInkPercentage()>0 && resources.getPaperPercentage()>0) stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), true);
-               else stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), false);
-            }
+                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive());
+            };
         };
     }
     
