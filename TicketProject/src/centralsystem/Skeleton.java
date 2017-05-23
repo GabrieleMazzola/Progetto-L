@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Calendar;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,6 +22,7 @@ public class Skeleton extends Thread {
     public Skeleton(Socket clientSocket, CSystem centralSystem) {
         this.clientSocket = clientSocket;
         this.centralSystem = centralSystem;
+        
         parser = new JSONParser();
     }
     
@@ -105,6 +107,9 @@ public class Skeleton extends Thread {
                 case "UPDATEMACHINESTATUS":
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
+                case "BUYONLINETICKET":
+                    result.append(callBuyOnlineTicket((JSONObject) obj.get("data")));                    
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -115,6 +120,7 @@ public class Skeleton extends Thread {
     }
     
     private String callCreateUser(JSONObject data) {
+        
     	String name = ((String) data.get("name"));
     	String surname = ((String) data.get("surname"));
     	String username = ((String) data.get("username"));
@@ -191,5 +197,16 @@ public class Skeleton extends Thread {
         data.put("data", true);
         return data.toString();
     }
+
+    private String callBuyOnlineTicket(JSONObject data) {
+        
+        
+        
+        data = new JSONObject();
+        data.put("data", true);
+        return data.toString();
+    }
+
+ 
 
 }

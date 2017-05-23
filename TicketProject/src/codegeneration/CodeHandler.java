@@ -5,10 +5,15 @@
  */
 package codegeneration;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -100,6 +105,27 @@ public class CodeHandler {
         System.out.println("type: "+ inputData[2] + " cod: " + serialCode.toString());
         
     return "";
+    }
+    
+    public String shaEncoder(String inCode){
+        
+        String result = null;
+        
+        MessageDigest cript;
+        try {
+            
+            cript = MessageDigest.getInstance("SHA-1");
+        cript.reset();
+        cript.update(inCode.getBytes("utf8"));
+            result = new BigInteger(1, cript.digest()).toString(16); 
+        } catch (NoSuchAlgorithmException ex) {
+            System.err.println("Error: shaEncoder MeessageDigest error ");
+        } catch (UnsupportedEncodingException ex) {
+            System.err.println("Error: shaEncoder error");      
+        
+        }
+        
+        return result;
     }
     
 }

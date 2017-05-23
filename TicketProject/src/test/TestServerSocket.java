@@ -6,23 +6,40 @@
 package test;
 
 import centralsystem.CSystem;
+import centralsystem.LogCS;
 import codegeneration.CodeHandler;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
  * @author Zubeer
  */
 public class TestServerSocket {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
        // CSystem cs = new CSystem();
-       CodeHandler code =  CodeHandler.getInstance();
-       String ciao;
-       double  c=999999999999L;
-        for (long  i = 0; i < c; i+=10000000) {
-                ciao = code.encoder(i, "A");
+       String ciao = new String("1234");
+       
+        LogCS.getInstance().abilita();
+        
+        MessageDigest cript = MessageDigest.getInstance("SHA-1");
+        cript.reset();
+        cript.update(ciao.getBytes("utf8"));
+        String passwordHash = new BigInteger(1, cript.digest()).toString(16);
+        System.out.println(passwordHash);
+        
+      // CodeHandler code =  CodeHandler.getInstance();
+       //String ciao;
+       //double  c=999999999999L;
+        //for (long  i = 0; i < c; i+=10000000) {
+         //       ciao = code.encoder(i, "A");
                 //System.out.println(ciao);
-                code.decoder(ciao);
-        }
+         //       code.decoder(ciao);
+       // }
+       
+       
         
     }
 }

@@ -144,8 +144,7 @@ public class DatabaseAdapter {
         
         for(Fine fine : fines) {
             if(fine.getCfCode().equals(cfCode)) fittingFines.add(fine);
-        }
-        
+        }  
         return fittingFines;
     }
     
