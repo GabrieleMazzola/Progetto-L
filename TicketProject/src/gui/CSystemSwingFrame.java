@@ -14,11 +14,12 @@ public class CSystemSwingFrame extends JFrame{
     public CSystemSwingFrame(CSystem cSystem) {
         super();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600,300);
+        setSize(800,400);
         
         mainPanel = new JTabbedPane();
         mainPanel.add("Machines Status", new MachineStatusPanel(cSystem));
-        mainPanel.add("For the PROs", new CSystemJSONSwingPanel(cSystem));
+        mainPanel.add("Activities", new CSystemActivitiesSwingPanel(cSystem));
+        mainPanel.add("Recieved JSON packages [PROs only]", new CSystemJSONSwingPanel(cSystem));
         
         this.add(mainPanel);
     }

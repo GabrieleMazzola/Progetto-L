@@ -290,7 +290,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return codesCounter - numberOfCodes;
     }
     
-    private void notifyChange(Object arg) {
+    public void notifyChange(Object arg) {
         setChanged();
         notifyObservers(arg);
     }

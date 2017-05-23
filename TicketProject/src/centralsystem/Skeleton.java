@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Calendar;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -78,33 +79,43 @@ public class Skeleton extends Thread {
             switch (((String) obj.get("method")).trim().toUpperCase()) {
 
                 case "TEST":
+                    centralSystem.notifyChange("Attempted test...");
                     result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
                     break;
                 case "CREATEUSER":
+                    centralSystem.notifyChange("Attempted creating user...");
                     result.append(callCreateUser((JSONObject) obj.get("data")));
                     break;
                 case "MAKEFINE":
+                    centralSystem.notifyChange("Attempted making new fine...");
                     result.append(callMakeFine((JSONObject) obj.get("data")));
                     break;
                 case "COLLECTORLOGIN":
+                    centralSystem.notifyChange("Attempted collector login...");
                     result.append(callCollectorLogin((JSONObject) obj.get("data")));
                     break;
                 case "USERLOGIN":
+                    centralSystem.notifyChange("Attempted user login...");
                     result.append(callUserLogin((JSONObject) obj.get("data")));
                     break;
                 case "CARDPAYMENT":
+                    centralSystem.notifyChange("Attempted card payment...");
                     result.append(callCardPayment((JSONObject) obj.get("data")));
                     break;
                 case "EXISTSTICKET":
+                    centralSystem.notifyChange("Request exists ticket...");
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
                 case "REQUESTCODES":
+                    centralSystem.notifyChange("Requesting new codes...");
                     result.append(callRequestCodes((JSONObject) obj.get("data")));
                     break;    
                 case "UPDATEMACHINESTATUS":
+                    //centralSystem.notifyChange("Updating machine status...");
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
                 case "ADDTICKETSALE":
+                    centralSystem.notifyChange("Attempted selling ticket...");
                     result.append(callAddTicketSale((JSONObject) obj.get("data")));
                     break;
                 default:
@@ -113,15 +124,7 @@ public class Skeleton extends Thread {
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
         }
-        System.out.println(result.toString());
-        centralSystem.addMessageToLog(result.toString());
         return result.toString();
-    }
-    
-    private String addMethodHeader() {
-        JSONObject header = new JSONObject();
-        header.put("method", "RESPONSE");
-        return header.toJSONString();
     }
     
     private String callCreateUser(JSONObject data) {
@@ -134,29 +137,50 @@ public class Skeleton extends Thread {
         data = new JSONObject();
         data.put("data",result);
         
+        String notify;
+        if(result) notify = "User " + username + " created succesfully";
+        else notify = "Something went wrong";
+        centralSystem.notifyChange(notify + ". " + Calendar.getInstance().getTime());
+        
         return data.toJSONString();
 	}
 
     private String callCardPayment(JSONObject data) {
-        boolean result = centralSystem.cardPayment((String) data.get("cardNumber"), (double) data.get("amount"));
+        String cardNumber = (String) data.get("cardNumber");
+        double amount = (double) data.get("amount");
+        boolean result = centralSystem.cardPayment(cardNumber, amount);
         data = new JSONObject();
         data.put("data",result);
+        
+        String notify;
+        if(result) notify = "Payment of " + amount + " from " + cardNumber + " was successful";
+        else notify = "Something went wrong";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
         
         return data.toJSONString();
     }
     
     private String callexistsTicket(JSONObject data) {
-        boolean result = centralSystem.existsTicket((String) data.get("ticketCode"));
+        String ticketCode = (String) data.get("ticketCode");
+        boolean result = centralSystem.existsTicket(ticketCode);
         data = new JSONObject();
         data.put("data", result);
         
+        String notify;
+        if(result) notify = "Ticket " + ticketCode + " found";
+        else notify = "Ticket " + ticketCode + " not found";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
+        
         return data.toJSONString();
-
     }
 
     private String callRequestCodes(JSONObject data) {
         int numberOfCodes = centralSystem.requestCodes(((Long)data.get("numberOfCodes")).intValue());
         data.put("data", numberOfCodes);
+        
+        String notify = "Codes requested to the Central System";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
+        
         return data.toJSONString();
     }
 
@@ -164,31 +188,57 @@ public class Skeleton extends Thread {
         String result = centralSystem.centralSystemTEST((String) data.get("test"));
         data = new JSONObject();
         data.put("data", result);
+        
+        String notify;
+        if(result.equals("test")) notify = "Test successful";
+        else notify = "Something went wrong";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
 
         return data.toJSONString();
     }
 
     private String callCollectorLogin(JSONObject data) {
-        boolean result = centralSystem.collectorLogin((String) data.get("username"), (String) data.get("psw"));
+        String username = (String) data.get("username");
+        String psw = (String) data.get("psw");
+        boolean result = centralSystem.collectorLogin(username, psw);
         data = new JSONObject();
         data.put("data", result);
+        
+        String notify;
+        if(result) notify = "Login as " + username + " was successful";
+        else notify = "Login as " + username + " was not successful";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
         
         return data.toJSONString();
     }
 
     private String callUserLogin(JSONObject data) {
-        boolean result = centralSystem.userLogin((String) data.get("username"), (String) data.get("psw"));
+        String username = (String) data.get("username");
+        String psw = (String) data.get("psw");
+        boolean result = centralSystem.userLogin(username, psw);
         data = new JSONObject();
         data.put("data", result);
+        
+        String notify;
+        if(result) notify = "Login as " + username + " was successful";
+        else notify = "Login as " + username + " was not successful";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
 
         return data.toJSONString();
     }
 
     private String callMakeFine(JSONObject data) {
-        Fine fine = new Fine((String)data.get("cf"),(Double)data.get("amount"));
+        String cf = (String)data.get("cf");
+        double amount = (Double)data.get("amount");
+        Fine fine = new Fine(cf,amount);
         boolean result = centralSystem.addFine(fine);
         data = new JSONObject();
         data.put("data", result);
+        
+        String notify;
+        if(result) notify = "Fine of " + amount + "to " + cf + " was successfully added";
+        else notify = "Could not add the new fine";
+        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
 
         return data.toJSONString();
     } 

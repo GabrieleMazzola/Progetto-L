@@ -1,6 +1,7 @@
 package gui;
 
 import centralsystem.CSystem;
+import centralsystem.Message;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.HashMap;
@@ -52,8 +53,8 @@ public class MachineStatusPanel extends JPanel implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof String) {
-            decodeRead((String) arg);
+        if(arg instanceof Message) {
+            decodeRead(((Message)arg).getMessage());
         }
     }
     

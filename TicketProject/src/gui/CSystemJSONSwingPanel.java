@@ -36,9 +36,9 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
         decoder = JSONOperations.getInstance();
         
         listModelMessages = new DefaultListModel();
-        for(Message message : cSystem.getLog()) {
-            listModelMessages.addElement(message);
-        }
+//        for(Message message : cSystem.getLog()) {
+//            listModelMessages.addElement(message);
+//        }
         listMessages = new JList(listModelMessages);
         messagesPanel = new JScrollPane(listMessages);
         
@@ -81,39 +81,39 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
         switch(decodedString[0]) {
             case "UPDATEMACHINESTATUS":
                 decodedMessage.setText("Updating machine status:\nMachine id: " + decodedString[1] + "\nInk level: " + decodedString[2] + "\nPaper level: " + decodedString[3] +
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "TEST":
                 decodedMessage.setText("This is just a test"+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "CREATEUSER":
                 decodedMessage.setText("Creating new user:\nName:" + decodedString[1] + "\nSurname: " + decodedString[2] + "\nUsername: " + decodedString[3]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "MAKEFINE":
                 decodedMessage.setText("Creating new fine:\nReciever: " + decodedString[1] + "\nAmount: " + decodedString[2]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "COLLECTORLOGIN":
                 decodedMessage.setText("Collector login with these credentials:\nUsename: " + decodedString[1] + "\nPassword: " + decodedString[2]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "USERLOGIN":
                 decodedMessage.setText("User login with these credentials:\nUsename: " + decodedString[1] + "\nPassword: " + decodedString[2]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "CARDPAYMENT":
                 decodedMessage.setText("Paying with credit card:\nCredit card number: " + decodedString[1] + "\nAmount paid: " + decodedString[2]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "EXISTSTICKET":
                 decodedMessage.setText("Verifying ticket existance:\nTicket code: " + decodedString[1]+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
             case "REQUESTCODES":
                 decodedMessage.setText("Request new codes"+
-                                       "\nDate: " + encodedMessage.getDate().toString());
+                                       "\nDate: " + encodedMessage.getDate().getTime().toString());
                 break;
         }
     }
