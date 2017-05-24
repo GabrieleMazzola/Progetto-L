@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
 public class MachineStatusPanel extends JPanel implements Observer{
     private Map<Integer, MachineLeafPanel> contents;
     private Box box;
-    private JLabel activeLabel, idLabel, inkLvlLabel, paperLvlLabel;
+    private JLabel activeLabel, idLabel, ipLabel, inkLvlLabel, paperLvlLabel;
     private JPanel labelPanel;
     
     public MachineStatusPanel(CSystem cSystem) {
@@ -39,12 +39,14 @@ public class MachineStatusPanel extends JPanel implements Observer{
     private void setupBox() {
         activeLabel = new JLabel("Active");
         idLabel = new JLabel("Id");
+        ipLabel = new JLabel("Ip");
         inkLvlLabel = new JLabel("Ink Level");
         paperLvlLabel = new JLabel("Paper Level");
         
         labelPanel = new JPanel(new GridLayout(1,4));
         labelPanel.add(activeLabel);
         labelPanel.add(idLabel);
+        labelPanel.add(ipLabel);
         labelPanel.add(inkLvlLabel);
         labelPanel.add(paperLvlLabel);
         
@@ -79,13 +81,14 @@ public class MachineStatusPanel extends JPanel implements Observer{
                 double inkLvl = (double)data.get("inkLevel");
                 double paperLvl = (double)data.get("paperLevel");
                 boolean active = (boolean)data.get("active");
+                String ip = (String)data.get("ipAddress");
                 
                 if(alredyHas((int)id)) {
                     contents.get((int)Math.round(id)).updateInkLevel((int)Math.round(inkLvl));
                     contents.get((int)Math.round(id)).updatePaperLevel((int)Math.round(paperLvl));
                 }
                 else {
-                    MachineLeafPanel newPanel = new MachineLeafPanel(id + "", inkLvl, paperLvl);
+                    MachineLeafPanel newPanel = new MachineLeafPanel(id + "", inkLvl, paperLvl, ip);
                     box.add(newPanel);
                     contents.put((int)id, newPanel);
                 }

@@ -48,14 +48,15 @@ public class Skeleton extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             
-            while(clientSocket.isConnected()) {
+            //while(clientSocket.isConnected()) {
             
                 LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
 
                 String result = decodeRead(in.readLine());
                 out.println(result);
-            
-            }
+            //}
+            in.close();
+            out.close();
         } catch (IOException ex) {
             System.err.println("Error: socket opening fail");
         }
@@ -244,7 +245,7 @@ public class Skeleton extends Thread {
     } 
     
     private String callupdateMachineStatus(JSONObject data) {
-        centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"));
+        centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"), clientSocket.getRemoteSocketAddress().toString());
         data = new JSONObject();
         data.put("data", true);
         return data.toString();

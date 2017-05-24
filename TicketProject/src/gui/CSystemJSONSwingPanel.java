@@ -1,5 +1,6 @@
 package gui;
 
+import JSONSingleton.Decoder;
 import JSONSingleton.JSONOperations;
 import centralsystem.CSystem;
 import centralsystem.Message;
@@ -20,7 +21,7 @@ import org.json.simple.parser.ParseException;
  * @author Manuele
  */
 public class CSystemJSONSwingPanel extends JPanel implements Observer{
-    private JSONOperations decoder;
+    private Decoder decoder;
     private CSystem cSystem;
     private DefaultListModel listModelMessages;
     private JList listMessages;
@@ -33,7 +34,7 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
         this.cSystem = cSystem;
         cSystem.addObserver(this);
         
-        decoder = JSONOperations.getInstance();
+        decoder = new Decoder();
         
         listModelMessages = new DefaultListModel();
 //        for(Message message : cSystem.getLog()) {

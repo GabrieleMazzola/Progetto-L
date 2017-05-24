@@ -18,10 +18,7 @@ public class TestSingleTicket {
      */
     public static void main(String[] args) throws ParseException{
         JSONOperations op = JSONOperations.getInstance();
-        String encoded = op.updateMachineStatus(1, 20, 20, true);
+        String encoded = op.updateMachineStatusPacket(1, 20, 20, true, "a");
         System.out.println(encoded);
-        
-        String decoded = op.decodeRead(encoded);
-        System.out.println(decoded);
     }
 }

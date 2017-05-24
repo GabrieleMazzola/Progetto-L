@@ -148,10 +148,10 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
 
     @Override
-    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         try {
             initConnection();
-            String packet = JSONOperator.updateMachineStatus(machineCode, inkLevel, paperLevel, active);
+            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, ipAddress);
             toServer.println(packet);
             String line = fromServer.readLine();
             closeConnection();

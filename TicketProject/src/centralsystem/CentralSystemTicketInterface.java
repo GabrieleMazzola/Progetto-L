@@ -19,5 +19,5 @@ public interface CentralSystemTicketInterface {
     
     public boolean createUser(String name,String surname,String cf,String username,String psw);
     
-    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active);
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress);
 }

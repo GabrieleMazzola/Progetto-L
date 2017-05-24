@@ -33,6 +33,14 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         initServer();
     }
     
+    /**
+     * Chiude il servere. Se il parametro passato è vero lo riavvia anche
+     * @param restart 
+     */
+    public void close(boolean restart) {
+        notifyChange(restart);
+    }
+    
     public void addMessageToLog(String message) {
         Message msg = new Message(message, Calendar.getInstance());
         log.add(msg);
@@ -268,7 +276,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }    
    
     @Override
-    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         if(machineList.containsKey(machineCode)){
             ((MachineStatus)machineList.get(machineCode)).setActive(active);            
             ((MachineStatus)machineList.get(machineCode)).setPaperLevel(paperLevel);

@@ -361,7 +361,7 @@ public class TicketMachine extends Observable{
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive());
+                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive(), "a");
             };
         };
     }
