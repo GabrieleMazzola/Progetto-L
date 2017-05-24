@@ -48,7 +48,7 @@ public class TicketMachine extends Observable{
         timer=new Timer();
         initSerialNumber();
         initUpdateMachineTask();
-        
+      
         timer.schedule(updateMachineTask,3000,3000);
     }
     
