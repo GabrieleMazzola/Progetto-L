@@ -16,7 +16,7 @@ import ticket.*;
  */
 public class TicketMachine extends Observable{
     private int cod;
-    private int numberOfCodes = 10;
+    private int numberOfCodes = 30;
     private ResourcesHandler resources;
     private MoneyHandler moneyTank;
     private StubMachine stub;

@@ -32,8 +32,10 @@ public class CSystemActivitiesSwingPanel extends JPanel implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof String) {
-            listModelActivities.addElement((String) arg);
+        if(o instanceof CSystem) {
+            if(arg instanceof String) {
+                listModelActivities.addElement((String) arg);
+            }
         }
     }
 }

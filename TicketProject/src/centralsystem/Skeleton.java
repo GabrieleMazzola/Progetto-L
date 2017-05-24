@@ -48,14 +48,14 @@ public class Skeleton extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             
-            LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
+            while(clientSocket.isConnected()) {
+            
+                LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
 
-            String result = decodeRead(in.readLine());
-            out.println(result);
-
-            in.close();
-            out.close();
-
+                String result = decodeRead(in.readLine());
+                out.println(result);
+            
+            }
         } catch (IOException ex) {
             System.err.println("Error: socket opening fail");
         }
@@ -67,7 +67,7 @@ public class Skeleton extends Thread {
      * @param inputData
      * @return 
      */
-    private String decodeRead(String inputData) {
+    private synchronized String decodeRead(String inputData) {
         JSONObject obj;
         LogCS.getInstance().stampa("out", "Socket in ingresso: "  + inputData);
         
