@@ -35,7 +35,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
     
     private void closeConnection(){
