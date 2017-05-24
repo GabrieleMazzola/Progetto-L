@@ -269,6 +269,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     private void initCollectors() {
         database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
+        database.addCollector("ADMIN","ADMIN","ADMIN","ADMIN","ADMIN");
     }
    
     public boolean userLoginogin(String username, String psw) {
