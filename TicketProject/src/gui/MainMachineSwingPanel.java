@@ -1,5 +1,6 @@
 package gui;
 
+import exceptions.TicketTypeNotFoundException;
 import ticket.TicketType;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -43,8 +44,13 @@ public class MainMachineSwingPanel extends JPanel implements Observer{
         bottoneCompra.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                tMachine.setTicketToSell(TicketType.SINGLE);
-                tMachine.buyTicket();
+                try{
+                    tMachine.setTicketToSell(TicketType.SINGLE);
+                    tMachine.buyTicket();
+                }
+                catch(TicketTypeNotFoundException exc){
+                    System.err.println(exc);
+                }
             }
         });
         pannelloBottoni = new JPanel();

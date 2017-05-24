@@ -1,5 +1,7 @@
 package machines;
 
+import codegeneration.CodeHandler;
+import exceptions.TicketTypeNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,9 +113,8 @@ public class TicketMachine extends Observable{
      * quanto bisogna che l'utente paghi
      * @param type
      */
-    public void setTicketToSell(TicketType type) {
+    public void setTicketToSell(TicketType type){
         this.type = type;
-        setCostForType(type);
         operation = Operation.SELECTING_PAYMENT;
         notifyChange(operation);
         notifyChange(canPrint());
@@ -123,7 +124,7 @@ public class TicketMachine extends Observable{
      * Setta il tipo di pagamento scelto per pagare
      * @param pMethod
      */
-    public void setPaymentMethod(PaymentMethod pMethod) {
+    public void setPaymentMethod(PaymentMethod pMethod){
         this.pMethod = pMethod;
         switch (pMethod) {
             case CASH:
@@ -141,7 +142,8 @@ public class TicketMachine extends Observable{
      * Effettua la vendita del biglietto in base al tipo di biglietto e al metodo
      * di pagamento scelto.
      */
-    public boolean buyTicket() {
+    public boolean buyTicket() throws TicketTypeNotFoundException {
+        setCostForType(type);
         switch (pMethod) {
             case CASH:
                 insertedMoney = 0;
@@ -294,11 +296,11 @@ public class TicketMachine extends Observable{
         ticketTemplate.put(TicketType.MULTI, 5.70);
     }
     
-    private void setCostForType(TicketType type) {
+    private void setCostForType(TicketType type) throws TicketTypeNotFoundException {
         if(ticketTemplate.containsKey(type)) {
             cost = ticketTemplate.get(type);
         }
-        else cost = 0; //to do eccezzione
+        throw new TicketTypeNotFoundException("Tipo di biglietto inesistente");        
     }
     
     private void notifyChange(Object arg) {

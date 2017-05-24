@@ -1,4 +1,5 @@
 
+import exceptions.TicketTypeNotFoundException;
 import machines.TicketMachine;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,7 +48,7 @@ public class TestApp {
     }
     
     @Test
-    public void testBuySingleTicketCCard() {
+    public void testBuySingleTicketCCard() throws TicketTypeNotFoundException {
         TicketMachine tMachine = new TicketMachine(5000, "10.87.156.248");
         tMachine.setTicketToSell(TicketType.SINGLE);
         tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
