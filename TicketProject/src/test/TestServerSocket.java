@@ -19,16 +19,11 @@ import java.security.NoSuchAlgorithmException;
  */
 public class TestServerSocket {
     public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-       // CSystem cs = new CSystem();
-       String ciao = new String("1234");
-       
         LogCS.getInstance().abilita();
-        
-        MessageDigest cript = MessageDigest.getInstance("SHA-1");
-        cript.reset();
-        cript.update(ciao.getBytes("utf8"));
-        String passwordHash = new BigInteger(1, cript.digest()).toString(16);
-        System.out.println(passwordHash);
+        CSystem cs = new CSystem();
+       //String ciao = new String("1234");
+       
+      
         
       // CodeHandler code =  CodeHandler.getInstance();
        //String ciao;
