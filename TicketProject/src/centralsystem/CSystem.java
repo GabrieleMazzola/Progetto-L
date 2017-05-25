@@ -5,6 +5,7 @@ import databaseadapter.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -18,7 +19,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     private ServerSocket socketListener;
     private SocketHandler scHandler;
     private BankAdapter bank;
-    private List<String> log;
+    private List<Message> log;
     public static int codesCounter;
 
     public CSystem() {
@@ -32,12 +33,21 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         initServer();
     }
     
-    public void addMessageToLog(String message) {
-        log.add(message);
-        notifyChange(message);
+    /**
+     * Chiude il servere. Se il parametro passato è vero lo riavvia anche
+     * @param restart 
+     */
+    public void close(boolean restart) {
+        notifyChange(restart);
     }
     
-    public List<String> getLog() {
+    public void addMessageToLog(String message) {
+        Message msg = new Message(message, Calendar.getInstance());
+        log.add(msg);
+        notifyChange(msg);
+    }
+    
+    public List<Message> getLog() {
         return log;
     }
     
@@ -259,6 +269,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     private void initCollectors() {
         database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
+        database.addCollector("ADMIN","ADMIN","ADMIN","ADMIN","ADMIN");
     }
    
     public boolean userLoginogin(String username, String psw) {
@@ -266,7 +277,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }    
    
     @Override
-    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         if(machineList.containsKey(machineCode)){
             ((MachineStatus)machineList.get(machineCode)).setActive(active);            
             ((MachineStatus)machineList.get(machineCode)).setPaperLevel(paperLevel);
@@ -288,7 +299,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return codesCounter - numberOfCodes;
     }
     
-    private void notifyChange(Object arg) {
+    public synchronized void notifyChange(Object arg) {
         setChanged();
         notifyObservers(arg);
     }

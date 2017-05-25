@@ -104,7 +104,7 @@ public class GUITicketMachine extends Application implements Observer{
                     window.setScene(showTicketScene);
                     break;
                 case INSERTING_CCARD:
-                    //window.setScene(insertCardNumberScene);
+                    window.setScene(insertCardNumberScene);
                     break;
             }
         }

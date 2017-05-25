@@ -14,17 +14,18 @@ import javax.swing.JProgressBar;
  * @author Manuele
  */
 public class MachineLeafPanel extends JPanel{
-    private JLabel machineId, labelImage;
+    private JLabel machineId, labelImage, ipLabel;
     private JProgressBar inkBar, paperBar;
     private BufferedImage image;
     private Graphics2D graphics;
     private final int size = 15;
     
-    public MachineLeafPanel(String id, double inkLvl, double paperLvl) {
+    public MachineLeafPanel(String id, double inkLvl, double paperLvl, String ip) {
         this.setLayout(new GridLayout(1,4));
         
         //Istanzio gli oggetti da mostrare
         machineId = new JLabel(id);
+        ipLabel = new JLabel(ip);
         inkBar = new JProgressBar(0, 100);
         inkBar.setValue((int)Math.round(inkLvl));
         inkBar.setStringPainted(true);
@@ -38,6 +39,7 @@ public class MachineLeafPanel extends JPanel{
         labelImage = new JLabel(new ImageIcon(image));
         this.add(labelImage);
         this.add(machineId);
+        this.add(ipLabel);
         this.add(inkBar);
         this.add(paperBar);
     }

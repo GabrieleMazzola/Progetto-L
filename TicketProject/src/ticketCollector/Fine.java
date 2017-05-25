@@ -22,10 +22,10 @@ public class Fine {
         
 //        long first=15*24*60*60*1000; 
 //        long second=first*2;
-        this.cfCode=cfCode;
 //        this.amount=999;
 //        this.firstDeadline=new Date(today.getTime()+first);
 //        this.secondDeadline=new Date(today.getTime()+second);
+        this.cfCode=cfCode;
         today = LocalDate.now();
         firstDeadline = today.plus(15, ChronoUnit.DAYS);
         secondDeadline = today.plus(1, ChronoUnit.MONTHS);

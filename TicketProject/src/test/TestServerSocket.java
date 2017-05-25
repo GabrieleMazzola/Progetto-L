@@ -18,18 +18,13 @@ import java.security.NoSuchAlgorithmException;
  * @author Zubeer
  */
 public class TestServerSocket {
-    public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        LogCS.getInstance().abilita();
-        CSystem cs = new CSystem();
-       //String ciao = new String("1234");
-       
-      
-        
-      // CodeHandler code =  CodeHandler.getInstance();
-       //String ciao;
-       //double  c=999999999999L;
-        //for (long  i = 0; i < c; i+=10000000) {
-         //       ciao = code.encoder(i, "A");
+    public static void main(String[] args) {
+//        CSystem cs = new CSystem();
+       CodeHandler code =  CodeHandler.getInstance();
+       String ciao;
+       double  c=999999999999L;
+        for (long  i = 0; i < c; i+=10000000) {
+                ciao = code.encoder(i, "A");
                 //System.out.println(ciao);
          //       code.decoder(ciao);
        // }

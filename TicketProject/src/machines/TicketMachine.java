@@ -16,7 +16,7 @@ import ticket.*;
  */
 public class TicketMachine extends Observable{
     private int cod;
-    private int numberOfCodes = 10;
+    private int numberOfCodes = 30;
     private ResourcesHandler resources;
     private MoneyHandler moneyTank;
     private StubMachine stub;
@@ -48,7 +48,7 @@ public class TicketMachine extends Observable{
         timer=new Timer();
         initSerialNumber();
         initUpdateMachineTask();
-        
+      
         timer.schedule(updateMachineTask,3000,3000);
     }
     
@@ -361,7 +361,7 @@ public class TicketMachine extends Observable{
         updateMachineTask = new TimerTask () {
             @Override
             public void run () {
-                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive());
+                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive(), "a");
             };
         };
     }
@@ -391,7 +391,7 @@ public class TicketMachine extends Observable{
     /**
      * stampa i biglietti della macchineatta
      */
-    public void toStringSerialNumberSize(){
+    public void printSerialNumberSize(){
         for(Integer c: serialNumber){
             System.out.println(c);
         }
