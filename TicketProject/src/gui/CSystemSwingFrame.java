@@ -22,8 +22,7 @@ public class CSystemSwingFrame extends JFrame implements Observer{
         super();
         cSystem.addObserver(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-}
+
         setSize(800,400);
         
         tabbedPane = new JTabbedPane();

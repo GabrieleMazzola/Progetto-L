@@ -14,7 +14,6 @@ public class CSystemFactory {
     che vengono istanziati nel costruttore
     */
     private static CSystemFactory instance;
-    private CSystem cSystemInstance;
     
     private CSystemFactory() {
         //TODO: istanziare cose come il numero della porta
@@ -25,11 +24,8 @@ public class CSystemFactory {
      * @return 
      */
     public CSystem getCentralSystemInstance() {
-        if(cSystemInstance == null)
-            cSystemInstance = new CSystem();
-        return cSystemInstance;
+        return new CSystem();
     }
-    //IL CENTRAL SYSTEM DEVE ESSERE UN SINGLETON?
     
     /**
      * Chiama l'istanza corrente della Factory. Nel caso la factory fosse già

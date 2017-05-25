@@ -29,7 +29,7 @@ public class MachineStatusPanel extends JPanel implements Observer{
         contents = new HashMap();
         //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         box = Box.createVerticalBox();
-        
+        System.out.println("");
         setupBox();
         
         this.add(box);

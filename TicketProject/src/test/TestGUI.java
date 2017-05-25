@@ -14,7 +14,7 @@ public class TestGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TicketMachine tm = new TicketMachine(0, "ipAddress");
+        TicketMachine tm = new TicketMachine(5000, "127.0.0.1");
         
         TicketMachineSwingFrame frame = new TicketMachineSwingFrame(tm);
         frame.setVisible(true);

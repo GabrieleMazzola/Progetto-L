@@ -3,6 +3,8 @@ package ticketCollector;
 import java.util.ArrayList;
 
 import centralsystem.CentralSystemCollectorInterface;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class TicketCollector {
@@ -13,6 +15,9 @@ public class TicketCollector {
     private String psw;
     private ArrayList<Fine> offlineFines;
     
+    private Timer timer;
+    private TimerTask updateFineTask;
+    
     /**
      *
      * @param cod : codice identificativo della macchina
@@ -22,6 +27,9 @@ public class TicketCollector {
         this.cod = cod;
         stub = new StubCollector(ipAddress, 5000);
         offlineFines = new ArrayList<>();
+        initUpdateFineTask();
+        timer = new Timer();
+        timer.schedule(updateFineTask,300000,300000);   //TODO Stabilire il tempo o un'ora
     }
     
     
@@ -61,6 +69,10 @@ public class TicketCollector {
     	this.psw = null;
     }    
    
+    /**
+     * Dice se il controllore è connesso
+     * @return true se è connesso false se non è connesso
+     */
     private boolean isLogged(){
     	if(!connected){
     		System.out.println("LoginControllore richiesto.");
@@ -89,15 +101,29 @@ public class TicketCollector {
      */
     public void createFine(String cf, double amount){
     	if(isLogged()){
-            Fine fine = new Fine(cf, amount);
-            String test = "zuzzuprovolone";
-            if(stub.centralSystemTEST(test).equals(test)){
-            
-            	stub.makeFine(fine);
-            }else{
+            Fine fine = new Fine(cf, amount); 
+            if(stub.makeFine(fine)){}
+                else{
                 offlineFines.add(fine);
                 //TODO decidere come e ogni quanto provare ad inviare le multe offline
             }
         }
+    }
+
+    private void initUpdateFineTask() {
+        updateFineTask= new TimerTask() {
+            @Override
+            public void run() {
+                int i = 0;
+                while(!offlineFines.isEmpty() && i<10){
+                    System.out.println("Dentro il ciclo:"+i);
+                    i++;
+                    Fine f = offlineFines.remove(0);
+                    if(!stub.makeFine(f))
+                        offlineFines.add(0, f); 
+                }
+            }
+            //TODO decisamente da migliorare l'algoritmo
+        };
     }
 }

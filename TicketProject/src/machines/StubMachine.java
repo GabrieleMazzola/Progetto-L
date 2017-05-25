@@ -93,7 +93,6 @@ public class StubMachine implements CentralSystemTicketInterface {
             initConnection();
             //String packet = cardPaymentJSONPacket(cardNumber);
             String packet = JSONOperator.cardPaymentPacket(cardNumber, amount);
-            //System.out.println(packet);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
 
             //Aspetto risposta da parte del server
@@ -129,7 +128,6 @@ public class StubMachine implements CentralSystemTicketInterface {
     try {
         initConnection();
         String packet = JSONOperator.createUser(name,surname,username,cf,psw);
-        //System.out.println(packet);
         toServer.println(packet);                           //Invio verso server della richiesta JSON
         
         //Aspetto risposta da parte del server
@@ -150,10 +148,10 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
 
     @Override
-    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+    public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         try {
             initConnection();
-            String packet = JSONOperator.updateMachineStatus(machineCode, inkLevel, paperLevel, active);
+            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, ipAddress);
             toServer.println(packet);
             String line = fromServer.readLine();
             closeConnection();
