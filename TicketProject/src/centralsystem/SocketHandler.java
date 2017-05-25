@@ -17,10 +17,10 @@ import java.util.logging.Logger;
  * @author Zubeer
  */
 public class SocketHandler extends Thread {
-     ServerSocket socketListener = null;
-     Socket newSocket  = null;
-     ArrayList<Skeleton> connectionList;
-     CSystem centralSystem;
+    ServerSocket socketListener = null;
+    Socket newSocket  = null;
+    ArrayList<Skeleton> connectionList;
+    CSystem centralSystem;
      
     public SocketHandler (ServerSocket socketListener,CSystem centralSystem) {
        this.socketListener = socketListener;
@@ -29,14 +29,14 @@ public class SocketHandler extends Thread {
     }
 
     @Override
-     public void run() {
+    public void run() {
         while(true){
             try {
                 newSocket = socketListener.accept();
                 connectionList.add(new Skeleton(newSocket,centralSystem));
                 connectionList.get(connectionList.size()-1).start();
                 removeDeadThread();          
-            } catch (IOException ex) {
+            }catch (IOException ex) {
                 System.err.println("Socket handler error");
             }
             

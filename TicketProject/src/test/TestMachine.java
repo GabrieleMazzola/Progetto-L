@@ -19,8 +19,8 @@ public class TestMachine {
     public static void main(String[] args) {
          CSystem cs = new CSystem();
          LogCS.getInstance().abilita();
-        TicketMachine tMachine = new TicketMachine(5000, "10.87.232.53");
-         
+        TicketMachine tMachine = new TicketMachine(5000, "127.0.0.1");
+        
         tMachine.startUpdateSerial();
         while(true);
 //        tMachine.setPaymentMethod(PaymentMethod.CASH);

@@ -41,9 +41,9 @@ public class TestbuyTicketandUpdateTicketcode {
         System.out.println("Il numero di biglietti dentro la macchinetta2:"+tMachine2.getSerialNumberSize()); //19 0 9 se thread lento
         
         System.out.println("Macchinetta1:"); //dipende dai thread teoricamente stampa 19 stringhe
-        tMachine.printSerialNumberSize();
+        tMachine.printSerialNumber();
         System.out.println("Macchinetta2");  //dipende dai thread teoricamnete stmapa 19 stringhe
-        tMachine2.printSerialNumberSize();
+        tMachine2.printSerialNumber();
     }
     
 }

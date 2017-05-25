@@ -16,12 +16,12 @@ import ticket.*;
  */
 public class TicketMachine extends Observable{
     private int cod;
-    private int numberOfCodes = 30;
+    private final int numberOfCodes = 30;
     private ResourcesHandler resources;
     private MoneyHandler moneyTank;
     private StubMachine stub;
     private Map<TicketType,Double> ticketTemplate;
-    private String ticketCodes;
+   
     private String logged;
     private Operation operation;
     private String path;
@@ -104,15 +104,7 @@ public class TicketMachine extends Observable{
     public String getPath() {
         return path;
     }
-    
-    /**
-     * 
-     * @return I codici che la macchinetta può usare
-     */
-    public String getTicketCode(){
-        return this.ticketCodes;
-    }
-    
+        
     //__________________Metodi per la vendita di biglietti______________________
     /**
      * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
@@ -228,7 +220,7 @@ public class TicketMachine extends Observable{
      * funzione che stampa il Ticket
      */
     private void printTicket() {
-        controlCode();
+        controlRemainedCode();
         System.out.println("numero ticket:"+createTicket());
         resources.printTicket();
         notifyChange(isActive());
@@ -250,7 +242,7 @@ public class TicketMachine extends Observable{
      * Se il numero è sotto, e non ci sono attivi thread per la richiesta, 
      * ne manda una. Se i bilglietti sono zero attende. 
      */
-    private void controlCode(){
+    private void controlRemainedCode(){
         if(serialNumber.size()<=20 && this.requestCodesThread){ //il venti al momento è aliatorio
                 this.startUpdateSerial();
             if(serialNumber.size()==0)
@@ -278,13 +270,6 @@ public class TicketMachine extends Observable{
     }
     
     //__________________Metodi per la gestione dei codici_______________________
-    /**
-     * Setta i codici che la macchinetta può usare
-     * @param ticketCodes
-     */
-    public void setTicketCode(String ticketCodes) {
-        this.ticketCodes = ticketCodes;
-    }
 
     public boolean login(String username, String password) {
         if(stub.userLogin(username, password)) {
@@ -391,7 +376,7 @@ public class TicketMachine extends Observable{
     /**
      * stampa i biglietti della macchineatta
      */
-    public void printSerialNumberSize(){
+    public void printSerialNumber(){
         for(Integer c: serialNumber){
             System.out.println(c);
         }
