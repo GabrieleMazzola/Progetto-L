@@ -48,7 +48,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
     
     @Override
-    public boolean existsTicket(String ticketCode) {
+    public boolean existsTicket(int ticketCode) {
         try{
             initConnection();
 

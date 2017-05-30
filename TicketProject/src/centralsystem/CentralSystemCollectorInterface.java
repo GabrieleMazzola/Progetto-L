@@ -12,7 +12,7 @@ import ticketCollector.Fine;
  */
 public interface CentralSystemCollectorInterface {
     
-    public boolean existsTicket(String ticketCode);
+    public boolean existsTicket(int ticketCode);
     
     public boolean makeFine(Fine f);
     

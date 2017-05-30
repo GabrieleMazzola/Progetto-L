@@ -1,11 +1,14 @@
 package centralsystem;
 
+import databaseadapter.TicketDB;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -109,6 +112,10 @@ public class Skeleton extends Thread {
                     centralSystem.notifyChange("Request exists ticket...");
                     result.append(callexistsTicket((JSONObject) obj.get("data")));
                     break;
+                case "MYTICKETS":
+                    centralSystem.notifyChange("Requesting user codes...");
+                    result.append(callMyTickets((JSONObject) obj.get("data")));
+                    break; 
                 case "REQUESTCODES":
                     centralSystem.notifyChange("Requesting new codes...");
                     result.append(callRequestCodes((JSONObject) obj.get("data")));
@@ -168,7 +175,7 @@ public class Skeleton extends Thread {
     
     private String callexistsTicket(JSONObject data) {
         String ticketCode = (String) data.get("ticketCode");
-        boolean result = centralSystem.existsTicket(ticketCode);
+        boolean result = centralSystem.existsTicket(Integer.parseInt(ticketCode));
         data = new JSONObject();
         data.put("data", result);
         
@@ -257,8 +264,25 @@ public class Skeleton extends Thread {
     }
     
     private String callAddTicketSale(JSONObject data) {
+        Date expiryDate = new Date();
+        
+        int serialCode = ((Long)data.get("serialCode")).intValue();
+        String username =(String) data.get("username");
+        String ticketType =(String) data.get("ticketType");
+        
+        centralSystem.addTicketSale( expiryDate,  serialCode,  username,ticketType);
         data = new JSONObject();
         data.put("data", true);
         return data.toString();
     }
+
+    
+    private String callMyTickets(JSONObject data) {
+        String username = (String)data.get("username");
+        data = new JSONObject();
+        ArrayList<TicketDB> listaBiglietti =  centralSystem.MyTicket(username);
+        data.put("data", listaBiglietti);
+        return data.toString();
+    }
+    
 }

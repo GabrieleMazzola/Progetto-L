@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -27,7 +28,6 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         this.bank = new BankAdapter();
         machineList = new HashMap();
         log = new ArrayList();
-        initTickets();
         initUsers();
         initCollectors();
         initServer();
@@ -167,12 +167,12 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * Ricerca nel database un biglietto con codice uguale a quello passato
      * come parametro. Se nel database viene trovato un biglietto con tale codice
      * il metodo ritorna vero
-     * @param ticketCode
+     * @param ticketSerial
      * @return ero se esiste un biglietto nel database con il codice indicato
      */
-    @Override
-    public boolean existsTicket(String ticketCode) {
-        return database.existsTicket(ticketCode);
+    
+    public boolean existsTicket(int ticketSerial) {
+        return database.existsTicket(ticketSerial);
     }
     
     /**
@@ -180,11 +180,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * come parametro, e verifica la sua validità. Viene usato in congiunzione
      * con il metodo existsTicket per garantire l'esistenza del biglietto con 
      * codice indicato (per evitare NullPointerException)
-     * @param ticketCode
+     * @param ticketSerial
      * @return Vero se il biglietto è valido
      */
-    public boolean isValid(String ticketCode) {
-        return database.isValid(ticketCode);
+    public boolean isValid(int ticketSerial) {
+        return database.isValid(ticketSerial);
     }
     
     //__________________Metodi riguardanti la macchinetta_______________________
@@ -252,15 +252,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         scHandler.start();
     }
     
-    private void initTickets() {
-        for (int i = 0; i < 10; i++) {
-            database.addTicket(new TicketDB(TicketType.SINGLE));
-        }
-
-        for (int i = 0; i < 10; i++) {
-            database.addTicket(new TicketDB(TicketType.SEASON));
-        }
-    }
+   
 
     private void initUsers() {
         database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K","gabriele.m1995@gmail.com", "pizza123");
@@ -305,4 +297,14 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
             notifyObservers(arg);
         }
     }
+
+    ArrayList<TicketDB> MyTicket(String username) {
+        return database.getTicketByUsername(username); 
+    }
+
+    void addTicketSale(Date expiryDate, int serialCode, String username, String ticketType) {
+        database.addTicket(expiryDate, serialCode, username, ticketType);
+        
+    }
+
 }

@@ -6,7 +6,7 @@ import ticketCollector.Fine;
 
 public class DatabaseAdapter {
     private Set<UserDB> users;
-    private Set<TicketDB> tickets;
+    private Set<TicketDB> tickets;   //biglietti venduti
     private Set<Fine> fines;
     private Set<CollectorDB> collectors;
 
@@ -41,6 +41,10 @@ public class DatabaseAdapter {
     public boolean addTicket(TicketDB ticket){
         return tickets.add(ticket);
     }
+    public boolean addTicket(Date expiryDate, int serialCode, String username, String ticketType){
+            tickets.add(new TicketDB(expiryDate,serialCode, username, ticketType));
+        return true;
+    }
     
     /**
      * Aggiunge un controllore al database. I campi del controllore da aggiungere sono
@@ -58,13 +62,13 @@ public class DatabaseAdapter {
     /**
      * Cerca nel database un biglietto tramite il suo codice. Se viene trovato,
      * viene restituito il biglietto.
-     * @param ticketCode
+     * @param ticketSerial
      * @return Il TicketDB se esiste un biglietto con codice ticketCode, null
      * altrimenti
      */
-    public TicketDB getTicketByCode(String ticketCode){
+    public TicketDB getTicketByCode(int ticketSerial){
         for(TicketDB t: tickets){
-            if(t.getCode().trim().equalsIgnoreCase(ticketCode.trim())){
+            if(t.getCode() == ticketSerial){
                 return t;
             }
         }
@@ -74,21 +78,21 @@ public class DatabaseAdapter {
     /**
      * Cerca nel database se esiste un biglietto con codice indicato. Per farlo
      * viene chiamato il metodo getTicketByCode
-     * @param ticketCode
+     * @param ticketSerial
      * @return Vero se getTicketByCOde non restituisce null, falso altrimenti
      */
-    public boolean existsTicket(String ticketCode){
-        return(getTicketByCode(ticketCode) != null);
+    public boolean existsTicket(int ticketSerial){
+        return(getTicketByCode(ticketSerial) != null);
     }
     
     /**
      * Cerca nel database il biglietto con codice indicato e verifica la sua validità.
      * Per farlo viene chiamato il metodo getTicketByCode
-     * @param ticketCode
+     * @param ticketSerial
      * @return Vero se getTicketByCode non ritorna null e se il biglietto è attivo
      */
-    public boolean isValid(String ticketCode){
-        TicketDB t = getTicketByCode(ticketCode);
+    public boolean isValid(int ticketSerial){
+        TicketDB t = getTicketByCode(ticketSerial);
         if(t != null){
             return t.isActive();
         }
@@ -110,13 +114,13 @@ public class DatabaseAdapter {
     /**
      * Rende attivo il biglietto indicato tramite codice. Per farlo viene chiamato
      * il metodo getTicketByCode
-     * @param ticketCode
+     * @param ticketSerial
      * @return Vero se l'attivazione va a buon fine (ossia se getTicketByCode non 
      * restituisce null), falso altrimenti
      */
-    public boolean activateTicket(String ticketCode){
+    public boolean activateTicket(int ticketSerial){
         TicketDB t;
-        if((t = getTicketByCode(ticketCode)) != null){
+        if((t = getTicketByCode(ticketSerial)) != null){
             t.activate();
             return true;
         }
@@ -199,4 +203,16 @@ public class DatabaseAdapter {
         }
         return false;
     }    
+
+    public ArrayList<TicketDB> getTicketByUsername(String username) {
+        ArrayList<TicketDB> listaBiglietti = new ArrayList<>();
+        
+        for (TicketDB ticket : listaBiglietti) {
+            if(ticket.getUsername().equals(username)) listaBiglietti.add(ticket);
+        }
+        return listaBiglietti;
+    }
+    
+    
+    
 }

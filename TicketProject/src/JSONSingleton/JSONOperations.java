@@ -79,7 +79,7 @@ public class JSONOperations {
     /**
      * Struttura JSON: {"method":"EXISTSTICKET","data":{"ticketCode":"String"}}
      */
-    public String existsTicketPacket(String ticketCode) {
+    public String existsTicketPacket(int ticketCode) {
         JSONObject root = new JSONObject();
         root.put("method", "EXISTSTICKET");
         JSONObject data = new JSONObject();
