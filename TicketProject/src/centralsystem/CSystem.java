@@ -300,7 +300,9 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     public synchronized void notifyChange(Object arg) {
-        setChanged();
-        notifyObservers(arg);
+        if(arg != null) {
+            setChanged();
+            notifyObservers(arg);
+        }
     }
 }

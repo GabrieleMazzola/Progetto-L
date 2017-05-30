@@ -50,7 +50,7 @@ public class Skeleton extends Thread {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             
             //while(clientSocket.isConnected()) {
-            System.out.println("");
+            
                 LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
 
                 String result = decodeRead(in.readLine());
@@ -58,7 +58,6 @@ public class Skeleton extends Thread {
             //}
             in.close();
             out.close();
-
         } catch (IOException ex) {
             System.err.println("Error: socket opening fail");
             System.err.println(ex);
@@ -118,8 +117,8 @@ public class Skeleton extends Thread {
                     //centralSystem.notifyChange("Updating machine status...");
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
-                
                 case "ADDTICKETSALE":
+                    centralSystem.notifyChange("Attempted selling ticket...");
                     result.append(callAddTicketSale((JSONObject) obj.get("data")));
                     break;
                 default:
@@ -183,8 +182,6 @@ public class Skeleton extends Thread {
 
     private String callRequestCodes(JSONObject data) {
         int numberOfCodes = centralSystem.requestCodes(((Long)data.get("numberOfCodes")).intValue());
-        data = new JSONObject();
-        
         data.put("data", numberOfCodes);
         
         String notify = "Codes requested to the Central System";

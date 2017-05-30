@@ -16,7 +16,7 @@ public class TestSystem {
     public static void main(String[] args) {
         CSystem sys = new CSystem();
         
-        sys.printTickets();
-        sys.printUsers();
+    //    sys.printTickets();
+     //   sys.printUsers();
     }
 }
