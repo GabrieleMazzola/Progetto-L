@@ -13,10 +13,10 @@ public class TicketCollector {
     private boolean connected = false;
     private String username;
     private String psw;
-    private ArrayList<Fine> offlineFines;
-    
-    private Timer timer;
-    private TimerTask updateFineTask;
+//    private ArrayList<Fine> offlineFines;
+//    
+//    private Timer timer;
+//    private TimerTask updateFineTask;
     
     /**
      *
@@ -26,10 +26,10 @@ public class TicketCollector {
     public TicketCollector(int cod,String ipAddress){
         this.cod = cod;
         stub = new StubCollector(ipAddress, 5000);
-        offlineFines = new ArrayList<>();
-        initUpdateFineTask();
-        timer = new Timer();
-        timer.schedule(updateFineTask,300000,300000);   //TODO Stabilire il tempo o un'ora
+//        offlineFines = new ArrayList<>();
+//        initUpdateFineTask();
+//        timer = new Timer();
+//        timer.schedule(updateFineTask,300000,300000);   //TODO Stabilire il tempo o un'ora
     }
     
     
@@ -100,30 +100,14 @@ public class TicketCollector {
      * @param amount : cifra della multa
      */
     public void createFine(String cf, double amount){
-    	if(isLogged()){
-            Fine fine = new Fine(cf, amount); 
-            if(stub.makeFine(fine)){}
-                else{
-                offlineFines.add(fine);
-                //TODO decidere come e ogni quanto provare ad inviare le multe offline
-            }
+
+        if(isLogged()){
+            Fine fine = new Fine(cf,amount);
+            stub.makeFine(fine);
         }
+        
+        
     }
 
-    private void initUpdateFineTask() {
-        updateFineTask= new TimerTask() {
-            @Override
-            public void run() {
-                int i = 0;
-                while(!offlineFines.isEmpty() && i<10){
-                    System.out.println("Dentro il ciclo:"+i);
-                    i++;
-                    Fine f = offlineFines.remove(0);
-                    if(!stub.makeFine(f))
-                        offlineFines.add(0, f); 
-                }
-            }
-            //TODO decisamente da migliorare l'algoritmo
-        };
-    }
+    
 }

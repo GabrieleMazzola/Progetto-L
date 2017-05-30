@@ -25,7 +25,7 @@ public class TestTicketCollector {
      */
     public static void main(String[] args) throws IOException{
         
-        CSystem CS = new CSystem();    
+            
         TicketCollector provaCollector = new TicketCollector(5000,"127.0.0.1");
         
         provaCollector.loginCollector("ADMIN", "ADMIN");
@@ -35,10 +35,15 @@ public class TestTicketCollector {
         }
 
         
-        provaCollector.createFine("Ciao", 1000);
-        provaCollector.createFine("Boh", 900);
-            
         
+        provaCollector.createFine("Ciao", 1000);
+        System.out.println("ciao");
+        provaCollector.createFine("Boh", 900);
+        System.out.println("ciao2");    
+      
+        CSystem CS = new CSystem();
+        provaCollector.createFine("Box", 1000);
+        System.out.println("Ciao3");
     }
     
 }
