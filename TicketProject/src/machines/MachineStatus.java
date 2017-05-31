@@ -7,11 +7,13 @@ package machines;
 
 public class MachineStatus {
     private int machineCode;
+    private String ip;
     private double inkLevel, paperLevel;
     private boolean active;
 
-    public MachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active) {
+    public MachineStatus(int machineCode, String ip, double inkLevel, double paperLevel, boolean active) {
         this.machineCode = machineCode;
+        this.ip = ip;
         this.inkLevel = inkLevel;
         this.paperLevel = paperLevel;
         this.active = active;
@@ -41,11 +43,11 @@ public class MachineStatus {
         this.paperLevel = paperLevel;
     }
     
-
     public void setActive(boolean active) {
         this.active = active;
     }
     
-    
-    
+    public void setIpAddress(String ipAddress) {
+        ip = ipAddress;
+    }
 }

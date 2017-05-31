@@ -59,7 +59,7 @@ public class RequestCodesThread extends Thread{
     @Override
     public void run() {
         try{
-            machine.requestCodesThreadisAlive();
+            //machine.setRequestCodesActive();
             
             initConnection();
             //String packet = requestCodesJSONPacket();
@@ -78,9 +78,9 @@ public class RequestCodesThread extends Thread{
             JSONObject obj = (JSONObject) parser.parse(line);
             startNumber = (((Long)obj.get("data")).intValue());    //salva in macchinetta
             makeSerialsArray(startNumber,startNumber+numberOfCodes);
-            machine.endUpdateSerial(serialNumbers);
+            machine.addTicketSerials(serialNumbers);
         
-            machine.requestCodesThreadisDead();
+            //machine.setRequestCodesInactive();
         }catch(IOException | ParseException ex) {
             ex.printStackTrace();
             closeConnection();

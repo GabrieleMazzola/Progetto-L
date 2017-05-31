@@ -4,6 +4,8 @@ package ticket;
  *
  * @author Manuele
  */
-public enum TicketType {
-    SINGLE, MULTI, SEASON
+public interface TicketType {
+    
+    public double getCost();
+    public String getType();
 }

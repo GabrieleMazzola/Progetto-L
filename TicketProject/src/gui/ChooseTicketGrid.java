@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import machines.TicketMachine;
-import ticket.TicketType;
 
 /**
  *
@@ -25,7 +24,7 @@ public class ChooseTicketGrid extends BridgeSceneGrid{
         buySingle = new Button("Single \n 1,50");
         
         buySingle.setOnAction(e -> {
-            tMachine.setTicketToSell(TicketType.SINGLE);
+            tMachine.setTicketToSell("Single");
         });
         
         istantiateGrid();

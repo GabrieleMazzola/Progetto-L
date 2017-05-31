@@ -4,7 +4,6 @@ import JSONSingleton.JSONOperations;
 import exceptions.TicketExausted;
 import java.util.concurrent.TimeUnit;
 import org.json.simple.parser.ParseException;
-import ticket.SingleTicket;
 import ticket.Ticket;
 
 /**

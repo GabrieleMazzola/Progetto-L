@@ -43,28 +43,28 @@ public class TestApp {
     
     @Test
     public void testLoginCustomer() {
-        TicketMachine tMachine = new TicketMachine(5000, "10.87.156.248");
+        TicketMachine tMachine = new TicketMachine(0, 5000, "10.87.156.248");
         assertTrue(tMachine.login("ADMIN", "ADMIN"));
     }
     
     @Test
     public void testBuySingleTicketCCard() throws TicketTypeNotFoundException {
-        TicketMachine tMachine = new TicketMachine(5000, "10.87.156.248");
-        tMachine.setTicketToSell(TicketType.SINGLE);
+        TicketMachine tMachine = new TicketMachine(0, 5000, "10.87.156.248");
+        tMachine.setTicketToSell("Single");
         tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
         assertTrue(tMachine.buyTicket());
     }
     
     @Test
     public void testBuySingleTicketCash() {
-        TicketMachine tMachine = new TicketMachine(5000, "10.87.156.248");
+        TicketMachine tMachine = new TicketMachine(0, 5000, "10.87.156.248");
         assertTrue(tMachine.getSelectedTicketCost() == 0);
         
         double inkLvl = tMachine.getInk();
         double paperLvl = tMachine.getPaper();
         float initMoney = tMachine.getMoneyInTank();
         
-        tMachine.setTicketToSell(TicketType.SINGLE);
+        tMachine.setTicketToSell("Single");
         tMachine.setPaymentMethod(PaymentMethod.CASH);
         assertTrue(tMachine.getSelectedTicketCost() == 1.5);
         

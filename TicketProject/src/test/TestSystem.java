@@ -6,6 +6,7 @@
 package test;
 
 import centralsystem.CSystem;
+import centralsystem.LogCS;
 
 /**
  *
@@ -15,7 +16,7 @@ public class TestSystem {
     
     public static void main(String[] args) {
         CSystem sys = new CSystem();
-        
+        LogCS.getInstance().abilita();
     //    sys.printTickets();
      //   sys.printUsers();
     }

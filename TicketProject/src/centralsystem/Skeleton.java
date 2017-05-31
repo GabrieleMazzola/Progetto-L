@@ -87,6 +87,7 @@ public class Skeleton extends Thread {
         LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
         LogCS.getInstance().stampa("out", "Client della richiesta:  "  + this.getId()); 
         StringBuilder result = new StringBuilder();
+        if(inputData == null) return null;
         try {
             centralSystem.addMessageToLog(inputData);
             obj = (JSONObject) parser.parse(inputData);
@@ -130,7 +131,6 @@ public class Skeleton extends Thread {
                     result.append(callRequestCodes((JSONObject) obj.get("data")));
                     break;    
                 case "UPDATEMACHINESTATUS":
-                    centralSystem.notifyChange("Updating machine status...");
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
                 case "ADDTICKETSALE":
@@ -143,7 +143,7 @@ public class Skeleton extends Thread {
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
         }
-        System.out.println(result.toString());
+        //System.out.println(result.toString());
         //centralSystem.addMessageToLog(result.toString());
         return result.toString();
     }
@@ -266,7 +266,12 @@ public class Skeleton extends Thread {
     } 
     
     private String callupdateMachineStatus(JSONObject data) {
-        centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"), clientSocket.getRemoteSocketAddress().toString());
+        int machineCode = ((Double)data.get("machineCode")).intValue();
+        double inkLevel = (double) data.get("inkLevel");
+        double paperLevel = (double) data.get("paperLevel");
+        boolean active = (boolean) data.get("active");
+        //System.out.println(clientSocket.getRemoteSocketAddress().toString());
+        centralSystem.updateMachineStatus(machineCode, inkLevel, paperLevel, active, clientSocket.getRemoteSocketAddress().toString());
         data = new JSONObject();
         data.put("data", true);
         return data.toString();

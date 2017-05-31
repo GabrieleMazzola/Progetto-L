@@ -102,7 +102,7 @@ public class CodeHandler {
         for (int i = 4; i < inputData.length-1; i++) {
             serialCode.append(inputData[i]);
         }
-        System.out.println("type: "+ inputData[2] + " cod: " + serialCode.toString());
+        //System.out.println("type: "+ inputData[2] + " cod: " + serialCode.toString());
         
     return "";
     }
