@@ -17,11 +17,9 @@ public class TicketMachine extends Observable{
     private MoneyHandler moneyTank;
     private TicketMachineCodeHandler codesHandler;
     private StubMachine stub;
+    private UpdateHandler updateHandler;
     private String logged;
     private Operation operation;
- 
-    private Timer timer;
-    private TimerTask updateMachineTask;
     
     private double insertedMoney;
     private double cost;
@@ -34,15 +32,17 @@ public class TicketMachine extends Observable{
         this.resources = new ResourcesHandler();
         this.stub = new StubMachine(ipAdress, PORTA_SERVER, this);
         this.codesHandler = new TicketMachineCodeHandler(stub);
+        this.updateHandler = new UpdateHandler(this, stub);
+        this.updateHandler.start();
         
         operation = Operation.SELLING_TICKET;
-        timer=new Timer();
-        initUpdateMachineTask();
-      
-        timer.schedule(updateMachineTask,3000,3000);
     }
     
     //__________________Metodi getter___________________________________________
+    public int getCod() {
+        return cod;
+    }
+    
     public double getInk() {
         return resources.getInkPercentage();
     }
@@ -242,11 +242,6 @@ public class TicketMachine extends Observable{
         return stub.cardPayment(credCardNumber, cost);
     }
     
-    public void cancel() {
-        operation = Operation.SELLING_TICKET;
-        notifyChange(operation);
-    }
-    
     //__________________Metodi per la gestione dei codici_______________________
 
     public boolean login(String username, String password) {
@@ -275,37 +270,8 @@ public class TicketMachine extends Observable{
         notifyObservers(arg);
     }
     
-    public void printCoins() {
-        moneyTank.printCoinsInTank();
-    }
-
-    //__________________Metodi per thread______________________
-        /**
-     *funzione che imposta un attr. boolean a false se requestCodesThread è in esecuzione
-     */
-//    public void setRequestCodesActive(){
-//        codesHandler.setActive(true);
-//    }
-//    
-//    public void setRequestCodesInactive() {
-//        codesHandler.setActive(false);
-//    }
-    
-    private void initUpdateMachineTask() {
-        updateMachineTask = new TimerTask () {
-            @Override
-            public void run () {
-                stub.updateMachineStatus(cod, resources.getInkPercentage(), resources.getPaperPercentage(), isActive(), null);
-            };
-        };
-    }
-    
     public void setOperation(Operation operation) {
         this.operation = operation;
         notifyChange(operation);
-    }
-    
-    public void printSerials() {
-        codesHandler.print();
     }
 }

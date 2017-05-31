@@ -15,6 +15,5 @@ public class TestRequestCodes {
     public static void main(String[] args) {
         TicketMachine tMachine = new TicketMachine(0, 5000, "localhost");
         
-        tMachine.printSerials();
     }
 }

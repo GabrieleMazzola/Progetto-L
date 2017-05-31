@@ -151,16 +151,12 @@ public class StubMachine implements CentralSystemTicketInterface {
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         try {
             initConnection();
-            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, socket.getLocalAddress().toString());
+            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, ipAddress);
             toServer.println(packet);
             String line = fromServer.readLine();
             closeConnection();
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(line);
-            
-            //TODO: staccare la parte di richiesta di update dei biglietti
-//            int updateCode = (int)obj.get("updateCode");
-//            if(updateCode != machine.getCashUpdateCode())
             
             return (boolean)obj.get("data");
             
@@ -184,4 +180,10 @@ public class StubMachine implements CentralSystemTicketInterface {
         
     }
     
+    public String getIPAddress() {
+        initConnection();
+        String localAddress = socket.getLocalAddress().getHostAddress();
+        closeConnection();
+        return localAddress;
+    }
 }
