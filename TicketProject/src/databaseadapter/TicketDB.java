@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package databaseadapter;
 
 import java.util.Date;
@@ -12,7 +7,7 @@ import java.util.Date;
  * @author Gabriele
  */
 public class TicketDB {
-    private TicketType id_type;
+    private String id_type;
     private int serialCode;
     private String id_user;
     private boolean active;
@@ -22,15 +17,15 @@ public class TicketDB {
     
     
 
-    public TicketDB(Date expiryDate, int serialCode, String username, String ticketType) {
-        this.id_type = id_type;
+    public TicketDB(Date expireTime, int serialCode, String username, String ticketType) {
+        this.id_type = ticketType;
         this.serialCode = serialCode;
-        this.id_user = id_user;
+        this.id_user = username;
         this.active = active;
         this.expireTime = expireTime;
     }
 
-    public TicketType getType() {
+    public String getType() {
         return id_type;
     }
 
@@ -55,6 +50,10 @@ public class TicketDB {
 
     String getUsername() {
         return this.id_user;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
     }
     
     

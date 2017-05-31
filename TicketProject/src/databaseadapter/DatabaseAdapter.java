@@ -206,8 +206,7 @@ public class DatabaseAdapter {
 
     public ArrayList<TicketDB> getTicketByUsername(String username) {
         ArrayList<TicketDB> listaBiglietti = new ArrayList<>();
-        
-        for (TicketDB ticket : listaBiglietti) {
+        for (TicketDB ticket : tickets) {
             if(ticket.getUsername().equals(username)) listaBiglietti.add(ticket);
         }
         return listaBiglietti;

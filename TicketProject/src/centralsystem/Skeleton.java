@@ -1,5 +1,6 @@
 package centralsystem;
 
+import DateSingleton.DateOperations;
 import databaseadapter.TicketDB;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +10,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,11 +25,12 @@ public class Skeleton extends Thread {
     String inputData;
     PrintWriter out;
     JSONParser parser;
-    
+    DateOperations operator;
+
     public Skeleton(Socket clientSocket, CSystem centralSystem) {
         this.clientSocket = clientSocket;
         this.centralSystem = centralSystem;
-        
+        this.operator = DateOperations.getInstance();
         parser = new JSONParser();
     }
     
@@ -51,14 +56,13 @@ public class Skeleton extends Thread {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-            
-            //while(clientSocket.isConnected()) {
-            
-                LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress());
+            LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
+            while(clientSocket.isConnected()) {
 
                 String result = decodeRead(in.readLine());
                 out.println(result);
-            //}
+                LogCS.getInstance().stampa("out", "Risposta:  "  + result); 
+            }
             in.close();
             out.close();
         } catch (IOException ex) {
@@ -75,7 +79,7 @@ public class Skeleton extends Thread {
      */
     private synchronized String decodeRead(String inputData) {
         JSONObject obj;
-        LogCS.getInstance().stampa("out", "Socket in ingresso: "  + inputData);
+        LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
         
         StringBuilder result = new StringBuilder();
         try {
@@ -121,7 +125,7 @@ public class Skeleton extends Thread {
                     result.append(callRequestCodes((JSONObject) obj.get("data")));
                     break;    
                 case "UPDATEMACHINESTATUS":
-                    //centralSystem.notifyChange("Updating machine status...");
+                    centralSystem.notifyChange("Updating machine status...");
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
                 case "ADDTICKETSALE":
@@ -265,12 +269,19 @@ public class Skeleton extends Thread {
     
     private String callAddTicketSale(JSONObject data) {
         Date expiryDate = new Date();
-        
-        int serialCode = ((Long)data.get("serialCode")).intValue();
+        try {
+            expiryDate = operator.parse((String)data.get("expiryDate"));
+        } catch (java.text.ParseException ex) {
+            LogCS.getInstance().stampa("err", ex.toString());
+            data = new JSONObject();
+            data.put("data", false);
+            return data.toString();
+        }
+        int serialCode = ((Long)data.get("serial")).intValue();
         String username =(String) data.get("username");
         String ticketType =(String) data.get("ticketType");
         
-        centralSystem.addTicketSale( expiryDate,  serialCode,  username,ticketType);
+        centralSystem.addTicketSale( expiryDate,  serialCode,  username, ticketType);
         data = new JSONObject();
         data.put("data", true);
         return data.toString();
@@ -281,7 +292,19 @@ public class Skeleton extends Thread {
         String username = (String)data.get("username");
         data = new JSONObject();
         ArrayList<TicketDB> listaBiglietti =  centralSystem.MyTicket(username);
-        data.put("data", listaBiglietti);
+        JSONArray JList = new JSONArray();
+ 
+        for (TicketDB ticket : listaBiglietti) {
+            JSONObject jTicket = new JSONObject();    
+            jTicket.put("id",ticket.getCode());
+            jTicket.put("expire",operator.toString(ticket.getExpireTime()));
+            jTicket.put("type", ticket.getType());
+            JList.add(jTicket);
+            
+        }
+        
+        
+        data.put("data", JList);
         return data.toString();
     }
     
