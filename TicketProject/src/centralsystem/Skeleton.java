@@ -57,12 +57,13 @@ public class Skeleton extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
-            while(clientSocket.isConnected()) {
-
+             LogCS.getInstance().stampa("out", "Connesso:  "  + this.getId()); 
+            while(!clientSocket.isClosed()) {
                 String result = decodeRead(in.readLine());
                 out.println(result);
                 LogCS.getInstance().stampa("out", "Risposta:  "  + result); 
             }
+            LogCS.getInstance().stampa("out", "Chiusa:  "  + this.getId()); 
             in.close();
             out.close();
         } catch (IOException ex) {
@@ -78,9 +79,13 @@ public class Skeleton extends Thread {
      * @return 
      */
     private synchronized String decodeRead(String inputData) {
+        if(inputData == null){
+            return "404 - COMANDO ERRATO";
+        }
+        
         JSONObject obj;
         LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
-        
+        LogCS.getInstance().stampa("out", "Client della richiesta:  "  + this.getId()); 
         StringBuilder result = new StringBuilder();
         try {
             centralSystem.addMessageToLog(inputData);
@@ -133,7 +138,7 @@ public class Skeleton extends Thread {
                     result.append(callAddTicketSale((JSONObject) obj.get("data")));
                     break;
                 default:
-                    throw new AssertionError();
+                    LogCS.getInstance().stampa("err", "METODO INESISTENTE");
             }
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);

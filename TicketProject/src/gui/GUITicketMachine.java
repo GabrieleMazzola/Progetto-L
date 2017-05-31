@@ -60,13 +60,14 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*
         CSystemFactory csFactory = CSystemFactory.getInstance();
         CSystem cSystem = csFactory.getCentralSystemInstance();
         
         CSystemSwingFrame viewCSystem = new CSystemSwingFrame(cSystem);
         viewCSystem.setVisible(true);
-        
-        TicketMachine tm = new TicketMachine(5000, "localhost");
+        */
+        TicketMachine tm = new TicketMachine(5000, "10.87.156.248");
         tMachine = tm;
         
         MoneyTankFrame debug = new MoneyTankFrame(tMachine);
