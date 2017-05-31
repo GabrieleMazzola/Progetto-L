@@ -1,13 +1,5 @@
 package test;
 
-import exceptions.TicketExausted;
-import java.util.concurrent.TimeUnit;
-import ticket.MultiTicket;
-import ticket.Ticket;
-import machines.*;
-import paymentMethods.PaymentMethod;
-import ticket.SingleTicket;
-import ticket.TicketType;
 /**
  *
  * @author Manuele

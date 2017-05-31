@@ -67,6 +67,7 @@ public class MachineStatusPanel extends JPanel implements Observer{
     private void decodeRead(String inputData) {
         JSONObject obj;
         
+        if(inputData == null) return;
         try {
             JSONParser parser = new JSONParser();
             obj = (JSONObject) parser.parse(inputData);

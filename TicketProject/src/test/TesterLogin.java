@@ -9,7 +9,7 @@ public class TesterLogin {
     
     public static void main(String[] args) {
         
-        TicketMachine machine123 = new TicketMachine(5000,"192.168.137.1"); 
+        TicketMachine machine123 = new TicketMachine(0, 5000,"192.168.137.1"); 
         
         StubMachine machine = new StubMachine("192.168.137.1", 5000,machine123);
         System.out.println(machine.userLogin("ADMIN", "ADMIN"));    //true

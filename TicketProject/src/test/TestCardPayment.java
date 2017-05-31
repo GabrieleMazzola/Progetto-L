@@ -3,7 +3,6 @@ package test;
 import exceptions.TicketTypeNotFoundException;
 import machines.TicketMachine;
 import paymentMethods.PaymentMethod;
-import ticket.TicketType;
 
 /**
  *
@@ -15,21 +14,21 @@ public class TestCardPayment {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TicketMachine tMachine = new TicketMachine(5000, "192.168.1.9");
+        TicketMachine tMachine = new TicketMachine(0, 5000, "192.168.1.9");
         
-        tMachine.setTicketToSell(TicketType.SINGLE);
+        tMachine.setTicketToSell("Single");
         tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
         
-        try{
+        try {
             tMachine.buyTicket();
 
-            tMachine.setTicketToSell(TicketType.SINGLE);
+            tMachine.setTicketToSell("Single");
             tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
 
             tMachine.buyTicket();
         }
-        catch(TicketTypeNotFoundException exc){
-            System.err.println(exc);
+        catch(TicketTypeNotFoundException exc) {
+            
         }
     }
 }

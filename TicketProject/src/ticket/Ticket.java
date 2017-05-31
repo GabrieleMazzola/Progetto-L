@@ -4,18 +4,19 @@ package ticket;
  *
  * @author Manuele
  */
-public abstract class Ticket {
-    protected String code;
-    protected static double cost;
-    protected TicketType type;
+public class Ticket {
+    private String code;
+    private TicketType type;
+    
+    public Ticket(String code, TicketType type) {
+        this.code = code;
+        this.type = type;
+    }
     
     public String getCode() {
         return code;
     }
     public double getCost() {
-        return cost;
-    }
-    public boolean isType(TicketType type) {
-        return this.type.equals(type);
+        return type.getCost();
     }
 }

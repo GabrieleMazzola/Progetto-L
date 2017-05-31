@@ -22,7 +22,7 @@ public class TicketMachineFactory {
      */
     public TicketMachine createTicketMachine() {
         cod++;
-        return new TicketMachine(5000, generateRandomIPAddress());
+        return new TicketMachine(cod, 5000, generateRandomIPAddress());
     }
     
     /**

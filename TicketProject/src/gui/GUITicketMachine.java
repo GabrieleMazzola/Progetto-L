@@ -66,7 +66,7 @@ public class GUITicketMachine extends Application implements Observer{
         CSystemSwingFrame viewCSystem = new CSystemSwingFrame(cSystem);
         viewCSystem.setVisible(true);
         
-        TicketMachine tm = new TicketMachine(5000, "localhost");
+        TicketMachine tm = new TicketMachine(0, 5000, "localhost");
         tMachine = tm;
         
         MoneyTankFrame debug = new MoneyTankFrame(tMachine);

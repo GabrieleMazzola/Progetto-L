@@ -9,13 +9,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
+import java.util.Set;
 import machines.MachineStatus;
 import ticketCollector.Fine;
 
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
     private final int PORTA_SERVER = 5000;
-    HashMap<Integer,MachineStatus> machineList;
+    private Map<Integer,MachineStatus> machineList;
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
@@ -27,6 +29,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         this.database = new DatabaseAdapter();
         this.bank = new BankAdapter();
         machineList = new HashMap();
+        
         log = new ArrayList();
         initUsers();
         initCollectors();
@@ -274,14 +277,10 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
             ((MachineStatus)machineList.get(machineCode)).setActive(active);            
             ((MachineStatus)machineList.get(machineCode)).setPaperLevel(paperLevel);
             ((MachineStatus)machineList.get(machineCode)).setInkLevel(inkLevel);
+            ((MachineStatus)machineList.get(machineCode)).setIpAddress(ipAddress);
         }else{
-            machineList.put(machineCode, new MachineStatus(machineCode,inkLevel,paperLevel,active));
+            machineList.put(machineCode, new MachineStatus(machineCode,ipAddress,inkLevel,paperLevel,active));
         }
-      /* TEST METHOD 
-        for (MachineStatus value : machineList.values()) {
-            System.out.println(value.getMachineCode() + " " + value.getPaperLevel());
-        }
-        */
         return true;
     }
 

@@ -151,13 +151,19 @@ public class StubMachine implements CentralSystemTicketInterface {
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         try {
             initConnection();
-            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, ipAddress);
+            String packet = JSONOperator.updateMachineStatusPacket(machineCode, inkLevel, paperLevel, active, socket.getLocalAddress().toString());
             toServer.println(packet);
             String line = fromServer.readLine();
             closeConnection();
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(line);
+            
+            //TODO: staccare la parte di richiesta di update dei biglietti
+//            int updateCode = (int)obj.get("updateCode");
+//            if(updateCode != machine.getCashUpdateCode())
+            
             return (boolean)obj.get("data");
+            
             } catch (ParseException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
             } catch (IOException ex) {
@@ -168,6 +174,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
 /**
      * Effettua una richiesta al server di inviare nuovi codici
+     * @param numberOfCodes
      * @return I nuovi codici
      */
     @Override

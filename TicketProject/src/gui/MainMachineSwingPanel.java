@@ -45,11 +45,14 @@ public class MainMachineSwingPanel extends JPanel implements Observer{
             @Override
             public void mouseReleased(MouseEvent e) {
                 try{
-                    tMachine.setTicketToSell(TicketType.SINGLE);
+                    tMachine.setTicketToSell("Single");
+                    tMachine.buyTicket();
+                
+                    tMachine.setTicketToSell("Single");
                     tMachine.buyTicket();
                 }
-                catch(TicketTypeNotFoundException exc){
-                    System.err.println(exc);
+                catch(TicketTypeNotFoundException exc) {
+                        
                 }
             }
         });
