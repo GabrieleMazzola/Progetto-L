@@ -10,8 +10,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -56,14 +54,23 @@ public class Skeleton extends Thread {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
+            
+            LogCS.getInstance().stampa("out", "\n\n---------------------"); 
+            LogCS.getInstance().stampa("out", "Time: " + (new Date()).toString());
             LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
-             LogCS.getInstance().stampa("out", "Connesso:  "  + this.getId()); 
+            LogCS.getInstance().stampa("out", "ID :  "  + this.getId()); 
+            LogCS.getInstance().stampa("out", "---------------------"); 
+            
             while(!clientSocket.isClosed()) {
                 String result = decodeRead(in.readLine());
                 out.println(result);
-                LogCS.getInstance().stampa("out", "Risposta:  "  + result); 
+                
+                LogCS.getInstance().stampa("out", "Sending to client :  "  + result); 
+                LogCS.getInstance().stampa("out", "---------------------"); 
             }
-            LogCS.getInstance().stampa("out", "Chiusa:  "  + this.getId()); 
+            
+            LogCS.getInstance().stampa("out", "Connessione chiusa, ID chiuso :  "  + this.getId()); 
+            
             in.close();
             out.close();
         } catch (IOException ex) {
@@ -84,8 +91,11 @@ public class Skeleton extends Thread {
         }
         
         JSONObject obj;
-        LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
+       
+        LogCS.getInstance().stampa("out", "\n---------------------"); 
         LogCS.getInstance().stampa("out", "Client della richiesta:  "  + this.getId()); 
+        LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
+        
         StringBuilder result = new StringBuilder();
         try {
             centralSystem.addMessageToLog(inputData);
@@ -143,7 +153,6 @@ public class Skeleton extends Thread {
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
         }
-        System.out.println(result.toString());
         //centralSystem.addMessageToLog(result.toString());
         return result.toString();
     }

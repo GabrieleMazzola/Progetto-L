@@ -167,9 +167,12 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     public String getIPAddress() {
-        initConnection();
-        String localAddress = socket.getLocalAddress().getHostAddress();
-        closeConnection();
+        String localAddress = null;
+        try{
+            initConnection();
+            localAddress = socket.getLocalAddress().getHostAddress();
+            closeConnection();
+        }catch(IOException e){}
         return localAddress;
     }
 }
