@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import machines.Operation;
 import machines.TicketMachine;
 
 /**
@@ -41,7 +42,7 @@ public class PushbuttonMachineGrid extends BridgeSceneGrid implements Observer{
         oneCent = new Button("0,01€");
         homePage = new Button("Homepage");
         homePage.setOnAction(e -> {
-            tMachine.cancel();
+            tMachine.setOperation(Operation.SELLING_TICKET);
         });
         HBox boxHomePage = new HBox();
         boxHomePage.setAlignment(Pos.CENTER_RIGHT);

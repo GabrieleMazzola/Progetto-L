@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import machines.Operation;
 import machines.TicketMachine;
 import paymentMethods.PaymentMethod;
 
@@ -33,7 +34,7 @@ public class TicketMachinePaymentScene extends BridgeSceneGrid{
         });
         homePage = new Button("Homepage");
         homePage.setOnAction(e -> {
-            tMachine.cancel();
+            tMachine.setOperation(Operation.SELLING_TICKET);
         });
         HBox boxHomePage = new HBox();
         boxHomePage.setAlignment(Pos.CENTER_RIGHT);

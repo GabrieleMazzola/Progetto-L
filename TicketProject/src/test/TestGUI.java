@@ -19,7 +19,6 @@ public class TestGUI {
         TicketMachineSwingFrame frame = new TicketMachineSwingFrame(tm);
         frame.setVisible(true);
         
-        tm.printCoins();
         MoneyTankFrame moneyFrame = new MoneyTankFrame(tm);
         moneyFrame.setVisible(true);
     }

@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import machines.Operation;
 import machines.TicketMachine;
 
 /**
@@ -68,7 +69,7 @@ public class LoginGrid extends BridgeSceneGrid{
         });
         cancel = new Button("Cancel");
         cancel.setOnAction(e -> {
-            tMachine.cancel();
+            tMachine.setOperation(Operation.SELLING_TICKET);
         });
         
         boxBtns = new HBox();
