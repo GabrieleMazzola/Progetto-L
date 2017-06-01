@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class TicketMachineCodeHandler {
     private final int numberOfCodes = 30, threshold = 20;
-    private List<Integer> serials;
+    private List<Long> serials;
     private StubMachine stub;
     //Per controllare se il thread è attivo
     private boolean threadActive;
@@ -34,12 +34,12 @@ public class TicketMachineCodeHandler {
         stub.requestCodes(numberOfCodes);
     }
     
-    public void endUpdateSerial(List<Integer> serialNumbers){
+    public void endUpdateSerial(List<Long> serialNumbers){
         threadActive = false;
         this.serials.addAll(serialNumbers);
     }
     
-    public int popSerialNumber() {
+    public long popSerialNumber() {
         return serials.remove(0);
     }
     

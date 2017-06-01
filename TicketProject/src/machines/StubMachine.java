@@ -4,6 +4,8 @@ import JSONSingleton.JSONOperations;
 import centralsystem.CentralSystemTicketInterface;
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -23,29 +25,16 @@ public class StubMachine implements CentralSystemTicketInterface {
         this.machine = machine;
     }
 
-    private boolean initConnection() {
-        try {
+    private void initConnection() throws IOException {
             socket = new Socket(ipAdress, port);
             fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             toServer = new PrintWriter(socket.getOutputStream(), true);
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.err.println("Errore connessione");
-            return false;
-        }
-        return true;
-
     }
 
-    private void closeConnection() {
-        try {
+    private void closeConnection() throws IOException {
             fromServer.close();
             toServer.close();
             socket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
     
     /**
@@ -74,7 +63,6 @@ public class StubMachine implements CentralSystemTicketInterface {
 
         } catch (IOException | ParseException ex) {
             ex.printStackTrace();
-            closeConnection();
             return false;
         }
     }
@@ -107,7 +95,6 @@ public class StubMachine implements CentralSystemTicketInterface {
 
         } catch (IOException | ParseException ex) {
             ex.printStackTrace();
-            closeConnection();
             return false;
         }
     }
@@ -142,7 +129,6 @@ public class StubMachine implements CentralSystemTicketInterface {
         
     } catch (IOException | ParseException ex) {
         ex.printStackTrace();
-        closeConnection();
         return false;
         }
     }
@@ -178,7 +164,7 @@ public class StubMachine implements CentralSystemTicketInterface {
      * @return I nuovi codici
      */
     @Override
-    public int requestCodes(int numberOfCodes) {
+    public long requestCodes(long numberOfCodes) {
         (new RequestCodesThread(machine,socket,fromServer,toServer,JSONOperator,ipAdress,port, numberOfCodes)).start();
         return 1;
         

@@ -220,11 +220,11 @@ public class TicketMachine extends Observable{
      * funzione che crea il biglietto quando lo si compra 
      * @return ticketcode
      */
-    private int createTicket(){
+    private long createTicket(){
         return codesHandler.popSerialNumber();
     }
     
-    public void addTicketSerials(List<Integer> newSerials) {
+    public void addTicketSerials(List<Long> newSerials) {
         codesHandler.endUpdateSerial(newSerials);
     }
 

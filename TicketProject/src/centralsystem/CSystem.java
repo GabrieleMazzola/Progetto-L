@@ -23,7 +23,6 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     private SocketHandler scHandler;
     private BankAdapter bank;
     private List<Message> log;
-    public static int codesCounter;
 
     public CSystem() {
         this.database = new DatabaseAdapter();
@@ -285,9 +284,12 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
 
     @Override
-    public synchronized int requestCodes(int numberOfCodes) {
-        codesCounter +=numberOfCodes;
-        return codesCounter - numberOfCodes;
+    public synchronized long requestCodes(long numberOfCodes) {
+        //codesCounter += numberOfCodes;
+        database.setTicketCounter(database.getTicketCounter() + numberOfCodes);
+        
+        return database.getTicketCounter() - numberOfCodes;
+        //return codesCounter - numberOfCodes;
     }
     
     public synchronized void notifyChange(Object arg) {
@@ -301,9 +303,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.getTicketByUsername(username); 
     }
 
-    void addTicketSale(Date expiryDate, int serialCode, String username, String ticketType) {
+    void addTicketSale(Date expiryDate, long serialCode, String username, String ticketType) {
         database.addTicket(expiryDate, serialCode, username, ticketType);
-        
     }
 
 }

@@ -54,7 +54,7 @@ public class JSONOperations {
     /**
      * Struttura JSON: {"method":"REQUESTCODES"}
      */
-    public String requestCodesPacket(int numberOfCodes) {
+    public String requestCodesPacket(long numberOfCodes) {
         JSONObject root = new JSONObject();
         root.put("method", "REQUESTCODES");
         JSONObject data = new JSONObject();

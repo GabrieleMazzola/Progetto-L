@@ -22,8 +22,8 @@ import org.json.simple.parser.ParseException;
  * @author Simone
  */
 public class RequestCodesThread extends Thread{
-    private int startNumber;
-    private int numberOfCodes;
+    private long startNumber;
+    private long numberOfCodes;
     private TicketMachine machine;
     private Socket socket;
     private BufferedReader fromServer;
@@ -32,11 +32,11 @@ public class RequestCodesThread extends Thread{
     private String ipAdress;
     private int port;
     private CodeHandler code;
-    ArrayList<Integer> serialNumbers = new ArrayList();
+    ArrayList<Long> serialNumbers = new ArrayList();
     
     public RequestCodesThread(TicketMachine machine,Socket socket,
             BufferedReader fromServer,PrintWriter toServer,JSONOperations JSONOperator,
-            String ipAdress, int port, int numberOfCodes){
+            String ipAdress, int port, long numberOfCodes){
         
         super();
         this.machine = machine;
@@ -114,9 +114,9 @@ public class RequestCodesThread extends Thread{
      * @param finalNumber è numero che ci segnala quanti biglietti dobbimo validare da starNumber
      * @return serialNumbers un vettore che contiene i codici validi da passare alla macchinetta
      */
-    private ArrayList<Integer> makeSerialsArray(int startNumber, int finalNumber) {
+    private ArrayList<Long> makeSerialsArray(long startNumber, long finalNumber) {
       
-        for (int i = startNumber; i < finalNumber; i++) {
+        for (long i = startNumber; i < finalNumber; i++) {
             serialNumbers.add(i);
         }
         return serialNumbers;

@@ -30,24 +30,16 @@ public class StubCollector implements CentralSystemCollectorInterface{
         offlineFines = new ArrayList<>();
     }
     
-    private void initConnection() {
-        try {
+    private void initConnection() throws IOException {
             socket = new Socket(ipAdress, port);
             fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             toServer = new PrintWriter(socket.getOutputStream(), true);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
     
-    private void closeConnection(){
-        try {
+    private void closeConnection() throws IOException{
             fromServer.close();
             toServer.close();
             socket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
     
     @Override
@@ -68,7 +60,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
             return (Boolean)obj.get("data");
         }catch(IOException|ParseException ex){
             ex.printStackTrace();
-            closeConnection();
             return false;
         }
     }
@@ -86,7 +77,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
             return ret;
         }catch(IOException|ParseException ex){
             ex.printStackTrace();
-            closeConnection();
             return false;
         }
     }
@@ -110,7 +100,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
                 
         }catch(IOException|ParseException ex){
             ex.printStackTrace();
-            closeConnection();
             return false;
         }        
     }

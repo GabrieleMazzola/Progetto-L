@@ -9,13 +9,16 @@ public class DatabaseAdapter {
     private Set<TicketDB> tickets;   //biglietti venduti
     private Set<Fine> fines;
     private Set<CollectorDB> collectors;
-
+    private OptionDB options;
+            
+    
     public DatabaseAdapter() {
         this.tickets = new HashSet<>();
         this.users = new HashSet<>();
         addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN","ADMIN");
         this.fines = new HashSet<>();
         collectors = new HashSet<>();
+        options = new OptionDB();
     }
     
     /**
@@ -41,7 +44,7 @@ public class DatabaseAdapter {
     public boolean addTicket(TicketDB ticket){
         return tickets.add(ticket);
     }
-    public boolean addTicket(Date expiryDate, int serialCode, String username, String ticketType){
+    public boolean addTicket(Date expiryDate, long serialCode, String username, String ticketType){
             tickets.add(new TicketDB(expiryDate,serialCode, username, ticketType));
         return true;
     }
@@ -210,6 +213,14 @@ public class DatabaseAdapter {
             if(ticket.getUsername().equals(username)) listaBiglietti.add(ticket);
         }
         return listaBiglietti;
+    }
+
+    public long getTicketCounter() {
+        return options.getTicketCounter();
+    }
+
+    public void setTicketCounter(long l) {
+        options.setTicketCounter(l);
     }
     
     

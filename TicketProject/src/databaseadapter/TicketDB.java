@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class TicketDB {
     private String id_type;
-    private int serialCode;
+    private long serialCode;
     private String id_user;
     private boolean active;
     private Date expireTime;
@@ -17,7 +17,7 @@ public class TicketDB {
     
     
 
-    public TicketDB(Date expireTime, int serialCode, String username, String ticketType) {
+    public TicketDB(Date expireTime, long serialCode, String username, String ticketType) {
         this.id_type = ticketType;
         this.serialCode = serialCode;
         this.id_user = username;
@@ -29,7 +29,7 @@ public class TicketDB {
         return id_type;
     }
 
-    public int getCode() {
+    public long getCode() {
         return serialCode;
     }
 
