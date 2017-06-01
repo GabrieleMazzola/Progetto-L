@@ -15,11 +15,12 @@ import java.util.List;
  * Gestisce i soldi all'interno della Ticket Machine.
  */
 public class MoneyHandler {
-    
+    private double insertedMoney;
     protected List <Tank> moneyTank = new ArrayList<>();
-    HashMap <Double,Integer> maxQuantityMoney = new HashMap<>();
+    private HashMap <Double,Integer> maxQuantityMoney = new HashMap<>();
 
     public MoneyHandler() {
+        insertedMoney = 0;
         moneyTank.add(new Tank(200));
         moneyTank.add(new Tank(100));
         moneyTank.add(new Tank(50));
@@ -34,6 +35,10 @@ public class MoneyHandler {
         moneyTank.add(new Tank(0.05f));
         moneyTank.add(new Tank(0.02f));
         moneyTank.add(new Tank(0.01f));
+    }
+    
+    public double getInsertedMoney() {
+        return insertedMoney;
     }
    
     /**
@@ -124,6 +129,13 @@ public class MoneyHandler {
             stillToGive -= quantity*tank.getValue()*100;
         }
         return stillToGive;
+    }
+    
+    public double addToInsertedMoney(double money) {
+        insertedMoney += money;
+        int temp = (int)Math.floor(insertedMoney*100);
+        insertedMoney = (double)temp/(double)100;
+        return insertedMoney;
     }
     
     /**

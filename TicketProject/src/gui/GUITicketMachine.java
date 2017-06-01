@@ -4,13 +4,12 @@ import centralsystem.CSystem;
 import creator.CSystemFactory;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import machines.Operation;
 import machines.TicketMachine;
+import ticket.Ticket;
 
 /**
  *
@@ -60,15 +59,15 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*
+        
         CSystemFactory csFactory = CSystemFactory.getInstance();
         CSystem cSystem = csFactory.getCentralSystemInstance();
         
         CSystemSwingFrame viewCSystem = new CSystemSwingFrame(cSystem);
         viewCSystem.setVisible(true);
-        */
-        //TicketMachine tm = new TicketMachine(5000, "10.87.156.248");
-       //tMachine = tm;
+        
+       TicketMachine tm = new TicketMachine(0, 5000, "localhost");
+       tMachine = tm;
         
         MoneyTankFrame debug = new MoneyTankFrame(tMachine);
         debug.setVisible(true);
@@ -100,9 +99,6 @@ public class GUITicketMachine extends Application implements Observer{
                     window.setScene(loginScene);
                     break;
                 case PRINTING_TICKET:
-                    ShowTicketGrid showTicketGrid = new ShowTicketGrid(tMachine);
-                    showTicketScene = new Scene(showTicketGrid.asParent());
-                    window.setScene(showTicketScene);
                     break;
                 case INSERTING_CCARD:
                     window.setScene(insertCardNumberScene);
@@ -112,6 +108,13 @@ public class GUITicketMachine extends Application implements Observer{
         
         else if (arg instanceof Boolean) {
             if(!(boolean)arg) window.setScene(errorScene);
+        }
+        
+        else if(arg instanceof Ticket) {
+            Ticket ticket = (Ticket) arg;
+            ShowTicketGrid showTicketGrid = new ShowTicketGrid(tMachine, ticket);
+            showTicketScene = new Scene(showTicketGrid.asParent());
+            window.setScene(showTicketScene);
         }
     }
 }

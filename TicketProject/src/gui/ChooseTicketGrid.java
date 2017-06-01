@@ -1,13 +1,10 @@
 package gui;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import machines.TicketMachine;
+import ticket.SingleType;
 
 /**
  *
@@ -24,7 +21,7 @@ public class ChooseTicketGrid extends BridgeSceneGrid{
         buySingle = new Button("Single \n 1,50");
         
         buySingle.setOnAction(e -> {
-            tMachine.setTicketToSell("Single");
+            tMachine.setTicketToSell(new SingleType());
         });
         
         istantiateGrid();

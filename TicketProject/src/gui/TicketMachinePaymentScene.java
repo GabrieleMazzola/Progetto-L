@@ -8,7 +8,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import machines.Operation;
 import machines.TicketMachine;
-import paymentMethods.PaymentMethod;
 
 /**
  *
@@ -26,11 +25,13 @@ public class TicketMachinePaymentScene extends BridgeSceneGrid{
         
         cash = new Button("Cash");
         cash.setOnAction(e -> {
-            tMachine.setPaymentMethod(PaymentMethod.CASH);
+            //tMachine.setPaymentMethod(PaymentMethod.CASH);
+            tMachine.setOperation(Operation.INSERTING_COINS);
         });
         cCard = new Button("Credit Card");
         cCard.setOnAction(e -> {
-            tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
+            //tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
+            tMachine.setOperation(Operation.INSERTING_CCARD);
         });
         homePage = new Button("Homepage");
         homePage.setOnAction(e -> {

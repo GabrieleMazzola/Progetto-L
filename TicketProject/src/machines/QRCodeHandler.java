@@ -19,22 +19,22 @@ import javax.imageio.ImageIO;
  * @author Manuele
  */
 public class QRCodeHandler {
-    private final String filePath = "images/qrbuffer.png";
+    private final String filePath = "images/", extension = ".png";
     private final int size = 125;
     private static QRCodeHandler instance;
     
     private QRCodeHandler() {
-        
     }
     /**
      * Costruisce il QR Code a partire dalla stringa indicata. Di default il QR Code
      * viene salvato come file .png nella cartella images, sotto il nome di qrbuffer.png
      * @param qrCodeText
+     * @param fileName il nome del file in cui viene salvata l'immagine
      * @return
      * @throws WriterException
      * @throws IOException 
      */
-    public String buildQRCodeFromString(String qrCodeText) throws WriterException, IOException{
+    public String buildQRCodeFromString(String qrCodeText, String fileName) throws WriterException, IOException{
         //Creo l'Hashtable. Serve per costruire la BitMatrix e comunicare qual è il
         //comportamento da tenere in caso di errore. In questo caso se si verifica un
         //errore la parola viene modificata
@@ -56,8 +56,9 @@ public class QRCodeHandler {
         setGraphicsBackground(graphics, Color.WHITE);
         addColoredDots(graphics, byteMatrix, Color.BLACK);
         
-        ImageIO.write(image, "png", new File(filePath));
-        return filePath;
+        String completeFilePath = filePath + fileName + extension;
+        ImageIO.write(image,"png",new File(completeFilePath));
+        return completeFilePath;
     }
     
     /**

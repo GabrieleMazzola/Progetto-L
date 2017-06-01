@@ -1,12 +1,16 @@
 package gui;
 
+import com.google.zxing.WriterException;
+import java.io.IOException;
 import java.util.Calendar;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import machines.Operation;
+import machines.QRCodeHandler;
 import machines.TicketMachine;
+import ticket.Ticket;
 
 /**
  *
@@ -18,7 +22,7 @@ public class ShowTicketGrid extends BridgeSceneGrid{
     private ImageView qrCodeView;
     private Button ok;
     
-    public ShowTicketGrid(TicketMachine tMachine) {
+    public ShowTicketGrid(TicketMachine tMachine, Ticket ticket) {
         istantiateGrid();
         
         ok = new Button("Ok");
@@ -26,7 +30,14 @@ public class ShowTicketGrid extends BridgeSceneGrid{
             tMachine.setOperation(Operation.SELLING_TICKET);
         });
         
-        qrCode = new Image("file:images/qrbuffer.png");
+        QRCodeHandler qrCodeHandler = QRCodeHandler.getInstance();
+        try {
+            String qrCodePath = qrCodeHandler.buildQRCodeFromString(ticket.getCode(), "TicketCode" + ticket.getCode());
+            qrCode = new Image("file:"+qrCodePath);
+        }
+        catch(WriterException |IOException exc) {
+            System.out.println(exc);
+        }
         
         qrCodeView = new ImageView();
         qrCodeView.setImage(qrCode);

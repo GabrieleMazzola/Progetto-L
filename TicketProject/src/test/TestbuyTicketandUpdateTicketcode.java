@@ -6,7 +6,6 @@
 package test;
 
 import machines.TicketMachine;
-import paymentMethods.PaymentMethod;
 
 /**
  *
@@ -20,10 +19,7 @@ public class TestbuyTicketandUpdateTicketcode {
     public static void main(String[] args) throws InterruptedException {
         TicketMachine tMachine = new TicketMachine(0, 5000, "127.0.0.1");
         TicketMachine tMachine2 = new TicketMachine(1, 5000,"127.0.0.1");
-
         
-        tMachine.setPaymentMethod(PaymentMethod.CASH);
-        tMachine2.setPaymentMethod(PaymentMethod.CASH);
         System.out.println("Vendita Macchinetta1:");//teoricamente 0
         tMachine.insertMoney(2);
         System.out.println("Vendita Macchinetta2:");//teoricamnete dipende dai thread

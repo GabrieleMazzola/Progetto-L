@@ -1,11 +1,9 @@
 package machines;
 
-import exceptions.TicketTypeNotFoundException;
 import java.util.List;
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
-import paymentMethods.PaymentMethod;
+import ticket.Ticket;
+import ticket.TicketType;
 
 /**
  *
@@ -23,8 +21,7 @@ public class TicketMachine extends Observable{
     
     private double insertedMoney;
     private double cost;
-    private String type;
-    private PaymentMethod pMethod;
+    private TicketType type;
     
     public TicketMachine(int cod, int PORTA_SERVER, String ipAdress) {
         this.cod =cod;
@@ -56,7 +53,7 @@ public class TicketMachine extends Observable{
     }
     
     public double getInsertedMoney() {
-        return insertedMoney;
+        return moneyTank.getInsertedMoney();
     }
     
     public String getLoggedUsername() {
@@ -67,16 +64,8 @@ public class TicketMachine extends Observable{
         return cost;
     }
     
-    public PaymentMethod getPaymentMethod() {
-        return pMethod;
-    }
-    
     public float getMoneyInTank() {
         return moneyTank.getTotal();
-    }
-    
-    public boolean hasTicketSelected() {
-        return type != null;
     }
     
     public boolean isActive() {
@@ -97,47 +86,10 @@ public class TicketMachine extends Observable{
      * quanto bisogna che l'utente paghi
      * @param type
      */
-    public void setTicketToSell(String type) {
+    public void setTicketToSell(TicketType type) {
         this.type = type;
-        operation = Operation.SELECTING_PAYMENT;
-        notifyChange(operation);
+        this.cost = type.getCost();
         notifyChange(canPrint());
-    }
-    
-    /**
-     * Setta il tipo di pagamento scelto per pagare
-     * @param pMethod
-     */
-    public void setPaymentMethod(PaymentMethod pMethod){
-        this.pMethod = pMethod;
-        switch (pMethod) {
-            case CASH:
-                operation = Operation.INSERTING_COINS;
-                notifyChange(operation);
-                break;
-            case CREDITCARD:
-                operation = Operation.INSERTING_CCARD;
-                notifyChange(operation);
-                break;
-        }
-    }
-    
-    /**
-     * Effettua la vendita del biglietto in base al tipo di biglietto e al metodo
-     * di pagamento scelto.
-     */
-    public boolean buyTicket() throws TicketTypeNotFoundException {
-        setCostForType(type);
-        switch (pMethod) {
-            case CASH:
-                insertedMoney = 0;
-                break;
-            case CREDITCARD:
-                return true;
-            default:
-                return false;
-        }
-        return true;
     }
     
     /**
@@ -149,14 +101,10 @@ public class TicketMachine extends Observable{
      * @param money
      */
     public void insertMoney(double money) {
-        moneyTank.addMoney(money);
-        notifyChange(money);
-        insertedMoney += money;
-        int temp = (int)Math.floor(insertedMoney*100);
-        insertedMoney = (double)temp/(double)100;
-        notifyChange(insertedMoney);
-        if (isEnoughMoney(insertedMoney)) {
-            sellTicket(PaymentMethod.CASH);
+        addInsertedMoney(money);
+        if (insertedEnoughMoney()) {
+            printTicket();
+            outputChange();
         }
     }
     
@@ -172,34 +120,8 @@ public class TicketMachine extends Observable{
         }
     }
     
-    private boolean isEnoughMoney(double money) {
-        return money >= cost;
-    }
-
-    private void sellTicket(PaymentMethod method) {
-        switch (method) {
-            case CASH:
-                sellTicketCash();
-                break;
-            case CREDITCARD:
-                sellTicketNotCash();
-                break;
-            default:
-                throw new AssertionError(method.name());
-        }
-        type = null;
-        cost = 0;
-        insertedMoney = 0;
-        notifyChange(insertedMoney);
-    }
-    
-    private void sellTicketCash() {
-        printTicket();
-        outputChange();
-    }
-
-    private void sellTicketNotCash() {   //serve sia per bancomat e per carta di credito
-        printTicket();
+    private boolean insertedEnoughMoney() {
+        return moneyTank.getInsertedMoney() >= cost;
     }
     
     /**
@@ -208,20 +130,27 @@ public class TicketMachine extends Observable{
     private void printTicket() {
         if(codesHandler.mustRequestCodes())
             codesHandler.startUpdateSerial();
-        System.out.println("numero ticket:"+createTicket());
+        Ticket ticket = createTicket();
         resources.printTicket();
-        notifyChange(isActive());
         System.out.println("Ticket printed");
-        operation = Operation.PRINTING_TICKET;
-        notifyChange(operation);
+        setOperation(Operation.PRINTING_TICKET);
+        notifyChange(isActive());
+        notifyChange(ticket);
+    }
+    
+    private void addInsertedMoney(double money) {
+        moneyTank.addMoney(money);
+        notifyChange(money);
+        notifyChange(moneyTank.addToInsertedMoney(money));
     }
     
     /**
      * funzione che crea il biglietto quando lo si compra 
      * @return ticketcode
      */
-    private long createTicket(){
-        return codesHandler.popSerialNumber();
+    private Ticket createTicket(){
+        Ticket ticket = new Ticket(codesHandler.popSerialNumber()+"", type);
+        return ticket;
     }
     
     public void addTicketSerials(List<Long> newSerials) {
@@ -229,13 +158,7 @@ public class TicketMachine extends Observable{
     }
 
     private void outputChange() {
-        //do exeption
         moneyTank.giveChange(cost, insertedMoney);
-    }
-    
-    private String getCredCardNumber() {
-        return "0000000000000000";
-        //return "8888 8888 8888 8888";
     }
     
     private boolean checkCreditCard(String credCardNumber) {
@@ -260,9 +183,6 @@ public class TicketMachine extends Observable{
         logged = "-";
         notifyChange(logged);
         return true;
-    }
-    
-    private void setCostForType(String type) {
     }
     
     private void notifyChange(Object arg) {

@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import machines.Operation;
 import machines.TicketMachine;
+import ticket.SingleType;
 
 /**
  *
@@ -61,7 +62,8 @@ public class TicketMachineMainScene extends BridgeSceneGrid implements Observer{
         
         singleTicket = new Button("Single Ticket");
         singleTicket.setOnAction(e -> {
-            tMachine.setTicketToSell("Single");
+            tMachine.setTicketToSell(new SingleType());
+            tMachine.setOperation(Operation.SELECTING_PAYMENT);
         });
         multiTicket = new Button("Multi Ticket");
         multiTicket.setOnAction(e -> {

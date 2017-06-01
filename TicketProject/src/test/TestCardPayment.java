@@ -1,8 +1,7 @@
 package test;
 
-import exceptions.TicketTypeNotFoundException;
 import machines.TicketMachine;
-import paymentMethods.PaymentMethod;
+import ticket.SingleType;
 
 /**
  *
@@ -16,19 +15,8 @@ public class TestCardPayment {
     public static void main(String[] args) {
         TicketMachine tMachine = new TicketMachine(0, 5000, "192.168.1.9");
         
-        tMachine.setTicketToSell("Single");
-        tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
+        tMachine.setTicketToSell(new SingleType());
         
-        try {
-            tMachine.buyTicket();
-
-            tMachine.setTicketToSell("Single");
-            tMachine.setPaymentMethod(PaymentMethod.CREDITCARD);
-
-            tMachine.buyTicket();
-        }
-        catch(TicketTypeNotFoundException exc) {
-            
-        }
+        tMachine.setTicketToSell(new SingleType());
     }
 }
