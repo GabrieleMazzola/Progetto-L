@@ -140,7 +140,6 @@ public class Skeleton extends Thread {
                     result.append(callRequestCodes((JSONObject) obj.get("data")));
                     break;    
                 case "UPDATEMACHINESTATUS":
-                    centralSystem.notifyChange("Updating machine status...");
                     result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
                     break;
                 case "ADDTICKETSALE":

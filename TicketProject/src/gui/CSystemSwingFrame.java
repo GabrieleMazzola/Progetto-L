@@ -9,6 +9,7 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -36,6 +37,12 @@ public class CSystemSwingFrame extends JFrame implements Observer{
         mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
         
         this.add(mainPanel);
+        
+        try {
+            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     @Override

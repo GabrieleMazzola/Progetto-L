@@ -17,7 +17,6 @@ import java.util.List;
 public class MoneyHandler {
     private double insertedMoney;
     protected List <Tank> moneyTank = new ArrayList<>();
-    private HashMap <Double,Integer> maxQuantityMoney = new HashMap<>();
 
     public MoneyHandler() {
         insertedMoney = 0;
@@ -131,11 +130,24 @@ public class MoneyHandler {
         return stillToGive;
     }
     
+    /**
+     * Aggiunge la quantità specificata alle monete inserite
+     * @param money
+     * @return 
+     */
     public double addToInsertedMoney(double money) {
         insertedMoney += money;
+        //Serve per fare in modo che inserted money abbia 2 cifre decimali
         int temp = (int)Math.floor(insertedMoney*100);
         insertedMoney = (double)temp/(double)100;
         return insertedMoney;
+    }
+    
+    /**
+     * Setta a 0 le monete inserite. Chiamato quando viene effettuata la vendita
+     */
+    public void resetInsertedMoney() {
+        insertedMoney = 0;
     }
     
     /**

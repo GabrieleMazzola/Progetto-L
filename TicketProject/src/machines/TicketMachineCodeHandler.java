@@ -25,20 +25,36 @@ public class TicketMachineCodeHandler {
         this.threadActive = threadActive;
     }
     
+    /**
+     * Controlla se il numero di codici seriali è sotto il limite
+     * @return Vero se il numero di codici è sotto soglia e non c'è un thread
+     * già attivo per richiedere i codici
+     */
     public boolean mustRequestCodes() {
         return lowCodesAmount() && !threadActive;
     }
     
+    /**
+     * Inizia il thread per la richiesta dei codici.
+     */
     public void startUpdateSerial(){
         threadActive = true;
         stub.requestCodes(numberOfCodes);
     }
     
+    /**
+     * Aggiunge i codici nella lista a quelli già presenti
+     * @param serialNumbers 
+     */
     public void endUpdateSerial(List<Long> serialNumbers){
         threadActive = false;
         this.serials.addAll(serialNumbers);
     }
     
+    /**
+     * Rimuove il primo elemento della lista di codici
+     * @return Il primo elemento della lista dei codici
+     */
     public long popSerialNumber() {
         return serials.remove(0);
     }
@@ -50,8 +66,7 @@ public class TicketMachineCodeHandler {
     //__________________Metodi per l'inizializazione______________________
     /**
      * Inizializa il vettore che conterrà i codici validi per questa macchinetta.
-     * Richiede al CS i primi biglietti e la macchinetta non inizierà a lavorare
-     * finche non ha completato la richiesta
+     * Richiede al CS i primi biglietti
     */
     private synchronized void initSerialNumber() {
         try{
@@ -60,10 +75,5 @@ public class TicketMachineCodeHandler {
         }catch(InterruptedException e){
             System.out.println(e.getMessage());
         }
-    }
-
-    void print() {
-        System.out.println("Stampo numeri");
-        System.out.println(serials);
     }
 }

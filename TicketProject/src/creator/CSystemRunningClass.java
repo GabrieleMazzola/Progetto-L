@@ -18,6 +18,5 @@ public class CSystemRunningClass {
         
         CSystemSwingFrame view = new CSystemSwingFrame(cSystem);
         view.setVisible(true);
-        //TODO: aggiungere una gui al sistema centrale
     }
 }

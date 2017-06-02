@@ -83,31 +83,30 @@ public class TicketMachine extends Observable{
     //__________________Metodi per la vendita di biglietti______________________
     /**
      * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
-     * quanto bisogna che l'utente paghi
+     * quanto bisogna che l'utente paghi. Se la macchinetta non può stampare viene
+     * mandata una notifica alla GUI
      * @param type
      */
     public void setTicketToSell(TicketType type) {
-        this.type = type;
-        this.cost = type.getCost();
-        notifyChange(canPrint());
-    }
-    
-    /**
-     * Consente di inserire una moneta/banconota del valore specificato. Nel caso 
-     * in cui i soldi inseriti siano sufficienti per comprare il biglietto selezionato
-     * viene automaticamente effettuata la vendita restituendo eventualmente il resto.
-     * Se non è stato selezionato alcun biglietto o il metodo di pagamento CASH,
-     * le monete inserite non vengono salvate
-     * @param money
-     */
-    public void insertMoney(double money) {
-        addInsertedMoney(money);
-        if (insertedEnoughMoney()) {
-            printTicket();
-            outputChange();
+        //Se può stampare vengono settati il tipo di biglietto da vendere e il costo
+        if(canPrint()) {
+            this.type = type;
+            this.cost = type.getCost();
+        }
+        //Altrimenti viene mandata una notifica alla GUI
+        else {
+            notifyChange(canPrint());
         }
     }
     
+    /**
+     * Effettua il pagamento tramite carta di credito. La carta di credito viene
+     * passata come argomento della funzione. Se il pagamento va a buon fine il
+     * biglietto viene stampato tramite printTicket()
+     * @param cCardNumber
+     * @return Vero se il pagamento va a buon fine, falso altrimenti
+     */
+    //TODO: Stato Pagamento
     public boolean buyTicketCreditCard(String cCardNumber) {
         if(checkCreditCard(cCardNumber)) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
@@ -120,41 +119,67 @@ public class TicketMachine extends Observable{
         }
     }
     
-    private boolean insertedEnoughMoney() {
-        return moneyTank.getInsertedMoney() >= cost;
+    /**
+     * Consente di inserire una moneta/banconota del valore specificato. Nel caso 
+     * in cui i soldi inseriti siano sufficienti per comprare il biglietto selezionato
+     * viene automaticamente effettuata la vendita restituendo eventualmente il resto.
+     * @param money
+     */
+    public void insertMoney(double money) {
+        addInsertedMoney(money);
+        if (insertedEnoughMoney()) {
+            printTicket();
+            outputChange();
+        }
     }
     
     /**
-     * funzione che stampa il Ticket
+     * Aggiunge la quantità indicata al money handler, tenendo traccia di tutte
+     * quelle inserite precedentemente dall'inizio della vendita
+     * @param money 
      */
-    private void printTicket() {
-        if(codesHandler.mustRequestCodes())
-            codesHandler.startUpdateSerial();
-        Ticket ticket = createTicket();
-        resources.printTicket();
-        System.out.println("Ticket printed");
-        setOperation(Operation.PRINTING_TICKET);
-        notifyChange(isActive());
-        notifyChange(ticket);
-    }
-    
     private void addInsertedMoney(double money) {
         moneyTank.addMoney(money);
         notifyChange(money);
         notifyChange(moneyTank.addToInsertedMoney(money));
     }
     
+    private boolean insertedEnoughMoney() {
+        return moneyTank.getInsertedMoney() >= cost;
+    }
+    
     /**
-     * funzione che crea il biglietto quando lo si compra 
+     * Stampa il biglietto. La stampa viene effettuata mandando una notifica alla
+     * GUI
+     */
+    private void printTicket() {
+        if(codesHandler.mustRequestCodes())
+            codesHandler.startUpdateSerial();
+        resources.printTicket();
+        Ticket ticket = createTicket();
+        endSelling();
+        setOperation(Operation.PRINTING_TICKET);
+        notifyChange(isActive());
+        notifyChange(ticket);
+    }
+    
+    /**
+     * Resetta i parametri della vendita
+     */
+    private void endSelling() {
+        moneyTank.resetInsertedMoney();
+        this.cost = 0;
+        type = null;
+    }
+    
+    /**
+     * Crea un ticket con il primo ticket code disponibile e il tipo specificato
+     * prima nella vendita
      * @return ticketcode
      */
     private Ticket createTicket(){
         Ticket ticket = new Ticket(codesHandler.popSerialNumber()+"", type);
         return ticket;
-    }
-    
-    public void addTicketSerials(List<Long> newSerials) {
-        codesHandler.endUpdateSerial(newSerials);
     }
 
     private void outputChange() {
@@ -166,7 +191,30 @@ public class TicketMachine extends Observable{
     }
     
     //__________________Metodi per la gestione dei codici_______________________
-
+    /**
+     * Aggiunge alla lista dei ticket code disponibili quelli specificati
+     * @param newSerials 
+     */
+    public void addTicketSerials(List<Long> newSerials) {
+        codesHandler.endUpdateSerial(newSerials);
+    }
+    
+    /**
+     * Setta l'operazione che sta facendo la macchinetta. Serve per mandare una
+     * notifica alla GUI in modo da poter passare da una scena all'altra
+     * @param operation 
+     */
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+        notifyChange(operation);
+    }
+    
+    /**
+     * Effettua il login con i dati specificati
+     * @param username
+     * @param password
+     * @return Vero se il login ha successo, falso altrimenti
+     */
     public boolean login(String username, String password) {
         if(stub.userLogin(username, password)) {
             operation = Operation.SELLING_TICKET;
@@ -179,6 +227,10 @@ public class TicketMachine extends Observable{
             return false;
     }
     
+    /**
+     * Effettua il logout settando a "-" il nome dell'utente loggato
+     * @return Vero
+     */
     public boolean logout() {
         logged = "-";
         notifyChange(logged);
@@ -188,10 +240,5 @@ public class TicketMachine extends Observable{
     private void notifyChange(Object arg) {
         setChanged();
         notifyObservers(arg);
-    }
-    
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-        notifyChange(operation);
     }
 }

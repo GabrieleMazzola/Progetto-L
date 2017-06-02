@@ -4,8 +4,6 @@ import JSONSingleton.JSONOperations;
 import centralsystem.CentralSystemTicketInterface;
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -108,7 +106,7 @@ public class StubMachine implements CentralSystemTicketInterface {
      * @param username
      * @param cf
      * @param psw
-     * @return 
+     * @return Vero se l'utente viene creato correttamente, falso altrimenti
      */
     @Override
     public boolean createUser(String name, String surname, String username,String cf, String psw) {
@@ -132,7 +130,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         return false;
         }
     }
-
+    
     @Override
     public boolean updateMachineStatus(int machineCode, double inkLevel, double paperLevel, boolean active, String ipAddress) {
         try {
@@ -154,7 +152,7 @@ public class StubMachine implements CentralSystemTicketInterface {
             
         return false;
     }
-/**
+    /**
      * Effettua una richiesta al server di inviare nuovi codici
      * @param numberOfCodes
      * @return I nuovi codici
@@ -166,6 +164,10 @@ public class StubMachine implements CentralSystemTicketInterface {
         
     }
     
+    /**
+     * Prende dalla Socket l'indirizzo IP
+     * @return Una String che indica l'indirizzo IP
+     */
     public String getIPAddress() {
         String localAddress = null;
         try{
