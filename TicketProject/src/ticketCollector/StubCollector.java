@@ -15,12 +15,12 @@ import org.json.simple.parser.ParseException;
 
 
 public class StubCollector implements CentralSystemCollectorInterface{
-    String ipAdress;
-    int port;
-    Socket socket;
-    BufferedReader fromServer;
-    PrintWriter toServer;
-    JSONOperations JSONOperator;
+    private String ipAdress;
+    private int port;
+    private Socket socket;
+    private BufferedReader fromServer;
+    private PrintWriter toServer;
+    private JSONOperations JSONOperator;
     private ArrayList<Fine> offlineFines; 
     
     public StubCollector(String ipAddress,int port){
@@ -31,15 +31,15 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
     
     private void initConnection() throws IOException {
-            socket = new Socket(ipAdress, port);
-            fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            toServer = new PrintWriter(socket.getOutputStream(), true);
+        socket = new Socket(ipAdress, port);
+        fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        toServer = new PrintWriter(socket.getOutputStream(), true);
     }
     
     private void closeConnection() throws IOException{
-            fromServer.close();
-            toServer.close();
-            socket.close();
+        fromServer.close();
+        toServer.close();
+        socket.close();
     }
     
     @Override
@@ -68,7 +68,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
     public boolean makeFine(Fine f){
         addOfflineFine(f);
         try{
-            
             initConnection();
             boolean ret = saveFinesOnline();
             closeConnection();
@@ -106,7 +105,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
 
     @Override
     public String centralSystemTEST(String sentTest) {
-            return sentTest;
+        return sentTest;
     }
     
     private void addOfflineFine(Fine fine){
@@ -114,6 +113,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
     
     private boolean saveFinesOnline() throws IOException, ParseException{
+        System.out.println("Connesso: " + socket.isConnected());
         while(socket.isConnected() && !offlineFines.isEmpty()){
             Fine f = offlineFines.get(0);
             String packet = JSONOperator.makeFinePacket(f);
@@ -132,6 +132,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         return true;
     }
     
-    /*---------------metodi per test---------------------*/
-    
+    public int getOfflineFinesSize() {
+        return offlineFines.size();
+    }
 }

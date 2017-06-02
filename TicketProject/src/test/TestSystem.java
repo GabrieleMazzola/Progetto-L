@@ -16,7 +16,7 @@ public class TestSystem {
     
     public static void main(String[] args) {
         CSystem sys = new CSystem();
-        LogCS.getInstance().abilita();
+        LogCS.getInstance().enable();
     //    sys.printTickets();
      //   sys.printUsers();
     }

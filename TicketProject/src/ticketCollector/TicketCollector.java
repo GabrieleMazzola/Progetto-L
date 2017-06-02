@@ -1,15 +1,11 @@
 package ticketCollector;
 
-import java.util.ArrayList;
-
 import centralsystem.CentralSystemCollectorInterface;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class TicketCollector {
     private final int cod;					//codice della macchinetta fisica
-    private final CentralSystemCollectorInterface stub;		
+    private final StubCollector stub;		
     private boolean connected = false;
     private String username;
     private String psw;
@@ -61,8 +57,8 @@ public class TicketCollector {
      */
     public void logOut(){
     	if(!connected){
-    		System.out.println("Controllore gia' disconnesso.");
-    		return;
+            System.out.println("Controllore gia' disconnesso.");
+            return;
     	}
     	connected = false;
     	this.username = null;
@@ -75,8 +71,8 @@ public class TicketCollector {
      */
     private boolean isLogged(){
     	if(!connected){
-    		System.out.println("LoginControllore richiesto.");
-    		return false;
+            System.out.println("LoginControllore richiesto.");
+            return false;
     	}
     	return true;
     	
@@ -100,14 +96,13 @@ public class TicketCollector {
      * @param amount : cifra della multa
      */
     public void createFine(String cf, double amount){
-
         if(isLogged()){
             Fine fine = new Fine(cf,amount);
             stub.makeFine(fine);
         }
-        
-        
     }
-
     
+    public int getOfflineFinesNumber() {
+        return stub.getOfflineFinesSize();
+    }
 }

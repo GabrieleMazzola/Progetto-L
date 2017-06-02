@@ -11,7 +11,8 @@ package centralsystem;
  * @author Zubeer
  */
 public class LogCS{
-        boolean enable = false;
+    boolean enabled = false;
+    
     private LogCS() {
     }
     
@@ -23,8 +24,8 @@ public class LogCS{
         private static final LogCS INSTANCE = new LogCS();
     }
     
-    public boolean stampa(String tag, String stampa){
-        if(enable){
+    public boolean print(String tag, String stampa){
+        if(enabled){
             switch (tag) {
                 case "out":
                     System.out.println(stampa);
@@ -39,12 +40,11 @@ public class LogCS{
         return false;
     }
     
-    public void abilita() {
-        enable = true;
-    }
-    public void disabilita() {
-        enable = false;
+    public void enable() {
+        enabled = true;
     }
     
-    
+    public void disable() {
+        enabled = false;
+    }
 }

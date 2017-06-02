@@ -55,21 +55,21 @@ public class Skeleton extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             
-            LogCS.getInstance().stampa("out", "\n\n---------------------"); 
-            LogCS.getInstance().stampa("out", "Time: " + (new Date()).toString());
-            LogCS.getInstance().stampa("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
-            LogCS.getInstance().stampa("out", "ID :  "  + this.getId()); 
-            LogCS.getInstance().stampa("out", "---------------------"); 
+            LogCS.getInstance().print("out", "\n\n---------------------"); 
+            LogCS.getInstance().print("out", "Time: " + (new Date()).toString());
+            LogCS.getInstance().print("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
+            LogCS.getInstance().print("out", "ID :  "  + this.getId()); 
+            LogCS.getInstance().print("out", "---------------------"); 
             
             while(!clientSocket.isClosed()) {
                 String result = decodeRead(in.readLine());
                 out.println(result);
                 
-                LogCS.getInstance().stampa("out", "Sending to client :  "  + result); 
-                LogCS.getInstance().stampa("out", "---------------------"); 
+                LogCS.getInstance().print("out", "Sending to client :  "  + result); 
+                LogCS.getInstance().print("out", "---------------------"); 
             }
             
-            LogCS.getInstance().stampa("out", "Connessione chiusa, ID chiuso :  "  + this.getId()); 
+            LogCS.getInstance().print("out", "Connessione chiusa, ID chiuso :  "  + this.getId()); 
             
             in.close();
             out.close();
@@ -92,9 +92,9 @@ public class Skeleton extends Thread {
         
         JSONObject obj;
        
-        LogCS.getInstance().stampa("out", "\n---------------------"); 
-        LogCS.getInstance().stampa("out", "Client della richiesta:  "  + this.getId()); 
-        LogCS.getInstance().stampa("out", "Richiesta in ingresso: "  + inputData);
+        LogCS.getInstance().print("out", "\n---------------------"); 
+        LogCS.getInstance().print("out", "Client della richiesta:  "  + this.getId()); 
+        LogCS.getInstance().print("out", "Richiesta in ingresso: "  + inputData);
         
         StringBuilder result = new StringBuilder();
         try {
@@ -147,7 +147,7 @@ public class Skeleton extends Thread {
                     result.append(callAddTicketSale((JSONObject) obj.get("data")));
                     break;
                 default:
-                    LogCS.getInstance().stampa("err", "METODO INESISTENTE");
+                    LogCS.getInstance().print("err", "METODO INESISTENTE");
             }
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
@@ -285,7 +285,7 @@ public class Skeleton extends Thread {
         try {
             expiryDate = operator.parse((String)data.get("expiryDate"));
         } catch (java.text.ParseException ex) {
-            LogCS.getInstance().stampa("err", ex.toString());
+            LogCS.getInstance().print("err", ex.toString());
             data = new JSONObject();
             data.put("data", false);
             return data.toString();
