@@ -1,5 +1,6 @@
 package gui;
 
+import codegeneration.CodeHandler;
 import com.google.zxing.WriterException;
 import java.io.IOException;
 import java.util.Calendar;
@@ -32,7 +33,9 @@ public class ShowTicketGrid extends BridgeSceneGrid{
         
         QRCodeHandler qrCodeHandler = QRCodeHandler.getInstance();
         try {
-            String qrCodePath = qrCodeHandler.buildQRCodeFromString(ticket.getCode(), "TicketCode" + ticket.getCode());
+            long code = Long.parseLong(ticket.getCode());
+            String criptedCode = CodeHandler.getInstance().encoder(code, "B");
+            String qrCodePath = qrCodeHandler.buildQRCodeFromString(criptedCode, "TicketCode" + ticket.getCode());
             qrCode = new Image("file:"+qrCodePath);
         }
         catch(WriterException |IOException exc) {

@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.json.simple.parser.ParseException;
 import com.seaglasslookandfeel.*;
+import javax.swing.UIManager;
 
 /**
  *
@@ -69,6 +70,12 @@ public class CSystemJSONSwingPanel extends JPanel implements Observer{
         this.setLayout(new BorderLayout());
         this.add(messagesPanel);
         this.add(clearMessagePanel, BorderLayout.EAST);
+        
+        try {
+            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     @Override

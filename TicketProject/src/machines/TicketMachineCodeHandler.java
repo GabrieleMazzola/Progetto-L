@@ -59,6 +59,10 @@ public class TicketMachineCodeHandler {
         return serials.remove(0);
     }
     
+    public int getSerialListLenght() {
+        return serials.size();
+    }
+    
     private boolean lowCodesAmount(){
         return serials.size() <= threshold;
     }

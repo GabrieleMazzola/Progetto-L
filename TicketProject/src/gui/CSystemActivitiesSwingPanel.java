@@ -8,6 +8,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -28,6 +29,12 @@ public class CSystemActivitiesSwingPanel extends JPanel implements Observer{
         activitiesPane = new JScrollPane(listActivities);
         
         this.add(activitiesPane);
+        
+        try {
+            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     @Override

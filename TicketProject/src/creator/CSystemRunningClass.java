@@ -13,8 +13,8 @@ public class CSystemRunningClass {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CSystemFactory csFactory = CSystemFactory.getInstance();
-        CSystem cSystem = csFactory.getCentralSystemInstance();
+        CSystemFactory csFactory = new CSystemFactory();
+        CSystem cSystem = csFactory.buildNewCentralSystem();
         
         CSystemSwingFrame view = new CSystemSwingFrame(cSystem);
         view.setVisible(true);

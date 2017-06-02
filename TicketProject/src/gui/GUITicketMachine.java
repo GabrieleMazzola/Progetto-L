@@ -2,6 +2,7 @@ package gui;
 
 import centralsystem.CSystem;
 import creator.CSystemFactory;
+import creator.TicketMachineFactory;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;
@@ -60,19 +61,20 @@ public class GUITicketMachine extends Application implements Observer{
      */
     public static void main(String[] args) {
         
-        CSystemFactory csFactory = CSystemFactory.getInstance();
-        CSystem cSystem = csFactory.getCentralSystemInstance();
+        CSystemFactory csFactory = new CSystemFactory();
+        CSystem cSystem = csFactory.buildNewCentralSystem();
         
         CSystemSwingFrame viewCSystem = new CSystemSwingFrame(cSystem);
         viewCSystem.setVisible(true);
         
-       TicketMachine tm = new TicketMachine(0, 5000, "localhost");
-       tMachine = tm;
-        
-        MoneyTankFrame debug = new MoneyTankFrame(tMachine);
-        debug.setVisible(true);
-        
-        launch(args);
+        TicketMachineFactory tmFactory = new TicketMachineFactory();
+        TicketMachine tm = tmFactory.createTicketMachine(5000, "localhost");
+        tMachine = tm;
+
+         MoneyTankFrame debug = new MoneyTankFrame(tMachine);
+         debug.setVisible(true);
+
+         launch(args);
     }
     
     public void setTicketMachine(TicketMachine tMachine) {

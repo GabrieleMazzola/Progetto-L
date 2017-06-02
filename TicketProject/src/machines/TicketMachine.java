@@ -64,7 +64,7 @@ public class TicketMachine extends Observable{
         return cost;
     }
     
-    public float getMoneyInTank() {
+    public float getTotalMoney() {
         return moneyTank.getTotal();
     }
     
@@ -78,6 +78,10 @@ public class TicketMachine extends Observable{
     
     public int getAmountByIndex(int index) {
         return moneyTank.getSingleQuantitybyIndex(index);
+    }
+    
+    public int getSerialsAmount() {
+        return codesHandler.getSerialListLenght();
     }
     
     //__________________Metodi per la vendita di biglietti______________________

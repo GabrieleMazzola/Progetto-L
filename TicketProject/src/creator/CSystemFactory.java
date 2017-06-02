@@ -13,9 +13,8 @@ public class CSystemFactory {
     deve andare nel costruttore del CSystem e fare degli attributi final qui dentro,
     che vengono istanziati nel costruttore
     */
-    private static CSystemFactory instance;
     
-    private CSystemFactory() {
+    public CSystemFactory() {
         //TODO: istanziare cose come il numero della porta
     }
     
@@ -23,19 +22,7 @@ public class CSystemFactory {
      * Fornisce l'istanza corrente del sistema centrale
      * @return 
      */
-    public CSystem getCentralSystemInstance() {
+    public CSystem buildNewCentralSystem() {
         return new CSystem();
-    }
-    
-    /**
-     * Chiama l'istanza corrente della Factory. Nel caso la factory fosse già
-     * istanziata, viene ritornata quell'istanza, mentre se non lo fosse, viene 
-     * creata e ritornata una nuova Factory chiamando il costruttore privato
-     * @return L'istanza corrente di CSystemFactory
-     */
-    public static synchronized CSystemFactory getInstance() {
-        if (instance == null)
-            instance = new CSystemFactory();
-        return instance;
     }
 }

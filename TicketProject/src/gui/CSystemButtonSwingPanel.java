@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -32,6 +33,12 @@ public class CSystemButtonSwingPanel extends JPanel{
         });
         
         this.add(close);
-        //this.add(restart);
+        this.add(restart);
+        
+        try {
+            UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

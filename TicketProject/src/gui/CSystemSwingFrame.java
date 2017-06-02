@@ -41,7 +41,7 @@ public class CSystemSwingFrame extends JFrame implements Observer{
         try {
             UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
     
@@ -49,8 +49,9 @@ public class CSystemSwingFrame extends JFrame implements Observer{
     public void update(Observable o, Object arg) {
         if(arg instanceof Boolean) {
             if((boolean)arg) {
+                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 this.dispose();
-                CSystem newSystem = CSystemFactory.getInstance().getCentralSystemInstance();
+                CSystem newSystem = new CSystemFactory().buildNewCentralSystem();
                 JFrame newFrame = new CSystemSwingFrame(newSystem);
                 newFrame.setVisible(true);
             }
