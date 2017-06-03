@@ -16,7 +16,12 @@ public class Ticket {
     public String getCode() {
         return code;
     }
+    
     public double getCost() {
         return type.getCost();
+    }
+    
+    public String getType() {
+        return type.getType();
     }
 }

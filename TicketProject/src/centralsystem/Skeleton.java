@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import ticket.Ticket;
 import ticketCollector.Fine;
 
 public class Skeleton extends Thread {
@@ -294,29 +295,26 @@ public class Skeleton extends Thread {
         String username =(String) data.get("username");
         String ticketType =(String) data.get("ticketType");
         
-        centralSystem.addTicketSale( expiryDate,  serialCode,  username, ticketType);
+        centralSystem.addTicketSale(expiryDate,  serialCode,  username, ticketType);
         data = new JSONObject();
         data.put("data", true);
         return data.toString();
     }
-
     
     private String callMyTickets(JSONObject data) {
         String username = (String)data.get("username");
         data = new JSONObject();
-        ArrayList<TicketDB> listaBiglietti =  centralSystem.MyTicket(username);
+        ArrayList<Ticket> listaBiglietti =  centralSystem.MyTicket(username);
         JSONArray JList = new JSONArray();
  
-        for (TicketDB ticket : listaBiglietti) {
+        for (Ticket ticket : listaBiglietti) {
             JSONObject jTicket = new JSONObject();    
             jTicket.put("id",ticket.getCode());
-            jTicket.put("expire",operator.toString(ticket.getExpireTime()));
+            //jTicket.put("expire",operator.toString(ticket.getExpireTime()));
             jTicket.put("type", ticket.getType());
             JList.add(jTicket);
             
         }
-        
-        
         data.put("data", JList);
         return data.toString();
     }

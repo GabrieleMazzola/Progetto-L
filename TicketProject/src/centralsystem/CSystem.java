@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import machines.MachineStatus;
+import ticket.Ticket;
 import ticketCollector.Fine;
 
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
@@ -29,8 +30,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         machineList = new HashMap();
         
         log = new ArrayList();
-        initUsers();
-        initCollectors();
+        //initUsers();
+        //initCollectors();
         initServer();
     }
     
@@ -59,8 +60,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param username
      * @return Vero se viene trovato un utente con username
      */
-    private boolean checkUser(String username) {
-        return(database.checkUser(username));
+    public boolean checkUser(String username) {
+        return database.checkUser(username);
     }
     
     /**
@@ -78,9 +79,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param psw
      * @return Vero se l'utente con i dati indicati viene aggiunto al database
      */
-    public boolean addUser(String name, String surname, String username,String cf,String psw) {
-        
-        return database.addUser(name, surname, username,cf, psw);
+    public boolean addUser(String name, String surname, String cf, String username, String psw) {
+        return database.addUser(name, surname, cf, username, psw);
     }
     
     /**
@@ -172,6 +172,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @return ero se esiste un biglietto nel database con il codice indicato
      */
     
+    @Override
     public boolean existsTicket(int ticketSerial) {
         return database.existsTicket(ticketSerial);
     }
@@ -186,6 +187,15 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      */
     public boolean isValid(int ticketSerial) {
         return database.isValid(ticketSerial);
+    }
+    
+    //__________________Metodi riguardanti i biglietti__________________________
+    public boolean addTicket(Ticket t) {
+        return database.addTicket(t);
+    }
+    
+    public Ticket getTicketById(String id) {
+        return database.getTicketByCode(id);
     }
     
     //__________________Metodi riguardanti la macchinetta_______________________
@@ -215,16 +225,6 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     /**
      * Stampa tutti i biglietti all'interno del database. Usato per debuggare
      */
-    public void printTickets() {
-        database.printTickets();
-    }
-    
-    /**
-     * Stampa tutti gli utenti all'interno del database. Usato per debuggare
-     */
-    public void printUsers() {
-        database.printUsers();
-    }
     
     /**
      * Effettua un test di connessione. Ritorna al client la stringa che questo
@@ -298,12 +298,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         }
     }
 
-    ArrayList<TicketDB> MyTicket(String username) {
+    public ArrayList<Ticket> MyTicket(String username) {
         return database.getTicketByUsername(username); 
     }
 
     void addTicketSale(Date expiryDate, long serialCode, String username, String ticketType) {
-        database.addTicket(expiryDate, serialCode, username, ticketType);
+        database.addTicketSale(expiryDate, serialCode, username, ticketType);
     }
-
 }

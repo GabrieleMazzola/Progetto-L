@@ -16,6 +16,4 @@ class OptionDB {
     public void setTicketCounter(long ticketCounter) {
         this.ticketCounter = ticketCounter;
     }
-    
-    
 }

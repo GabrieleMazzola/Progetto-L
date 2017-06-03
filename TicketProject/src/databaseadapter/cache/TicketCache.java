@@ -1,6 +1,5 @@
 package databaseadapter.cache;
 
-import databaseadapter.cache.CacheInterface;
 import java.util.HashSet;
 import java.util.Set;
 import ticket.Ticket;

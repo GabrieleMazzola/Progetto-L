@@ -8,9 +8,9 @@ public class SeasonType implements TicketType{
     private double cost;
     private int durationInMonth;
     
-    public SeasonType(int duration) {
-        durationInMonth = duration;
-        this.cost = 10*duration;
+    public SeasonType() {
+        durationInMonth = 1;
+        this.cost = 10;
     }
     
     @Override

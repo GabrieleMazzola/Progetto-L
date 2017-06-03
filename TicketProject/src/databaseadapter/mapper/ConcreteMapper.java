@@ -31,6 +31,19 @@ public abstract class ConcreteMapper implements MapperInterface{
         return arg;
     }
     
+    @Override
+    public boolean save(Object arg) {
+        String query = buildSaveQuery(arg);
+        try {
+            executeSaveQuery(query);
+            return true;
+        }
+        catch(SQLException exc) {
+            System.out.println(exc.getMessage());
+            return false;
+        }
+    }
+    
     protected void executeSaveQuery(String toExecute) throws SQLException{
         Connection con = DriverManager.getConnection(databaseURL, "root", "gigidatome3");
         con.createStatement().executeUpdate(toExecute);
@@ -41,4 +54,8 @@ public abstract class ConcreteMapper implements MapperInterface{
     protected abstract Object getFromCache(String id);
     //Cerca l'oggetto nel database
     protected abstract Object getFromStorage(String id);
+    //Costruisce la query di salvataggio
+    protected abstract String buildSaveQuery(Object arg);
+    //Costruisce la query di selezione
+    protected abstract String buildSelectQuery(String id);
 }

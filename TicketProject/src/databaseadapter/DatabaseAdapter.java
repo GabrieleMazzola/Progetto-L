@@ -1,24 +1,21 @@
 package databaseadapter;
 
+import databaseadapter.mapper.TicketMapper;
+import databaseadapter.mapper.UserMapper;
 import java.util.*;
+import ticket.Ticket;
 import ticketCollector.Fine;
 
 
 public class DatabaseAdapter {
-    private Set<UserDB> users;
-    private Set<TicketDB> tickets;   //biglietti venduti
-    private Set<Fine> fines;
-    private Set<CollectorDB> collectors;
     private OptionDB options;
-            
+    private TicketMapper ticketMapper;
+    private UserMapper userMapper;
     
     public DatabaseAdapter() {
-        this.tickets = new HashSet<>();
-        this.users = new HashSet<>();
-        addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN","ADMIN");
-        this.fines = new HashSet<>();
-        collectors = new HashSet<>();
         options = new OptionDB();
+        ticketMapper = new TicketMapper("tickets");
+        userMapper = new UserMapper("users");
     }
     
     /**
@@ -32,8 +29,8 @@ public class DatabaseAdapter {
      * @param psw
      * @return Vero se l'operazione va a buon fine
      */
-    public boolean addUser(String name, String surname,String username, String cf,String psw) {
-        return users.add(new UserDB(name, surname, username,cf, psw));
+    public boolean addUser(String name, String surname, String cf, String username, String psw) {
+        return userMapper.save(new User(name, surname, cf, username, psw));
     }
     
     /**
@@ -41,12 +38,13 @@ public class DatabaseAdapter {
      * @param ticket
      * @return Vero se l'operazione va a buon fine
      */
-    public boolean addTicket(TicketDB ticket){
-        return tickets.add(ticket);
+    public boolean addTicket(Ticket ticket){
+        return ticketMapper.save(ticket);
     }
-    public boolean addTicket(Date expiryDate, long serialCode, String username, String ticketType){
-            tickets.add(new TicketDB(expiryDate,serialCode, username, ticketType));
+    
+    public boolean addTicketSale(Date expiryDate, long serialCode, String username, String ticketType){
         return true;
+//        throw new UnsupportedOperationException("Cannot call 'addTicket(Dat, long, String, String)' yet");
     }
     
     /**
@@ -59,7 +57,7 @@ public class DatabaseAdapter {
      * @return Vero se l'operazione va a buon fine
      */
     public boolean addCollector(String name, String surname,String username, String cf,String psw) {
-        return collectors.add(new CollectorDB(name, surname,username, cf, psw));
+        throw new UnsupportedOperationException("Cannot call 'addCollector(String, Stirng, String, String, String)' yet");
     }
     
     /**
@@ -69,13 +67,8 @@ public class DatabaseAdapter {
      * @return Il TicketDB se esiste un biglietto con codice ticketCode, null
      * altrimenti
      */
-    public TicketDB getTicketByCode(int ticketSerial){
-        for(TicketDB t: tickets){
-            if(t.getCode() == ticketSerial){
-                return t;
-            }
-        }
-        return null;
+    public Ticket getTicketByCode(String ticketSerial){
+        return (Ticket)ticketMapper.get(ticketSerial);
     }
     
     /**
@@ -85,7 +78,7 @@ public class DatabaseAdapter {
      * @return Vero se getTicketByCOde non restituisce null, falso altrimenti
      */
     public boolean existsTicket(int ticketSerial){
-        return(getTicketByCode(ticketSerial) != null);
+        throw new UnsupportedOperationException("Cannot cal 'existsTicket(int)' yet");
     }
     
     /**
@@ -95,11 +88,7 @@ public class DatabaseAdapter {
      * @return Vero se getTicketByCode non ritorna null e se il biglietto è attivo
      */
     public boolean isValid(int ticketSerial){
-        TicketDB t = getTicketByCode(ticketSerial);
-        if(t != null){
-            return t.isActive();
-        }
-        return false;
+        throw new UnsupportedOperationException("Cannot call 'isValid(int)' yet");
     }
     
     /**
@@ -108,10 +97,7 @@ public class DatabaseAdapter {
      * @return Vero se esiste un utente con codice fiscale cf nel database
      */
     public boolean checkUser(String username){
-        for(UserDB u : users){
-            if(u.getUsername().trim().equalsIgnoreCase(username.trim())) return true;
-        }
-        return false;
+        return userMapper.get(username) != null;
     }
  
     /**
@@ -122,12 +108,7 @@ public class DatabaseAdapter {
      * restituisce null), falso altrimenti
      */
     public boolean activateTicket(int ticketSerial){
-        TicketDB t;
-        if((t = getTicketByCode(ticketSerial)) != null){
-            t.activate();
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("Cannot call 'activateTicket(int)' yet");
     }
     
     /**
@@ -136,7 +117,7 @@ public class DatabaseAdapter {
      * @return Vero se l'operazione va a buon fine
      */
     public boolean addFine(Fine fine) {
-        return fines.add(fine);
+        throw new UnsupportedOperationException("Cannot call 'addFine(Fine)' yet");
     }
     
     /**
@@ -147,32 +128,7 @@ public class DatabaseAdapter {
      * @return Un Set di Fine che contiene tutte le multe prese dall'utente spcificato
      */
     public Set<Fine> getFineByCFCode(String cfCode) {
-        Set<Fine> fittingFines = new HashSet<>();
-        
-        for(Fine fine : fines) {
-            if(fine.getCfCode().equals(cfCode)) fittingFines.add(fine);
-        }  
-        return fittingFines;
-    }
-    
-    /**
-     * Stampa tutti gli utenti nel database.
-     */
-    public void printUsers(){
-        System.out.println("\nUSERS:");
-        for(UserDB u : users){
-            System.out.println(u.toString());
-        }
-    }
-    
-    /**
-     * Stampa tutti i biglietti nel database.
-     */
-    public void printTickets(){
-        System.out.println("\nTICKETS:");
-        for(TicketDB t : tickets){
-            System.out.println(t.toString());
-        }
+        throw new UnsupportedOperationException("Cannot call 'getFineByCFCode(String)' yet");
     }
     
     /**
@@ -183,14 +139,7 @@ public class DatabaseAdapter {
      * @return Vero se esiste una coppia username/password uguali a quelli specificati
      */
     public boolean userLogin(String username, String psw) {
-        for (UserDB user : users) {
-            if(user.getUsername().equals(username) && user.getPassword().equals(psw)) {
-                //System.out.println(username);
-                return true;
-            }
-        }
-        System.out.println("Non trovato");
-        return false;
+        throw new UnsupportedOperationException("Cannot call 'userLogin(String, String)' yet");
     }
     
     /**
@@ -201,18 +150,11 @@ public class DatabaseAdapter {
      * @return Vero se esiste una coppia username/password uguali a quelli specificati
      */
     public boolean collectorLogin(String username, String psw) {
-        for (CollectorDB collector : collectors) {
-            if(collector.getUsername().equals(username) && collector.getPassword().equals(psw)) return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("Cannot call 'collectorLogin(String, String)' yet");
     }    
 
-    public ArrayList<TicketDB> getTicketByUsername(String username) {
-        ArrayList<TicketDB> listaBiglietti = new ArrayList<>();
-        for (TicketDB ticket : tickets) {
-            if(ticket.getUsername().equals(username)) listaBiglietti.add(ticket);
-        }
-        return listaBiglietti;
+    public ArrayList<Ticket> getTicketByUsername(String username) {
+        throw new UnsupportedOperationException("Cannot call 'getTicketByUsername(String)' yet");
     }
 
     public long getTicketCounter() {
@@ -222,7 +164,4 @@ public class DatabaseAdapter {
     public void setTicketCounter(long l) {
         options.setTicketCounter(l);
     }
-    
-    
-    
 }
