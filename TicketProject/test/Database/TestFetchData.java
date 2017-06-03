@@ -2,7 +2,6 @@ package Database;
 
 import centralsystem.CSystem;
 import creator.CSystemFactory;
-import databaseadapter.mapper.TicketMapper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,5 +47,11 @@ public class TestFetchData {
     public void testFetchUser() {
         assertTrue(cs.checkUser("ManuManu"));
         assertFalse(cs.checkUser("Otto"));
+    }
+    
+    @Test
+    public void testFetchCollector() {
+        assertTrue(cs.collectorLogin("areds", "ioboh"));
+        assertFalse(cs.collectorLogin("un", "due"));
     }
 }

@@ -1,4 +1,4 @@
-package databaseadapter;
+package databaseadapter.people;
 
 /**
  *

@@ -1,7 +1,7 @@
 package databaseadapter.mapper;
 
-import databaseadapter.people.User;
 import databaseadapter.cache.UserCache;
+import databaseadapter.people.Collector;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
  *
  * @author Manuele
  */
-public class UserMapper extends ConcreteMapper{
+public class CollectorMapper extends ConcreteMapper{
     private UserCache cache;
     private final String tableName;
     
-    public UserMapper(String userTableName) {
+    public CollectorMapper(String userTableName) {
         super();
         tableName = userTableName;
         cache = new UserCache();
@@ -27,8 +27,8 @@ public class UserMapper extends ConcreteMapper{
     }
     
     @Override
-    protected User getFromStorage(String username) {
-        User u = null;
+    protected Collector getFromStorage(String username) {
+        Collector c = null;
         String query = buildSelectQuery(username);
         try {
             Connection con = DriverManager.getConnection(databaseURL, "root", "gigidatome3");
@@ -39,14 +39,14 @@ public class UserMapper extends ConcreteMapper{
                 String cf = data.getString("CF");
                 //username = data.getString("USENAME");
                 String psw = data.getString("PSW");
-                u = new User(name, surname, cf, username, psw);
+                c = new Collector(name, surname, cf, username, psw);
             }
             con.close();
         }
         catch(SQLException exc) {
             System.out.println(exc.getMessage());
         }
-        return u;
+        return c;
     }
     
     @Override
@@ -58,13 +58,13 @@ public class UserMapper extends ConcreteMapper{
     
     @Override
     protected String buildSaveQuery(Object arg) {
-        User u = (User)arg;
+        Collector c = (Collector)arg;
         StringBuilder str = new StringBuilder();
-        String name = u.getName();
-        String surname = u.getSurname();
-        String cf = u.getCf();
-        String username = u.getUsername();
-        String psw = u.getPsw();
+        String name = c.getName();
+        String surname = c.getSurname();
+        String cf = c.getCf();
+        String username = c.getUsername();
+        String psw = c.getPsw();
         str.append("INSERT INTO ").append(tableName)
                 .append(" VALUES ('").append(name).append("', '").append(surname).append("', '")
                 .append(cf).append("', '").append(username).append("', '").append(psw).append("');");

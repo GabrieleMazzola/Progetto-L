@@ -1,7 +1,10 @@
 package databaseadapter;
 
+import databaseadapter.people.User;
+import databaseadapter.mapper.CollectorMapper;
 import databaseadapter.mapper.TicketMapper;
 import databaseadapter.mapper.UserMapper;
+import databaseadapter.people.Collector;
 import java.util.*;
 import ticket.Ticket;
 import ticketCollector.Fine;
@@ -11,11 +14,13 @@ public class DatabaseAdapter {
     private OptionDB options;
     private TicketMapper ticketMapper;
     private UserMapper userMapper;
+    private CollectorMapper collectorMapper;
     
     public DatabaseAdapter() {
         options = new OptionDB();
         ticketMapper = new TicketMapper("tickets");
         userMapper = new UserMapper("users");
+        collectorMapper = new CollectorMapper("collectors");
     }
     
     /**
@@ -56,8 +61,8 @@ public class DatabaseAdapter {
      * @param psw
      * @return Vero se l'operazione va a buon fine
      */
-    public boolean addCollector(String name, String surname,String username, String cf,String psw) {
-        throw new UnsupportedOperationException("Cannot call 'addCollector(String, Stirng, String, String, String)' yet");
+    public boolean addCollector(String name, String surname, String cf, String username, String psw) {
+        return collectorMapper.save(new Collector(name, surname, cf, username, psw));
     }
     
     /**
@@ -78,7 +83,7 @@ public class DatabaseAdapter {
      * @return Vero se getTicketByCOde non restituisce null, falso altrimenti
      */
     public boolean existsTicket(int ticketSerial){
-        throw new UnsupportedOperationException("Cannot cal 'existsTicket(int)' yet");
+        return getTicketByCode(ticketSerial + "") != null;
     }
     
     /**
@@ -139,7 +144,10 @@ public class DatabaseAdapter {
      * @return Vero se esiste una coppia username/password uguali a quelli specificati
      */
     public boolean userLogin(String username, String psw) {
-        throw new UnsupportedOperationException("Cannot call 'userLogin(String, String)' yet");
+        User u = (User)userMapper.get(username);
+        if(u != null)
+            return u.getUsername().equals(username) && u.getPsw().equals(psw);
+        else return false;
     }
     
     /**
@@ -150,7 +158,10 @@ public class DatabaseAdapter {
      * @return Vero se esiste una coppia username/password uguali a quelli specificati
      */
     public boolean collectorLogin(String username, String psw) {
-        throw new UnsupportedOperationException("Cannot call 'collectorLogin(String, String)' yet");
+        Collector c = (Collector)collectorMapper.get(username);
+        if(c != null)
+            return c.getUsername().equals(username) && c.getPsw().equals(psw);
+        else return false;
     }    
 
     public ArrayList<Ticket> getTicketByUsername(String username) {

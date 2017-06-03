@@ -1,6 +1,6 @@
 package databaseadapter.cache;
 
-import databaseadapter.User;
+import databaseadapter.people.User;
 import java.util.HashSet;
 import java.util.Set;
 

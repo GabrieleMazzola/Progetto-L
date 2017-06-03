@@ -1,8 +1,5 @@
 package ticketCollector;
 
-import centralsystem.CentralSystemCollectorInterface;
-
-
 public class TicketCollector {
     private final int cod;					//codice della macchinetta fisica
     private final StubCollector stub;		

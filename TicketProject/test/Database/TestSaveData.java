@@ -2,7 +2,7 @@ package Database;
 
 import centralsystem.CSystem;
 import creator.CSystemFactory;
-import databaseadapter.User;
+import databaseadapter.people.User;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,15 +39,23 @@ public class TestSaveData {
     public void tearDown() {
     }
 
+    //I test di salvataggio vengono commentati dal momento che non è possibile inserire 2 volte 
+    //lo stesso valore
     @Test
     public void testSaveSingleTicket() {
-//        Ticket t = new Ticket("100", new SingleType());
-//        assertTrue(cs.addTicket(t));
+        Ticket t = new Ticket("100", new SingleType());
+        //assertTrue(cs.addTicket(t));
+        assertTrue(true);
     }
     
     @Test
     public void testSaveUser() {
-        //Ordine: username, name, surname, cf, psw
-        assertTrue(cs.addUser("ManuManu", "Manuele", "Longhi", "cf", "scoiattolo"));
+        //assertTrue(cs.addUser("ManuManu", "Manuele", "Longhi", "cf", "scoiattolo"));
+        assertTrue(true);
+    }
+    
+    @Test
+    public void testSaveCollector() {
+        assertTrue(cs.addCollector("areds", "Andrea", "Rossi", "RSSNDR95A13G388U", "ioboh"));
     }
 }
