@@ -45,7 +45,7 @@ public class TestSaveData {
     //lo stesso valore
     @Test
     public void testSaveSingleTicket() {
-        Ticket t = new Ticket("10", new SingleType());
+        Ticket t = new Ticket("100", new SingleType());
         t.setOwner("ManuManu");
         assertTrue(cs.addTicket(t));
         //assertTrue(true);
@@ -53,22 +53,22 @@ public class TestSaveData {
     
     @Test
     public void testSaveUser() {
-        //assertTrue(cs.addUser("ManuManu", "Manuele", "Longhi", "cf", "scoiattolo"));
-        assertTrue(true);
+        assertTrue(cs.addUser("ManuManu", "Manuele", "Longhi", "cf", "scoiattolo"));
+        //assertTrue(true);
     }
     
     @Test
     public void testSaveCollector() {
-        //assertTrue(cs.addCollector("areds", "Andrea", "Rossi", "RSSNDR95A13G388U", "ioboh"));
-        assertTrue(true);
+        assertTrue(cs.addCollector("areds", "Andrea", "Rossi", "RSSNDR95A13G388U", "ioboh"));
+        //assertTrue(true);
     }
     
     @Test
     public void testSaveFine() {
         TicketCollector tc = new TicketCollector(0, "localhost");
         assertTrue(tc.loginCollector("areds", "ioboh"));
-//        assertTrue(tc.createFine("cf", 20));
-//        assertTrue(tc.createFine("cf", 30));
-//        assertTrue(tc.createFine("cf", 10));
+        assertTrue(tc.createFine("cf", 20));
+        assertTrue(tc.createFine("cf", 30));
+        assertTrue(tc.createFine("cf", 10));
     }
 }

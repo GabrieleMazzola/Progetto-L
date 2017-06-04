@@ -1,9 +1,6 @@
-
 package databaseadapter;
 
-
 class OptionDB {
-    
     private long ticketCounter = 0; 
     
     public OptionDB(){

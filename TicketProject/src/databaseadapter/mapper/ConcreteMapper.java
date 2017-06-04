@@ -19,7 +19,7 @@ public abstract class ConcreteMapper implements MapperInterface{
     public ConcreteMapper() {
         hostname = "localhost";
         port = "3306";
-        databaseName = "test";
+        databaseName = "emettitrici";
         databaseURL = "jdbc:mysql://" + hostname + ":" + port + "/" + databaseName;
     }
     
