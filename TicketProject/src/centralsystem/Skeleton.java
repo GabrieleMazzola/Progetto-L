@@ -1,15 +1,14 @@
 package centralsystem;
 
 import DateSingleton.DateOperations;
-import databaseadapter.TicketDB;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -259,10 +258,11 @@ public class Skeleton extends Thread {
     }
 
     private String callMakeFine(JSONObject data) {
+        long id = (Long)data.get("id");
         String cf = (String)data.get("cf");
         double amount = (Double)data.get("amount");
-        Fine fine = new Fine(cf,amount);
-        boolean result = centralSystem.addFine(fine);
+        Fine fine = new Fine(id, cf, amount);
+        boolean result = centralSystem.makeFine(fine);
         data = new JSONObject();
         data.put("data", result);
         
@@ -304,7 +304,7 @@ public class Skeleton extends Thread {
     private String callMyTickets(JSONObject data) {
         String username = (String)data.get("username");
         data = new JSONObject();
-        ArrayList<Ticket> listaBiglietti =  centralSystem.MyTicket(username);
+        List<Ticket> listaBiglietti =  centralSystem.getTicketsByUsername(username);
         JSONArray JList = new JSONArray();
  
         for (Ticket ticket : listaBiglietti) {

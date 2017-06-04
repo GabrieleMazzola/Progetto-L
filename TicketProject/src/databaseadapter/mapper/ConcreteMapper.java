@@ -1,5 +1,6 @@
 package databaseadapter.mapper;
 
+import databaseadapter.cache.CacheInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ public abstract class ConcreteMapper implements MapperInterface{
     protected String port;
     protected String databaseName;
     protected String databaseURL;
+    protected CacheInterface cache;
     
     public ConcreteMapper() {
         hostname = "localhost";
@@ -26,6 +28,7 @@ public abstract class ConcreteMapper implements MapperInterface{
         Object arg = getFromCache(id);
         if(arg == null) {
             arg = getFromStorage(id);
+            cache.add(arg);
         }
         
         return arg;
@@ -42,6 +45,11 @@ public abstract class ConcreteMapper implements MapperInterface{
             System.out.println(exc.getMessage());
             return false;
         }
+    }
+    
+    @Override
+    public int getCacheSize() {
+        return cache.getSize();
     }
     
     protected void executeSaveQuery(String toExecute) throws SQLException{

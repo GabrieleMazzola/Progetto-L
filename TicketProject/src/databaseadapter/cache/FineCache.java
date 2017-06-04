@@ -2,29 +2,30 @@ package databaseadapter.cache;
 
 import java.util.HashSet;
 import java.util.Set;
-import ticket.Ticket;
+import ticketCollector.Fine;
 
 /**
  *
  * @author Manuele
  */
-public class TicketCache implements CacheInterface{
-    private Set<Ticket> cache;
+public class FineCache implements CacheInterface{
+    private Set<Fine> cache;
     
-    public TicketCache() {
+    public FineCache() {
         cache = new HashSet<>();
     }
     
     @Override
     public void add(Object arg) {
-        if(arg instanceof Ticket)
-            cache.add((Ticket)arg);
+        if(arg instanceof Fine)
+            cache.add((Fine)arg);
     }
     
     @Override
-    public Ticket get(String code) {
-        for(Ticket t : cache) {
-            if(t.getCode().equals(code)) return t;
+    public Fine get(String id) {
+        for(Fine f : cache) {
+            String idString = f.getId() + "";
+            if(idString.equals(id)) return f;
         }
         return null;
     }

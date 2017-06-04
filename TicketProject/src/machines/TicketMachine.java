@@ -1,5 +1,7 @@
 package machines;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import ticket.Ticket;
@@ -110,7 +112,7 @@ public class TicketMachine extends Observable{
      * @param cCardNumber
      * @return Vero se il pagamento va a buon fine, falso altrimenti
      */
-    //TODO: Stato Pagamento
+    //TODO: Stato Pagamento [Borraccia d'acqua della bici]
     public boolean buyTicketCreditCard(String cCardNumber) {
         if(checkCreditCard(cCardNumber)) {
             System.out.println("Pagamento effettuato. Stampa biglietto");
@@ -183,6 +185,8 @@ public class TicketMachine extends Observable{
      */
     private Ticket createTicket(){
         Ticket ticket = new Ticket(codesHandler.popSerialNumber()+"", type);
+        ticket.setExpiryDate(Calendar.getInstance().getTime());
+        ticket.setOwner(logged);
         return ticket;
     }
 

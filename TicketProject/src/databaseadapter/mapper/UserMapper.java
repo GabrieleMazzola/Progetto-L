@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Manuele
  */
 public class UserMapper extends ConcreteMapper{
-    private UserCache cache;
     private final String tableName;
     
     public UserMapper(String userTableName) {

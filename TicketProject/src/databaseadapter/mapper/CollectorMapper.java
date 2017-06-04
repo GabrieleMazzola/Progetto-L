@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Manuele
  */
 public class CollectorMapper extends ConcreteMapper{
-    private UserCache cache;
     private final String tableName;
     
     public CollectorMapper(String userTableName) {

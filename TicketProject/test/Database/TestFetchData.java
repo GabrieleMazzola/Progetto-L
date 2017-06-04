@@ -2,6 +2,7 @@ package Database;
 
 import centralsystem.CSystem;
 import creator.CSystemFactory;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import ticket.Ticket;
+import ticketCollector.Fine;
 
 /**
  *
@@ -39,8 +41,17 @@ public class TestFetchData {
 
     @Test
     public void testFetchSingleTicket() {
-        assertTrue(cs.getTicketById("0") != null);
-        assertTrue(cs.getTicketById("1") == null);
+        Ticket t = cs.getTicketById("100");
+        assertTrue(t != null);
+        assertTrue(t.getCode().equals("100"));
+        assertTrue(t.getType().equals("Single"));
+        assertTrue(t.getOwner().equals("ManuManu"));
+        assertTrue(t.getExpiryDate() == null);
+    }
+    
+    @Test
+    public void testFetchSingleTicketByUsername() {
+        assertTrue(cs.getTicketsByUsername("ManuManu").size() == 2);
     }
     
     @Test
@@ -53,5 +64,17 @@ public class TestFetchData {
     public void testFetchCollector() {
         assertTrue(cs.collectorLogin("areds", "ioboh"));
         assertFalse(cs.collectorLogin("un", "due"));
+    }
+    
+    @Test
+    public void testFetchFine() {
+        assertTrue(cs.getFineById(0) != null);
+        assertTrue(cs.getFineById(10) == null);
+    }
+    
+    @Test
+    public void testFetchFineByCF() {
+        Set<Fine> fines = cs.getFinesOf("cf");
+        assertTrue(fines.size() == 3);
     }
 }

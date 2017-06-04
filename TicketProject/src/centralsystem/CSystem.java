@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Set;
 import machines.MachineStatus;
+import ticket.SingleType;
 import ticket.Ticket;
 import ticketCollector.Fine;
 
@@ -151,17 +153,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     @Override
     public boolean makeFine(Fine f) {
-    	//TODO
-    	return true;
-    }
-    
-    /**
-     * Aggiunge una multa, passata come parametro, al database
-     * @param fine
-     * @return Vero se l'operazione va a buon fine, altrimenti falso
-     */
-    public boolean addFine(Fine fine) {
-        return database.addFine(fine);
+    	return database.addFine(f);
     }
     
     /**
@@ -297,12 +289,28 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
             notifyObservers(arg);
         }
     }
+    
+    public Fine getFineById(long id) {
+        return database.getFineById(id);
+    }
+    
+    public Set<Fine> getFinesOf(String cf) {
+        return database.getFinesByCFCode(cf);
+    }
 
-    public ArrayList<Ticket> MyTicket(String username) {
+    public List<Ticket> getTicketsByUsername(String username) {
         return database.getTicketByUsername(username); 
     }
 
-    void addTicketSale(Date expiryDate, long serialCode, String username, String ticketType) {
-        database.addTicketSale(expiryDate, serialCode, username, ticketType);
+    public void addTicketSale(Date expiryDate, long serialCode, String username, String ticketType) {
+        Ticket t = null;
+        switch(ticketType.toUpperCase()) {
+            case "SINGLE":
+                t = new Ticket(serialCode + "", new SingleType());
+                break;
+            case "SEASON":
+                break;
+        }
+        addTicket(t);
     }
 }

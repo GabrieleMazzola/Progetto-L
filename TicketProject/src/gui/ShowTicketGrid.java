@@ -18,7 +18,7 @@ import ticket.Ticket;
  * @author Manuele
  */
 public class ShowTicketGrid extends BridgeSceneGrid{
-    private Label date;
+    private Label date, owner, type;
     private Image qrCode;
     private ImageView qrCodeView;
     private Button ok;
@@ -45,10 +45,22 @@ public class ShowTicketGrid extends BridgeSceneGrid{
         qrCodeView = new ImageView();
         qrCodeView.setImage(qrCode);
         
-        date = new Label("Created: " + Calendar.getInstance().getTime());
+        if(ticket.getOwner() != null)
+            owner = new Label("Owner: " + ticket.getOwner());
+        else
+            owner = new Label("Owner: -");
+        
+        type = new Label("Type: " + ticket.getType());
+        
+        if(ticket.getExpiryDate() != null)
+            date = new Label("Created: " + Calendar.getInstance().getTime());
+        else
+            date = new Label("Created: -");
         
         grid.add(qrCodeView, 0, 0);
-        grid.add(date, 0, 1);
-        grid.add(ok, 1, 1);
+        grid.add(owner, 0, 1);
+        grid.add(type, 0, 2);
+        grid.add(date, 0, 3);
+        grid.add(ok, 1, 3);
     }
 }

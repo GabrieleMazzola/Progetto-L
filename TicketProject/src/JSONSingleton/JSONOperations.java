@@ -114,6 +114,7 @@ public class JSONOperations {
         JSONObject root = new JSONObject();
         root.put("method", "MAKEFINE");
         JSONObject data = new JSONObject();
+        data.put("id", f.getId());
         data.put("cf", f.getCfCode());
         data.put("amount", f.getAmount());
         root.put("data", data);

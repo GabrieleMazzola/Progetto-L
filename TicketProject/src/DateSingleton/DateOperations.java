@@ -21,16 +21,23 @@ public class DateOperations {
     }
     
     public Date parse(String input) throws java.text.ParseException {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        df.setTimeZone(tz);
-        return df.parse(input);
+        if(input != null) {
+            System.out.println("Not Null");
+            TimeZone tz = TimeZone.getTimeZone("UTC");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            df.setTimeZone(tz);
+            return df.parse(input);
+        }
+        else return null;
     }
 
-    public String toString( Date date ) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ITALY);
-	dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	return dateFormat.format(date);
+    public String toString(Date date) {
+        if(date != null) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ITALY);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return dateFormat.format(date);
+        }
+        else return null;
     }
     
 }

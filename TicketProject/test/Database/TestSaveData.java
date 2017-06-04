@@ -11,6 +11,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import ticket.SingleType;
 import ticket.Ticket;
+import ticketCollector.Fine;
+import ticketCollector.TicketCollector;
 
 /**
  *
@@ -43,9 +45,10 @@ public class TestSaveData {
     //lo stesso valore
     @Test
     public void testSaveSingleTicket() {
-        Ticket t = new Ticket("100", new SingleType());
-        //assertTrue(cs.addTicket(t));
-        assertTrue(true);
+        Ticket t = new Ticket("10", new SingleType());
+        t.setOwner("ManuManu");
+        assertTrue(cs.addTicket(t));
+        //assertTrue(true);
     }
     
     @Test
@@ -56,6 +59,16 @@ public class TestSaveData {
     
     @Test
     public void testSaveCollector() {
-        assertTrue(cs.addCollector("areds", "Andrea", "Rossi", "RSSNDR95A13G388U", "ioboh"));
+        //assertTrue(cs.addCollector("areds", "Andrea", "Rossi", "RSSNDR95A13G388U", "ioboh"));
+        assertTrue(true);
+    }
+    
+    @Test
+    public void testSaveFine() {
+        TicketCollector tc = new TicketCollector(0, "localhost");
+        assertTrue(tc.loginCollector("areds", "ioboh"));
+//        assertTrue(tc.createFine("cf", 20));
+//        assertTrue(tc.createFine("cf", 30));
+//        assertTrue(tc.createFine("cf", 10));
     }
 }

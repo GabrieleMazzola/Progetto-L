@@ -28,4 +28,9 @@ public class UserCache implements CacheInterface{
         }
         return null;
     }
+    
+    @Override
+    public int getSize() {
+        return cache.size();
+    }
 }

@@ -2,6 +2,7 @@ package ticketCollector;
 
 public class TicketCollector {
     private final int cod;					//codice della macchinetta fisica
+    private static int numberOfFines = 0;
     private final StubCollector stub;		
     private boolean connected = false;
     private String username;
@@ -92,11 +93,16 @@ public class TicketCollector {
      * @param cf : codice fiscale della persona multata
      * @param amount : cifra della multa
      */
-    public void createFine(String cf, double amount){
+    public boolean createFine(String cf, double amount){
         if(isLogged()){
-            Fine fine = new Fine(cf,amount);
-            stub.makeFine(fine);
+            Fine fine = new Fine(numberOfFines, cf,amount);
+            if(stub.makeFine(fine)) {
+                numberOfFines++;
+                return true;
+            }
+            else return false;
         }
+        else return false;
     }
     
     public int getOfflineFinesNumber() {

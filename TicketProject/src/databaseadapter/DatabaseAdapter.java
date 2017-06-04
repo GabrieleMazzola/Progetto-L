@@ -2,6 +2,7 @@ package databaseadapter;
 
 import databaseadapter.people.User;
 import databaseadapter.mapper.CollectorMapper;
+import databaseadapter.mapper.FineMapper;
 import databaseadapter.mapper.TicketMapper;
 import databaseadapter.mapper.UserMapper;
 import databaseadapter.people.Collector;
@@ -15,12 +16,14 @@ public class DatabaseAdapter {
     private TicketMapper ticketMapper;
     private UserMapper userMapper;
     private CollectorMapper collectorMapper;
+    private FineMapper fineMapper;
     
     public DatabaseAdapter() {
         options = new OptionDB();
         ticketMapper = new TicketMapper("tickets");
         userMapper = new UserMapper("users");
         collectorMapper = new CollectorMapper("collectors");
+        fineMapper = new FineMapper("fines");
     }
     
     /**
@@ -47,17 +50,13 @@ public class DatabaseAdapter {
         return ticketMapper.save(ticket);
     }
     
-    public boolean addTicketSale(Date expiryDate, long serialCode, String username, String ticketType){
-        return true;
-//        throw new UnsupportedOperationException("Cannot call 'addTicket(Dat, long, String, String)' yet");
-    }
-    
     /**
      * Aggiunge un controllore al database. I campi del controllore da aggiungere sono
      * specificati come parametri della funzione
      * @param name
      * @param surname
      * @param cf
+     * @param username
      * @param psw
      * @return Vero se l'operazione va a buon fine
      */
@@ -112,9 +111,9 @@ public class DatabaseAdapter {
      * @return Vero se l'attivazione va a buon fine (ossia se getTicketByCode non 
      * restituisce null), falso altrimenti
      */
-    public boolean activateTicket(int ticketSerial){
-        throw new UnsupportedOperationException("Cannot call 'activateTicket(int)' yet");
-    }
+//    public boolean activateTicket(int ticketSerial){
+//        throw new UnsupportedOperationException("Cannot call 'activateTicket(int)' yet");
+//    }
     
     /**
      * Aggiunge al database la multa specificata
@@ -122,7 +121,11 @@ public class DatabaseAdapter {
      * @return Vero se l'operazione va a buon fine
      */
     public boolean addFine(Fine fine) {
-        throw new UnsupportedOperationException("Cannot call 'addFine(Fine)' yet");
+        return fineMapper.save(fine);
+    }
+    
+    public Fine getFineById(long id) {
+        return (Fine)fineMapper.get(id + "");
     }
     
     /**
@@ -132,8 +135,8 @@ public class DatabaseAdapter {
      * @param cfCode
      * @return Un Set di Fine che contiene tutte le multe prese dall'utente spcificato
      */
-    public Set<Fine> getFineByCFCode(String cfCode) {
-        throw new UnsupportedOperationException("Cannot call 'getFineByCFCode(String)' yet");
+    public Set<Fine> getFinesByCFCode(String cfCode) {
+        return (Set<Fine>)fineMapper.getAllFinesOf(cfCode);
     }
     
     /**
@@ -164,8 +167,8 @@ public class DatabaseAdapter {
         else return false;
     }    
 
-    public ArrayList<Ticket> getTicketByUsername(String username) {
-        throw new UnsupportedOperationException("Cannot call 'getTicketByUsername(String)' yet");
+    public List<Ticket> getTicketByUsername(String username) {
+        return (List<Ticket>)ticketMapper.getAllTicketsOf(username);
     }
 
     public long getTicketCounter() {
