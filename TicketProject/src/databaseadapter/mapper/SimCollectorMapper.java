@@ -1,7 +1,6 @@
 package databaseadapter.mapper;
 
 import databaseadapter.people.Collector;
-import databaseadapter.people.User;
 import java.util.HashSet;
 import java.util.Set;
 

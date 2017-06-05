@@ -3,6 +3,10 @@ package databaseadapter;
 import databaseadapter.people.User;
 import databaseadapter.mapper.CollectorMapper;
 import databaseadapter.mapper.FineMapper;
+import databaseadapter.mapper.SimCollectorMapper;
+import databaseadapter.mapper.SimFineMapper;
+import databaseadapter.mapper.SimTicketMapper;
+import databaseadapter.mapper.SimUserMapper;
 import databaseadapter.mapper.TicketMapper;
 import databaseadapter.mapper.UserMapper;
 import databaseadapter.people.Collector;
@@ -13,17 +17,21 @@ import ticketCollector.Fine;
 
 public class DatabaseAdapter {
     private OptionDB options;
-    private TicketMapper ticketMapper;
-    private UserMapper userMapper;
-    private CollectorMapper collectorMapper;
-    private FineMapper fineMapper;
+    private SimTicketMapper ticketMapper;
+    private SimUserMapper userMapper;
+    private SimCollectorMapper collectorMapper;
+    private SimFineMapper fineMapper;
     
     public DatabaseAdapter() {
         options = new OptionDB();
-        ticketMapper = new TicketMapper("tickets");
-        userMapper = new UserMapper("users");
-        collectorMapper = new CollectorMapper("collectors");
-        fineMapper = new FineMapper("fines");
+//        ticketMapper = new TicketMapper("tickets");
+//        userMapper = new UserMapper("users");
+//        collectorMapper = new CollectorMapper("collectors");
+//        fineMapper = new FineMapper("fines");
+        ticketMapper = new SimTicketMapper();
+        userMapper = new SimUserMapper();
+        collectorMapper = new SimCollectorMapper();
+        fineMapper = new SimFineMapper();
     }
     
     /**

@@ -14,7 +14,15 @@ public class SimTicketMapper implements MapperInterface{
     public SimTicketMapper() {
         tickets = new HashSet<>();
     }
-
+    
+    public Set<Ticket> getAllTicketsOf(String username) {
+        Set<Ticket> ticketsOf = new HashSet();
+        for(Ticket t : tickets) {
+            if(t.getOwner().equals(username))ticketsOf.add(t);
+        }
+        return ticketsOf;
+    }
+    
     @Override
     public Object get(String code) {
         for(Ticket t : tickets) {

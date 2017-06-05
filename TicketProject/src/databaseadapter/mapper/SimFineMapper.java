@@ -15,6 +15,14 @@ public class SimFineMapper implements MapperInterface{
         fines = new HashSet<>();
     }
     
+    public Set<Fine> getAllFinesOf(String cf) {
+        Set<Fine> finesOf = new HashSet();
+        for(Fine f : fines) {
+            if(f.getCfCode().equals(cf)) finesOf.add(f);
+        }
+        return finesOf;
+    }
+    
     @Override
     public Object get(String id) {
         for(Fine f : fines) {
