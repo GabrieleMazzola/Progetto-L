@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 import machines.MachineStatus;
+import ticket.Products;
 import ticket.SingleType;
 import ticket.Ticket;
 import ticketCollector.Fine;
@@ -33,8 +34,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         machineList = new HashMap();
         
         log = new ArrayList();
-        //initUsers();
-        //initCollectors();
+        initUsers();
+        initCollectors();
         initServer();
     }
     
@@ -251,15 +252,14 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
    
-
     private void initUsers() {
-        database.addUser("Gabriele", "Mazzola", "MZZGRL95B22L872K","gabriele.m1995@gmail.com", "pizza123");
-        database.addUser("Manuele", "Longhi", "ASCAKJSCAKSBCAKSJBHC","manumanu@gmail.com", "manumanu");
+        database.addUser("ADMIN", "ADMIN", "ADMIN", "ADMIN", "ADMIN");
+        database.addUser("TEST", "TEST", "USER", "TEST", "USER");
     }
     
     private void initCollectors() {
         database.addCollector("Andrea", "Rossi","areds", "RSSNDR95A13G388U", "ioboh");
-        database.addCollector("ADMIN","ADMIN","ADMIN","ADMIN","ADMIN");
+        database.addCollector("TEST", "TEST", "COLLECTOR", "TEST", "COLLECTOR");
     }
    
     public boolean userLoginogin(String username, String psw) {

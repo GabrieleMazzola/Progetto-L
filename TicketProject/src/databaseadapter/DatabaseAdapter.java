@@ -94,7 +94,8 @@ public class DatabaseAdapter {
      * @return Vero se getTicketByCOde non restituisce null, falso altrimenti
      */
     public boolean existsTicket(int ticketSerial){
-        return getTicketByCode(ticketSerial + "") != null;
+        //return getTicketByCode(ticketSerial + "") != null;
+        return (ticketSerial <= options.getTicketVersionCounter());
     }
     
     /**
