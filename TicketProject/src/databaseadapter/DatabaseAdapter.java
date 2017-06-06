@@ -83,6 +83,10 @@ public class DatabaseAdapter {
         return (Ticket)ticketMapper.get(ticketSerial);
     }
     
+    public void incrementTicketVersion(){
+        options.setTicketVersionCounter(options.getTicketVersionCounter()+1);
+    }
+    
     /**
      * Cerca nel database se esiste un biglietto con codice indicato. Per farlo
      * viene chiamato il metodo getTicketByCode

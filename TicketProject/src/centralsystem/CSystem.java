@@ -20,6 +20,7 @@ import ticketCollector.Fine;
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface {
     private final int PORTA_SERVER = 5000;
     private Map<Integer,MachineStatus> machineList;
+    private Map<String,Products> items;
     private final DatabaseAdapter database;
     private ServerSocket socketListener;
     private SocketHandler scHandler;
@@ -115,6 +116,10 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     @Override
     public boolean userLogin(String username, String psw) {
         return database.userLogin(username, psw);
+    }
+    
+    private void incrementTicketVersion(){
+        database.incrementTicketVersion();
     }
     
     //__________________Metodi riguardanti il controllore_______________________
