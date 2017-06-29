@@ -180,8 +180,8 @@ public class DatabaseAdapter {
         else return false;
     }    
 
-    public List<Ticket> getTicketByUsername(String username) {
-        return (List<Ticket>)ticketMapper.getAllTicketsOf(username);
+    public Set<Ticket> getTicketByUsername(String username) {
+        return (Set<Ticket>)ticketMapper.getAllTicketsOf(username);
     }
 
     public long getTicketCounter() {

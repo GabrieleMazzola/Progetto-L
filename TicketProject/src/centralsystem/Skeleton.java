@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -304,7 +305,7 @@ public class Skeleton extends Thread {
     private String callMyTickets(JSONObject data) {
         String username = (String)data.get("username");
         data = new JSONObject();
-        List<Ticket> listaBiglietti =  centralSystem.getTicketsByUsername(username);
+        Set<Ticket> listaBiglietti =  centralSystem.getTicketsByUsername(username);
         JSONArray JList = new JSONArray();
  
         for (Ticket ticket : listaBiglietti) {

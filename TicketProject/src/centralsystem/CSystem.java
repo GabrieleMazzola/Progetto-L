@@ -98,11 +98,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * fine ritorna vero, altrimenti ritorna falso
      */
     @Override
-    public boolean createUser(String name, String surname, String username,String cf, String psw) {
+    public boolean createUser(String name, String surname, String cf,String username, String psw) {
         if(checkUser(username)){
             return false;
         }
-        return database.addUser(name, surname, username, cf, psw);
+        return database.addUser(name, surname, cf, username, psw);
     }
     
     /**
@@ -140,7 +140,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @return Vero se il controllore viene aggiunto al database
      */
     public boolean addCollector(String name, String surname,String cf, String username,String psw) {
-        return database.addCollector(name, surname,username, cf, psw);
+        return database.addCollector(name, surname, cf,username, psw);
     }
     
     /**
@@ -303,7 +303,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.getFinesByCFCode(cf);
     }
 
-    public List<Ticket> getTicketsByUsername(String username) {
+    public Set<Ticket> getTicketsByUsername(String username) {
         return database.getTicketByUsername(username); 
     }
 
