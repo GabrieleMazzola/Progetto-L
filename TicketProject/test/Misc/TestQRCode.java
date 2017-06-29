@@ -49,4 +49,11 @@ public class TestQRCode {
             assertTrue(false);
         }
     }
+    
+    @Test
+    public void testQRodeInstance(){
+        QRCodeHandler qrCode = QRCodeHandler.getInstance();
+        QRCodeHandler qrCode1 = QRCodeHandler.getInstance();
+        assertTrue(qrCode.equals(qrCode1));
+    }
 }

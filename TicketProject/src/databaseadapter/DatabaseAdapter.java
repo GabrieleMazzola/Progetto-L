@@ -69,7 +69,7 @@ public class DatabaseAdapter {
      * @return Vero se l'operazione va a buon fine
      */
     public boolean addCollector(String name, String surname, String cf, String username, String psw) {
-        return collectorMapper.save(new Collector(name, surname, cf, username, psw));
+        return collectorMapper.save(new Collector(name, surname, username, cf, psw));
     }
     
     /**

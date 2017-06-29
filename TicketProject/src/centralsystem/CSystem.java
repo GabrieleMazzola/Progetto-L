@@ -139,7 +139,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param psw
      * @return Vero se il controllore viene aggiunto al database
      */
-    public boolean addCollector(String name, String surname,String username, String cf,String psw) {
+    public boolean addCollector(String name, String surname,String cf, String username,String psw) {
         return database.addCollector(name, surname,username, cf, psw);
     }
     
