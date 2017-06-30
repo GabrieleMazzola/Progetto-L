@@ -8,11 +8,9 @@ package commands;
 import DateSingleton.DateOperations;
 import centralsystem.CSystem;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import ticket.Sale;
 import ticket.Ticket;
 
 /**
@@ -27,7 +25,7 @@ public class CallMyTicketsCommand extends Command {
     
     @Override
     public String execute(JSONObject data){
-        Date expiryDate = new Date();
+       Date expiryDate = new Date();
         try {
             expiryDate = DateOperations.getInstance().parse((String)data.get("expiryDate"));
         } catch (java.text.ParseException ex) {
