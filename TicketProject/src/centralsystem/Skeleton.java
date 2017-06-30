@@ -1,6 +1,18 @@
 package centralsystem;
 
 import DateSingleton.DateOperations;
+import commands.CallAddTicketSaleCommand;
+import commands.CallCardPayementCommand;
+import commands.CallCentralSystemTestCommand;
+import commands.CallCollectorLoginCommand;
+import commands.CallCreateUserCommand;
+import commands.CallExistsTicketCommand;
+import commands.CallMakeFineCommand;
+import commands.CallMyTicketsCommand;
+import commands.CallRequestCodesCommand;
+import commands.CallUpdateMachineStatusCommand;
+import commands.CallUserLoginCommand;
+import commands.Command;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +20,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,12 +40,14 @@ public class Skeleton extends Thread {
     PrintWriter out;
     JSONParser parser;
     DateOperations operator;
+    Map<String,Command> callCommand = new HashMap<>();
 
     public Skeleton(Socket clientSocket, CSystem centralSystem) {
         this.clientSocket = clientSocket;
         this.centralSystem = centralSystem;
         this.operator = DateOperations.getInstance();
         parser = new JSONParser();
+        initCommands();
     }
     
     /**
@@ -101,228 +117,25 @@ public class Skeleton extends Thread {
         StringBuilder result = new StringBuilder();
         try {
             centralSystem.addMessageToLog(inputData);
-            obj = (JSONObject) parser.parse(inputData);
-            
-            switch (((String) obj.get("method")).trim().toUpperCase()) {
-
-                case "TEST":
-                    centralSystem.notifyChange("Attempted test...");
-                    result.append(callCentralSystemTEST((JSONObject) obj.get("data")));
-                    break;
-                case "CREATEUSER":
-                    centralSystem.notifyChange("Attempted creating user...");
-                    result.append(callCreateUser((JSONObject) obj.get("data")));
-                    break;
-                case "MAKEFINE":
-                    centralSystem.notifyChange("Attempted making new fine...");
-                    result.append(callMakeFine((JSONObject) obj.get("data")));
-                    break;
-                case "COLLECTORLOGIN":
-                    centralSystem.notifyChange("Attempted collector login...");
-                    result.append(callCollectorLogin((JSONObject) obj.get("data")));
-                    break;
-                case "USERLOGIN":
-                    centralSystem.notifyChange("Attempted user login...");
-                    result.append(callUserLogin((JSONObject) obj.get("data")));
-                    break;
-                case "CARDPAYMENT":
-                    centralSystem.notifyChange("Attempted card payment...");
-                    result.append(callCardPayment((JSONObject) obj.get("data")));
-                    break;
-                case "EXISTSTICKET":
-                    centralSystem.notifyChange("Request exists ticket...");
-                    result.append(callexistsTicket((JSONObject) obj.get("data")));
-                    break;
-                case "MYTICKETS":
-                    centralSystem.notifyChange("Requesting user codes...");
-                    result.append(callMyTickets((JSONObject) obj.get("data")));
-                    break; 
-                case "REQUESTCODES":
-                    centralSystem.notifyChange("Requesting new codes...");
-                    result.append(callRequestCodes((JSONObject) obj.get("data")));
-                    break;    
-                case "UPDATEMACHINESTATUS":
-                    result.append(callupdateMachineStatus((JSONObject) obj.get("data")));
-                    break;
-                case "ADDTICKETSALE":
-                    centralSystem.notifyChange("Attempted selling ticket...");
-                    result.append(callAddTicketSale((JSONObject) obj.get("data")));
-                    break;
-                default:
-                    LogCS.getInstance().print("err", "METODO INESISTENTE");
-            }
+            obj = (JSONObject) parser.parse(inputData);            
+            result.append(callCommand.get(((String) obj.get("method")).trim().toUpperCase()).execute((JSONObject) obj.get("data")));           
         } catch (ParseException ex) {
             System.err.println("Error: packet parsing error " + inputData);
-        }
-        //centralSystem.addMessageToLog(result.toString());
+        }       
+        centralSystem.addMessageToLog(result.toString());
         return result.toString();
     }
-    
-    private String callCreateUser(JSONObject data) {
-        
-    	String name = ((String) data.get("name"));
-    	String surname = ((String) data.get("surname"));
-    	String username = ((String) data.get("username"));
-    	String cf = ((String) data.get("cf"));
-    	String psw = ((String) data.get("psw"));
-        boolean result = centralSystem.createUser(name,surname,username,cf,psw);
-        data = new JSONObject();
-        data.put("data",result);
-        
-        String notify;
-        if(result) notify = "User " + username + " created succesfully";
-        else notify = "Something went wrong";
-        centralSystem.notifyChange(notify + ". " + Calendar.getInstance().getTime());
-        
-        return data.toJSONString();
-	}
-
-    private String callCardPayment(JSONObject data) {
-        String cardNumber = (String) data.get("cardNumber");
-        double amount = (double) data.get("amount");
-        boolean result = centralSystem.cardPayment(cardNumber, amount);
-        data = new JSONObject();
-        data.put("data",result);
-        
-        String notify;
-        if(result) notify = "Payment of " + amount + " from " + cardNumber + " was successful";
-        else notify = "Something went wrong";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-        
-        return data.toJSONString();
+    private void initCommands(){
+        callCommand.put("TEST", new CallCentralSystemTestCommand(centralSystem));
+        callCommand.put("CREATEUSER", new CallCreateUserCommand(centralSystem));
+        callCommand.put("MAKEFINE", new CallMakeFineCommand(centralSystem));
+        callCommand.put("COLLECTORLOGIN", new CallCollectorLoginCommand(centralSystem));
+        callCommand.put("USERLOGIN", new CallUserLoginCommand(centralSystem));
+        callCommand.put("CARDPAYMENT", new CallCardPayementCommand(centralSystem));
+        callCommand.put("EXISTSTICKET", new CallExistsTicketCommand(centralSystem));
+        callCommand.put("MYTICKETS", new CallMyTicketsCommand(centralSystem));
+        callCommand.put("REQUESTCODES", new CallRequestCodesCommand(centralSystem));
+        callCommand.put("UPDATEMACHINESTATUS", new CallUpdateMachineStatusCommand(centralSystem,clientSocket));
+        callCommand.put("ADDTICKETSALE", new CallAddTicketSaleCommand(centralSystem));
     }
-    
-    private String callexistsTicket(JSONObject data) {
-        String ticketCode = (String) data.get("ticketCode");
-        boolean result = centralSystem.existsTicket(Integer.parseInt(ticketCode));
-        data = new JSONObject();
-        data.put("data", result);
-        
-        String notify;
-        if(result) notify = "Ticket " + ticketCode + " found";
-        else notify = "Ticket " + ticketCode + " not found";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-        
-        return data.toJSONString();
-    }
-
-    private String callRequestCodes(JSONObject data) {
-        long initialCodesNumber = centralSystem.requestCodes(((Long)data.get("numberOfCodes")));
-        data.put("data", initialCodesNumber);
-        
-        String notify = "Codes requested to the Central System";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-        
-        return data.toJSONString();
-    }
-
-    private String callCentralSystemTEST(JSONObject data) {
-        String result = centralSystem.centralSystemTEST((String) data.get("test"));
-        data = new JSONObject();
-        data.put("data", result);
-        
-        String notify;
-        if(result.equals("test")) notify = "Test successful";
-        else notify = "Something went wrong";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-
-        return data.toJSONString();
-    }
-
-    private String callCollectorLogin(JSONObject data) {
-        String username = (String) data.get("username");
-        String psw = (String) data.get("psw");
-        boolean result = centralSystem.collectorLogin(username, psw);
-        data = new JSONObject();
-        data.put("data", result);
-        
-        String notify;
-        if(result) notify = "Login as " + username + " was successful";
-        else notify = "Login as " + username + " was not successful";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-        
-        return data.toJSONString();
-    }
-
-    private String callUserLogin(JSONObject data) {
-        String username = (String) data.get("username");
-        String psw = (String) data.get("psw");
-        boolean result = centralSystem.userLogin(username, psw);
-        data = new JSONObject();
-        data.put("data", result);
-        
-        String notify;
-        if(result) notify = "Login as " + username + " was successful";
-        else notify = "Login as " + username + " was not successful";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-
-        return data.toJSONString();
-    }
-
-    private String callMakeFine(JSONObject data) {
-        long id = (Long)data.get("id");
-        String cf = (String)data.get("cf");
-        double amount = (Double)data.get("amount");
-        Fine fine = new Fine(id, cf, amount);
-        boolean result = centralSystem.makeFine(fine);
-        data = new JSONObject();
-        data.put("data", result);
-        
-        String notify;
-        if(result) notify = "Fine of " + amount + "to " + cf + " was successfully added";
-        else notify = "Could not add the new fine";
-        centralSystem.notifyChange(notify+ ". " + Calendar.getInstance().getTime());
-
-        return data.toJSONString();
-    } 
-    
-    private String callupdateMachineStatus(JSONObject data) {
-        centralSystem.updateMachineStatus(((Double)data.get("machineCode")).intValue(), (double) data.get("inkLevel"), (double) data.get("paperLevel"), (boolean) data.get("active"), clientSocket.getRemoteSocketAddress().toString());
-        data = new JSONObject();
-        data.put("data", true);
-        return data.toString();
-    }
-    
-    private String callAddTicketSale(JSONObject data) {
-        Date expiryDate = new Date();
-        try {
-            expiryDate = operator.parse((String)data.get("expiryDate"));
-        } catch (java.text.ParseException ex) {
-            LogCS.getInstance().print("err", ex.toString());
-            data = new JSONObject();
-            data.put("data", false);
-            return data.toString();
-        }
-        long serialCode = ((Long)data.get("serial"));
-        String username =(String) data.get("username");
-        String ticketType =(String) data.get("ticketType");
-        
-        centralSystem.addTicketSale(expiryDate,  serialCode,  username, ticketType);
-        data = new JSONObject();
-        data.put("data", true);
-        return data.toString();
-    }
-    
-    private String callMyTickets(JSONObject data) {
-        String username = (String)data.get("username");
-        data = new JSONObject();
-        List<Sale> salesList =  centralSystem.getSalesByUsername(username);
-        
-        JSONArray objArray = new JSONArray();
- 
-        for (Sale sale : salesList) {
-            JSONObject obj = new JSONObject();    
-
-            obj.put("serialCode", sale.getSerialCode());
-            obj.put("expire", operator.toString(sale.getExpiryDate()));
-            obj.put("id", sale.getId());
-            
-            objArray.add(obj);
-            
-        }
-        data.put("data", objArray);
-        System.out.println("\n\njson dei mytickets: " + data.toJSONString());
-        return data.toString();
-    }
-    
 }
