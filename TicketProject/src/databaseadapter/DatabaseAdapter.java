@@ -11,13 +11,14 @@ import databaseadapter.mapper.TicketMapper;
 import databaseadapter.mapper.UserMapper;
 import databaseadapter.people.Collector;
 import java.util.*;
+import ticket.Sale;
 import ticket.Ticket;
 import ticketCollector.Fine;
 
 
 public class DatabaseAdapter {
     private OptionDB options;
-    private SimTicketMapper ticketMapper;
+    private SimTicketMapper saleMapper;
     private SimUserMapper userMapper;
     private SimCollectorMapper collectorMapper;
     private SimFineMapper fineMapper;
@@ -28,7 +29,7 @@ public class DatabaseAdapter {
 //        userMapper = new UserMapper("users");
 //        collectorMapper = new CollectorMapper("collectors");
 //        fineMapper = new FineMapper("fines");
-        ticketMapper = new SimTicketMapper();
+        saleMapper = new SimTicketMapper();
         userMapper = new SimUserMapper();
         collectorMapper = new SimCollectorMapper();
         fineMapper = new SimFineMapper();
@@ -54,8 +55,8 @@ public class DatabaseAdapter {
      * @param ticket
      * @return Vero se l'operazione va a buon fine
      */
-    public boolean addTicket(Ticket ticket){
-        return ticketMapper.save(ticket);
+    public boolean addSale(Sale sale){
+        return saleMapper.save(sale);
     }
     
     /**
@@ -80,7 +81,7 @@ public class DatabaseAdapter {
      * altrimenti
      */
     public Ticket getTicketByCode(String ticketSerial){
-        return (Ticket)ticketMapper.get(ticketSerial);
+        return (Ticket)saleMapper.get(ticketSerial);
     }
     
     public void incrementTicketVersion(){
@@ -180,8 +181,8 @@ public class DatabaseAdapter {
         else return false;
     }    
 
-    public Set<Ticket> getTicketByUsername(String username) {
-        return (Set<Ticket>)ticketMapper.getAllTicketsOf(username);
+    public List<Sale> getSalesByUsername(String username) {
+        return (List<Sale>)saleMapper.getAllSalesOf(username);
     }
 
     public long getTicketCounter() {

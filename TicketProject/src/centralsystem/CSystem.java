@@ -1,7 +1,6 @@
 package centralsystem;
 
 import databaseadapter.DatabaseAdapter;
-import databaseadapter.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.Observable;
 import java.util.Set;
 import machines.MachineStatus;
 import ticket.Products;
+import ticket.Sale;
 import ticket.SingleType;
 import ticket.Ticket;
 import ticketCollector.Fine;
@@ -40,7 +40,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     * Chiude il servere. Se il parametro passato è vero lo riavvia anche
+     * Chiude il server. Se il parametro passato è vero lo riavvia anche
      * @param restart 
      */
     public void close(boolean restart) {
@@ -188,8 +188,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     //__________________Metodi riguardanti i biglietti__________________________
-    public boolean addTicket(Ticket t) {
-        return database.addTicket(t);
+    public boolean addSale(Sale sale) {
+        return database.addSale(sale);
     }
     
     public Ticket getTicketById(String id) {
@@ -220,9 +220,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     //__________________Metodi per il debugging_________________________________
-    /**
-     * Stampa tutti i biglietti all'interno del database. Usato per debuggare
-     */
+
     
     /**
      * Effettua un test di connessione. Ritorna al client la stringa che questo
@@ -303,19 +301,14 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.getFinesByCFCode(cf);
     }
 
-    public Set<Ticket> getTicketsByUsername(String username) {
-        return database.getTicketByUsername(username); 
+    public List<Sale> getSalesByUsername(String username) {
+        return database.getSalesByUsername(username); 
     }
 
-    public void addTicketSale(Date expiryDate, long serialCode, String username, String ticketType) {
-        Ticket t = null;
-        switch(ticketType.toUpperCase()) {
-            case "SINGLE":
-                t = new Ticket(serialCode + "", new SingleType());
-                break;
-            case "SEASON":
-                break;
-        }
-        addTicket(t);
+    public void addTicketSale(Date expiryDate, long serialCode, String username, String id) {
+        
+        Sale sale = new Sale(expiryDate,serialCode,username,id);
+                
+        addSale(sale);
     }
 }

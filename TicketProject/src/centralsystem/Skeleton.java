@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import ticket.Sale;
 import ticket.Ticket;
 import ticketCollector.Fine;
 
@@ -305,18 +306,22 @@ public class Skeleton extends Thread {
     private String callMyTickets(JSONObject data) {
         String username = (String)data.get("username");
         data = new JSONObject();
-        Set<Ticket> listaBiglietti =  centralSystem.getTicketsByUsername(username);
-        JSONArray JList = new JSONArray();
+        List<Sale> salesList =  centralSystem.getSalesByUsername(username);
+        
+        JSONArray objArray = new JSONArray();
  
-        for (Ticket ticket : listaBiglietti) {
-            JSONObject jTicket = new JSONObject();    
-            jTicket.put("id",ticket.getCode());
-            //jTicket.put("expire",operator.toString(ticket.getExpireTime()));
-            jTicket.put("type", ticket.getType());
-            JList.add(jTicket);
+        for (Sale sale : salesList) {
+            JSONObject obj = new JSONObject();    
+
+            obj.put("serialCode", sale.getSerialCode());
+            obj.put("expire", operator.toString(sale.getExpiryDate()));
+            obj.put("id", sale.getId());
+            
+            objArray.add(obj);
             
         }
-        data.put("data", JList);
+        data.put("data", objArray);
+        System.out.println("\n\njson dei mytickets: " + data.toJSONString());
         return data.toString();
     }
     

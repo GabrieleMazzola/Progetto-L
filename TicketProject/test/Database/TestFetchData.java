@@ -51,7 +51,7 @@ public class TestFetchData {
     
     @Test
     public void testFetchSingleTicketByUsername() {
-        assertTrue(cs.getTicketsByUsername("ManuManu").size() == 2);
+        assertTrue(cs.getSalesByUsername("ManuManu").size() == 2);
     }
     
     @Test
