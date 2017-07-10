@@ -136,8 +136,10 @@ public class StubMachine implements CentralSystemTicketInterface {
     @Override
     public long requestCodes(long numberOfCodes) {
         try {
-            if(codesThread == null)
+            if(codesThread == null){
                 codesThread = new RequestCodesThread(machine, systemAddress, systemPort, numberOfCodes);
+                codesThread.start();
+            }
             if(!codesThread.isAlive()) {
                     codesThread = new RequestCodesThread(machine, systemAddress, systemPort, numberOfCodes);
                     codesThread.start();

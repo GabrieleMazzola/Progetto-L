@@ -47,9 +47,8 @@ public class Skeleton extends Thread {
             fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             toClient = new PrintWriter(clientSocket.getOutputStream(),true);
             
-            LogCS.getInstance().print("out", "\n\n---------------------"); 
+            //LogCS.getInstance().print("out", "\n\n---------------------"); 
             LogCS.getInstance().print("out", "Time: " + (new Date()).toString());
-            LogCS.getInstance().print("out", "Client connesso:  "  + clientSocket.getInetAddress()); 
             LogCS.getInstance().print("out", "ID :  "  + this.getId()); 
             LogCS.getInstance().print("out", "---------------------");
             
@@ -91,7 +90,7 @@ public class Skeleton extends Thread {
         JSONObject obj;
         JSONParser parser = new JSONParser();
        
-        LogCS.getInstance().print("out", "\n---------------------"); 
+        LogCS.getInstance().print("out", "---------------------"); 
         LogCS.getInstance().print("out", "Client della richiesta:  "  + this.getId()); 
         LogCS.getInstance().print("out", "Richiesta in ingresso: "  + jsonRequest);
         
