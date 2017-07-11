@@ -3,11 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsonenumerations;
+package enums.jsonenumerations;
 
-
-public enum StatisticsInformation {
+/**
+ *
+ * @author Simone
+ */
+public enum AddSale {
     
-    STATISTICSINFORMATION;
+    ADDSALE,
+    
+    SALEDATE,
+    SERIALCODE,
+    USERNAME,
+    TYPE,
+    SELLERMACHINEIP;
+    
+    
     
 }

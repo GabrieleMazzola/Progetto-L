@@ -2,6 +2,7 @@ package database.mapper.realmapper;
 
 import database.cache.SaleCache;
 import database.interfaces.mapperinterfaces.SaleMapper;
+import enums.databaseenumretions.DBSaleEnum;
 import items.*;
 import java.sql.*;
 import java.text.ParseException;
@@ -26,12 +27,12 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
             ResultSet data = con.createStatement().executeQuery(query);
             while(data.next()) {
                 
-                String user = data.getString("USER");
-                long serial = data.getLong("SERIALCODE");
-                String type = data.getString("TYPE");
+                String user = data.getString(DBSaleEnum.USER.toString());
+                long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
+                String type = data.getString(DBSaleEnum.TYPE.toString());
                 Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
-                String dateString = data.getString("SELL_DATE");
-                String sellerMachineIp = data.getString("SELLER_IP");
+                String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
+                String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
                 Date sellDate = DateOperations.getInstance().parse(dateString);
                 Sale s = new Sale(sellDate, serial, user, productSold, sellerMachineIp);
@@ -54,12 +55,12 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
             ResultSet data = con.createStatement().executeQuery(query);
             while(data.next()) {
                 
-                String user = data.getString("USER");
-                long serial = data.getLong("SERIALCODE");
-                String type = data.getString("TYPE");
+                String user = data.getString(DBSaleEnum.USER.toString());
+                long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
+                String type = data.getString(DBSaleEnum.TYPE.toString());
                 Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
-                String dateString = data.getString("SELL_DATE");
-                String sellerMachineIp = data.getString("SELLER_IP");
+                String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
+                String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
                 Date sellDate = DateOperations.getInstance().parse(dateString);
                 Sale sale = new Sale(sellDate, serial, user, productSold, sellerMachineIp);
@@ -101,12 +102,12 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
             ResultSet data = con.createStatement().executeQuery(query);
             while(data.next()) {
                 
-                String user = data.getString("USER");
-                long serial = data.getLong("SERIALCODE");
-                String type = data.getString("TYPE");
+                String user = data.getString(DBSaleEnum.USER.toString());
+                long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
+                String type = data.getString(DBSaleEnum.TYPE.toString());
                 Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
-                String dateString = data.getString("SELL_DATE");
-                String sellerMachineIp = data.getString("SELLER_IP");
+                String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
+                String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
                 Date sellDate = DateOperations.getInstance().parse(dateString);
                 Sale sale = new Sale(sellDate, serial, user, productSold, sellerMachineIp);
@@ -133,12 +134,12 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()) {
                 
-                String user = data.getString("USER");
-                long serial = data.getLong("SERIALCODE");
-                String type = data.getString("TYPE");
+                String user = data.getString(DBSaleEnum.USER.toString());
+                long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
+                String type = data.getString(DBSaleEnum.TYPE.toString());
                 Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
-                String dateString = data.getString("SELL_DATE");
-                String sellerMachineIp = data.getString("SELLER_IP");
+                String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
+                String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
                 Date sellDate = DateOperations.getInstance().parse(dateString);
                 sale = new Sale(sellDate, serial, user, productSold, sellerMachineIp);

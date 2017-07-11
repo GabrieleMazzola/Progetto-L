@@ -3,6 +3,7 @@ package database.mapper.realmapper;
 import database.cache.InformationCache;
 import database.information.InformationUnit;
 import database.interfaces.mapperinterfaces.InformationMapper;
+import enums.databaseenumretions.DBInformationEnum;
 import java.sql.*;
 
 public class DBInformationMapper extends ConcreteMapper implements InformationMapper{
@@ -26,7 +27,7 @@ public class DBInformationMapper extends ConcreteMapper implements InformationMa
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()) {
-                String value = data.getString("VALUE");
+                String value = data.getString(DBInformationEnum.VALUE.toString());
                 
                 inf = new InformationUnit(key, value);
             }

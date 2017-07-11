@@ -41,12 +41,12 @@ public class CSystemUserTests {
     
     @Test
     public void CreateUserNonExisting(){
-        assertTrue(cs.createUser("NONADMIN", "NONADMIN", "NNDMN", "NONADMIN", "NONADMIN"));
+        assertTrue(cs.createUser("NONADMIN", "NONADMIN", "NNDMN", "NONADMIN", "NONADMIN", "colosisimone@gmail.com"));
     }
     
     @Test
     public void CreateUserExisting(){
-        assertFalse(cs.createUser("ADMIN", "ADMIN", "ADMIN", "ADMIN", "ADMIN"));
+        assertFalse(cs.createUser("ADMIN", "ADMIN", "ADMIN", "ADMIN", "ADMIN", "colosisimone@gmail.com"));
     }
     
     @Test

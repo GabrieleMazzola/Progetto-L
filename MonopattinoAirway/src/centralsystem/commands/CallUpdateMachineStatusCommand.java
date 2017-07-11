@@ -1,8 +1,8 @@
 package centralsystem.commands;
 
 import centralsystem.CSystem;
-import jsonenumerations.JsonFields;
-import jsonenumerations.UpdateMachineStatus;
+import enums.jsonenumerations.JsonFields;
+import enums.jsonenumerations.UpdateMachineStatus;
 import org.json.simple.JSONObject;
 import ticketmachine.MachineStatus;
 

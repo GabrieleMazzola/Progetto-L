@@ -4,6 +4,7 @@ package database.mapper.simmapper;
 import database.information.InformationUnit;
 import database.interfaces.MapperInterface;
 import database.interfaces.mapperinterfaces.InformationMapper;
+import enums.databaseenumretions.InformationUnitEnum;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,6 +44,6 @@ public class SimInformationMapper implements MapperInterface,InformationMapper{
     }
 
     private void initInformation() {
-        informations.add(new InformationUnit("ProductCounter", "0"));
+        informations.add(new InformationUnit(InformationUnitEnum.PRODUCTCOUNTER.toString(), "0"));
     }
 }

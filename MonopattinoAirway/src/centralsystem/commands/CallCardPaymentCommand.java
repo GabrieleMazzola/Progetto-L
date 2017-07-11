@@ -1,8 +1,8 @@
 package centralsystem.commands;
 
 import centralsystem.CSystem;
-import jsonenumerations.CardPayment;
-import jsonenumerations.JsonFields;
+import enums.jsonenumerations.CardPayment;
+import enums.jsonenumerations.JsonFields;
 import org.json.simple.JSONObject;
 
 

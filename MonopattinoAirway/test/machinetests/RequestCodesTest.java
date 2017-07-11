@@ -47,6 +47,7 @@ public class RequestCodesTest {
         catch(InterruptedException exc) {
             System.out.println(exc);
         }
+        System.out.println("(TEST)Codici: "+tMachine.getSerialsAmount());
         assertTrue(tMachine.getSerialsAmount() > 10);
     }
 }

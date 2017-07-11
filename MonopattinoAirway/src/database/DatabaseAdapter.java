@@ -4,10 +4,11 @@ import database.factories.MapperFactory;
 import database.information.InformationUnit;
 import database.interfaces.mapperinterfaces.*;
 import database.people.*;
+import enums.databaseenumretions.InformationUnitEnum;
 import items.*;
 import java.util.Set;
 
-//TODO aggiungere gli enum al database
+
 public class DatabaseAdapter{
     
     private UserMapper userMapper;
@@ -65,7 +66,7 @@ public class DatabaseAdapter{
     }
 
     public boolean serialCodeCheck(Long serialCode) {
-        return serialCode <= Long.valueOf(((InformationUnit)infoMapper.get("ProductCounter")).getValue());
+        return serialCode <= Long.valueOf(((InformationUnit)infoMapper.get(InformationUnitEnum.PRODUCTCOUNTER.toString())).getValue());
     }
 
     public Fine getFineById(long id) {
@@ -93,20 +94,20 @@ public class DatabaseAdapter{
     }
 
     public void setProductCounter(Long productCounter) {
-        infoMapper.save(new InformationUnit("ProductCounter", productCounter.toString()));
+        infoMapper.save(new InformationUnit(InformationUnitEnum.PRODUCTCOUNTER.toString(), productCounter.toString()));
     }
 
     public long getProductCounter() {
-        InformationUnit info = (InformationUnit)infoMapper.get("ProductCounter");
+        InformationUnit info = (InformationUnit)infoMapper.get(InformationUnitEnum.PRODUCTCOUNTER.toString());
         return Long.valueOf(info.getValue());
     }
 
     public void setProductVersionCounter(Long productVersionCounter) {
-        infoMapper.save(new InformationUnit("ProductVersionCounter", productVersionCounter.toString()));
+        infoMapper.save(new InformationUnit(InformationUnitEnum.PRODUCTVERSIONCOUNTER.toString(), productVersionCounter.toString()));
     }
 
     public long getProductVersionCounter() {
-        return (long)infoMapper.get("ProductVersionCounter");
+        return (long)infoMapper.get(InformationUnitEnum.PRODUCTVERSIONCOUNTER.toString());
     }
 
     public Set<Sale> getAllSales() {

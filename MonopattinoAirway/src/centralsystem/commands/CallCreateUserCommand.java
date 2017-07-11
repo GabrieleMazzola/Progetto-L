@@ -2,8 +2,8 @@ package centralsystem.commands;
 
 import centralsystem.CSystem;
 import email.EmailDispatcher;
-import jsonenumerations.CreateUser;
-import jsonenumerations.JsonFields;
+import enums.jsonenumerations.CreateUser;
+import enums.jsonenumerations.JsonFields;
 import org.json.simple.JSONObject;
 
 

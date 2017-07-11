@@ -9,21 +9,21 @@ import java.util.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import java.util.Date;
-import jsonenumerations.AddSale;
-import jsonenumerations.CardPayment;
-import jsonenumerations.CollectorLogin;
-import jsonenumerations.CreateUser;
-import jsonenumerations.ExistsTicket;
-import jsonenumerations.JsonFields;
-import jsonenumerations.MakeFine;
-import jsonenumerations.MyTickets;
-import jsonenumerations.MyValidTickets;
-import jsonenumerations.RequestCodes;
-import jsonenumerations.RequestFinesStartNumber;
-import jsonenumerations.StatisticsInformation;
-import jsonenumerations.TicketTypes;
-import jsonenumerations.UpdateMachineStatus;
-import jsonenumerations.UserLogin;
+import enums.jsonenumerations.AddSale;
+import enums.jsonenumerations.CardPayment;
+import enums.jsonenumerations.CollectorLogin;
+import enums.jsonenumerations.CreateUser;
+import enums.jsonenumerations.ExistsTicket;
+import enums.jsonenumerations.JsonFields;
+import enums.jsonenumerations.MakeFine;
+import enums.jsonenumerations.MyTickets;
+import enums.jsonenumerations.MyValidTickets;
+import enums.jsonenumerations.RequestCodes;
+import enums.jsonenumerations.RequestFinesStartNumber;
+import enums.jsonenumerations.StatisticsInformation;
+import enums.jsonenumerations.TicketTypes;
+import enums.jsonenumerations.UpdateMachineStatus;
+import enums.jsonenumerations.UserLogin;
 
 
 public class Skeleton extends Thread {

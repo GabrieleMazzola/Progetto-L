@@ -1,10 +1,21 @@
 package singleton;
 
+import enums.jsonenumerations.UserLogin;
+import enums.jsonenumerations.TicketTypes;
+import enums.jsonenumerations.MakeFine;
+import enums.jsonenumerations.RequestFinesStartNumber;
+import enums.jsonenumerations.ExistsTicket;
+import enums.jsonenumerations.AddSale;
+import enums.jsonenumerations.UpdateMachineStatus;
+import enums.jsonenumerations.RequestCodes;
+import enums.jsonenumerations.CreateUser;
+import enums.jsonenumerations.CardPayment;
+import enums.jsonenumerations.JsonFields;
+import enums.jsonenumerations.CollectorLogin;
 import items.Fine;
 import items.Product;
 import items.Sale;
 import java.util.Map;
-import jsonenumerations.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import ticketmachine.MachineStatus;

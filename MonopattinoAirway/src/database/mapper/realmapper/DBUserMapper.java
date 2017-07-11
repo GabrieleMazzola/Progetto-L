@@ -3,6 +3,7 @@ package database.mapper.realmapper;
 import database.cache.UserCache;
 import database.interfaces.mapperinterfaces.UserMapper;
 import database.people.User;
+import enums.databaseenumretions.DBUserEnum;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -28,12 +29,11 @@ public class DBUserMapper extends ConcreteMapper implements UserMapper{
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()) {
-                String name = data.getString("NAME");
-                String surname = data.getString("SURNAME");
-                String cf = data.getString("CF");
-                //username = data.getString("USENAME");
-                String psw = data.getString("PSW");
-                String email = data.getString("EMAIL");
+                String name = data.getString(DBUserEnum.NAME.toString());
+                String surname = data.getString(DBUserEnum.SURNAME.toString());
+                String cf = data.getString(DBUserEnum.CF.toString());
+                String psw = data.getString(DBUserEnum.PSW.toString());
+                String email = data.getString(DBUserEnum.EMAIL.toString());
                 u = new User(name, surname, cf, username, psw, email);
             }
         }

@@ -1,4 +1,4 @@
-package jsonenumerations;
+package enums.jsonenumerations;
 
 
 public enum MyTickets {

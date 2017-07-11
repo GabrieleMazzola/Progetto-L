@@ -1,8 +1,8 @@
 package centralsystem.commands;
 
 import centralsystem.CSystem;
-import jsonenumerations.ExistsTicket;
-import jsonenumerations.JsonFields;
+import enums.jsonenumerations.ExistsTicket;
+import enums.jsonenumerations.JsonFields;
 import org.json.simple.JSONObject;
 
 

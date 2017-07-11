@@ -1,8 +1,8 @@
 package centralsystem.commands;
 
 import centralsystem.CSystem;
-import jsonenumerations.JsonFields;
-import jsonenumerations.RequestFinesStartNumber;
+import enums.jsonenumerations.JsonFields;
+import enums.jsonenumerations.RequestFinesStartNumber;
 import org.json.simple.JSONObject;
 
 

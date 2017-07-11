@@ -2,8 +2,8 @@ package centralsystem.commands;
 
 import centralsystem.CSystem;
 import items.Fine;
-import jsonenumerations.JsonFields;
-import jsonenumerations.MakeFine;
+import enums.jsonenumerations.JsonFields;
+import enums.jsonenumerations.MakeFine;
 import org.json.simple.JSONObject;
 
 

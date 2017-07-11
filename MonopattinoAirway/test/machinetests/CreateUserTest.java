@@ -1,9 +1,7 @@
 package machinetests;
 
 import centralsystem.factory.CSystemFactory;
-import communication.SocketHandler;
 import database.factories.SimMapperFactory;
-import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -42,7 +40,7 @@ public class CreateUserTest {
     @Test
     public void TestCreateUser(){
         
-        assertTrue(tMachine.createUser("Simone", "Colosi", "CLS", "Colosi", "classico0000"));
+        assertTrue(tMachine.createUser("Simone", "Colosi", "CLS", "Colosi", "classico0000", "colosisimone@gmail.com"));
         
         assertTrue(tMachine.getLoggedUsername()=="-");
         

@@ -2,6 +2,7 @@ package database.mapper.realmapper;
 
 import database.cache.FineCache;
 import database.interfaces.mapperinterfaces.FineMapper;
+import enums.databaseenumretions.DBFineEnum;
 import items.Fine;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,10 +25,10 @@ public class DBFineMapper extends ConcreteMapper implements FineMapper{
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             while(data.next()) {
-                String id = data.getString("ID");
-                String cfDB = data.getString("CF");
-                double amount = data.getDouble("AMOUNT");
-                String username = data.getString("USERNAME");
+                String id = data.getString(DBFineEnum.ID.toString());
+                String cfDB = data.getString(DBFineEnum.CF.toString());
+                double amount = data.getDouble(DBFineEnum.AMOUNT.toString());
+                String username = data.getString(DBFineEnum.USERNAME.toString());
                 if(cfDB.equals(cf)) fines.add(new Fine(id, cf, amount,username));
             }
         }
@@ -44,7 +45,7 @@ public class DBFineMapper extends ConcreteMapper implements FineMapper{
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()){
-                count = (Long)data.getLong("COUNT");
+                count = (Long)data.getLong(DBFineEnum.COUNT.toString());
                 System.out.println(count);
             }
         } catch (SQLException ex) {
@@ -65,9 +66,9 @@ public class DBFineMapper extends ConcreteMapper implements FineMapper{
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()) {
-                String cf = data.getString("CF");
-                double amount = data.getDouble("AMOUNT");
-                String username = data.getString("COLLECTOR_USERNAME");
+                String cf = data.getString(DBFineEnum.CF.toString());
+                double amount = data.getDouble(DBFineEnum.AMOUNT.toString());
+                String username = data.getString(DBFineEnum.COLLECTOR_USERNAME.toString());
                 f = new Fine(id, cf, amount, username);
             }
         }
@@ -109,7 +110,6 @@ public class DBFineMapper extends ConcreteMapper implements FineMapper{
         str.append("SELECT COUNT(*) AS COUNT FROM ").append(tableName).append(" WHERE COLLECTOR_USERNAME = '").append(collectorUsername).append("'");
         return str.toString();
     }
-
 
 }
 

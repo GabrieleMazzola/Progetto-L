@@ -1,5 +1,5 @@
 
-package jsonenumerations;
+package enums.jsonenumerations;
 
 
 public enum MyValidTickets {

@@ -3,22 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsonenumerations;
+package enums.databaseenumretions;
 
-/**
- *
- * @author Simone
- */
-public enum AddSale {
+
+public enum DBFineEnum {
     
-    ADDSALE,
-    
-    SALEDATE,
-    SERIALCODE,
+    ID,
+    CF,
+    AMOUNT,
     USERNAME,
-    TYPE,
-    SELLERMACHINEIP;
     
+    COUNT,
     
-    
+    COLLECTOR_USERNAME;
 }

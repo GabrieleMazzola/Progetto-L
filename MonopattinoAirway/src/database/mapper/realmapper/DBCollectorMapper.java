@@ -3,6 +3,7 @@ package database.mapper.realmapper;
 import database.cache.UserCache;
 import database.interfaces.mapperinterfaces.CollectorMapper;
 import database.people.Collector;
+import enums.databaseenumretions.DBCollectorEnum;
 import java.sql.*;
 
 
@@ -28,10 +29,10 @@ public class DBCollectorMapper extends ConcreteMapper implements CollectorMapper
         try {
             ResultSet data = con.createStatement().executeQuery(query);
             if(data.next()) {
-                String name = data.getString("NAME");
-                String surname = data.getString("SURNAME");
-                String cf = data.getString("CF");
-                String psw = data.getString("PSW");
+                String name = data.getString(DBCollectorEnum.NAME.toString());
+                String surname = data.getString(DBCollectorEnum.SURNAME.toString());
+                String cf = data.getString(DBCollectorEnum.CF.toString());
+                String psw = data.getString(DBCollectorEnum.PSW.toString());
                 c = new Collector(name, surname, cf, username, psw);
             }
         }
