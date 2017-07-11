@@ -48,9 +48,9 @@ public class Skeleton extends Thread {
             toClient = new PrintWriter(clientSocket.getOutputStream(),true);
             
             //LogCS.getInstance().print("out", "\n\n---------------------"); 
-            LogCS.getInstance().print("out", "Time: " + (new Date()).toString());
-            LogCS.getInstance().print("out", "ID :  "  + this.getId()); 
-            LogCS.getInstance().print("out", "---------------------");
+            LogCS.getInstance().print("err", "Time: " + (new Date()).toString());
+            LogCS.getInstance().print("err", "ID :  "  + this.getId()); 
+            LogCS.getInstance().print("err", "---------------------");
             
             while(!clientSocket.isClosed()){
                 
@@ -59,8 +59,8 @@ public class Skeleton extends Thread {
                 String result = decodeRequest(request);
                 toClient.println(result);
                 
-                LogCS.getInstance().print("out", "Sent to client :  "  + result); 
-                LogCS.getInstance().print("out", "---------------------");
+                LogCS.getInstance().print("err", "Sent to client :  "  + result); 
+                LogCS.getInstance().print("err", "---------------------");
                 
                 //TODO risolvere ciclo
                 if(result.equals("404")){
@@ -69,7 +69,7 @@ public class Skeleton extends Thread {
                     break;
                 }
             }
-            LogCS.getInstance().print("out", "Connessione chiusa, ID chiuso :  "  + this.getId());
+            LogCS.getInstance().print("err", "Connessione chiusa, ID chiuso :  "  + this.getId());
             
             //TODO funziona?? (la chiusura della socket)
             //clientSocket.close();
@@ -90,9 +90,9 @@ public class Skeleton extends Thread {
         JSONObject obj;
         JSONParser parser = new JSONParser();
        
-        LogCS.getInstance().print("out", "---------------------"); 
-        LogCS.getInstance().print("out", "Client della richiesta:  "  + this.getId()); 
-        LogCS.getInstance().print("out", "Richiesta in ingresso: "  + jsonRequest);
+        LogCS.getInstance().print("err", "---------------------"); 
+        LogCS.getInstance().print("err", "Client della richiesta:  "  + this.getId()); 
+        LogCS.getInstance().print("err", "Richiesta in ingresso: "  + jsonRequest);
         
         StringBuilder result = new StringBuilder();
        try{
