@@ -57,15 +57,17 @@ public class LoginScene extends BridgeSceneGrid{
             }
             
             else if(!tMachine.login(name, psw)) {
-                textUser.setText("");
                 textPassword.setText("");
                 boxError.getChildren().clear();
                 fail.setFill(Color.RED);
                 fail.setFont(Font.font("Tahoma", FontWeight.BLACK, 12));
                 boxError.getChildren().add(fail);
             }
-            else
+            else{
+                textPassword.setText("");
+                textUser.setText("");
                 tMachine.setOperation(Operation.CHOOSING_TICKET);
+            }
         });
         cancel = new Button("Cancel");
         cancel.setOnAction(e -> {

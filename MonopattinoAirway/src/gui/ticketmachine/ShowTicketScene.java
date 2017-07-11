@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import singleton.CodeHandler;
 import singleton.QRCodeHandler;
-import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
 
@@ -24,7 +23,7 @@ public class ShowTicketScene extends BridgeSceneGrid{
         
         ok = new Button("Ok");
         ok.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            tMachine.logout();
         });
         
         QRCodeHandler qrCodeHandler = QRCodeHandler.getInstance();
