@@ -27,8 +27,8 @@ public class SocketHandler extends Thread{
         while(true){
             try {
                 Socket clientSocket = serverSocket.accept();
-                LogCS.getInstance().print("out", "\n\n---------------------");
-                LogCS.getInstance().print("out", "Ricevuta richiesta di connessione, ip: "+clientSocket.getInetAddress());
+                LogCS.getInstance().print("err", "\n\n---------------------");
+                LogCS.getInstance().print("err", "Ricevuta richiesta di connessione, ip: "+clientSocket.getInetAddress());
                 connectionList.add(new Skeleton(clientSocket,csystem));
                 LogCS.getInstance().print("err", "Avviato Skeleton relativo. Numero di skeleton attivi: "+ connectionList.size());
                 connectionList.get(connectionList.size()-1).start();
