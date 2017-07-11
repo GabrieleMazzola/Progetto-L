@@ -43,9 +43,12 @@ public class CallAddSaleCommand extends Command{
         
         Sale sale = new Sale(sellDate,  serialCode,  username, productSold, sellerMachineIp);
         centralSystem.addSale(sale);
-        User u = centralSystem.getUser(sale.getUsername());
         centralSystem.addMessageToLog("Sale added to database");
-        emailDispatcher.sendEmail(buildEmailMessage(sale), u.getEmail());
+        
+        User u = centralSystem.getUser(sale.getUsername());
+        if(u != null)
+            emailDispatcher.sendEmail(buildEmailMessage(sale), u.getEmail());
+        
         data = new JSONObject();
         data.put(JsonFields.DATA, true);
         return data.toString();
