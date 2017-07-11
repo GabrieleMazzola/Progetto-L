@@ -68,7 +68,7 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CSystemFactory.getInstance().buildCSystem(DBMapperFactory.class.getName());
+        CSystemFactory.getInstance().buildCSystem(SimMapperFactory.class.getName());
         
         tMachine = new TicketMachine(0, 5000, "localhost");
 
