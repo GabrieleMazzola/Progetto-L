@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import enums.jsonenumerations.JsonFields;
+import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,7 +23,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
     private Socket socket;
     private BufferedReader fromServer;
     private PrintWriter toServer;
-    private ArrayList<Fine> offlineFines; 
+    private List<Fine> offlineFines; 
     
     public StubCollector(String ipAddress,int port) throws IOException {
         this.ipAdress = ipAddress;

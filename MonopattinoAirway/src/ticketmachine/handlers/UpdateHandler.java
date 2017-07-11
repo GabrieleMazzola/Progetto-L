@@ -1,6 +1,5 @@
 package ticketmachine.handlers;
 
-import communication.StubMachine;
 import java.util.Timer;
 import java.util.TimerTask;
 import ticketmachine.MachineStatus;

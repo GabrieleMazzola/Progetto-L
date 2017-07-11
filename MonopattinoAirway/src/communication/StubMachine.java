@@ -1,7 +1,6 @@
 package communication;
 
 import centralsystem.interfaces.CentralSystemTicketInterface;
-import items.MultiTicket;
 import items.PhisicalSimpleSeason;
 import items.PhisicalSimpleTicket;
 import items.Product;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;

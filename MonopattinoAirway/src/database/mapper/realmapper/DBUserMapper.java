@@ -11,8 +11,8 @@ import java.sql.SQLException;
 public class DBUserMapper extends ConcreteMapper implements UserMapper{
     private final String tableName;
     
-    public DBUserMapper(String userTableName) {
-        super();
+    public DBUserMapper(String userTableName, String username, String password) {
+        super(username, password);
         tableName = userTableName;
         cache = new UserCache();
     }

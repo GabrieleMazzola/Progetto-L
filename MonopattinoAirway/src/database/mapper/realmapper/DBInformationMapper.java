@@ -9,8 +9,8 @@ import java.sql.*;
 public class DBInformationMapper extends ConcreteMapper implements InformationMapper{
     private final String tableName;
     
-    public DBInformationMapper(String finesTableName) {
-        super();
+    public DBInformationMapper(String finesTableName, String username, String password) {
+        super(username, password);
         tableName = finesTableName;
         cache = new InformationCache();
     }

@@ -12,8 +12,8 @@ import java.util.Set;
 public class DBFineMapper extends ConcreteMapper implements FineMapper{
     private final String tableName;
     
-    public DBFineMapper(String finesTableName) {
-        super();
+    public DBFineMapper(String finesTableName, String username, String password) {
+        super(username, password);
         tableName = finesTableName;
         cache = new FineCache();
     }

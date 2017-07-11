@@ -1,4 +1,4 @@
-package gui;
+package main;
 
 import gui.collector.ChoosingOperationScene;
 import gui.collector.LoginCollectorScene;

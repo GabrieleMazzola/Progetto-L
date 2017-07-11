@@ -14,13 +14,13 @@ public abstract class ConcreteMapper implements MapperInterface{
     protected CacheInterface cache;
     protected Connection con;
     
-    public ConcreteMapper() {
+    public ConcreteMapper(String username, String password) {
         hostname = "localhost";
         port = "3306";
         databaseName = "emettitrici";
         databaseURL = "jdbc:mysql://" + hostname + ":" + port + "/" + databaseName;
         try {
-            con = DriverManager.getConnection(databaseURL, "root", "gigidatome3");
+            con = DriverManager.getConnection(databaseURL, username, password);
         }
         catch(SQLException ex) {
             ex.printStackTrace();

@@ -1,8 +1,9 @@
-package gui;
+package main;
 
 import centralsystem.factory.CSystemFactory;
 import database.factories.DBMapperFactory;
 import database.factories.SimMapperFactory;
+import gui.MoneyTankFrame;
 import gui.ticketmachine.*;
 import items.Sale;
 import java.util.Observable;
@@ -68,9 +69,7 @@ public class GUITicketMachine extends Application implements Observer{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        CSystemFactory.getInstance().buildCSystem(DBMapperFactory.class.getName());
-        
+    public static void main(String[] args) {        
         tMachine = new TicketMachine(0, 5000, "localhost");
 
          MoneyTankFrame debug = new MoneyTankFrame(tMachine);

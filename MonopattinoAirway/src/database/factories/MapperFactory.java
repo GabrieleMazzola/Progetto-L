@@ -4,7 +4,7 @@ import database.interfaces.MapperFactoryInterface;
 
 public abstract class MapperFactory implements MapperFactoryInterface{
     
-    private static MapperFactory instance;
+    protected static MapperFactory instance;
     
     public static synchronized MapperFactory getInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         if(instance == null){

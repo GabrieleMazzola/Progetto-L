@@ -14,8 +14,8 @@ import singleton.ProductsSingleton;
 public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
     private final String tableName;
     
-    public DBSaleMapper(String ticketTableName) {
-        super();
+    public DBSaleMapper(String ticketTableName, String username, String password) {
+        super(username, password);
         tableName = ticketTableName;
         cache = new SaleCache();
     }

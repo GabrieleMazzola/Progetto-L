@@ -10,8 +10,8 @@ import java.sql.*;
 public class DBCollectorMapper extends ConcreteMapper implements CollectorMapper{
     private final String tableName;
     
-    public DBCollectorMapper(String userTableName) {
-        super();
+    public DBCollectorMapper(String userTableName, String username, String password) {
+        super(username, password);
         tableName = userTableName;
         cache = new UserCache();
     }
