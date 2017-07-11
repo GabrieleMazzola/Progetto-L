@@ -1,0 +1,2 @@
+La cartella MonopattinoAirway contiene il progetto NetBeans JAVA con il quale e' possibile lanciare il sistema centrale, l'emettitrice e il controllore (Ognuno con la rispettiva GUI).
+La cartella WebServer/ticket contiene il progetto Eclipse JAVA con la quale e' possibile avviare il WebServer -> leggi README all'interno della cartella WebServer.
