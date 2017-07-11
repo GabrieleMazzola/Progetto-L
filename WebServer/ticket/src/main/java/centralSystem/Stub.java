@@ -158,7 +158,7 @@ public class Stub {
 	      ConnectionHandler conn = new ConnectionHandler();
 	      System.out.println("--Requesting start number for collector: " + collectorUsername + " —\nSending : " + request);
 	      String answer = conn.sendAndReceive(request);
-	      
+	      conn.closeConnection();
 	      System.out.println("Sending to app: " + answer);
 	      
 	          return answer;
@@ -185,7 +185,7 @@ public class Stub {
 	      
 	      //INVIO MULTA
 	      String line = conn.sendAndReceive(packet);
-	      
+	      conn.closeConnection();
 	      JSONParser parser = new JSONParser();               
 	          JSONObject obj = (JSONObject)parser.parse(line);
 	          
@@ -227,7 +227,7 @@ public class Stub {
 			
 			System.out.println("Checking in system .. Sending : " + packet);
 			String line = conn.sendAndReceive(packet);
-			
+			conn.closeConnection();
 			JSONParser parser = new JSONParser();               
 	        JSONObject obj = (JSONObject)parser.parse(line);
 	        
@@ -310,6 +310,7 @@ public class Stub {
 			ConnectionHandler conn = new ConnectionHandler();
 			System.out.println("--Registration--\nSending : " + request);
 			String answer = conn.sendAndReceive(request);
+			conn.closeConnection();
 			
 			System.out.println("Received : " + answer);
 			JSONParser parser = new JSONParser();               
