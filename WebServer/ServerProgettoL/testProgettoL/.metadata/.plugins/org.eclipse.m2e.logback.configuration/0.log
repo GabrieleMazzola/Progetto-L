@@ -1,0 +1,8 @@
+2017-07-11 12:25:50,352 [Worker-13] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: org.gabriele.progettol:ticket:0.0.1-SNAPSHOT @ C:\Users\Gabriele\Desktop\ProgettoL\Progetto-L\WebServer\ticket\pom.xml.
+2017-07-11 12:25:53,698 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ticket/src/main/java
+2017-07-11 12:25:53,699 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ticket/src/test/java
+2017-07-11 12:25:55,802 [Worker-13] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 7 sec
+2017-07-11 12:25:57,786 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-07-11 12:25:57,803 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Gabriele\Desktop\ProgettoL\Progetto-L\WebServer\ticket\src\main\resources
+2017-07-11 12:25:57,807 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-07-11 12:25:57,807 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Gabriele\Desktop\ProgettoL\Progetto-L\WebServer\ticket\src\test\resources
