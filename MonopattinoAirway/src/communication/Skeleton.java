@@ -24,6 +24,7 @@ import enums.jsonenumerations.StatisticsInformation;
 import enums.jsonenumerations.TicketTypes;
 import enums.jsonenumerations.UpdateMachineStatus;
 import enums.jsonenumerations.UserLogin;
+import java.net.SocketException;
 
 
 public class Skeleton extends Thread {
@@ -71,14 +72,14 @@ public class Skeleton extends Thread {
             }
             LogCS.getInstance().print("err", "Connessione chiusa, ID chiuso :  "  + this.getId());
             
-            //TODO funziona?? (la chiusura della socket)
-            //clientSocket.close();
             fromClient.close();
             toClient.close();
-            
+            clientSocket.close();
+        }catch (SocketException e){
+           System.err.println("\n\tCHIUSURA SOCKET\n");
         } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+           ex.printStackTrace();
+        } 
     }
 
     private synchronized String decodeRequest(String jsonRequest) {

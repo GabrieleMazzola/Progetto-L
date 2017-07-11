@@ -7,7 +7,7 @@ import database.factories.SimMapperFactory;
 public class TestSystem {
     
     public static void main(String[] args) {
-        CSystemFactory.getInstance().buildCSystem(DBMapperFactory.class.getCanonicalName());
+        CSystemFactory.getInstance().buildCSystem(SimMapperFactory.class.getCanonicalName());
     }
     
 }
