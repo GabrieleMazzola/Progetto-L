@@ -1,4 +1,4 @@
-package gui.ticketmachine;
+package gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

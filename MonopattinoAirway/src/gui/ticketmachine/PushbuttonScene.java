@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import gui.BridgeSceneGrid;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.geometry.Pos;

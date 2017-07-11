@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import gui.BridgeSceneGrid;
 import items.Product;
 import java.util.ArrayList;
 import java.util.List;

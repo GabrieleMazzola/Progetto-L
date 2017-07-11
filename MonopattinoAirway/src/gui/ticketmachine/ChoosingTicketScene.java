@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import gui.BridgeSceneGrid;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -43,7 +44,7 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
         
         istantiateGrid();
         add(greetings, 0, 0, 2, 1);
-        add(hSeparator, 1, 0, 3, 1);
+        add(hSeparator, 1, 0, 4, 1);
         add(singleTicket, 2, 0);
         add(seasonTicket, 2, 1);
         add(multiTicket, 3, 0);

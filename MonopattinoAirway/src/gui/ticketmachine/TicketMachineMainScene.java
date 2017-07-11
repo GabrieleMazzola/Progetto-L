@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import gui.BridgeSceneGrid;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

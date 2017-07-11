@@ -75,29 +75,28 @@ public class StubCollector implements CentralSystemCollectorInterface{
     }
 
     @Override
-    public boolean addFine(Fine f){
+    public Boolean addFine(Fine f){
         addOfflineFine(f);
 
         try{
             
             testConnection();
-            boolean ret = saveFinesOnline();
+            Boolean ret = saveFinesOnline();
             
             //Struttura JSON di risposta : {"data":"boolean"}
             return ret;
         }catch(ParseException ex){
             ex.printStackTrace();
-            return false;
+            return null;
         }catch(IOException ex){
             closeConnection();
-            return true;
+            return false;
         }
     }
 
     @Override
     public boolean collectorLogin(String username, String psw) {
         try {
-
             
             String packet = JSONOperations.getInstance().collectorLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
@@ -120,7 +119,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         this.offlineFines.add(fine);
     }
     
-    private boolean saveFinesOnline() throws IOException, ParseException{
+    private Boolean saveFinesOnline() throws IOException, ParseException{
 
         while(!socket.isClosed() && !offlineFines.isEmpty()){
             Fine f = offlineFines.get(0);
@@ -131,12 +130,13 @@ public class StubCollector implements CentralSystemCollectorInterface{
             JSONObject obj = (JSONObject)parser.parse(line);
             
             if(!(Boolean)obj.get(JsonFields.DATA.toString()))
-                return false;
+                return null;
             else{
                 offlineFines.remove(0);
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
     public int getOfflineFinesSize() {

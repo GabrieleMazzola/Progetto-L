@@ -3,25 +3,34 @@ package ticketcollector;
 import communication.StubCollector;
 import items.Fine;
 import java.io.IOException;
+import java.util.Observable;
 
-public class TicketCollector {
+public class TicketCollector extends Observable{
     
     private Long finesStartNumber;
     private final StubCollector stub;		
     private boolean connected;
     private String username;
-    
+    private CollectorOperation operation;
 
     public TicketCollector(String ipAddress) throws IOException {
         stub = new StubCollector(ipAddress, 5000);
         connected = false;
     }
     
+    public String getUsername() {
+        return username;
+    }
+    
     public void initConnection() throws IOException{
         stub.initConnection();
     }
     
-   
+    public void setOperation(CollectorOperation newOperation) {
+        operation = newOperation;
+        notifyChange(operation);
+    }
+    
     public boolean loginCollector(String username,String psw){
     	if(connected){
     		return true;
@@ -43,7 +52,6 @@ public class TicketCollector {
             connected = false;
             this.username = null;
             this.finesStartNumber = null;
-            stub.closeConnection();
         }    
     }    
     
@@ -51,15 +59,14 @@ public class TicketCollector {
     	return stub.existsTicket(code);
     }
     
-    public boolean addFine(String cf, double amount){
+    public Boolean addFine(String cf, double amount){
         if(connected){
             Fine fine = new Fine(username+finesStartNumber, cf, amount, username);
             finesStartNumber++;
-            if(stub.addFine(fine)) {
-                return true;
-            }
+            
+            return stub.addFine(fine);
         }
-        return false;
+        return null;
     }
     
     public int getOfflineFinesNumber() {
@@ -68,5 +75,10 @@ public class TicketCollector {
 
     private Long requestFinesStartNumber() {
         return stub.requestFinesStartNumber(username);
+    }
+    
+    private void notifyChange(Object arg) {
+        setChanged();
+        notifyObservers(arg);
     }
 }

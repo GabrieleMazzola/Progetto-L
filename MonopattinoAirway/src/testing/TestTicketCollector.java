@@ -10,7 +10,7 @@ public class TestTicketCollector {
 
     public static void main(String[] args) throws IOException {
         
-        TicketCollector tcollector = new TicketCollector("127.0.0.1");
+        TicketCollector tcollector = new TicketCollector("10.87.130.83");
         BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
 
         tcollector.loginCollector("COLLECTOR", "COLLECTOR");

@@ -90,7 +90,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     @Override
-    public boolean addFine(Fine f) {
+    public Boolean addFine(Fine f) {
     	return database.addFine(f);
     }
     

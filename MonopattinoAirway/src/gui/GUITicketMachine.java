@@ -19,11 +19,11 @@ public class GUITicketMachine extends Application implements Observer{
                   createUserScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene, errorScene;
     private static TicketMachine tMachine;
     private Stage window;
+    private final int width = 700, height = 550;
     
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
-        
         tMachine.addObserver(this);
         
         //Costruisco la scena principale
@@ -61,6 +61,7 @@ public class GUITicketMachine extends Application implements Observer{
         errorScene = new Scene(errorGrid.asParent());
         
         window.setScene(mainScene);
+        setSize();
         window.show();
     }
 
@@ -68,7 +69,7 @@ public class GUITicketMachine extends Application implements Observer{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CSystemFactory.getInstance().buildCSystem(SimMapperFactory.class.getName());
+        CSystemFactory.getInstance().buildCSystem(DBMapperFactory.class.getName());
         
         tMachine = new TicketMachine(0, 5000, "localhost");
 
@@ -91,51 +92,64 @@ public class GUITicketMachine extends Application implements Observer{
             switch((Operation)arg) {
                 case SELLING_TICKET:
                     window.setScene(mainScene);
+                    setSize();
                     break;
                 case SELECTING_PAYMENT:
                     TicketMachinePaymentScene paymentGrid = new TicketMachinePaymentScene(tMachine);
                     paymentMethodScene = new Scene(paymentGrid.asParent());
                     window.setScene(paymentMethodScene);
+                    setSize();
                     break;
                 case INSERTING_COINS:
                     PushbuttonScene moneyGrid = new PushbuttonScene(tMachine);
                     moneyScene = new Scene(moneyGrid.asParent());
                     window.setScene(moneyScene);
+                    setSize();
                     break;
                 case LOGGING_IN:
                     window.setScene(loginScene);
+                    setSize();
                     break;
                 case CREATING_USER:
                     window.setScene(createUserScene);
+                    setSize();
                     break;
                 case PRINTING_TICKET:
                     break;
                 case INSERTING_CCARD:
                     window.setScene(insertCardNumberScene);
+                    setSize();
                     break;
                 case BUYING_PHYSICAL:
                     window.setScene(buyPhysicalScene);
+                    setSize();
                     break;
                 case CHOOSING_TICKET:
                     ChoosingTicketScene choosingScene = new ChoosingTicketScene(tMachine);
                     choosingTicketScene = new Scene(choosingScene.asParent());
                     window.setScene(choosingTicketScene);
+                    setSize();
                     break;
                 case BUYING_SINGLE:
                     window.setScene(buySimpleTicketScene);
+                    setSize();
                     break;
                 case BUYING_SEASON:
                     if(tMachine.hasLogged()){
                         BuySeasonScene seasonGrid = new BuySeasonScene(tMachine);
                         buySeasonScene = new Scene(seasonGrid.asParent());
                         window.setScene(buySeasonScene);
+                        setSize();
                     }  
                     break;    
             }
         }
         
         else if (arg instanceof Boolean) {
-            if(!(boolean)arg) window.setScene(errorScene);
+            if(!(boolean)arg) {
+                window.setScene(errorScene);
+                setSize();
+            }
         }
         
         else if(arg instanceof Sale) {
@@ -143,6 +157,12 @@ public class GUITicketMachine extends Application implements Observer{
             ShowTicketScene showTicketGrid = new ShowTicketScene(tMachine, ticket);
             showTicketScene = new Scene(showTicketGrid.asParent());
             window.setScene(showTicketScene);
+            setSize();
         }
+    }
+    
+    private void setSize() {
+        window.setHeight(height);
+        window.setWidth(width);
     }
 }

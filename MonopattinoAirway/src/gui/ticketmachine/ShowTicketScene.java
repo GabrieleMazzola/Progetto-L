@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import gui.BridgeSceneGrid;
 import com.google.zxing.WriterException;
 import items.Sale;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import ticketmachine.TicketMachine;
 
 
 public class ShowTicketScene extends BridgeSceneGrid{
-    private Label date, duration,owner, type;
+    private Label date, duration,owner, type, changeLabel;
     private Image qrCode;
     private ImageView qrCodeView;
     private Button ok;
@@ -52,12 +53,18 @@ public class ShowTicketScene extends BridgeSceneGrid{
         if(ticket.getExpiryDate()!= null)
             duration = new Label("Deadline: "+ticket.getExpiryDate());
         
-            
-        grid.add(qrCodeView, 0, 0);
-        grid.add(owner, 0, 1);
-        grid.add(type, 0, 2);
-        grid.add(date, 0, 3);
-        grid.add(duration, 0, 4);
-        grid.add(ok, 1, 3);
+        int buffer = (int)Math.round((tMachine.getInsertedMoney() - tMachine.getCost())*100);
+        double change = (double)buffer/100;
+        if(change > 0) {
+            changeLabel = new Label("Your change: " + change + "€");
+            add(changeLabel, 5, 0);
+        }
+         
+        add(qrCodeView, 0, 0);
+        add(owner, 1, 0);
+        add(type, 2, 0);
+        add(date, 3, 0);
+        add(duration, 4, 0);
+        add(ok, 6, 1);
     }
 }
