@@ -21,6 +21,10 @@ public class CSystemActivitiesPanel extends JPanel implements Observer{
     private JList listActivities;
     private JScrollPane activitiesPane;
 
+    /**
+     *
+     * @param cSystem
+     */
     public CSystemActivitiesPanel(CSystem cSystem) {
         super(new BorderLayout());
         

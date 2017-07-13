@@ -14,11 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class CSystemFrame extends JFrame implements Observer{
     private JPanel mainPanel, buttonPanel;
     private JTabbedPane mainPane;
     
+    /**
+     *
+     * @param cSystem
+     */
     public CSystemFrame(CSystem cSystem) {
         super();
         cSystem.addObserver(this);

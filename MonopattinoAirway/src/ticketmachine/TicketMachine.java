@@ -10,9 +10,10 @@ import ticketmachine.handlers.MoneyHandler;
 import ticketmachine.handlers.TicketMachineCodeHandler;
 import ticketmachine.handlers.UpdateHandler;
 
-
-
-
+/**
+ *
+ * @author Zubeer
+ */
 public class TicketMachine extends Observable{
     private int cod;
     private ResourcesHandler resources;
@@ -26,6 +27,12 @@ public class TicketMachine extends Observable{
     
     private Map<String,Product> products;
     
+    /**
+     *
+     * @param cod
+     * @param PORTA_SERVER
+     * @param ipAdress
+     */
     public TicketMachine(int cod, int PORTA_SERVER, String ipAdress) {
         this.cod = cod;
         this.moneyTank = new MoneyHandler();
@@ -62,6 +69,10 @@ public class TicketMachine extends Observable{
         return resources.getPaperPercentage();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean canPrint() {
         return resources.hasEnoughResources();
     }
@@ -110,6 +121,9 @@ public class TicketMachine extends Observable{
      * quanto bisogna che l'utente paghi. Se la macchinetta non può stampare viene
      * mandata una notifica alla GUI
      * @param type
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.InstantiationException
+     * @throws java.lang.IllegalAccessException
      */
     public void setTicketToSell(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         //Se può stampare viene settato il costo
@@ -212,6 +226,11 @@ public class TicketMachine extends Observable{
     }
     
     //__________________Metodi per la gestione dei codici_______________________
+
+    /**
+     *
+     * @param numberOfCodes
+     */
     
     public void requestCodes(int numberOfCodes) {
         stub.requestCodes(numberOfCodes);
@@ -235,6 +254,17 @@ public class TicketMachine extends Observable{
     }
     
     //__________________Metodi per l'utente_____________________________________
+
+    /**
+     *
+     * @param name
+     * @param surname
+     * @param cf
+     * @param username
+     * @param psw
+     * @param email
+     * @return
+     */
     
     public boolean createUser(String name, String surname,String cf, String username, String psw, String email){
         return stub.createUser(name, surname, cf, username, psw, email);
@@ -269,6 +299,10 @@ public class TicketMachine extends Observable{
         return true;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasLogged(){
         return logged != "-" && logged != null;
     
@@ -287,6 +321,10 @@ public class TicketMachine extends Observable{
         return stub.getClientIPAddress();
     }
 
+    /**
+     *
+     * @param machineStatus
+     */
     public void updateMachineStatus(MachineStatus machineStatus) {
         stub.updateMachineStatus(machineStatus);
     }

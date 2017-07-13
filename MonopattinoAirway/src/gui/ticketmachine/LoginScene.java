@@ -13,7 +13,10 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class LoginScene extends BridgeSceneGrid{
     private Text text, username, password, 
                  noCredentials = new Text("Please enter your credentials"),
@@ -24,6 +27,10 @@ public class LoginScene extends BridgeSceneGrid{
     private HBox boxBtns, boxError;
     private TicketMachine tMachine;
     
+    /**
+     *
+     * @param tMachine
+     */
     public LoginScene(TicketMachine tMachine) {
         this.tMachine = tMachine;
         istantiateGrid();

@@ -15,7 +15,13 @@ public class PhisicalSimpleSeason implements Product {
     private double monthlyCost;
     private int duration;
 
-    
+    /**
+     *
+     * @param description
+     * @param type
+     * @param monthlyCost
+     * @param duration
+     */
     public PhisicalSimpleSeason(String description, String type, double monthlyCost,int duration){
         this.description=description;
         this.type=type;

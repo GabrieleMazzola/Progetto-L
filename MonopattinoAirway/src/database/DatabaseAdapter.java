@@ -8,7 +8,10 @@ import enums.databaseenumretions.InformationUnitEnum;
 import items.*;
 import java.util.Set;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class DatabaseAdapter{
     
     private UserMapper userMapper;
@@ -17,6 +20,10 @@ public class DatabaseAdapter{
     private FineMapper fineMapper;
     private InformationMapper infoMapper;
         
+    /**
+     *
+     * @param className
+     */
     public DatabaseAdapter(String className){
         try{
             userMapper = MapperFactory.getInstance(className).createUserMapper();
@@ -30,16 +37,35 @@ public class DatabaseAdapter{
 
     }
     
-    
+    /**
+     *
+     * @param username
+     * @return
+     */
     public boolean checkUser(String username) {
         return userMapper.get(username) != null;
     }
 
-    
+    /**
+     *
+     * @param name
+     * @param surname
+     * @param cf
+     * @param username
+     * @param psw
+     * @param email
+     * @return
+     */
     public boolean createUser(String name, String surname, String cf, String username, String psw, String email) {
         return userMapper.save(new User(name, surname, cf, username, psw, email));
     }
 
+    /**
+     *
+     * @param username
+     * @param psw
+     * @return
+     */
     public boolean userLogin(String username, String psw) {
         User user = (User)userMapper.get(username);
         if(user != null){
@@ -50,10 +76,25 @@ public class DatabaseAdapter{
         return false;
     }
 
+    /**
+     *
+     * @param name
+     * @param surname
+     * @param cf
+     * @param username
+     * @param psw
+     * @return
+     */
     public boolean createCollector(String name, String surname, String cf, String username, String psw) {
         return collectorMapper.save(new Collector(name, surname, cf, username, psw));
     }
 
+    /**
+     *
+     * @param username
+     * @param psw
+     * @return
+     */
     public boolean collectorLogin(String username, String psw) {
         Collector collector = (Collector)collectorMapper.get(username);
         if(collector != null && collector.getPsw().equals(psw))
@@ -61,10 +102,20 @@ public class DatabaseAdapter{
         return false;    
     } 
 
+    /**
+     *
+     * @param f
+     * @return
+     */
     public boolean addFine(Fine f) {
         return fineMapper.save(f);
     }
 
+    /**
+     *
+     * @param serialCode
+     * @return
+     */
     public boolean serialCodeCheck(Long serialCode) {
         return serialCode <= Long.valueOf(((InformationUnit)infoMapper.get(InformationUnitEnum.PRODUCTCOUNTER.toString())).getValue());
     }
@@ -114,6 +165,11 @@ public class DatabaseAdapter{
         return (Set<Sale>)saleMapper.getAllSales();
     }    
 
+    /**
+     *
+     * @param collectorUsername
+     * @return
+     */
     public Long countAllFinesMadeBy(String collectorUsername) {
         return (Long)fineMapper.countAllFinesMadeBy(collectorUsername);
     }

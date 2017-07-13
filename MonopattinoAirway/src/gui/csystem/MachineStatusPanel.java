@@ -22,6 +22,10 @@ public class MachineStatusPanel extends JPanel implements Observer{
     private JLabel activeLabel, idLabel, ipLabel, inkLvlLabel, paperLvlLabel;
     private JPanel labelPanel;
     
+    /**
+     *
+     * @param cSystem
+     */
     public MachineStatusPanel(CSystem cSystem) {
         contents = new HashMap();
         box = Box.createVerticalBox();

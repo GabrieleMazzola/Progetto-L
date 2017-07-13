@@ -14,7 +14,10 @@ import javafx.stage.Stage;
 import ticketmachine.Operation;
 import ticketmachine.*;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class GUITicketMachine extends Application implements Observer{
     private Scene mainScene, buySimpleTicketScene, buySeasonScene, buyPhysicalScene, paymentMethodScene, choosingTicketScene, 
                   createUserScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene, errorScene;
@@ -78,6 +81,10 @@ public class GUITicketMachine extends Application implements Observer{
          launch(args);
     }
     
+    /**
+     *
+     * @param tMachine
+     */
     public void setTicketMachine(TicketMachine tMachine) {
         this.tMachine = tMachine;
     }

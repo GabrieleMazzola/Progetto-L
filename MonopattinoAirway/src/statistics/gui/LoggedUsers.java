@@ -11,9 +11,10 @@ import org.jfree.data.general.DefaultPieDataset;
 import statistics.InformationHandler;
 import statistics.gui.GUIMainframe;
 
-
-
-
+/**
+ *
+ * @author Zubeer
+ */
 public class LoggedUsers extends javax.swing.JFrame {
 
     private String[] args;
@@ -23,9 +24,10 @@ public class LoggedUsers extends javax.swing.JFrame {
     DefaultTableModel model;
     int xx, xy;
     
- 
-    
-    
+    /**
+     *
+     * @param statistics
+     */
     public LoggedUsers(InformationHandler statistics) {
         this.statistics = statistics;
         initComponents();
@@ -52,9 +54,10 @@ public class LoggedUsers extends javax.swing.JFrame {
 
         }
         
-        
-        
-        public void updatePage(){
+    /**
+     *
+     */
+    public void updatePage(){
             statistics.update();
             pnl_chart.remove(cp);
             pnl_chart.setVisible(false);
@@ -62,10 +65,10 @@ public class LoggedUsers extends javax.swing.JFrame {
             pnl_chart.setVisible(true);
     }  
 
-    
-        
-
-        public void addRowToJtable(){
+    /**
+     *
+     */
+    public void addRowToJtable(){
         model = (DefaultTableModel) pnl_jtable.getModel();
         List<Sale> list = statistics.getSaleLoggedList();
         Object rowData[] = new Object[5];

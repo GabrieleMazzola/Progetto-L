@@ -9,11 +9,18 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import ticketmachine.*;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class TicketMachineMainScene extends BridgeSceneGrid {
     private Label greetings;
     private Button login, signUp, goOn;
     
+    /**
+     *
+     * @param tMachine
+     */
     public TicketMachineMainScene(TicketMachine tMachine) {
         
         greetings = new Label("Hello!");

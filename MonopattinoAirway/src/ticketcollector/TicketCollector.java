@@ -5,6 +5,10 @@ import items.Fine;
 import java.io.IOException;
 import java.util.Observable;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class TicketCollector extends Observable{
     
     private Long finesStartNumber;
@@ -13,15 +17,28 @@ public class TicketCollector extends Observable{
     private String username;
     private CollectorOperation operation;
 
+    /**
+     *
+     * @param ipAddress
+     * @throws IOException
+     */
     public TicketCollector(String ipAddress) throws IOException {
         stub = new StubCollector(ipAddress, 5000);
         connected = false;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
     
+    /**
+     *
+     * @throws IOException
+     */
     public void initConnection() throws IOException{
         stub.initConnection();
     }
@@ -31,6 +48,12 @@ public class TicketCollector extends Observable{
         notifyChange(operation);
     }
     
+    /**
+     *
+     * @param username
+     * @param psw
+     * @return
+     */
     public boolean loginCollector(String username,String psw){
     	if(connected){
     		return true;

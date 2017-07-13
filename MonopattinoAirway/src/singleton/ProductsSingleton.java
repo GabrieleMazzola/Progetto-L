@@ -9,6 +9,10 @@ import items.SimpleTicket;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class ProductsSingleton {
     
     private Map<String,Product> products;

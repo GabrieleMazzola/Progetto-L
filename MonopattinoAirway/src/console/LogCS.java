@@ -1,12 +1,19 @@
 package console;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class LogCS{
     boolean enabled = false;
     
     private LogCS() {
     }
     
+    /**
+     *
+     * @return
+     */
     public static LogCS getInstance() {
         return LogHolder.INSTANCE;
     }
@@ -15,6 +22,12 @@ public class LogCS{
         private static final LogCS INSTANCE = new LogCS();
     }
     
+    /**
+     *
+     * @param tag
+     * @param stampa
+     * @return
+     */
     public boolean print(String tag, String stampa){
         if(enabled){
             switch (tag) {
@@ -31,10 +44,16 @@ public class LogCS{
         return false;
     }
     
+    /**
+     *
+     */
     public void enable() {
         enabled = true;
     }
     
+    /**
+     *
+     */
     public void disable() {
         enabled = false;
     }

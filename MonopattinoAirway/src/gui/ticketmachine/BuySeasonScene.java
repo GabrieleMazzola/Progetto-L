@@ -14,12 +14,19 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class BuySeasonScene extends BridgeSceneGrid{
 
     private final Text text;
     private Button back;
     
+    /**
+     *
+     * @param tMachine
+     */
     public BuySeasonScene(TicketMachine tMachine){
     
         text = new Text("Choose your season, " + tMachine.getLoggedUsername());

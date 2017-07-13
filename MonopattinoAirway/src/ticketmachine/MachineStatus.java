@@ -1,11 +1,23 @@
 package ticketmachine;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class MachineStatus {
     private int machineCode;
     private String sellerIp;
     private double inkLevel, paperLevel;
     private boolean active;
 
+    /**
+     *
+     * @param machineCode
+     * @param sellerIp
+     * @param inkLevel
+     * @param paperLevel
+     * @param active
+     */
     public MachineStatus(int machineCode, String sellerIp, double inkLevel, double paperLevel, boolean active) {
         this.machineCode = machineCode;
         this.sellerIp = sellerIp;

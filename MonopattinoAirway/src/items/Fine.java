@@ -3,6 +3,10 @@ package items;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class Fine {
     private String id;
     private String personCF;
@@ -10,6 +14,13 @@ public class Fine {
     private double amount;
     private LocalDate today, firstDeadline, secondDeadline;
     
+    /**
+     *
+     * @param id
+     * @param personCF
+     * @param amount
+     * @param collectorUsername
+     */
     public Fine(String id, String personCF, double amount, String collectorUsername){
         this.id = id;
         this.personCF=personCF;

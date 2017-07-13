@@ -11,7 +11,10 @@ import org.jfree.data.general.DefaultPieDataset;
 import statistics.gui.GUIMainframe;
 import statistics.InformationHandler;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class NonLoggedUsers extends javax.swing.JFrame {
     
    
@@ -22,8 +25,11 @@ public class NonLoggedUsers extends javax.swing.JFrame {
     DefaultTableModel model;
     int xx, xy;
     
- 
-        public NonLoggedUsers(InformationHandler statistics) {
+    /**
+     *
+     * @param statistics
+     */
+    public NonLoggedUsers(InformationHandler statistics) {
         this.statistics = statistics;
         initComponents();
         createPie();
@@ -49,10 +55,10 @@ public class NonLoggedUsers extends javax.swing.JFrame {
             pnl_chart.add(cp);
         }
 
-        
-        
-        
-        public void addRowToJtable(){
+    /**
+     *
+     */
+    public void addRowToJtable(){
             model = (DefaultTableModel) tbl_data.getModel();
             List<Sale> list = statistics.getSaleUnloggedList();
             Object rowData[] = new Object[4];
@@ -68,9 +74,10 @@ public class NonLoggedUsers extends javax.swing.JFrame {
         }
     }
     
-
-    
-        public void updatePage(){
+    /**
+     *
+     */
+    public void updatePage(){
             statistics.update();
             pnl_chart.remove(cp);
             pnl_chart.setVisible(false);

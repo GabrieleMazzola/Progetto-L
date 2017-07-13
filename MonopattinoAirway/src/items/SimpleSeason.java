@@ -1,6 +1,9 @@
 package items;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class SimpleSeason implements Product{
 
     private String description;
@@ -8,7 +11,13 @@ public class SimpleSeason implements Product{
     private double monthlyCost;
     private int duration;
 
-    
+    /**
+     *
+     * @param description
+     * @param type
+     * @param monthlyCost
+     * @param duration
+     */
     public SimpleSeason(String description, String type, double monthlyCost,int duration){
         this.description=description;
         this.type=type;

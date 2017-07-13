@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 import ticketcollector.CollectorOperation;
 import ticketcollector.TicketCollector;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class GUICollector extends Application implements Observer{
     private Scene loginScene, choosingOperationScene, makeFineScene, verifyingTicketScene;
     private static TicketCollector collector;
@@ -41,6 +44,7 @@ public class GUICollector extends Application implements Observer{
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         collector = new TicketCollector("10.87.130.83");

@@ -16,6 +16,13 @@ public class PhisicalSimpleTicket implements Product {
     private double cost;
     private int duration;
 
+    /**
+     *
+     * @param description
+     * @param type
+     * @param cost
+     * @param duration
+     */
     public PhisicalSimpleTicket(String description, String type,double cost, int duration) {
         this.description = description;
         this.type=type;

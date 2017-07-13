@@ -13,8 +13,10 @@ import singleton.JSONOperations;
 import singleton.ProductsSingleton;
 import ticketmachine.MachineStatus;
 
-
-
+/**
+ *
+ * @author Zubeer
+ */
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface{
     
     private final DatabaseAdapter database;
@@ -40,10 +42,18 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         initCollectors();
     }
     
+    /**
+     *
+     * @param restart
+     */
     public void close(boolean restart) {
         notifyChange(restart);
     }
     
+    /**
+     *
+     * @param message
+     */
     public void addMessageToLog(String message) {
         Message msg = new Message(message, Calendar.getInstance());
         log.add(msg);
@@ -175,6 +185,13 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     //__________________Metodi riguardanti la macchinetta_______________________
+
+    /**
+     *
+     * @param cardNumber
+     * @param amount
+     * @return
+     */
    
     @Override
     public boolean cardPayment(String cardNumber, double amount) {
@@ -220,6 +237,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     //__________________Metodi pubblici per la gui______________________________
+
+    /**
+     *
+     * @param arg
+     */
     
     public synchronized void notifyChange(Object arg) {
         if(arg != null) {
@@ -228,6 +250,10 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String ticketTypes(){
         return JSONOperations.getInstance().ticketTypesPacket(itemList);
     }
@@ -240,6 +266,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.getProductCounter();
     }
 
+    /**
+     *
+     * @param collectorUsername
+     * @return
+     */
     public Long countAllFinesMadeBy(String collectorUsername) {
         return database.countAllFinesMadeBy(collectorUsername);
     }

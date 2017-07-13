@@ -13,7 +13,10 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class CreateUserScene extends BridgeSceneGrid{
     
     private Text text, nameText, surnameText, cfText, emailText, usernameText, pswText, checkPswText,
@@ -22,6 +25,10 @@ public class CreateUserScene extends BridgeSceneGrid{
     private PasswordField pswField, checkPswField;
     private Button ok, homepage;
     
+    /**
+     *
+     * @param tMachine
+     */
     public CreateUserScene(TicketMachine tMachine) {
         initTexts();
         

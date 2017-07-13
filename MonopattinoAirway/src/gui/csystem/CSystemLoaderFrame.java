@@ -10,11 +10,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class CSystemLoaderFrame extends JFrame{
     private JPanel mainPanel;
     private JButton simButton, dbButton;
     
+    /**
+     *
+     */
     public CSystemLoaderFrame() {
         super();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

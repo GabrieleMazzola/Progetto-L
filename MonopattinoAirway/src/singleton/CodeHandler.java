@@ -36,6 +36,10 @@ public class CodeHandler {
         
     }
     
+    /**
+     *
+     * @return
+     */
     public static CodeHandler getInstance() {
         return codeHandlerHolder.INSTANCE;
     }
@@ -48,6 +52,10 @@ public class CodeHandler {
     }
     // a = abbonamento; b = biglietto
     
+    /**
+     *
+     * @return
+     */
     public String nextSessionId() {
         StringBuilder sb = new StringBuilder();
         
@@ -57,7 +65,12 @@ public class CodeHandler {
         return sb.toString();
     }
     
-    
+    /**
+     *
+     * @param serialCode
+     * @param type
+     * @return
+     */
     public String encoder(long  serialCode, String type) {
         StringBuilder sb = new StringBuilder();
         StringBuilder result = new StringBuilder();
@@ -82,7 +95,11 @@ public class CodeHandler {
         return result.toString();
     }
     
-    
+    /**
+     *
+     * @param inputString
+     * @return
+     */
     public String decoder(String inputString){
         StringBuilder sb = new StringBuilder();
         char[] inputData = new char[inputString.length()/3];
@@ -103,6 +120,11 @@ public class CodeHandler {
     return "";
     }
     
+    /**
+     *
+     * @param inCode
+     * @return
+     */
     public String shaEncoder(String inCode){
         
         String result = null;

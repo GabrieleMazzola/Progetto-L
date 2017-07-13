@@ -3,7 +3,10 @@ package items;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class Sale {
     
     private String username;
@@ -12,7 +15,14 @@ public class Sale {
     private Product product;
     private String sellerMachineIp;
     
-
+    /**
+     *
+     * @param saleDate
+     * @param serialCode
+     * @param username
+     * @param product
+     * @param sellerMachineIp
+     */
     public Sale(Date saleDate, Long serialCode, String username, Product product, String sellerMachineIp) {
         this.username = username;
         this.serialCode = serialCode;

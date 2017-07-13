@@ -14,11 +14,18 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class BuyPhysicalScene extends BridgeSceneGrid{
     private final Text text;
     private Button back;
     
+    /**
+     *
+     * @param tMachine
+     */
     public BuyPhysicalScene(TicketMachine tMachine){
     
         text = new Text("Choose a ticket");

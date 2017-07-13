@@ -2,10 +2,17 @@ package gui.ticketmachine;
 
 import javafx.scene.control.TextField;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class LimitedTextField extends TextField{
     private final int limit;
     
+    /**
+     *
+     * @param limit
+     */
     public LimitedTextField(int limit) {
         this.limit = limit;
         this.setPrefWidth(60);
@@ -24,6 +31,10 @@ public class LimitedTextField extends TextField{
         verify();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasReachedLimit() {
         return this.getText().length() == limit;
     }

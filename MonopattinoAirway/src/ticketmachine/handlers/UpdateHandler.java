@@ -5,13 +5,25 @@ import java.util.TimerTask;
 import ticketmachine.MachineStatus;
 import ticketmachine.TicketMachine;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class UpdateHandler {
     private Timer timer;
     private TimerTask updateMachineTask;
+
+    /**
+     *
+     */
     public static final int UPDATE_REPEAT_TIME = 5*60*1000;
     
     private TicketMachine machine;
     
+    /**
+     *
+     * @param machine
+     */
     public UpdateHandler(TicketMachine machine) {
         this.machine = machine;
         
@@ -19,6 +31,9 @@ public class UpdateHandler {
         initUpdateMachineTask();
     }
     
+    /**
+     *
+     */
     public void start() {
         timer.schedule(updateMachineTask,2000,UPDATE_REPEAT_TIME);
     }

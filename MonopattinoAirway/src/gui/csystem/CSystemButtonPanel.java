@@ -13,6 +13,10 @@ import javax.swing.UIManager;
 public class CSystemButtonPanel extends JPanel{
     private JButton close, restart;
     
+    /**
+     *
+     * @param cSystem
+     */
     public CSystemButtonPanel(CSystem cSystem) {
         super();
         

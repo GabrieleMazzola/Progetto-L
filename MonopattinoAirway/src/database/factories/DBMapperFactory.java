@@ -11,29 +11,62 @@ import database.mapper.realmapper.DBInformationMapper;
 import database.mapper.realmapper.DBSaleMapper;
 import database.mapper.realmapper.DBUserMapper;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class DBMapperFactory extends MapperFactory{
-    public String username = "root", password = "gigidatome3";
 
+    /**
+     *
+     */
+    public String username = "root",
+
+    /**
+     *
+     */
+    password = "gigidatome3";
+
+    /**
+     *
+     * @return
+     */
     @Override
     public UserMapper createUserMapper(){
         return new DBUserMapper("users", username, password);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public CollectorMapper createCollectorMapper() {
         return new DBCollectorMapper("collectors", username, password);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public SaleMapper createSaleMapper() {
         return new DBSaleMapper("sales", username, password); 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public FineMapper createFineMapper() {
         return new DBFineMapper("fines", username, password);   
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public InformationMapper createInformationMapper() {
         InformationMapper infoMapper = new DBInformationMapper("informations", username, password);
@@ -41,6 +74,16 @@ public class DBMapperFactory extends MapperFactory{
         return infoMapper;
     }
     
+    /**
+     *
+     * @param className
+     * @param username
+     * @param password
+     * @return
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public static synchronized MapperFactory getInstance(String className, String username, String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         if(instance == null){
             instance = (MapperFactory)Class.forName(className).newInstance();

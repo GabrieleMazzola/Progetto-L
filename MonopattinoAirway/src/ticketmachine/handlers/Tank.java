@@ -1,11 +1,18 @@
 package ticketmachine.handlers;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class Tank {
     
     private double value;    
     private int quantity;
 
+    /**
+     *
+     * @param value
+     */
     public Tank(double value) {
         this.value = value;
         this.quantity = 10;
@@ -15,11 +22,19 @@ public class Tank {
         this.quantity = quantity;
     }
     
-   public void addQuantity(int quantity) {
+    /**
+     *
+     * @param quantity
+     */
+    public void addQuantity(int quantity) {
         this.quantity += quantity;
     }
    
-   public void subtractQuantity(int quantity) {
+    /**
+     *
+     * @param quantity
+     */
+    public void subtractQuantity(int quantity) {
         this.quantity -= quantity;
     }
 

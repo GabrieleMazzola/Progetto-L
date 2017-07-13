@@ -1,11 +1,21 @@
 
 package statistics.gui;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class GuiStart {
     
+    /**
+     *
+     */
     public static final String CSYSTEM_IP = "10.87.156.248";
      
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
         
         try {

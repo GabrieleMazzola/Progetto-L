@@ -10,11 +10,18 @@ import javafx.scene.text.FontWeight;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class ChoosingTicketScene extends BridgeSceneGrid{
     private Label greetings;
     private Button singleTicket, multiTicket, seasonTicket, logout;
     
+    /**
+     *
+     * @param tMachine
+     */
     public ChoosingTicketScene(TicketMachine tMachine) {
         
         greetings = new Label("Hello, " + tMachine.getLoggedUsername() + "!");

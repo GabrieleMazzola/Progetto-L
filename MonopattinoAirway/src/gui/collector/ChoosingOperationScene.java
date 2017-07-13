@@ -10,11 +10,18 @@ import javafx.scene.text.Text;
 import ticketcollector.CollectorOperation;
 import ticketcollector.TicketCollector;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class ChoosingOperationScene extends BridgeSceneGrid{
     private Text text;
     private Button makeFineButton, verifyTicket, logout;
     
+    /**
+     *
+     * @param collector
+     */
     public ChoosingOperationScene(TicketCollector collector) {
         text = new Text("Beware people! " + collector.getUsername() + " is here!");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));

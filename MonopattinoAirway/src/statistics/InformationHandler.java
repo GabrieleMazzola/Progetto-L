@@ -12,7 +12,10 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 import singleton.*;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class InformationHandler {
     Map<String, Product> productMap;
     List<Sale> saleList;
@@ -24,6 +27,11 @@ public class InformationHandler {
     PrintWriter toServer;
     BufferedReader fromServer;
     
+    /**
+     *
+     * @param cSystemIP
+     * @throws IOException
+     */
     public InformationHandler(String cSystemIP) throws IOException{
         initInformations(cSystemIP);
     }
@@ -125,6 +133,9 @@ public class InformationHandler {
         }
     }
     
+    /**
+     *
+     */
     public void update(){
         try {
             String packet = "{\"METHOD\":\"STATISTICSINFORMATION\"}";
@@ -186,6 +197,10 @@ public class InformationHandler {
         return saleNonloggedList;
     }
     
+    /**
+     *
+     * @return
+     */
     public DefaultPieDataset cookLoggedPie(){
         
         DefaultPieDataset dataset = new DefaultPieDataset();
@@ -209,6 +224,10 @@ public class InformationHandler {
         
     }
     
+    /**
+     *
+     * @return
+     */
     public DefaultPieDataset cookNonloggedPie(){
         DefaultPieDataset dataset = new DefaultPieDataset();
         

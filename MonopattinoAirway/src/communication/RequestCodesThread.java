@@ -14,7 +14,10 @@ import org.json.simple.parser.ParseException;
 import singleton.JSONOperations;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class RequestCodesThread extends Thread{
     private long startNumber;
     private long numberOfCodes;
@@ -24,6 +27,14 @@ public class RequestCodesThread extends Thread{
     private PrintWriter toServer;
     private List<Long> serialNumbers = new ArrayList();
     
+    /**
+     *
+     * @param machine
+     * @param systemAddress
+     * @param systemPort
+     * @param numberOfCodes
+     * @throws IOException
+     */
     public RequestCodesThread(TicketMachine machine,String systemAddress, int systemPort,long numberOfCodes) throws IOException{
         
         super();

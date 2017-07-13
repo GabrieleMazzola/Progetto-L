@@ -4,15 +4,19 @@ package statistics.gui;
 import java.io.IOException;
 import statistics.InformationHandler;
 
-
-
-
+/**
+ *
+ * @author Zubeer
+ */
 public class GUIMainframe extends javax.swing.JFrame {
 
     
     InformationHandler statistics;
     int xx, xy;
 
+    /**
+     *
+     */
     public GUIMainframe() {
         try {
             statistics = new InformationHandler(GuiStart.CSYSTEM_IP);

@@ -17,6 +17,14 @@ public class MultiTicket implements Product {
     private int durationSingleTicket;
     private int numberOfTickets;
     
+    /**
+     *
+     * @param description
+     * @param type
+     * @param costSingleTicket
+     * @param durationSingleTicket
+     * @param numberOfTickets
+     */
     public MultiTicket(String description,String type,double costSingleTicket,int durationSingleTicket,int numberOfTickets){   
         this.description = description;
         this.type = type;

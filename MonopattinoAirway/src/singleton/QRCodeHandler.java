@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class QRCodeHandler {
     private static QRCodeHandler instance;
     private final String filepath, extension;
