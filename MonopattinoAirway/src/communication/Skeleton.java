@@ -26,7 +26,11 @@ import enums.jsonenumerations.UpdateMachineStatus;
 import enums.jsonenumerations.UserLogin;
 import java.net.SocketException;
 
-
+/*Classe che viene lanciata come thread dal SocketHandler, e che rimane in attesa di comunicazione
+ *da una socket passata dal costruttore. Quando riceve un pacchetto JSON estrae le informazioni relative,
+ *e tramite una Map che associa i comandi ottenuti dal JSON a delle classi, chiama il metodo giusto del
+ *CentralSystem.
+*/
 public class Skeleton extends Thread {
     
     private CSystem csystem;
@@ -35,6 +39,12 @@ public class Skeleton extends Thread {
     private PrintWriter toClient;
     private Map<String,Command> commandMap;
     
+    /**
+     * Ottiene il riferimento al CentralSystem, e la socket di comunicazione del client.
+     * Inizializza la mappa di comandi.
+     * @param clientSocket
+     * @param system 
+     */
     public Skeleton(Socket clientSocket,CSystem system){
         this.csystem = system;
         this.clientSocket = clientSocket;

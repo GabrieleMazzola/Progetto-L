@@ -27,7 +27,7 @@ public class GUIMainframe extends javax.swing.JFrame {
         
     }
 
-                        
+              
     private void initComponents() {
 
         pnl_footer = new javax.swing.JPanel();
