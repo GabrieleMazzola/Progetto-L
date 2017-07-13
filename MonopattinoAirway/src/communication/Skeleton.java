@@ -58,17 +58,16 @@ public class Skeleton extends Thread {
                 String request = fromClient.readLine();
                 
                 String result = decodeRequest(request);
+                                
+                if(result == null){
+                    clientSocket.close();
+                    break;
+                }
                 toClient.println(result);
                 
                 LogCS.getInstance().print("err", "Sent to client :  "  + result); 
                 LogCS.getInstance().print("err", "---------------------");
-                
-                //TODO risolvere ciclo
-                if(result.equals("404")){
-                    //clientSocket.close();
-                    System.err.println("404 -> INTERROMPO CICLO");
-                    break;
-                }
+
             }
             LogCS.getInstance().print("err", "Connessione chiusa, ID chiuso :  "  + this.getId());
             
@@ -76,7 +75,7 @@ public class Skeleton extends Thread {
             toClient.close();
             clientSocket.close();
         }catch (SocketException e){
-           System.err.println("\n\tCHIUSURA SOCKET\n");
+
         } catch (IOException ex) {
            ex.printStackTrace();
         } 
@@ -85,7 +84,7 @@ public class Skeleton extends Thread {
     private synchronized String decodeRequest(String jsonRequest) {
 
         if(jsonRequest == null){
-            return "404";
+            return null;
         }
         
         JSONObject obj;
