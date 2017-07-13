@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import org.eclipse.persistence.oxm.record.FormattedWriterRecord;
 import org.progettol.webserver.beans.User;
 
-import DateSingleton.DateOperations;
+import singleton.DateOperations;
 import centralSystem.Stub;
 import singleton.JSONOperations;
 
@@ -84,6 +84,8 @@ public class WebServer extends HttpServlet {
 			
 		}
 	}
+	
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = (String)request.getParameter("action");
 		HttpSession session = request.getSession(true);
@@ -105,6 +107,8 @@ public class WebServer extends HttpServlet {
 		
 	}
 
+	//TODO fare pattern COMMAND
+	
 	 private void newRequest(HttpServletRequest request, HttpServletResponse response, String jspPage) 
 		       throws ServletException, IOException
 		    {
