@@ -12,12 +12,16 @@ public class TicketCollector extends Observable{
     private boolean connected;
     private String username;
     private CollectorOperation operation;
-
+/**
+ * Avvio di un nuovo StubCollector
+ * @param ipAddress
+ * @throws IOException 
+ */
     public TicketCollector(String ipAddress) throws IOException {
         stub = new StubCollector(ipAddress, 5000);
         connected = false;
     }
-    
+
     public String getUsername() {
         return username;
     }
@@ -30,7 +34,12 @@ public class TicketCollector extends Observable{
         operation = newOperation;
         notifyChange(operation);
     }
-    
+/**
+ *Login del collector
+ * @param username
+ * @param psw
+ * @return Ritorna vero se connesso. Se connesso richiede il numero di inizio per le multe e restituisce vero altrimenti restituisce falso
+ */    
     public boolean loginCollector(String username,String psw){
     	if(connected){
     		return true;
@@ -54,11 +63,20 @@ public class TicketCollector extends Observable{
             this.finesStartNumber = null;
         }    
     }    
-    
+/**
+ * Ticket esistente
+ * @param code
+ * @return Vero se il ticket esiste già
+ */    
     public Boolean existsTicket(long code){
     	return stub.existsTicket(code);
     }
-    
+/**
+ * Aggiungi nuova multa 
+ * @param cf
+ * @param amount
+ * @return Vero se viene aggiunta 
+ */    
     public Boolean addFine(String cf, double amount){
         if(connected){
             Fine fine = new Fine(username+finesStartNumber, cf, amount, username);
@@ -68,7 +86,10 @@ public class TicketCollector extends Observable{
         }
         return null;
     }
-    
+/**
+ * Acquisizione offline del numero delle multe 
+ * @return Vero se vengono acquisite 
+ */    
     public int getOfflineFinesNumber() {
         return stub.getOfflineFinesSize();
     }

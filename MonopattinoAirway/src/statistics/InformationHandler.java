@@ -185,7 +185,10 @@ public class InformationHandler {
     public List<Sale> getSaleUnloggedList() {
         return saleNonloggedList;
     }
-    
+/**
+ * Dataset per la creazione di un grafico a torta riferito alle vendite di biglietti fatte ad utenti registrati
+ * @return Un dataset filtrato dei bliglietti venduti ad utenti registrati
+ */    
     public DefaultPieDataset cookLoggedPie(){
         
         DefaultPieDataset dataset = new DefaultPieDataset();
@@ -208,7 +211,10 @@ public class InformationHandler {
         return dataset;
         
     }
-    
+/**
+ * Dataset per la creazione di un grafico a torta riferito alle vendite di biglietti fatte ad utenti non registrati
+ * @return Un dataset filtrato dei biglietti venduti ad utenti non registrati (biglietti fisici)
+ */    
     public DefaultPieDataset cookNonloggedPie(){
         DefaultPieDataset dataset = new DefaultPieDataset();
         
