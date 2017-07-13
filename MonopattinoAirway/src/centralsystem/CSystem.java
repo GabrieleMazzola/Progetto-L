@@ -22,7 +22,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     private Map<String,Product> itemList;
     private BankAdapter bank;
     private List<Message> log; 
-
+    
+    /**
+     * Inizializza tutti i coponenti relativi a connessione e comunicazione
+     * @param className 
+     */
     public CSystem(String className) {
         this.database = new DatabaseAdapter(className); 
         this.bank = new BankAdapter();
@@ -53,11 +57,27 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     //__________________Metodi riguardanti l'utente_____________________________
 
 
+    /**
+     * Controlla che esista l'username nel database
+     * @param username
+     * @return Vero se l'username è presente, falso altrimenti
+     */
     public boolean checkUser(String username) {
         return database.checkUser(username);
     }
 
-    
+    /**
+     * Aggiunge un nuovo utente al database, memorizzando le informazioni
+     * passate nei parametri.
+     * @param name
+     * @param surname
+     * @param cf Codice fiscale
+     * @param username
+     * @param psw Password
+     * @param email
+     * @return Vero se l'operazione va a buon fine, falso altrimenti o se 
+     * l'utente esiste già
+     */
     @Override
     public boolean createUser(String name, String surname, String cf,String username, String psw, String email) {
         if(checkUser(username)){
@@ -66,7 +86,12 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.createUser(name, surname, cf, username, psw, email);
     }
     
-    
+    /**
+     * Permette di effettuare il login dell'utente, comunicando al DatabaseAdapter le credenziali
+     * @param username
+     * @param psw
+     * @return Vero se le credenziali sono giuste, falso altrimenti
+     */
     @Override
     public boolean userLogin(String username, String psw) {
         return database.userLogin(username, psw);
@@ -79,11 +104,26 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     //__________________Metodi riguardanti il controllore_______________________
    
+    /**
+     * Aggiunge un nuovo Controllore al database, memorizzando le informazioni
+     * passate nei parametri.
+     * @param name
+     * @param surname
+     * @param cf
+     * @param username
+     * @param psw
+     * @return Vero se l'operazione va a buon fine, falso altrimenti
+     */
     public boolean createCollector(String name, String surname,String cf, String username,String psw) {
         return database.createCollector(name, surname, cf,username, psw);
     }
     
-
+    /**
+     * Permette di effettuare il login del Collector, comunicando al DatabaseAdapter le credenziali
+     * @param username
+     * @param psw
+     * @return Vero se le credenziali sono giuste, falso altrimenti
+     */
     @Override
     public boolean collectorLogin(String username, String psw) {
         return database.collectorLogin(username, psw);
@@ -103,6 +143,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return database.getFineById(id);
     }
     
+    /**
+     * Permette di ottenere le multe legate ad un codice fiscale
+     * @param cf
+     * @return Ritorna un set di Fine legate al codice fiscale inserito
+     */
     public Set<Fine> getFinesOf(String cf) {
         return database.getFinesByCF(cf);
     }
@@ -120,7 +165,11 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     public Set<Sale> getSalesByUsername(String username) {
         return database.getSalesByUsername(username);
     }
-    
+    /**
+     * Permette di ottenere dal database le Sale ancora valide di un username
+     * @param username
+     * @return Un set di Sale la cui expiryDate non è ancora passata
+     */
     public Set<Sale> getValidSalesByUsername(String username) {
         return database.getValidSalesByUsername(username);
     }
@@ -132,6 +181,12 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
         return bank.paymentAttempt(cardNumber, amount);
     }
     
+    /**
+     * Riceve un machine status dal SocketHandler, e lo mette nella mappa
+     * statusList, con chiave il codice della macchina
+     * @param status
+     * @return Vero
+     */
     @Override
     public boolean updateMachineStatus(MachineStatus status) {
         statusList.put(status.getMachineCode(), status);
