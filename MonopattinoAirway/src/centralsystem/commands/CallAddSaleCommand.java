@@ -21,6 +21,16 @@ public class CallAddSaleCommand extends Command{
         emailDispatcher = new EmailDispatcher();
     }
     
+    /**
+     * Prende un pacchetto JSON in ingresso, estrae data di vendita della Sale, codice seriale,
+     * username dell'acquirente, tipo di biglietto acquistato, informazioni sul prodotto, e ip 
+     * della ticket machine. Crea una Sale e chiama il metodo del CentralSystem per memorizzarla 
+     * nel database.Viene mandata una email all'indirizzo associato all'username, con informazioni
+     * sull'acquisto. Viene memorizzato il valore di ritorno del metodo del CentralSystem, e 
+     * viene messo in un pacchetto JSON.
+     * @param data
+     * @return Una stringa che rappresenta il valore di ritorno del metodo addSale del CentralSystem
+     */
     @Override
     public String execute(JSONObject data){
         centralSystem.addMessageToLog("Attempted selling ticket...");

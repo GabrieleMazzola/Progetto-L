@@ -13,6 +13,14 @@ public class CallAddFineCommand extends Command {
         super(centralSystem);
     }
     
+    /**
+     * Prende un pacchetto JSON in ingresso, estrae id (TODO), codice fiscale del passeggero,
+     * username del controllore e quantità da pagare. Crea una Fine e chiama il metodo del
+     * CentralSystem per memorizzarla nel database. Viene memorizzato il valore di ritorno del
+     * metodo del CentralSystem, e viene messo in un pacchetto JSON
+     * @param data
+     * @return Una stringa che rappresenta il valore di ritorno del metodo addFine del CentralSystem 
+     */
     @Override
     public String execute(JSONObject data){
         centralSystem.addMessageToLog("Attempted making new fine...");

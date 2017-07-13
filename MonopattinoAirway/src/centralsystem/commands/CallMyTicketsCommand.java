@@ -16,6 +16,14 @@ public class CallMyTicketsCommand extends Command {
         super(centralSystem);
     }
     
+    /**
+     * Prende un pacchetto JSON in ingresso,e estrae l'username dell'utente che effettua la richiesta.
+     * Chiama il metodo del CentralSystem per estrarre tutte le Sale associate a quell'utente. 
+     * Viene memorizzato un JSONArray che contiene tutte le informazioni delle sale ottenute così, 
+     * e quest'ultimo viene messo in un pacchetto JSON.
+     * @param data
+     * @return Una stringa che rappresenta il JSONArray delle Sale     
+     */
     @Override
     public String execute(JSONObject data){
         centralSystem.notifyChange("Request my tickets...");
