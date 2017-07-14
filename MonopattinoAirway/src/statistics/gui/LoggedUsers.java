@@ -68,7 +68,7 @@ public class LoggedUsers extends javax.swing.JFrame {
     public void addRowToJtable(){
         model = (DefaultTableModel) pnl_jtable.getModel();
         List<Sale> list = statistics.getSaleLoggedList();
-        Object rowData[] = new Object[5];
+        Object rowData[] = new Object[6];
         while(model.getRowCount()>0){
             model.removeRow(0);
         }
@@ -78,6 +78,8 @@ public class LoggedUsers extends javax.swing.JFrame {
             rowData[2] = s.getSaleDate().toString();
             rowData[3] = s.getUsername();
             rowData[4] = s.getType();
+            rowData[5] = s.getProduct().getDescription();
+            
             model.addRow(rowData);  
         }
         
@@ -195,7 +197,7 @@ public class LoggedUsers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ip", "Serial Code", "Sale Date", "Username", "Type"
+                "Ip", "Serial Code", "Sale Date", "Username", "Type" , "Description"
             }
                         ) {
             boolean[] canEdit = new boolean [] {

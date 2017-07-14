@@ -7,7 +7,7 @@ package statistics.gui;
  */
 public class GuiStart {
     
-    public static final String CSYSTEM_IP = "10.87.251.254";
+    public static final String CSYSTEM_IP = "127.0.0.1";
      
 
     public static void main(String args[]) {

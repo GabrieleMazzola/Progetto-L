@@ -1,4 +1,4 @@
-package machineOnline;
+package machineonline;
 
 import java.util.ArrayList;
 import java.util.List;

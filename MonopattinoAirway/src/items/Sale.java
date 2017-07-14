@@ -32,6 +32,9 @@ public class Sale {
         calculateExpiryDate();
     }
 
+
+
+
     public String getSellerMachineIp() {
         return sellerMachineIp;
     }

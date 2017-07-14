@@ -16,8 +16,8 @@ import javax.ws.rs.core.Response.Status;
 import org.eclipse.persistence.oxm.record.FormattedWriterRecord;
 import org.progettol.webserver.beans.User;
 
+import centralsystem.Stub;
 import singleton.DateOperations;
-import centralSystem.Stub;
 import singleton.JSONOperations;
 
 /**

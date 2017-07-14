@@ -10,9 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import centralSystem.Stub;
+import centralsystem.Stub;
 import items.Product;
-import machineOnline.TicketOnline;
+import machineonline.TicketOnline;
 import singleton.JSONOperations;
 
 @Path("/")
