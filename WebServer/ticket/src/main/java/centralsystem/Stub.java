@@ -1,4 +1,4 @@
-package centralSystem;
+package centralsystem;
 
 import java.io.IOException;
 import java.util.Date;
@@ -11,7 +11,7 @@ import singleton.DateOperations;
 import items.Fine;
 import items.Product;
 import jsonenumerations.JsonFields;
-import machineOnline.TicketOnline;
+import machineonline.TicketOnline;
 import singleton.JSONOperations;
 
 public class Stub {

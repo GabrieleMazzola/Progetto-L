@@ -3,7 +3,8 @@ package org.gabriele.progettol.ticket;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import centralSystem.Stub;
+
+import centralsystem.Stub;
 import singleton.JSONOperations;
 
 

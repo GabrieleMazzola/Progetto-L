@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 import jsonenumerations.*;
-import machineOnline.TicketOnline;
+import machineonline.TicketOnline;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

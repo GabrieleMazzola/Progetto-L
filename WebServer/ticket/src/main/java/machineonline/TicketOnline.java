@@ -1,4 +1,4 @@
-package machineOnline;
+package machineonline;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.Map;
 
 import avvio.Start;
 import items.Product;
-import singleton.ProductsSingleton;
-
 
 public class TicketOnline{
 	
