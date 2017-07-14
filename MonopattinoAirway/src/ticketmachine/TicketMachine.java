@@ -162,7 +162,9 @@ public class TicketMachine extends Observable{
         addInsertedMoney(money); 
         if (insertedEnoughMoney()) {
             printTicket();
-            outputChange(); 
+            double rest = outputChange();
+            if(rest!=0)
+                printRest();
             endSale();
         }
     }
@@ -199,6 +201,10 @@ public class TicketMachine extends Observable{
         notifyChange(isActive());
         notifyChange(sale);
     }
+    
+    private void printRest(){   
+        resources.printTicket();
+    }
 
     
     /**
@@ -208,14 +214,13 @@ public class TicketMachine extends Observable{
      */
     private Sale createSale(){
         Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), logged, toSell, getClientIPAddress());
-        System.out.println("logged: "+logged);
         if(logged=="-")
             resources.printTicket();
         return sale;
     }
 
-    private void outputChange() {
-        moneyTank.giveChange(toSell.getCost());
+    private double outputChange() {
+        return moneyTank.giveChange(toSell.getCost());
     }
     
     private boolean checkCreditCard(String credCardNumber) {
