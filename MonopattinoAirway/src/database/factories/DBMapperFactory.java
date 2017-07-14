@@ -1,5 +1,6 @@
 package database.factories;
 
+import database.interfaces.MapperFactoryInterface;
 import database.interfaces.mapperinterfaces.CollectorMapper;
 import database.interfaces.mapperinterfaces.FineMapper;
 import database.interfaces.mapperinterfaces.InformationMapper;
@@ -40,12 +41,5 @@ public class DBMapperFactory extends MapperFactory{
         //infoMapper.save(new InformationUnit("ProductCounter", "0"));
         return infoMapper;
     }
-    
-    public static synchronized MapperFactory getInstance(String className, String username, String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-        if(instance == null){
-            instance = (MapperFactory)Class.forName(className).newInstance();
-        }
-        return instance;            
-    } 
     
 }

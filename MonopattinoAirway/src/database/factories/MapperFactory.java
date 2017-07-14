@@ -4,11 +4,11 @@ import database.interfaces.MapperFactoryInterface;
 
 public abstract class MapperFactory implements MapperFactoryInterface{
     
-    protected static MapperFactory instance;
+    protected static MapperFactoryInterface instance;
     
-    public static synchronized MapperFactory getInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+    public static synchronized MapperFactoryInterface getInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         if(instance == null){
-            instance = (MapperFactory)Class.forName(className).newInstance();
+            instance = (MapperFactoryInterface)Class.forName(className).newInstance();
         }
         return instance;            
     }
