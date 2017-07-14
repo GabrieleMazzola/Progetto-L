@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.TicketTypes;
-import factory.ProductsFactory;
+import productsfactories.central.CentralProductsFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -195,7 +195,7 @@ public class StubMachine implements CentralSystemTicketInterface {
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
 //                products.put(type, ProductsFactory.getInstance().buildTicket(description, type, cost, duration));
-                products.put(type, ProductsFactory.getInstance().buildTicket(type));
+                products.put(type, CentralProductsFactory.getInstance().buildTicket(type));
             }
             
         } catch (ParseException ex) {

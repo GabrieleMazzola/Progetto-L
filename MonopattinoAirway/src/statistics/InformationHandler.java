@@ -85,9 +85,6 @@ public class InformationHandler {
                     case 'Q':
                         productMap.put(type, new PhisicalSimpleSeason(description, type, cost/duration, duration));
                         break;
-                    case 'M':
-                        productMap.put(type, new MultiTicket(description, type, cost, duration, 5));
-                        break;
                     default:
                         System.err.println("Received incompatible type");
                 }

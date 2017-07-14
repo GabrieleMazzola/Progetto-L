@@ -9,7 +9,7 @@ import items.Sale;
 import java.util.Date;
 import enums.jsonenumerations.AddSale;
 import enums.jsonenumerations.JsonFields;
-import factory.ProductsFactory;
+import productsfactories.central.CentralProductsFactory;
 import org.json.simple.JSONObject;
 import singleton.DateOperations;
 
