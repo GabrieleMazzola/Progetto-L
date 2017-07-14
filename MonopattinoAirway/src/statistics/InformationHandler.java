@@ -87,7 +87,7 @@ public class InformationHandler {
         productMap.put("P4",new PhisicalSimpleTicket("Very Short Physical Ticket","P4",1, 1));
         productMap.put("Q1",new PhisicalSimpleSeason("Physical Monthly Season","Q1",5,1));
         productMap.put("Q2",new PhisicalSimpleSeason("Physical Semestral Season","Q2",3,6));
-        productMap.put("Q3",new PhisicalSimpleSeason("Physical Annual Season","Q3",2, 12));       
+        productMap.put("Q3",new PhisicalSimpleSeason("Physical Annual Season","Q3",2, 12)); 
     
         
         
@@ -211,6 +211,7 @@ public class InformationHandler {
         for(Sale s : saleLoggedList){
             String type = s.getType();
             dataset.setValue(type, dataset.getValue(type).intValue() + 1);
+
         }
         
         return dataset;
