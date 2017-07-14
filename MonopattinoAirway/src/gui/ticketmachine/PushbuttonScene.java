@@ -11,7 +11,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import ticketmachine.*;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class PushbuttonScene extends BridgeSceneGrid implements Observer{
     private Button  twoHundred, oneHundred, fifty, twenty, ten, five,
                     two, one, fiftyCents, twentyCents, tenCents, fiveCents,
@@ -20,6 +23,10 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
     //TODO aggiungere Label per far vedere quanto ancora va inserito
     private TicketMachine tMachine;
     
+    /**
+     *
+     * @param tMachine
+     */
     public PushbuttonScene(TicketMachine tMachine) {
         this.tMachine = tMachine;
         tMachine.addObserver(this);
@@ -51,7 +58,7 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
         display.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         double remaining = tMachine.getCost() - tMachine.getInsertedMoney();
         toPay = new Label("remaining: " + remaining);
-        toPay.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
+        toPay.setFont(Font.font("Tahoma", FontWeight.BOLD, 13));
         
         istantiateGrid();
         grid.add(display, 0, 0, 4, 1);

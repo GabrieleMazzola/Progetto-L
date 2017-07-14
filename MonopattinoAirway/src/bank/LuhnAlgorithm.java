@@ -1,5 +1,9 @@
 package bank;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class LuhnAlgorithm implements CheckValidityAlgorithm{
     
     

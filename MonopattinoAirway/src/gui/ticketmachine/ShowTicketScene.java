@@ -12,13 +12,17 @@ import singleton.CodeHandler;
 import singleton.QRCodeHandler;
 import ticketmachine.TicketMachine;
 
-
 public class ShowTicketScene extends BridgeSceneGrid{
     private Label date, duration,owner, type, changeLabel;
     private Image qrCode;
     private ImageView qrCodeView;
     private Button ok;
     
+    /**
+     *
+     * @param tMachine
+     * @param ticket
+     */
     public ShowTicketScene(TicketMachine tMachine, Sale ticket) {
         istantiateGrid();
         

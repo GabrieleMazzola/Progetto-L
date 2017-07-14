@@ -1,6 +1,9 @@
 package items;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class SimpleTicket implements Product{
     
     private final String description;
@@ -8,6 +11,13 @@ public class SimpleTicket implements Product{
     private double cost;
     private int duration;
 
+    /**
+     *
+     * @param description
+     * @param type
+     * @param cost
+     * @param duration
+     */
     public SimpleTicket(String description, String type,double cost, int duration) {
         this.description = description;
         this.type=type;
@@ -39,9 +49,10 @@ public class SimpleTicket implements Product{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
-        sb.append("Simple ticket, type: ").append(type);
-        sb.append("  ,  duration: ").append(this.duration).append(" minutes");
-        sb.append("  ,  cost:").append(cost);
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MINUTES");
+        sb.append("  ,  COST:").append(cost);
         
         return sb.toString();
     }

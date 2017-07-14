@@ -15,7 +15,13 @@ public class PhisicalSimpleSeason implements Product {
     private double monthlyCost;
     private int duration;
 
-    
+    /**
+     *
+     * @param description
+     * @param type
+     * @param monthlyCost
+     * @param duration
+     */
     public PhisicalSimpleSeason(String description, String type, double monthlyCost,int duration){
         this.description=description;
         this.type=type;
@@ -42,4 +48,19 @@ public class PhisicalSimpleSeason implements Product {
     public int getDuration() {
         return duration;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MONTHS");
+        sb.append("  ,  MONTHLYCOST:").append(monthlyCost);
+        sb.append("  ,  COST:").append(getCost());
+        
+        return sb.toString();    }
+    
+    
+    
 }

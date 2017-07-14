@@ -1,6 +1,8 @@
 package gui.ticketmachine;
 
+import gui.LimitedTextField;
 import gui.BridgeSceneGrid;
+import gui.WhiteSmallButton;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,7 +15,10 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class InsertCreditCardScene extends BridgeSceneGrid{
     private LimitedTextField firstFour, secondFour, thirdFour, fourthFour;
     private HBox boxField;
@@ -24,6 +29,10 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
     
     private final String separator = "-";
     
+    /**
+     *
+     * @param tMachine
+     */
     public InsertCreditCardScene(TicketMachine tMachine) {
         label = new Label("Insert your credit card number please");
         label.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
@@ -50,7 +59,7 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
         boxField.setAlignment(Pos.CENTER);
         boxField.setSpacing(5);
         
-        confirm = new Button("Ok");
+        confirm = new WhiteSmallButton("Ok");
         confirm.setOnAction(e -> {
             if(!completlyFilled()) {
                 fail = new Text("You must fill in all the spaces");
@@ -64,10 +73,14 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
                     fail.setFill(Color.RED);
                     add(fail, 2, 1);
                 }
+                firstFour.setText("");
+                secondFour.setText("");
+                thirdFour.setText("");
+                fourthFour.setText("");
             }
         });
         
-        homepage = new Button("Back");
+        homepage = new WhiteSmallButton("Back");
         homepage.setOnAction(e -> {
             tMachine.setOperation(Operation.SELLING_TICKET);
         });

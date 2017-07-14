@@ -12,6 +12,7 @@ import enums.jsonenumerations.CreateUser;
 import enums.jsonenumerations.CardPayment;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.CollectorLogin;
+import enums.jsonenumerations.Email;
 import items.Fine;
 import items.Product;
 import items.Sale;
@@ -20,6 +21,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import ticketmachine.MachineStatus;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class JSONOperations {
 
     private static JSONOperations instance;
@@ -37,6 +42,9 @@ public class JSONOperations {
     /**
      * Struttura JSON:
      * {"method":"USERLOGIN","data":{"username":"String","psw":"String"}}
+     * @param username
+     * @param psw
+     * @return 
      */
     public String userLoginPacket(String username, String psw) {
         JSONObject root = new JSONObject();
@@ -51,6 +59,12 @@ public class JSONOperations {
     }
 
       //{"data": [{ "type": "String","description": "String","cost": "double","duration": "double"}]}
+
+    /**
+     *
+     * @param products
+     * @return
+     */
     public String ticketTypesPacket(Map<String, Product> products) {
 
         JSONObject root = new JSONObject();
@@ -72,6 +86,10 @@ public class JSONOperations {
         return root.toJSONString();  
     }
     
+    /**
+     *
+     * @return
+     */
     public String requestTicketTypesPacket() {
         JSONObject root = new JSONObject();
         
@@ -83,6 +101,9 @@ public class JSONOperations {
     /**
      * Struttura JSON:
      * {"method":"COLLECTORLOGIN","data":{"username":"String","psw":"String"}}
+     * @param username
+     * @param psw
+     * @return 
      */
     public String collectorLoginPacket(String username, String psw) {
         JSONObject root = new JSONObject();
@@ -98,6 +119,8 @@ public class JSONOperations {
 
     /**
      * Struttura JSON: {"method":"REQUESTCODES","data":{"numberOfCodes":"long"}}
+     * @param numberOfCodes
+     * @return 
      */
     public String requestCodesPacket(long numberOfCodes) {
         JSONObject root = new JSONObject();
@@ -112,6 +135,9 @@ public class JSONOperations {
 
     /**
      * Struttura JSON: {"method":"CARDPAYMENT","data":{"cardNumber":"String","amount":"double"}}
+     * @param cardNumber
+     * @param amount
+     * @return 
      */
     public String cardPaymentPacket(String cardNumber, double amount) {
         JSONObject root = new JSONObject();
@@ -127,6 +153,8 @@ public class JSONOperations {
 
     /**
      * Struttura JSON: {"method":"EXISTSTICKET","data":{"serialCode":"long"}}
+     * @param serialCode
+     * @return 
      */
     public String existsTicketPacket(long serialCode) {
         JSONObject root = new JSONObject();
@@ -142,6 +170,13 @@ public class JSONOperations {
     /**
      * Struttura JSON:
      * {"method":"CREATEUSER","data":{"name":"String","surname":"String","cf":"String","username":"String","psw":"String", "email":"String"}}
+     * @param name
+     * @param surname
+     * @param cf
+     * @param username
+     * @param email
+     * @param psw
+     * @return 
      */
     public String createUser(String name, String surname, String cf, String username, String psw, String email) {
         JSONObject root = new JSONObject();
@@ -162,6 +197,8 @@ public class JSONOperations {
     /**
      * Struttura JSON:
      * {"method":"MAKEFINE","data":{"id":"long", "cf":"String", "amount":"Double"}}
+     * @param f
+     * @return 
      */
     public String makeFinePacket(Fine f) {
         JSONObject root = new JSONObject();
@@ -181,6 +218,8 @@ public class JSONOperations {
     /**
      * Struttura JSON:
      * {"method":"UPDATEMACHINESTATUS","data":{"machineCode":"double", "inkLevel":"double", "paperLevel":"double", "active":"boolean", "ipAddress":"String"}}
+     * @param status
+     * @return 
      */
     public String updateMachineStatusPacket(MachineStatus status) {
         
@@ -207,6 +246,8 @@ public class JSONOperations {
     /**
      * Strutture JSON:
      * {"method":"ADDSALE","data":{"saleDate":"Data", "serialCode":"long", "username":"String", "type":"String", "sellerMachineIp":"String"}}
+     * @param sale
+     * @return 
      */
     public String addSale(Sale sale){
         
@@ -230,6 +271,11 @@ public class JSONOperations {
         return root.toJSONString();
     }
 
+    /**
+     *
+     * @param collectorUsername
+     * @return
+     */
     public String requestFinesStartNumberPacket(String collectorUsername) {
         
         JSONObject root = new JSONObject();
@@ -237,6 +283,19 @@ public class JSONOperations {
         root.put(JsonFields.METHOD.toString(), RequestFinesStartNumber.REQUESTFINESSTARTNUMBER.toString());
         JSONObject data = new JSONObject();
         data.put(RequestFinesStartNumber.COLLECTORUSERNAME.toString(), collectorUsername);
+        
+        root.put(JsonFields.DATA.toString(), data);
+        
+        return root.toJSONString();
+    }
+    
+    public String requestEmailTo(String email) {
+        
+        JSONObject root = new JSONObject();
+        
+        root.put(JsonFields.METHOD.toString(), Email.SENDEMAIL);
+        JSONObject data = new JSONObject();
+        data.put(Email.RECIEVER, email);
         
         root.put(JsonFields.DATA.toString(), data);
         

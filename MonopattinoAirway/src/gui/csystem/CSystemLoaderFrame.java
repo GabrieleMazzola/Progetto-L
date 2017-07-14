@@ -6,15 +6,22 @@ import database.factories.SimMapperFactory;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class CSystemLoaderFrame extends JFrame{
     private JPanel mainPanel;
     private JButton simButton, dbButton;
     
+    /**
+     *
+     */
     public CSystemLoaderFrame() {
         super();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -27,7 +34,7 @@ public class CSystemLoaderFrame extends JFrame{
             @Override
             public void mouseReleased(MouseEvent e) {
                 CSystemFactory.getInstance().buildCSystem(SimMapperFactory.class.getName());
-                
+                closeFrame();
             }
         });
         dbButton = new JButton("Costruisci CSystem con db reale");
@@ -35,12 +42,16 @@ public class CSystemLoaderFrame extends JFrame{
             @Override
             public void mouseReleased(MouseEvent e) {
                 CSystemFactory.getInstance().buildCSystem(DBMapperFactory.class.getName());
-                
+                closeFrame();
             }
         });
         
         mainPanel.add(simButton);
         mainPanel.add(dbButton);
         add(mainPanel);
+    }
+    
+    private void closeFrame() {
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

@@ -8,12 +8,24 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/*Classe che gestisce la comunicazione fra CentralSystem e client. Quando viene ricevuta una richiesta
+ *dal client, viene aggiunto un nuovo thread Skeleton alla lista connectionList, e gli vengono passati
+ *il riferimento al CentralSystem e il socket del client. Viene poi fatto partire il thread Skeleton.
+ *Viene fatto un controllo infine dei thread inattivi, e viene pulita la lista connectionList.
+*/
 public class SocketHandler extends Thread{
     
     private CSystem csystem;
     private List<Skeleton> connectionList;
     private ServerSocket serverSocket;
     
+    /**
+     * Viene passata la porta di comunicazione e il riferimento al CentralSystem
+     * viene inoltre istanziata la lista delle connessioni.
+     * @param PORT
+     * @param csystem
+     * @throws IOException 
+     */
     public SocketHandler(int PORT, CSystem csystem) throws IOException{
         this.csystem = csystem;
         connectionList = new ArrayList<>();

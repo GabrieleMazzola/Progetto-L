@@ -3,7 +3,10 @@ package items;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class Sale {
     
     private String username;
@@ -12,7 +15,14 @@ public class Sale {
     private Product product;
     private String sellerMachineIp;
     
-
+    /**
+     *
+     * @param saleDate
+     * @param serialCode
+     * @param username
+     * @param product
+     * @param sellerMachineIp
+     */
     public Sale(Date saleDate, Long serialCode, String username, Product product, String sellerMachineIp) {
         this.username = username;
         this.serialCode = serialCode;
@@ -21,6 +31,9 @@ public class Sale {
         this.sellerMachineIp = sellerMachineIp;
         calculateExpiryDate();
     }
+
+
+
 
     public String getSellerMachineIp() {
         return sellerMachineIp;
@@ -53,9 +66,11 @@ public class Sale {
         int toAdd = 0;
         switch(product.getType().charAt(0)) {
             case 'T':
+            case 'P':
                 toAdd = Calendar.MINUTE;
                 break;
             case 'S':
+            case 'Q':
                 toAdd = Calendar.MONTH;
                 break;
         }
@@ -66,20 +81,6 @@ public class Sale {
     
     public Product getProduct() {
         return product;
-    }
-    
-    private Date calculateExpiryDate(Calendar c) {
-        String type = product.getType().toUpperCase();
-        char t = type.charAt(0);
-        switch(t) {
-            case 'T':
-                c.add(Calendar.MINUTE, product.getDuration());
-                break;
-            case 'S':
-                c.add(Calendar.MONTH, product.getDuration());
-        }
-        
-        return c.getTime();
     }
     
     public String toString(){

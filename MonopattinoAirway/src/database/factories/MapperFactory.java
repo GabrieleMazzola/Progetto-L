@@ -2,6 +2,10 @@ package database.factories;
 
 import database.interfaces.MapperFactoryInterface;
 
+/**
+ *
+ * @author Zubeer
+ */
 public abstract class MapperFactory implements MapperFactoryInterface{
     
     protected static MapperFactoryInterface instance;

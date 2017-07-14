@@ -15,7 +15,10 @@ import javafx.scene.text.Text;
 import ticketcollector.CollectorOperation;
 import ticketcollector.TicketCollector;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class LoginCollectorScene extends BridgeSceneGrid{
     private Text text, username, password, fail;
     private TextField textUser;
@@ -23,6 +26,10 @@ public class LoginCollectorScene extends BridgeSceneGrid{
     private Button signIn;
     private HBox boxBtns;
     
+    /**
+     *
+     * @param collector
+     */
     public LoginCollectorScene(TicketCollector collector) {
         istantiateGrid();
         

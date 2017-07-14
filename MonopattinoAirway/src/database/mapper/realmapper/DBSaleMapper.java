@@ -3,13 +3,13 @@ package database.mapper.realmapper;
 import database.cache.SaleCache;
 import database.interfaces.mapperinterfaces.SaleMapper;
 import enums.databaseenumretions.DBSaleEnum;
+import productsfactories.central.CentralProductsFactory;
 import items.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.*;
 import java.util.Date;
 import singleton.DateOperations;
-import singleton.ProductsSingleton;
 
 public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
     private final String tableName;
@@ -30,7 +30,7 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
                 String user = data.getString(DBSaleEnum.USER.toString());
                 long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
                 String type = data.getString(DBSaleEnum.TYPE.toString());
-                Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
+                Product productSold = CentralProductsFactory.getInstance().getProducts().get(type);
                 String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
                 String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
@@ -58,7 +58,7 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
                 String user = data.getString(DBSaleEnum.USER.toString());
                 long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
                 String type = data.getString(DBSaleEnum.TYPE.toString());
-                Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
+                Product productSold = CentralProductsFactory.getInstance().getProducts().get(type);
                 String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
                 String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
@@ -105,7 +105,7 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
                 String user = data.getString(DBSaleEnum.USER.toString());
                 long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
                 String type = data.getString(DBSaleEnum.TYPE.toString());
-                Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
+                Product productSold = CentralProductsFactory.getInstance().getProducts().get(type);
                 String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
                 String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 
@@ -137,7 +137,7 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
                 String user = data.getString(DBSaleEnum.USER.toString());
                 long serial = data.getLong(DBSaleEnum.SERIALCODE.toString());
                 String type = data.getString(DBSaleEnum.TYPE.toString());
-                Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
+                Product productSold = CentralProductsFactory.getInstance().getProducts().get(type);
                 String dateString = data.getString(DBSaleEnum.SELL_DATE.toString());
                 String sellerMachineIp = data.getString(DBSaleEnum.SELLER_IP.toString());
                 

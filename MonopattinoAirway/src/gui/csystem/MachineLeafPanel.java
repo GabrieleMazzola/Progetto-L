@@ -19,6 +19,13 @@ public class MachineLeafPanel extends JPanel{
     private Graphics2D graphics;
     private final int size = 15;
     
+    /**
+     *
+     * @param id
+     * @param inkLvl
+     * @param paperLvl
+     * @param ip
+     */
     public MachineLeafPanel(int id, double inkLvl, double paperLvl, String ip) {
         this.setLayout(new GridLayout(1,4));
         
@@ -42,14 +49,26 @@ public class MachineLeafPanel extends JPanel{
         this.add(paperBar);
     }
     
+    /**
+     *
+     * @param newInkLevel
+     */
     public void updateInkLevel(int newInkLevel) {
         inkBar.setValue(newInkLevel);
     }
     
+    /**
+     *
+     * @param newPaperLevel
+     */
     public void updatePaperLevel(int newPaperLevel) {
         paperBar.setValue(newPaperLevel);
     }
     
+    /**
+     *
+     * @param color
+     */
     public void colorImage(Color color) {
         graphics.setColor(color);
         graphics.fillRect(0, 0, size, size);

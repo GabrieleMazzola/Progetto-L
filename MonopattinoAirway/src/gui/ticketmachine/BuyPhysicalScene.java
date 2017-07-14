@@ -14,11 +14,18 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class BuyPhysicalScene extends BridgeSceneGrid{
     private final Text text;
     private Button back;
     
+    /**
+     *
+     * @param tMachine
+     */
     public BuyPhysicalScene(TicketMachine tMachine){
     
         text = new Text("Choose a ticket");
@@ -77,6 +84,6 @@ public class BuyPhysicalScene extends BridgeSceneGrid{
     
     private boolean isPhysical(Product p) {
         String type = p.getType();
-        return type.charAt(0) == 'P' | type.charAt(0) == 'Q';
+        return type.charAt(0) == 'P' || type.charAt(0) == 'Q';
     }
 }

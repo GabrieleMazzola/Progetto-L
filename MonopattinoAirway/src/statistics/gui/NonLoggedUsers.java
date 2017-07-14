@@ -22,8 +22,11 @@ public class NonLoggedUsers extends javax.swing.JFrame {
     DefaultTableModel model;
     int xx, xy;
     
- 
-        public NonLoggedUsers(InformationHandler statistics) {
+    /**
+     *Sezione dedicata agli user registrati con aggiornamento automatico della pagina per la creazione del grafico a torta
+     * @param statistics
+     */
+    public NonLoggedUsers(InformationHandler statistics) {
         this.statistics = statistics;
         initComponents();
         createPie();
@@ -49,13 +52,13 @@ public class NonLoggedUsers extends javax.swing.JFrame {
             pnl_chart.add(cp);
         }
 
-        
-        
-        
-        public void addRowToJtable(){
+    /**
+     * Aggiunta dinamica delle righe alla tabella 
+     */
+    public void addRowToJtable(){
             model = (DefaultTableModel) tbl_data.getModel();
             List<Sale> list = statistics.getSaleUnloggedList();
-            Object rowData[] = new Object[4];
+            Object rowData[] = new Object[5];
             while(model.getRowCount()>0){
                 model.removeRow(0);
         }
@@ -63,14 +66,16 @@ public class NonLoggedUsers extends javax.swing.JFrame {
             rowData[0] = s.getSellerMachineIp();
             rowData[1] = s.getSerialCode();
             rowData[2] = s.getSaleDate().toString();
-            rowData[3] = s.getProduct().getType();
+            rowData[3] = s.getType();
+            rowData[4] = s.getProduct().getDescription();
             model.addRow(rowData);  
         }
     }
     
-
-    
-        public void updatePage(){
+    /**
+     * Aggiornamento della pagina relativa alle vendite degli user non registrati
+     */
+    public void updatePage(){
             statistics.update();
             pnl_chart.remove(cp);
             pnl_chart.setVisible(false);
@@ -186,7 +191,7 @@ public class NonLoggedUsers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ip", "Serial Code", "Sale Date", "Type"
+                "Ip", "Serial Code", "Sale Date", "Type" , "Description"
             }
         ) {
             boolean[] canEdit = new boolean [] {

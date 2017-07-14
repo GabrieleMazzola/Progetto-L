@@ -3,10 +3,21 @@ package ticketmachine.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class MoneyHandler {
     private double insertedMoney;
+
+    /**
+     *
+     */
     protected List<Tank> moneyTank;
 
+    /**
+     *
+     */
     public MoneyHandler() {
         moneyTank  = new ArrayList<>();
         insertedMoney = 0;
@@ -26,6 +37,10 @@ public class MoneyHandler {
         moneyTank.add(new Tank(0.01));
     }
     
+    /**
+     *
+     * @return
+     */
     public double getInsertedMoney() {
         return insertedMoney;
     }

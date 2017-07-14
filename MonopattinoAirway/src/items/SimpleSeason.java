@@ -1,6 +1,9 @@
 package items;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class SimpleSeason implements Product{
 
     private String description;
@@ -8,7 +11,13 @@ public class SimpleSeason implements Product{
     private double monthlyCost;
     private int duration;
 
-    
+    /**
+     *
+     * @param description
+     * @param type
+     * @param monthlyCost
+     * @param duration
+     */
     public SimpleSeason(String description, String type, double monthlyCost,int duration){
         this.description=description;
         this.type=type;
@@ -39,10 +48,11 @@ public class SimpleSeason implements Product{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
-        sb.append("Simple Season, type: ").append(type);
-        sb.append("  ,  duration: ").append(this.duration).append(" months");
-        sb.append("  ,  monthlyCost:").append(monthlyCost);
-        sb.append("  ,  cost:").append(getCost());
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MONTHS");
+        sb.append("  ,  MONTHLYCOST:").append(monthlyCost);
+        sb.append("  ,  COST:").append(getCost());
         
         return sb.toString();
     }

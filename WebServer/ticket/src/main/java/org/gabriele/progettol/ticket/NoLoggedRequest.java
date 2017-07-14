@@ -10,15 +10,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import centralSystem.Stub;
+import centralsystem.Stub;
 import items.Product;
-import machineOnline.TicketOnline;
+import machineonline.TicketOnline;
 import singleton.JSONOperations;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class Testing {
+public class NoLoggedRequest {
 
 	
 	
@@ -39,7 +39,7 @@ public class Testing {
     
     @GET
 	@Path("/types")
-	public String registration(){
+	public String types(){
 		
 		TicketOnline onlineMachine = TicketOnline.getInstance();		
 		

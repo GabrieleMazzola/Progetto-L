@@ -14,6 +14,9 @@ public class ResourcesHandler {
     private final int paperToPrint;
     private final double inkToPrint;
     
+    /**
+     *
+     */
     public ResourcesHandler() {
         paper = maxPaper;
         ink = maxInk;
@@ -53,6 +56,10 @@ public class ResourcesHandler {
         return (double)ink*100/(double)maxInk;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasEnoughResources() {
         return paper >= paperToPrint && ink >= inkToPrint;
     }

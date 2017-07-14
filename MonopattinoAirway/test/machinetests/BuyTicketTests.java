@@ -39,7 +39,7 @@ public class BuyTicketTests {
     }
 
     @Test
-    public void testBuyTicketCash() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+    public void testBuyPhysicalTicketCash() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         
         
         
@@ -54,7 +54,7 @@ public class BuyTicketTests {
 
         double prevInkLvl = tMachine.getInk();
         
-        tMachine.setTicketToSell("T1");
+        tMachine.setTicketToSell("P1");
         tMachine.insertMoney(0.5);
         tMachine.insertMoney(1);
         
@@ -66,7 +66,7 @@ public class BuyTicketTests {
     }
 
     @Test
-    public void testBuyTicketCCard() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void testBuyPhysicalTicketCCard() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         
         try {
@@ -79,7 +79,7 @@ public class BuyTicketTests {
         double prevMoney = tMachine.getTotalMoney();
         double prevInkLvl = tMachine.getInk();
         
-        tMachine.setTicketToSell("T1");
+        tMachine.setTicketToSell("P1");
         tMachine.buyTicketCreditCard("2222222222222222");
         
         double afterMoney = tMachine.getTotalMoney();
@@ -88,4 +88,60 @@ public class BuyTicketTests {
         assertTrue(afterMoney == prevMoney);
         assertTrue(prevInkLvl > afterInkLvl);
     }
+    
+    @Test 
+    public void testBuyOnlineTicket() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+            
+            double prevMoney=tMachine.getTotalMoney();
+            double prevInkLvl = tMachine.getInk();
+            
+            tMachine.login("ADMIN", "ADMIN");
+            tMachine.setTicketToSell("T1");
+            tMachine.buyTicketCreditCard("0000000000000000");
+            
+            double afterMoney = tMachine.getTotalMoney();
+            double afterInkLvl = tMachine.getInk();
+
+            assertTrue(afterMoney == prevMoney);
+            assertTrue(prevInkLvl == afterInkLvl);
+            tMachine.logout();
+    }
+    
+    @Test
+    public void testBuyOnlineSeason() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+    
+            double prevMoney=tMachine.getTotalMoney();
+            double prevInkLvl = tMachine.getInk();
+            
+            tMachine.login("ADMIN", "ADMIN");
+            tMachine.setTicketToSell("S1");
+            tMachine.buyTicketCreditCard("0000000000000000");
+            
+            double afterMoney = tMachine.getTotalMoney();
+            double afterInkLvl = tMachine.getInk();
+
+            assertTrue(afterMoney == prevMoney);
+            assertTrue(prevInkLvl == afterInkLvl);
+            tMachine.logout();
+    
+    }
+    
+    @Test
+    public void testBuyPhysicalSeason() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+    
+            double prevMoney=tMachine.getTotalMoney();
+            double prevInkLvl = tMachine.getInk();
+            
+            tMachine.setTicketToSell("Q1");
+            tMachine.buyTicketCreditCard("0000000000000000");
+            
+            double afterMoney = tMachine.getTotalMoney();
+            double afterInkLvl = tMachine.getInk();
+
+            assertTrue(afterMoney == prevMoney);
+            assertTrue(prevInkLvl > afterInkLvl);
+        
+    }
+            
+            
 }

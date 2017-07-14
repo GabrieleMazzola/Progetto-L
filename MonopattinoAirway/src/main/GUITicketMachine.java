@@ -1,8 +1,5 @@
 package main;
 
-import centralsystem.factory.CSystemFactory;
-import database.factories.DBMapperFactory;
-import database.factories.SimMapperFactory;
 import gui.MoneyTankFrame;
 import gui.ticketmachine.*;
 import items.Sale;
@@ -14,13 +11,16 @@ import javafx.stage.Stage;
 import ticketmachine.Operation;
 import ticketmachine.*;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class GUITicketMachine extends Application implements Observer{
-    private Scene mainScene, buySimpleTicketScene, buySeasonScene, buyPhysicalScene, paymentMethodScene, choosingTicketScene, 
-                  createUserScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene, errorScene;
+    private Scene mainScene, buySimpleTicketScene, buySeasonScene, choosePhysical, paymentMethodScene, choosingTicketScene, 
+                  createUserScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene, errorScene, buyPSeason, buyPTicket;
     private static TicketMachine tMachine;
     private Stage window;
-    private final int width = 700, height = 550;
+    private final int width = 750, height = 600;
     
     @Override
     public void start(Stage primaryStage) {
@@ -32,18 +32,21 @@ public class GUITicketMachine extends Application implements Observer{
         mainScene = new Scene(mainSceneGrid.asParent());
         
         //Costruisco la scena di vendita dei biglietti fisici
-        BuyPhysicalScene physicalScene = new BuyPhysicalScene(tMachine);
-        buyPhysicalScene = new Scene(physicalScene.asParent());
+        ChoosingPhysicalScene physicalScene = new ChoosingPhysicalScene(tMachine);
+        choosePhysical = new Scene(physicalScene.asParent());
         
         BuySingleTicketScene buySimpleScene = new BuySingleTicketScene(tMachine);
         buySimpleTicketScene = new Scene(buySimpleScene.asParent());
         
+        BuyPhysicalTicketScene buyPTicketGrid = new BuyPhysicalTicketScene(tMachine);
+        buyPTicket = new Scene(buyPTicketGrid.asParent());
+        
         //Costruisco la scena della scelta del metodo di pagamento
-        TicketMachinePaymentScene paymentGrid = new TicketMachinePaymentScene(tMachine);
+        PaymentScene paymentGrid = new PaymentScene(tMachine);
         paymentMethodScene = new Scene(paymentGrid.asParent());
         
-        //Costruisco la scena della tastiera
-        
+        BuyPhysicalSeasonScene buyPSeasonGrid = new BuyPhysicalSeasonScene(tMachine);
+        buyPSeason = new Scene(buyPSeasonGrid.asParent());
         
         //Costruisco la scena di login
         LoginScene loginGrid = new LoginScene(tMachine);
@@ -78,6 +81,10 @@ public class GUITicketMachine extends Application implements Observer{
          launch(args);
     }
     
+    /**
+     *
+     * @param tMachine
+     */
     public void setTicketMachine(TicketMachine tMachine) {
         this.tMachine = tMachine;
     }
@@ -94,7 +101,7 @@ public class GUITicketMachine extends Application implements Observer{
                     setSize();
                     break;
                 case SELECTING_PAYMENT:
-                    TicketMachinePaymentScene paymentGrid = new TicketMachinePaymentScene(tMachine);
+                    PaymentScene paymentGrid = new PaymentScene(tMachine);
                     paymentMethodScene = new Scene(paymentGrid.asParent());
                     window.setScene(paymentMethodScene);
                     setSize();
@@ -120,7 +127,15 @@ public class GUITicketMachine extends Application implements Observer{
                     setSize();
                     break;
                 case BUYING_PHYSICAL:
-                    window.setScene(buyPhysicalScene);
+                    window.setScene(choosePhysical);
+                    setSize();
+                    break;
+                case BUYING_PSEASON:
+                    window.setScene(buyPSeason);
+                    setSize();
+                    break;
+                case BUYING_PTICKET:
+                    window.setScene(buyPTicket);
                     setSize();
                     break;
                 case CHOOSING_TICKET:

@@ -1,6 +1,5 @@
 package singleton;
 
-import items.MultiTicket;
 import items.PhisicalSimpleSeason;
 import items.PhisicalSimpleTicket;
 import items.Product;
@@ -9,6 +8,10 @@ import items.SimpleTicket;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class ProductsSingleton {
     
     private Map<String,Product> products;
@@ -40,9 +43,7 @@ public class ProductsSingleton {
         products.put("P4",new PhisicalSimpleTicket("Very Short Physical Ticket","P4",1, 1));
         products.put("Q1",new PhisicalSimpleSeason("Physical Monthly Season","Q1",5,1));
         products.put("Q2",new PhisicalSimpleSeason("Physical Semestral Season","Q2",3,6));
-        products.put("Q3",new PhisicalSimpleSeason("Physical Annual Season","Q3",2, 12));
-        products.put("M1", new MultiTicket("Multiple Short Season (5 rides)","M1",1.30,90,5));
-        
+        products.put("Q3",new PhisicalSimpleSeason("Physical Annual Season","Q3",2, 12));       
     }
 
     public Map<String, Product> getProducts() {

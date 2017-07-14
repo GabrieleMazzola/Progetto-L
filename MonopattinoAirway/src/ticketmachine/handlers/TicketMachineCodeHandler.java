@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class TicketMachineCodeHandler {
     private final int numberOfCodes = 30, threshold = 20;
     private List<Long> serials;
     private TicketMachine machine;
     
+    /**
+     *
+     * @param machine
+     */
     public TicketMachineCodeHandler(TicketMachine machine) {
         this.machine = machine;
         this.serials = new ArrayList();
@@ -52,6 +59,10 @@ public class TicketMachineCodeHandler {
         return serials.size();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasSerials() {
         return serials.size() > 0;
     }

@@ -15,13 +15,20 @@ import javafx.scene.text.Text;
 import ticketcollector.CollectorOperation;
 import ticketcollector.TicketCollector;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class VerifyTicketScene extends BridgeSceneGrid{
     private Text text, serialCodeText, resultText;
     private TextField serialCodeField;
     private Button verify, back;
     private HBox boxResult;
     
+    /**
+     *
+     * @param collector
+     */
     public VerifyTicketScene(TicketCollector collector) {
         text = new Text("Which ticket shall I check?");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));

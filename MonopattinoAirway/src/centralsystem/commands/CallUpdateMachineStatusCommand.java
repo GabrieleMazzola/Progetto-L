@@ -13,6 +13,15 @@ public class CallUpdateMachineStatusCommand extends Command {
         super(centralSystem);
     }
     
+    /**
+     * Prende un pacchetto JSON in ingresso, estrae lil codice della TicketMachine, il livello di inchiostro,
+     * il livello di carta, se è attiva la TicketMachine, e l'ip. Crea un nuovo MachineStatus con le
+     * informazioni estratte.
+     * Chiama il metodo del CentralSystem per caricare il MachineStatus nella mappa dei MachineStatus. 
+     * Viene creato un JsonObject che contiene true.
+     * @param data
+     * @return Una stringa che contiene "true".
+     */
     @Override
     public String execute(JSONObject data){
         

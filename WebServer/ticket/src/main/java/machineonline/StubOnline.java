@@ -1,4 +1,4 @@
-package machineOnline;
+package machineonline;
 
 import java.io.*;
 import java.net.Socket;
@@ -110,16 +110,12 @@ public class StubOnline{
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
-                switch(type.charAt(0)){
-                    case 'T':
-                        products.put(type, new SimpleTicket(description, type, cost, duration));
-                        break;
-                    case 'S':
-                        products.put(type, new SimpleSeason(description, type, cost/duration, duration));
-                        break;
-                    default:
-                    	
-                }
+                //pattern factory
+                
+                Product newProd = ClientOnlineProductsFactory.getInstance().buildTicket(description, type, cost,duration);
+                if(newProd != null)
+                	products.put(type,newProd);
+
             }
                 
             

@@ -14,13 +14,20 @@ import javafx.scene.text.Text;
 import ticketcollector.CollectorOperation;
 import ticketcollector.TicketCollector;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class MakeFineScene extends BridgeSceneGrid{
     private Text text, cfText, amountText, resultText;
     private TextField cfField, amountField;
     private Button send, back;
     private HBox boxBtns, boxFail;
     
+    /**
+     *
+     * @param collector
+     */
     public MakeFineScene(TicketCollector collector) {
         
         text = new Text("It's a great day to make fines!");

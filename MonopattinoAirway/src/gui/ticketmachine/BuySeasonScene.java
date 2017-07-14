@@ -1,6 +1,7 @@
 package gui.ticketmachine;
 
 import gui.BridgeSceneGrid;
+import gui.WhiteBigButton;
 import items.Product;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,23 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class BuySeasonScene extends BridgeSceneGrid{
 
     private final Text text;
     private Button back;
     
+    /**
+     *
+     * @param tMachine
+     */
     public BuySeasonScene(TicketMachine tMachine){
     
         text = new Text("Choose your season, " + tMachine.getLoggedUsername());
-        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
@@ -45,7 +53,7 @@ public class BuySeasonScene extends BridgeSceneGrid{
         int column = 0;
         
         for(Product product : simpleTickets) {
-            Button button = new Button(product.getDescription() + "\n-\n" + product.getDuration() + " months");
+            Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " months");
             button.setOnAction(e -> {
                 try {
                     tMachine.setTicketToSell(product.getType());

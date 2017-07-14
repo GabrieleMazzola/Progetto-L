@@ -1,43 +1,52 @@
 package gui.ticketmachine;
 
 import gui.BridgeSceneGrid;
+import gui.WhiteSmallButton;
+import gui.WhiteWideButton;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class ChoosingTicketScene extends BridgeSceneGrid{
-    private Label greetings;
+    private Text greetings;
     private Button singleTicket, multiTicket, seasonTicket, logout;
     
+    /**
+     *
+     * @param tMachine
+     */
     public ChoosingTicketScene(TicketMachine tMachine) {
         
-        greetings = new Label("Hello, " + tMachine.getLoggedUsername() + "!");
-        greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 30));
+        greetings = new Text("Hello, " + tMachine.getLoggedUsername() + "!");
+        greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
-        singleTicket = new Button("Simple Ticket");
+        singleTicket = new WhiteWideButton("Simple Ticket");
         singleTicket.setOnAction(e -> {
             tMachine.setOperation(Operation.BUYING_SINGLE);
         });
-        multiTicket = new Button("Multi Ticket");
+        multiTicket = new WhiteWideButton("Multi Ticket");
         multiTicket.setOnAction(e -> {
             tMachine.setOperation(Operation.BUYING_SINGLE);
             //TODO aggiungere possibilità di vendita di un biglietto multiplo
         });
-        seasonTicket = new Button("Season Ticket");
+        seasonTicket = new WhiteWideButton("Season Ticket");
         seasonTicket.setOnAction(e -> {
             tMachine.setOperation(Operation.BUYING_SEASON);
         });
         
-        logout = new Button("Logout");
+        logout = new WhiteSmallButton("Logout");
         logout.setOnAction(e -> {
             tMachine.logout();
         });

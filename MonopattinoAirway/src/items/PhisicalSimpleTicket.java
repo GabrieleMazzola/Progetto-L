@@ -16,6 +16,13 @@ public class PhisicalSimpleTicket implements Product {
     private double cost;
     private int duration;
 
+    /**
+     *
+     * @param description
+     * @param type
+     * @param cost
+     * @param duration
+     */
     public PhisicalSimpleTicket(String description, String type,double cost, int duration) {
         this.description = description;
         this.type=type;
@@ -42,5 +49,18 @@ public class PhisicalSimpleTicket implements Product {
     public int getDuration() {
         return duration;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MINUTES");
+        sb.append("  ,  COST:").append(cost);
+        
+        return sb.toString();    }
+    
+    
 
 }

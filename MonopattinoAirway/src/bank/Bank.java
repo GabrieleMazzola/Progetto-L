@@ -3,17 +3,30 @@ package bank;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Zubeer
+ */
 public class Bank {
     private CheckValidityAlgorithm algorithm;
     private Map<String,Double> accounts;
     
     //TODO: istanziare la banca con un possibile algoritmo diverso dal Luhn
+
+    /**
+     *
+     */
     public Bank() {
         algorithm = new LuhnAlgorithm();
         initAccounts();
     }
     
-    
+    /**
+     *
+     * @param cardNumber
+     * @param amount
+     * @return
+     */
     public boolean pay(String cardNumber, double amount) {
         if(accounts.containsKey(cardNumber)) {
             if(accounts.get(cardNumber) >= amount){

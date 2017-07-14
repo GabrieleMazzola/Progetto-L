@@ -1,11 +1,15 @@
 
 package statistics.gui;
 
-
+/**
+ * Avvio della Gui con settaggio indirizzo IP
+ * @author Nicola
+ */
 public class GuiStart {
     
     public static final String CSYSTEM_IP = "localhost";
      
+
     public static void main(String args[]) {
         
         try {

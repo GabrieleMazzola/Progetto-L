@@ -1,5 +1,9 @@
 package items;
 
+/**
+ *
+ * @author Zubeer
+ */
 public interface Product {
     
     public String getDescription();

@@ -1,12 +1,8 @@
 package communication;
 
 import centralsystem.interfaces.CentralSystemTicketInterface;
-import items.PhisicalSimpleSeason;
-import items.PhisicalSimpleTicket;
 import items.Product;
 import items.Sale;
-import items.SimpleSeason;
-import items.SimpleTicket;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
@@ -15,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.TicketTypes;
+import productsfactories.client.ClientProductsFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -197,27 +194,12 @@ public class StubMachine implements CentralSystemTicketInterface {
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
-                switch(type.charAt(0)){
-                    case 'T':
-                        products.put(type, new SimpleTicket(description, type, cost, duration));
-                        break;
-                    case 'S':
-                        products.put(type, new SimpleSeason(description, type, cost/duration, duration));
-                        break;
-                    case 'P':
-                        products.put(type, new PhisicalSimpleTicket(description, type, cost, duration));
-                        break;
-                    case 'Q':
-                        products.put(type, new PhisicalSimpleSeason(description, type, cost/duration, duration));
-                        break;
-                    case 'M':
-                        break;
-                    default:
-                        System.err.println("Received incompatible type");
-                }
+                Product newProd = ClientProductsFactory.getInstance().buildTicket(description, type, cost,duration);
+                if(newProd != null)
+                	products.put(type,newProd);
             }
-                
             
+
             
         } catch (ParseException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
@@ -226,4 +208,21 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
         return products;
     }
+
+    public void userEmailRequest(String email) {
+        try {
+            String packet = JSONOperations.getInstance().requestEmailTo(email);
+            toServer.println(packet);
+            String line = fromServer.readLine();
+            
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(line);
+            
+            } catch (ParseException ex) {
+                System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
+            } catch (IOException ex) {
+                System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
+        }
+    }
+    
 }

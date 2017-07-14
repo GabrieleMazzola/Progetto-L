@@ -12,8 +12,6 @@ import statistics.InformationHandler;
 import statistics.gui.GUIMainframe;
 
 
-
-
 public class LoggedUsers extends javax.swing.JFrame {
 
     private String[] args;
@@ -23,9 +21,10 @@ public class LoggedUsers extends javax.swing.JFrame {
     DefaultTableModel model;
     int xx, xy;
     
- 
-    
-    
+    /**
+     *Sezione dedicata agli user registrati con aggiornamento automatico della pagina per la creazione del grafico a torta
+     * @param statistics
+     */
     public LoggedUsers(InformationHandler statistics) {
         this.statistics = statistics;
         initComponents();
@@ -52,9 +51,10 @@ public class LoggedUsers extends javax.swing.JFrame {
 
         }
         
-        
-        
-        public void updatePage(){
+    /**
+     * Aggiornamento della pagina relativa alle vendite degli user registrati
+     */
+    public void updatePage(){
             statistics.update();
             pnl_chart.remove(cp);
             pnl_chart.setVisible(false);
@@ -62,13 +62,13 @@ public class LoggedUsers extends javax.swing.JFrame {
             pnl_chart.setVisible(true);
     }  
 
-    
-        
-
-        public void addRowToJtable(){
+    /**
+     *Aggiunta dinamica delle righe alla tabella 
+     */
+    public void addRowToJtable(){
         model = (DefaultTableModel) pnl_jtable.getModel();
         List<Sale> list = statistics.getSaleLoggedList();
-        Object rowData[] = new Object[5];
+        Object rowData[] = new Object[6];
         while(model.getRowCount()>0){
             model.removeRow(0);
         }
@@ -78,6 +78,8 @@ public class LoggedUsers extends javax.swing.JFrame {
             rowData[2] = s.getSaleDate().toString();
             rowData[3] = s.getUsername();
             rowData[4] = s.getType();
+            rowData[5] = s.getProduct().getDescription();
+            
             model.addRow(rowData);  
         }
         
@@ -117,6 +119,7 @@ public class LoggedUsers extends javax.swing.JFrame {
         lbl_Home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Home_18px.png"))); 
         lbl_Home.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_HomeMouseClicked(evt);
             }
@@ -147,6 +150,7 @@ public class LoggedUsers extends javax.swing.JFrame {
 
         lbl_Refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Refresh_18px.png")));
         lbl_Refresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_RefreshMouseClicked(evt);
             }
@@ -193,7 +197,7 @@ public class LoggedUsers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ip", "Serial Code", "Sale Date", "Username", "Type"
+                "Ip", "Serial Code", "Sale Date", "Username", "Type" , "Description"
             }
                         ) {
             boolean[] canEdit = new boolean [] {
@@ -226,11 +230,13 @@ public class LoggedUsers extends javax.swing.JFrame {
         pnl_2.setBackground(new java.awt.Color(22, 27, 33));
         pnl_2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnl_2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jPanel2MouseDragged(evt);
             }
         });
         pnl_2.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel2MouseClicked(evt);
             }
@@ -240,6 +246,7 @@ public class LoggedUsers extends javax.swing.JFrame {
         lbl_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_close.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Delete_18px.png")));
         lbl_close.addMouseListener(new java.awt.event.MouseAdapter() {
+        
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
             }

@@ -7,7 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import ticketmachine.TicketMachine;
 
-
+/**
+ *
+ * @author Zubeer
+ */
 public class MoneyTankSwingPanel extends JPanel implements Observer{
     private final JLabel twoHundred = new JLabel("200"),
                          oneHundred = new JLabel("100"),
@@ -26,6 +29,10 @@ public class MoneyTankSwingPanel extends JPanel implements Observer{
                    labelTwentyCents, labelTenCents, labelFiveCents;
     private TicketMachine tMachine;
     
+    /**
+     *
+     * @param tMachine
+     */
     public MoneyTankSwingPanel(TicketMachine tMachine) {
         super(new GridLayout(12,2));
         

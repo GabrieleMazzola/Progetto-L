@@ -3,7 +3,7 @@ package org.progettol.webserver;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import DateSingleton.DateOperations;
+import singleton.DateOperations;
 import items.Sale;
 import singleton.JSONOperations;
 

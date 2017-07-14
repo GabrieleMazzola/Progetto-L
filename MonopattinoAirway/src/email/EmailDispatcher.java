@@ -21,7 +21,7 @@ public class EmailDispatcher {
             email.addTo(sendTo);
             email.send();
         } catch (EmailException ex) {
-            System.out.println("Inserted non existing mail. Will not send confermation email");
+            System.out.println("Inserted non existing mail. Will not send email");
         }
     }
 }
