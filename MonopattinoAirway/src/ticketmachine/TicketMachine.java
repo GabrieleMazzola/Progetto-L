@@ -208,7 +208,9 @@ public class TicketMachine extends Observable{
      */
     private Sale createSale(){
         Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), logged, toSell, getClientIPAddress());
-        resources.printTicket();
+        System.out.println("logged: "+logged);
+        if(logged=="-")
+            resources.printTicket();
         return sale;
     }
 
