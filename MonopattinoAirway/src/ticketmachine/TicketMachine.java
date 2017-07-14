@@ -330,5 +330,9 @@ public class TicketMachine extends Observable{
     public void updateMachineStatus(MachineStatus machineStatus) {
         stub.updateMachineStatus(machineStatus);
     }
+
+    public void getUserFromEmail(String email) {
+        stub.userEmailRequest(email);
+    }
     
 }

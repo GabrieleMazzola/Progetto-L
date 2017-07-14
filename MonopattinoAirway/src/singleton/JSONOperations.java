@@ -12,6 +12,7 @@ import enums.jsonenumerations.CreateUser;
 import enums.jsonenumerations.CardPayment;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.CollectorLogin;
+import enums.jsonenumerations.Email;
 import items.Fine;
 import items.Product;
 import items.Sale;
@@ -282,6 +283,19 @@ public class JSONOperations {
         root.put(JsonFields.METHOD.toString(), RequestFinesStartNumber.REQUESTFINESSTARTNUMBER.toString());
         JSONObject data = new JSONObject();
         data.put(RequestFinesStartNumber.COLLECTORUSERNAME.toString(), collectorUsername);
+        
+        root.put(JsonFields.DATA.toString(), data);
+        
+        return root.toJSONString();
+    }
+    
+    public String requestEmailTo(String email) {
+        
+        JSONObject root = new JSONObject();
+        
+        root.put(JsonFields.METHOD.toString(), Email.SENDEMAIL);
+        JSONObject data = new JSONObject();
+        data.put(Email.RECIEVER, email);
         
         root.put(JsonFields.DATA.toString(), data);
         

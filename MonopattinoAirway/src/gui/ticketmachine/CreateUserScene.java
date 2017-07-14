@@ -1,11 +1,17 @@
 package gui.ticketmachine;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import gui.BridgeSceneGrid;
+import gui.PasswordFieldFL;
+import gui.TextFieldFL;
+import gui.WhiteSmallButton;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -19,10 +25,10 @@ import ticketmachine.TicketMachine;
  */
 public class CreateUserScene extends BridgeSceneGrid{
     
-    private Text text, nameText, surnameText, cfText, emailText, usernameText, pswText, checkPswText,
-                 fail;
-    private TextField nameField, surnameField, emailField, cfField, usernameField;
-    private PasswordField pswField, checkPswField;
+    private Text text, fail;
+    private JFXTextField nameField, surnameField, emailField, cfField, usernameField;
+    private JFXPasswordField pswField, checkPswField;
+    private VBox boxFields;
     private Button ok, homepage;
     
     /**
@@ -30,9 +36,27 @@ public class CreateUserScene extends BridgeSceneGrid{
      * @param tMachine
      */
     public CreateUserScene(TicketMachine tMachine) {
-        initTexts();
+        text = new Text("Insert your data");
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
-        ok = new Button("Ok");
+        Separator hSeparator = new Separator();
+        hSeparator.setOrientation(Orientation.HORIZONTAL);
+        
+        nameField = new TextFieldFL("name");
+        surnameField = new TextFieldFL("surname");
+        emailField = new TextFieldFL("email");
+        cfField = new TextFieldFL("cf");
+        usernameField = new TextFieldFL("username");
+        pswField = new PasswordFieldFL("password");
+        checkPswField = new PasswordFieldFL("reimmit password");
+        
+        boxFields = new VBox();
+        boxFields.setAlignment(Pos.CENTER);
+        boxFields.setSpacing(20);
+        boxFields.setPadding(new Insets(20, 50, 10, 50));
+        boxFields.getChildren().addAll(text, hSeparator, nameField, surnameField, cfField, usernameField, emailField, pswField, checkPswField);
+        
+        ok = new WhiteSmallButton("Ok");
         ok.setOnAction(e -> {
             grid.getChildren().remove(fail);
             if(allFieldsFilled()) {
@@ -62,70 +86,28 @@ public class CreateUserScene extends BridgeSceneGrid{
             }
         });
         
-        homepage = new Button("Homepage");
+        homepage = new WhiteSmallButton("Homepage");
         homepage.setOnAction(e -> {
             tMachine.setOperation(Operation.SELLING_TICKET);
             grid.getChildren().remove(fail);
             resetFields();
         });
         
-        Separator hSeparator = new Separator();
-        hSeparator.setOrientation(Orientation.HORIZONTAL);
+        
         
         istantiateGrid();
         
-        add(text, 0, 0, 3, 1);
-        add(hSeparator, 1, 0, 3, 1);
-        add(nameText, 2, 0);
-        add(nameField, 2, 1);
-        add(surnameText, 3, 0);
-        add(surnameField, 3, 1);
-        add(cfText, 4, 0);
-        add(cfField, 4, 1);
-        add(usernameText, 5, 0);
-        add(usernameField, 5, 1);
-        add(emailText, 7, 0);
-        add(emailField, 7, 1);
-        add(pswText, 8, 0);
-        add(pswField, 8, 1);
-        add(checkPswText, 9, 0);
-        add(checkPswField, 9, 1);
-        add(homepage, 10, 2);
-        add(ok, 10, 3);
-    }
-    
-    private void initTexts() {
-        text = new Text("Insert your data");
-        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
-        fail = new Text();
-        fail.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 13));
-        nameText = new Text("Name: ");
-        nameText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        surnameText = new Text("Surname: ");
-        surnameText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        cfText = new Text("CF: ");
-        cfText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        emailText = new Text("Email: ");
-        emailText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        usernameText = new Text("Username: ");
-        usernameText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        pswText = new Text("Password: ");
-        pswText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        checkPswText = new Text("Reimmit password: ");
-        checkPswText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 15));
-        
-        nameField = new TextField();
-        surnameField = new TextField();
-        cfField = new TextField();
-        usernameField = new TextField();
-        emailField = new TextField();
-        pswField = new PasswordField();
-        checkPswField = new PasswordField();
+        //add(text, 0, 0, 2, 1);
+        //add(hSeparator, 2, 0, 2, 1);
+        add(boxFields, 1, 1, 1, 1);
+        add(homepage, 2, 2);
+        add(ok, 2, 3);
     }
     
     private void resetFields() {
         nameField.setText("");
         surnameField.setText("");
+        cfField.setText("");
         emailField.setText("");
         usernameField.setText("");
         pswField.setText("");
