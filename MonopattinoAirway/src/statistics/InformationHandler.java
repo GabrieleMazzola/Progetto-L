@@ -72,22 +72,26 @@ public class InformationHandler {
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
-                switch(type.charAt(0)){
-                    case 'T':
-                        productMap.put(type, new SimpleTicket(description, type, cost, duration));
-                        break;
-                    case 'S':
-                        productMap.put(type, new SimpleSeason(description, type, cost/duration, duration));
-                        break;
-                    case 'P':
-                        productMap.put(type, new PhisicalSimpleTicket(description, type, cost, duration));
-                        break;
-                    case 'Q':
-                        productMap.put(type, new PhisicalSimpleSeason(description, type, cost/duration, duration));
-                        break;
-                    default:
-                        System.err.println("Received incompatible type");
-                }
+
+        productMap.put("T1",new SimpleTicket("Short Ticket","T1",1.30,90));
+        productMap.put("T2",new SimpleTicket("Medium Ticket","T2",1.60,120));
+        productMap.put("T3",new SimpleTicket("Long Ticket","T3",1.90,150));
+        productMap.put("T4",new SimpleTicket("Very Short Ticket","T4",1, 1));
+        productMap.put("S1",new SimpleSeason("Monthly Season","S1",5,1));
+        productMap.put("S2",new SimpleSeason("Semestral Season","S2",3,6));
+        productMap.put("S3",new SimpleSeason("Annual Season","S3",2, 12));
+        productMap.put("S4", new SimpleSeason("Trimestral Season", "S4", 3.5, 3));
+        productMap.put("P1",new PhisicalSimpleTicket("Physical Short Ticket","P1",1.30,90));
+        productMap.put("P2",new PhisicalSimpleTicket("Physical Medium Ticket","P2",1.60,120));
+        productMap.put("P3",new PhisicalSimpleTicket("Physical Long Ticket","P3",1.90,150));
+        productMap.put("P4",new PhisicalSimpleTicket("Very Short Physical Ticket","P4",1, 1));
+        productMap.put("Q1",new PhisicalSimpleSeason("Physical Monthly Season","Q1",5,1));
+        productMap.put("Q2",new PhisicalSimpleSeason("Physical Semestral Season","Q2",3,6));
+        productMap.put("Q3",new PhisicalSimpleSeason("Physical Annual Season","Q3",2, 12));       
+    
+        
+        
+        
             }  
         } catch (ParseException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
