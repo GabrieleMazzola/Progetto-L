@@ -10,10 +10,6 @@ import ticketmachine.handlers.MoneyHandler;
 import ticketmachine.handlers.TicketMachineCodeHandler;
 import ticketmachine.handlers.UpdateHandler;
 
-/**
- *
- * @author Zubeer
- */
 public class TicketMachine extends Observable{
     private int cod;
     private ResourcesHandler resources;
@@ -46,6 +42,8 @@ public class TicketMachine extends Observable{
         }
         
         this.products = stub.getProductList();
+        
+        printProducts();
         
         this.codesHandler = new TicketMachineCodeHandler(this);
         this.updateHandler = new UpdateHandler(this);
@@ -338,6 +336,17 @@ public class TicketMachine extends Observable{
 
     public void getUserFromEmail(String email) {
         stub.userEmailRequest(email);
+    }
+    
+    
+    private void printProducts(){
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(Product prod : products.values()){
+    		sb.append("[").append(prod).append("]\n");
+    	}
+    	System.err.println("\n\nProducts initialized: ");
+    	System.err.println(sb.toString());
     }
     
 }

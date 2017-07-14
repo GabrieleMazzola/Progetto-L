@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.TicketTypes;
-import productsfactories.central.CentralProductsFactory;
+import productsfactories.client.ClientProductsFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -194,9 +194,10 @@ public class StubMachine implements CentralSystemTicketInterface {
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
-//                products.put(type, ProductsFactory.getInstance().buildTicket(description, type, cost, duration));
-                products.put(type, CentralProductsFactory.getInstance().buildTicket(type));
+                products.put(type, ClientProductsFactory.getInstance().buildTicket(description, type, cost,duration));
             }
+            
+
             
         } catch (ParseException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
@@ -221,4 +222,5 @@ public class StubMachine implements CentralSystemTicketInterface {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
         }
     }
+    
 }

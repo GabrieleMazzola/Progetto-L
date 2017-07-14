@@ -48,4 +48,19 @@ public class PhisicalSimpleSeason implements Product {
     public int getDuration() {
         return duration;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MONTHS");
+        sb.append("  ,  MONTHLYCOST:").append(monthlyCost);
+        sb.append("  ,  COST:").append(getCost());
+        
+        return sb.toString();    }
+    
+    
+    
 }

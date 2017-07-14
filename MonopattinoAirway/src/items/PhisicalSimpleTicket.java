@@ -50,4 +50,17 @@ public class PhisicalSimpleTicket implements Product {
         return duration;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("TYPE: ").append(type);
+        sb.append("  ,  DESCRIPTION: ").append(description);
+        sb.append("  ,  DURATION: ").append(this.duration).append(" MINUTES");
+        sb.append("  ,  COST:").append(cost);
+        
+        return sb.toString();    }
+    
+    
+
 }
