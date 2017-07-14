@@ -11,10 +11,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import statistics.InformationHandler;
 import statistics.gui.GUIMainframe;
 
-/**
- *
- * @author Zubeer
- */
+
 public class LoggedUsers extends javax.swing.JFrame {
 
     private String[] args;
@@ -25,7 +22,7 @@ public class LoggedUsers extends javax.swing.JFrame {
     int xx, xy;
     
     /**
-     *
+     *Sezione dedicata agli user registrati con aggiornamento automatico della pagina per la creazione del grafico a torta
      * @param statistics
      */
     public LoggedUsers(InformationHandler statistics) {
@@ -55,7 +52,7 @@ public class LoggedUsers extends javax.swing.JFrame {
         }
         
     /**
-     *
+     * Aggiornamento della pagina relativa alle vendite degli user registrati
      */
     public void updatePage(){
             statistics.update();
@@ -66,7 +63,7 @@ public class LoggedUsers extends javax.swing.JFrame {
     }  
 
     /**
-     *
+     *Aggiunta dinamica delle righe alla tabella 
      */
     public void addRowToJtable(){
         model = (DefaultTableModel) pnl_jtable.getModel();
@@ -120,6 +117,7 @@ public class LoggedUsers extends javax.swing.JFrame {
         lbl_Home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Home_18px.png"))); 
         lbl_Home.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_HomeMouseClicked(evt);
             }
@@ -150,6 +148,7 @@ public class LoggedUsers extends javax.swing.JFrame {
 
         lbl_Refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Refresh_18px.png")));
         lbl_Refresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_RefreshMouseClicked(evt);
             }
@@ -229,11 +228,13 @@ public class LoggedUsers extends javax.swing.JFrame {
         pnl_2.setBackground(new java.awt.Color(22, 27, 33));
         pnl_2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnl_2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jPanel2MouseDragged(evt);
             }
         });
         pnl_2.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel2MouseClicked(evt);
             }
@@ -243,6 +244,7 @@ public class LoggedUsers extends javax.swing.JFrame {
         lbl_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_close.setIcon(new javax.swing.ImageIcon(getClass().getResource("./icons/Delete_18px.png")));
         lbl_close.addMouseListener(new java.awt.event.MouseAdapter() {
+        
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
             }

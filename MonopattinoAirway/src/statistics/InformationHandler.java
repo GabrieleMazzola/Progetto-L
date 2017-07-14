@@ -12,10 +12,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 import singleton.*;
 
-/**
- *
- * @author Zubeer
- */
+
 public class InformationHandler {
     Map<String, Product> productMap;
     List<Sale> saleList;
@@ -27,11 +24,7 @@ public class InformationHandler {
     PrintWriter toServer;
     BufferedReader fromServer;
     
-    /**
-     *
-     * @param cSystemIP
-     * @throws IOException
-     */
+
     public InformationHandler(String cSystemIP) throws IOException{
         initInformations(cSystemIP);
     }
@@ -134,7 +127,7 @@ public class InformationHandler {
     }
     
     /**
-     *
+     * Aggiornamento statistics information 
      */
     public void update(){
         try {
