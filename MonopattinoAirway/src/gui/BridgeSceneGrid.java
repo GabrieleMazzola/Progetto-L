@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 /**
  *
@@ -36,12 +37,14 @@ public abstract class BridgeSceneGrid {
         return grid;
     }
     
-    /**
-     *
-     * @param node
-     * @param row
-     * @param column
-     */
+    public void setHGap(double hGap) {
+        grid.setHgap(hGap);
+    }
+    
+    public void setVGap(double vGap) {
+        grid.setVgap(vGap);
+    }
+    
     public void add(Node node, int row, int column) {
         grid.add(node, column, row);
     }

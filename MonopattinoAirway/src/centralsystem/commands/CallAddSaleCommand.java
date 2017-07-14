@@ -9,9 +9,9 @@ import items.Sale;
 import java.util.Date;
 import enums.jsonenumerations.AddSale;
 import enums.jsonenumerations.JsonFields;
+import factory.ProductsFactory;
 import org.json.simple.JSONObject;
 import singleton.DateOperations;
-import singleton.ProductsSingleton;
 
 
 public class CallAddSaleCommand extends Command{
@@ -47,7 +47,7 @@ public class CallAddSaleCommand extends Command{
         long serialCode = ((Long)data.get(AddSale.SERIALCODE.toString()));
         String username = ((String)data.get(AddSale.USERNAME.toString()));
         String type = ((String)data.get(AddSale.TYPE.toString()));
-        Product productSold = ProductsSingleton.getInstance().getProducts().get(type);
+        Product productSold = centralSystem.getAvailableProducts().get(type);
         String sellerMachineIp = ((String)data.get(AddSale.SELLERMACHINEIP.toString()));
 
         

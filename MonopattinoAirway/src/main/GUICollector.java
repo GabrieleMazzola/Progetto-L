@@ -47,7 +47,7 @@ public class GUICollector extends Application implements Observer{
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        collector = new TicketCollector("10.87.130.83");
+        collector = new TicketCollector("localhost");
         
         launch(args);
     }

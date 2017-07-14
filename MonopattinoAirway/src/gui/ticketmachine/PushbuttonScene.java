@@ -58,7 +58,7 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
         display.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         double remaining = tMachine.getCost() - tMachine.getInsertedMoney();
         toPay = new Label("remaining: " + remaining);
-        toPay.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
+        toPay.setFont(Font.font("Tahoma", FontWeight.BOLD, 13));
         
         istantiateGrid();
         grid.add(display, 0, 0, 4, 1);

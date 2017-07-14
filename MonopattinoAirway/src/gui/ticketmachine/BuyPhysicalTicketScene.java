@@ -2,6 +2,7 @@ package gui.ticketmachine;
 
 import gui.BridgeSceneGrid;
 import gui.WhiteBigButton;
+import gui.WhiteSmallButton;
 import items.Product;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,30 +16,22 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
-public class BuySeasonScene extends BridgeSceneGrid{
 
+public class BuyPhysicalTicketScene extends BridgeSceneGrid{
     private final Text text;
     private Button back;
     
-    /**
-     *
-     * @param tMachine
-     */
-    public BuySeasonScene(TicketMachine tMachine){
+    public BuyPhysicalTicketScene(TicketMachine tMachine){
     
-        text = new Text("Choose your season, " + tMachine.getLoggedUsername());
+        text = new Text("Choose your ticket");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
-        back = new Button("Back");
+        back = new WhiteSmallButton("Back");
         back.setOnAction(e->{
-            tMachine.setOperation(Operation.CHOOSING_TICKET);
+            tMachine.setOperation(Operation.SELLING_TICKET);
         });
        
         istantiateGrid();
@@ -48,12 +41,12 @@ public class BuySeasonScene extends BridgeSceneGrid{
     }
     
     private void addAllButtons(TicketMachine tMachine) {
-        List<Product> simpleTickets = getAllSeasonTickets(tMachine);
+        List<Product> simpleTickets = getAllPhysicalTickets(tMachine);
         int row = 0;
         int column = 0;
         
         for(Product product : simpleTickets) {
-            Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " months");
+            Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
             button.setOnAction(e -> {
                 try {
                     tMachine.setTicketToSell(product.getType());
@@ -72,20 +65,20 @@ public class BuySeasonScene extends BridgeSceneGrid{
         this.add(back, row%3 + 2, 3);
     }
     
-    private List<Product> getAllSeasonTickets(TicketMachine tMachine) {
+    private List<Product> getAllPhysicalTickets(TicketMachine tMachine) {
         List<Product> seasonTickets = new ArrayList();
         
         Map<String, Product> products = tMachine.getAvailableProducts();
         for(Map.Entry<String, Product> product : products.entrySet()) {
-            if(isSeasonType(product.getValue()))
+            if(isPhysical(product.getValue()))
                 seasonTickets.add(product.getValue());
         }
         
         return seasonTickets;
     }
     
-    private boolean isSeasonType(Product p) {
+    private boolean isPhysical(Product p) {
         String type = p.getType();
-        return type.charAt(0) == 'S';
+        return type.charAt(0) == 'P';
     }
 }

@@ -12,38 +12,26 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
-public class ChoosingTicketScene extends BridgeSceneGrid{
-    private Text greetings;
-    private Button singleTicket, multiTicket, seasonTicket, logout;
+
+public class ChoosingPhysicalScene extends BridgeSceneGrid{
+    private Text text;
+    private Button singleTicket, seasonTicket, logout;
     
-    /**
-     *
-     * @param tMachine
-     */
-    public ChoosingTicketScene(TicketMachine tMachine) {
+    public ChoosingPhysicalScene(TicketMachine tMachine) {
         
-        greetings = new Text("Hello, " + tMachine.getLoggedUsername() + "!");
-        greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
+        text = new Text("Choose your ticket");
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
         singleTicket = new WhiteWideButton("Simple Ticket");
         singleTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SINGLE);
-        });
-        multiTicket = new WhiteWideButton("Multi Ticket");
-        multiTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SINGLE);
-            //TODO aggiungere possibilità di vendita di un biglietto multiplo
+            tMachine.setOperation(Operation.BUYING_PTICKET);
         });
         seasonTicket = new WhiteWideButton("Season Ticket");
         seasonTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SEASON);
+            tMachine.setOperation(Operation.BUYING_PSEASON);
         });
         
         logout = new WhiteSmallButton("Logout");
@@ -52,11 +40,10 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
         });
         
         istantiateGrid();
-        add(greetings, 0, 0, 2, 1);
+        add(text, 0, 0, 2, 1);
         add(hSeparator, 1, 0, 4, 1);
         add(singleTicket, 2, 0);
         add(seasonTicket, 2, 1);
-        add(multiTicket, 3, 0);
         add(logout, 0, 3);
     }
 }

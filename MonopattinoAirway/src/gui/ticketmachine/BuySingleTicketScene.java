@@ -1,6 +1,8 @@
 package gui.ticketmachine;
 
 import gui.BridgeSceneGrid;
+import gui.WhiteBigButton;
+import gui.WhiteSmallButton;
 import items.Product;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,12 @@ public class BuySingleTicketScene extends BridgeSceneGrid{
     public BuySingleTicketScene(TicketMachine tMachine){
         
         text = new Text("Choose a ticket");
-        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
-        back = new Button("Back");
+        back = new WhiteSmallButton("Back");
         back.setOnAction(e->{
             tMachine.setOperation(Operation.CHOOSING_TICKET);
         });
@@ -52,7 +54,7 @@ public class BuySingleTicketScene extends BridgeSceneGrid{
         int column = 0;
         
         for(Product product : simpleTickets) {
-            Button button = new Button(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
+            Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
             button.setOnAction(e -> {
                 try {
                     tMachine.setTicketToSell(product.getType());
