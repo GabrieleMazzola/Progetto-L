@@ -84,6 +84,6 @@ public class BuyPhysicalScene extends BridgeSceneGrid{
     
     private boolean isPhysical(Product p) {
         String type = p.getType();
-        return type.charAt(0) == 'P' | type.charAt(0) == 'Q';
+        return type.charAt(0) == 'P' || type.charAt(0) == 'Q';
     }
 }

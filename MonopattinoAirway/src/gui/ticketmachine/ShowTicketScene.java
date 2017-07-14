@@ -12,10 +12,6 @@ import singleton.CodeHandler;
 import singleton.QRCodeHandler;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
 public class ShowTicketScene extends BridgeSceneGrid{
     private Label date, duration,owner, type, changeLabel;
     private Image qrCode;

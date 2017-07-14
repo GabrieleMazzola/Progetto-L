@@ -63,9 +63,11 @@ public class Sale {
         int toAdd = 0;
         switch(product.getType().charAt(0)) {
             case 'T':
+            case 'P':
                 toAdd = Calendar.MINUTE;
                 break;
             case 'S':
+            case 'Q':
                 toAdd = Calendar.MONTH;
                 break;
         }
@@ -76,20 +78,6 @@ public class Sale {
     
     public Product getProduct() {
         return product;
-    }
-    
-    private Date calculateExpiryDate(Calendar c) {
-        String type = product.getType().toUpperCase();
-        char t = type.charAt(0);
-        switch(t) {
-            case 'T':
-                c.add(Calendar.MINUTE, product.getDuration());
-                break;
-            case 'S':
-                c.add(Calendar.MONTH, product.getDuration());
-        }
-        
-        return c.getTime();
     }
     
     public String toString(){

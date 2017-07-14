@@ -9,36 +9,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import ticketmachine.*;;
 
-/**
- *
- * @author Manuele
- */
+
 public class TicketMachinePaymentScene extends BridgeSceneGrid{
 
-    /**
-     *
-     */
-    public Label text,
 
-    /**
-     *
-     */
-    textCost;
-
-    /**
-     *
-     */
-    public Button cash,
-
-    /**
-     *
-     */
-    cCard,
-
-    /**
-     *
-     */
-    homePage;
+    public Label text, textCost; 
+    public Button cash, cCard, homePage;
     
     /**
      *
