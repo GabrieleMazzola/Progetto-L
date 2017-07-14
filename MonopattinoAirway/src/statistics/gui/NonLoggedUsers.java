@@ -11,10 +11,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import statistics.gui.GUIMainframe;
 import statistics.InformationHandler;
 
-/**
- *
- * @author Zubeer
- */
+
 public class NonLoggedUsers extends javax.swing.JFrame {
     
    
@@ -26,7 +23,7 @@ public class NonLoggedUsers extends javax.swing.JFrame {
     int xx, xy;
     
     /**
-     *
+     *Sezione dedicata agli user registrati con aggiornamento automatico della pagina per la creazione del grafico a torta
      * @param statistics
      */
     public NonLoggedUsers(InformationHandler statistics) {
@@ -56,7 +53,7 @@ public class NonLoggedUsers extends javax.swing.JFrame {
         }
 
     /**
-     *
+     * Aggiunta dinamica delle righe alla tabella 
      */
     public void addRowToJtable(){
             model = (DefaultTableModel) tbl_data.getModel();
@@ -75,7 +72,7 @@ public class NonLoggedUsers extends javax.swing.JFrame {
     }
     
     /**
-     *
+     * Aggiornamento della pagina relativa alle vendite degli user non registrati
      */
     public void updatePage(){
             statistics.update();

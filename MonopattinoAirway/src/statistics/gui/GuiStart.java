@@ -2,17 +2,14 @@
 package statistics.gui;
 
 /**
- *
- * @author Zubeer
+ * Avvio della Gui con settaggio indirizzo IP
+ * @author Nicola
  */
 public class GuiStart {
     
     public static final String CSYSTEM_IP = "10.87.251.254";
      
-    /**
-     *
-     * @param args
-     */
+
     public static void main(String args[]) {
         
         try {
