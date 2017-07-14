@@ -194,7 +194,9 @@ public class StubMachine implements CentralSystemTicketInterface {
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
-                products.put(type, ClientProductsFactory.getInstance().buildTicket(description, type, cost,duration));
+                Product newProd = ClientProductsFactory.getInstance().buildTicket(description, type, cost,duration);
+                if(newProd != null)
+                	products.put(type,newProd);
             }
             
 
