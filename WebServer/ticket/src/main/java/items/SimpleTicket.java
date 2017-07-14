@@ -37,7 +37,7 @@ public class SimpleTicket implements Product{
 
     
     public String toString(){
-StringBuilder sb = new StringBuilder();
+    	StringBuilder sb = new StringBuilder();
         
         sb.append("TYPE: ").append(type);
         sb.append("  ,  DESCRIPTION: ").append(description);

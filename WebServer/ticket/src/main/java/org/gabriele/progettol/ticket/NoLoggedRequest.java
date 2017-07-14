@@ -18,7 +18,7 @@ import singleton.JSONOperations;
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class Testing {
+public class NoLoggedRequest {
 
 	
 	
@@ -39,7 +39,7 @@ public class Testing {
     
     @GET
 	@Path("/types")
-	public String registration(){
+	public String types(){
 		
 		TicketOnline onlineMachine = TicketOnline.getInstance();		
 		

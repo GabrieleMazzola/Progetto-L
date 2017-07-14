@@ -110,6 +110,8 @@ public class StubOnline{
                 Long bufferDuration = (Long)prodObj.get(TicketTypes.DURATION.toString());
                 Integer duration = Integer.valueOf(bufferDuration.toString());
                 
+                //pattern factory
+                
                 switch(type.charAt(0)){
                     case 'T':
                         products.put(type, new SimpleTicket(description, type, cost, duration));
