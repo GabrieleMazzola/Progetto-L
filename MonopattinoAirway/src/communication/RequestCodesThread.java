@@ -61,6 +61,11 @@ public class RequestCodesThread extends Thread{
             toServer.println(packet);
             
             String line = fromServer.readLine();
+            
+            socket.close();
+            toServer.close();
+            fromServer.close();
+            
             JSONParser parser = new JSONParser();
             //Struttura JSON di risposta : {"data":"String"}            
             JSONObject obj = (JSONObject) parser.parse(line);
