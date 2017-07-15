@@ -23,7 +23,7 @@ public class ConnectionHandler {
 			toServer = new PrintWriter(server.getOutputStream(),true);
 			fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("\n\nPROBLEMA CONNESSIONE CENTRAL SYSTEM\n");
 		}
 		
 	}

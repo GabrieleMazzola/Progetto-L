@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import centralsystem.Stub;
 import items.Product;
+import javax.ws.rs.POST;
 import machineonline.TicketOnline;
 import singleton.JSONOperations;
 
