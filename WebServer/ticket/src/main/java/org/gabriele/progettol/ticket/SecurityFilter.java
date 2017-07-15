@@ -69,7 +69,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 				}		
 				
 			}
-            System.out.println("result from system: UNAUTHORIZED");
+            System.err.println("result from system: UNAUTHORIZED, header: "+authHeader.toString());
 
 			Response unauthorizedStatus = 	Response.status(Status.ACCEPTED)
 					.entity(JSONOperations.getInstance().booleanPacket(false))

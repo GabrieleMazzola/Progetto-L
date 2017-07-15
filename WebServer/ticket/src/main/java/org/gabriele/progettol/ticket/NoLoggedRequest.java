@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import centralsystem.Stub;
 import items.Product;
 import javax.ws.rs.POST;
+import jsonenumerations.JsonFields;
 import machineonline.TicketOnline;
 import singleton.JSONOperations;
 
@@ -51,4 +52,10 @@ public class NoLoggedRequest {
 		System.out.println("Richiesta ticketTypes, sending to app : " + packet);
 		return packet;
     }
+        
+    @GET
+        @Path("/ping")
+        public String ping(){
+            return JSONOperations.getInstance().booleanPacket(true);
+        }
 }
