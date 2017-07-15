@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import enums.jsonenumerations.JsonFields;
+import java.net.InetSocketAddress;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -166,10 +167,15 @@ public class StubCollector implements CentralSystemCollectorInterface{
                 return null;
             else{
                 offlineFines.remove(0);
-                return true;
             }
         }
-        return false;
+        
+        if(offlineFines.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public int getOfflineFinesSize() {
