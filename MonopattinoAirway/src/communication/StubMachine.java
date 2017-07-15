@@ -64,6 +64,14 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
     
+    /**
+     * Invia al SocketHandler le informazioni riguardanti la carta di credito e 
+     * il pagamento da effettuare,mendiante pacchetto JSON.
+     * @param cardNumber
+     * @param amount
+     * @return il valore booleano di ritorno proveniente da socketHandler, o
+     * falso se va male il parsing del JSON di risposta.
+     */
     @Override
     public boolean cardPayment(String cardNumber, double amount) {
         try {
@@ -107,6 +115,12 @@ public class StubMachine implements CentralSystemTicketInterface {
             }
     }
     
+    /**
+     * Comunica al SocketHandler il machine status della TicketMachine da aggiornare,
+     * attraverso la creazione di un pacchetto JSON
+     * @param status
+     * @return il booleano contenuto nel pacchetto JSON di ritorno dal SocketHandler
+     */
     @Override
     public boolean updateMachineStatus(MachineStatus status) {
         try {
@@ -128,6 +142,13 @@ public class StubMachine implements CentralSystemTicketInterface {
         return false;
     }
 
+    /**
+     * Lancia il thread che si occupa della richiesta di un contatore di codici validi
+     * per i biglietti, al CentralSystem, e crea una mutua esclusione sulla possibilità
+     * di operare di questi ultimi
+     * @param numberOfCodes
+     * @return zero
+     */
     @Override
     public long requestCodes(long numberOfCodes) {
         try {
@@ -173,6 +194,12 @@ public class StubMachine implements CentralSystemTicketInterface {
         return false;
     }
     
+    /**
+     * Effettua una richiesta al SocketHandler che richiede le tipologie di
+     * Product istanziate. Estrae le informazioni dei relativi product dal JSON di ritorno,
+     * e le mette in una mappa.
+     * @return La mappa con tutte le istanze dei Product acquistabili
+     */
     public Map<String, Product> getProductList() {
         
         Map<String, Product> products = new HashMap<>();

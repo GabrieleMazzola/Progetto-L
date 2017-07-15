@@ -8,6 +8,13 @@ import org.apache.commons.mail.SimpleEmail;
 
 public class EmailDispatcher {
     
+    /**
+     * Tramite la libreria Apache Commons Mail, riceve
+     * un indirizzo a cui mandare l'emeail, e il testo da inserire,
+     * e manda la mail relativa attraverso un server SMTP
+     * @param text
+     * @param sendTo 
+     */
     public void sendEmail(String text,String sendTo){
         try {
             Email email = new SimpleEmail();
