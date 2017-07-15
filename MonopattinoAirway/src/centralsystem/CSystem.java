@@ -167,7 +167,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     //__________________Metodi riguardanti i biglietti__________________________
     @Override
-    public boolean addSale(Sale sale) {
+    public Boolean addSale(Sale sale) {
         return database.addSale(sale);
     }
     
