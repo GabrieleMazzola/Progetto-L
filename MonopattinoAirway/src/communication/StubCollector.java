@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import enums.jsonenumerations.JsonFields;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,8 +39,6 @@ public class StubCollector implements CentralSystemCollectorInterface{
         this.ipAdress = ipAddress;
         this.port = port;
         offlineFines = new ArrayList<>();
-        socket = new Socket();
-        socket.setSoTimeout(500);
         initConnection();
        
     }
@@ -47,6 +47,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
         socket = new Socket(ipAdress, port);
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new PrintWriter(socket.getOutputStream(), true);
+        socket.setSoTimeout(500);
     }
     
     public void closeConnection() {
@@ -166,10 +167,15 @@ public class StubCollector implements CentralSystemCollectorInterface{
                 return null;
             else{
                 offlineFines.remove(0);
-                return true;
             }
         }
-        return false;
+        
+        if(offlineFines.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public int getOfflineFinesSize() {

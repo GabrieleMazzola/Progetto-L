@@ -5,35 +5,20 @@ import items.Sale;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * @author Zubeer
- */
+
 public class SaleCache implements CacheInterface{
     private Set<Sale> cache;
-    
-    /**
-     *
-     */
+
     public SaleCache() {
         cache = new HashSet<>();
     }
-    
-    /**
-     *
-     * @param arg
-     */
+
     @Override
     public void add(Object arg) {
         if(arg instanceof Sale)
             cache.add((Sale)arg);
     }
-    
-    /**
-     *
-     * @param code
-     * @return
-     */
+
     @Override
     public Sale get(String code) {
         
@@ -46,10 +31,6 @@ public class SaleCache implements CacheInterface{
         return null;
     }
     
-    /**
-     *
-     * @return
-     */
     @Override
     public int getSize() {
         return cache.size();

@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.TicketTypes;
+import java.util.ArrayList;
+import java.util.List;
 import productsfactories.client.ClientProductsFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,13 +29,15 @@ public class StubMachine implements CentralSystemTicketInterface {
     private PrintWriter toServer;
     private TicketMachine machine;
     private Thread codesThread;
-
+    private List<Sale> offlineSales;
     
     public StubMachine(String systemAddress, int systemPort, TicketMachine machine) throws IOException {
         this.systemAddress = systemAddress;
         this.systemPort = systemPort;
         this.machine = machine;
+        offlineSales = new ArrayList<>();
         initConnection();
+
     }
     
 
@@ -41,11 +45,27 @@ public class StubMachine implements CentralSystemTicketInterface {
         socket = new Socket(systemAddress, systemPort);
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new PrintWriter(socket.getOutputStream(), true);
+        socket.setSoTimeout(500);
+    }
+    
+    private void closeConnection() {
+    
+        if(!socket.isClosed()){
+            try{
+                fromServer.close();
+                toServer.close();
+                socket.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    
     }
 
     @Override
     public boolean userLogin(String username, String psw) {
         try {
+            testConnection();
             //String packet = loginJSONPacket(username, psw);
             String packet = JSONOperations.getInstance().userLoginPacket(username, psw);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
@@ -64,9 +84,18 @@ public class StubMachine implements CentralSystemTicketInterface {
         }
     }
     
+    /**
+     * Invia al SocketHandler le informazioni riguardanti la carta di credito e 
+     * il pagamento da effettuare,mendiante pacchetto JSON.
+     * @param cardNumber
+     * @param amount
+     * @return il valore booleano di ritorno proveniente da socketHandler, o
+     * falso se va male il parsing del JSON di risposta.
+     */
     @Override
     public boolean cardPayment(String cardNumber, double amount) {
         try {
+            testConnection();
             //String packet = cardPaymentJSONPacket(cardNumber);
             String packet = JSONOperations.getInstance().cardPaymentPacket(cardNumber, amount);
             toServer.println(packet);                           //Invio verso server della richiesta JSON
@@ -89,6 +118,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     @Override
     public boolean createUser(String name, String surname,String cf, String username, String psw, String email) {
         try {
+            testConnection();
             String packet = JSONOperations.getInstance().createUser(name,surname,cf,username,psw, email);
             toServer.println(packet);                           
 
@@ -107,9 +137,16 @@ public class StubMachine implements CentralSystemTicketInterface {
             }
     }
     
+    /**
+     * Comunica al SocketHandler il machine status della TicketMachine da aggiornare,
+     * attraverso la creazione di un pacchetto JSON
+     * @param status
+     * @return il booleano contenuto nel pacchetto JSON di ritorno dal SocketHandler
+     */
     @Override
     public boolean updateMachineStatus(MachineStatus status) {
         try {
+            testConnection();
             String packet = JSONOperations.getInstance().updateMachineStatusPacket(status);
             toServer.println(packet);
             String line = fromServer.readLine();
@@ -128,9 +165,17 @@ public class StubMachine implements CentralSystemTicketInterface {
         return false;
     }
 
+    /**
+     * Lancia il thread che si occupa della richiesta di un contatore di codici validi
+     * per i biglietti, al CentralSystem, e crea una mutua esclusione sulla possibilità
+     * di operare di questi ultimi
+     * @param numberOfCodes
+     * @return zero
+     */
     @Override
     public long requestCodes(long numberOfCodes) {
         try {
+            testConnection();
             if(codesThread == null){
                 codesThread = new RequestCodesThread(machine, systemAddress, systemPort, numberOfCodes);
                 codesThread.start();
@@ -153,8 +198,30 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
 
     @Override
-    public boolean addSale(Sale sale) {
+    public Boolean addSale(Sale sale) {
+        
+        this.offlineSales.add(sale);
+        
         try {
+            
+            testConnection();
+            Boolean ret = saveSaleOffline();
+            
+            return ret;
+            } catch (ParseException ex) {
+                System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
+                return null;
+            } catch (IOException ex) {
+                closeConnection();
+                return false;
+        }
+
+    }
+    
+    public Boolean saveSaleOffline() throws IOException, ParseException{
+    
+        while(!socket.isClosed() && !offlineSales.isEmpty()){
+            Sale sale = offlineSales.get(0);
             String packet = JSONOperations.getInstance().addSale(sale);
             toServer.println(packet);
             String line = fromServer.readLine();
@@ -162,21 +229,30 @@ public class StubMachine implements CentralSystemTicketInterface {
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(line);
             
-            return (boolean)obj.get(JsonFields.DATA.toString());
-            
-            } catch (ParseException ex) {
-                System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
-            } catch (IOException ex) {
-                System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
+            if(!(boolean)obj.get(JsonFields.DATA.toString()))
+                return null;
+            else{
+                offlineSales.remove(0);
+            }
         }
-            
+        
+        if(offlineSales.isEmpty())
+            return true;
+        
         return false;
     }
     
+    /**
+     * Effettua una richiesta al SocketHandler che richiede le tipologie di
+     * Product istanziate. Estrae le informazioni dei relativi product dal JSON di ritorno,
+     * e le mette in una mappa.
+     * @return La mappa con tutte le istanze dei Product acquistabili
+     */
     public Map<String, Product> getProductList() {
         
         Map<String, Product> products = new HashMap<>();
         try {
+            testConnection();
             String packet = JSONOperations.getInstance().requestTicketTypesPacket();
             toServer.println(packet);
             String line = fromServer.readLine();
@@ -198,9 +274,7 @@ public class StubMachine implements CentralSystemTicketInterface {
                 if(newProd != null)
                 	products.put(type,newProd);
             }
-            
-
-            
+      
         } catch (ParseException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
         } catch (IOException ex) {
@@ -211,6 +285,7 @@ public class StubMachine implements CentralSystemTicketInterface {
 
     public void userEmailRequest(String email) {
         try {
+            testConnection();
             String packet = JSONOperations.getInstance().requestEmailTo(email);
             toServer.println(packet);
             String line = fromServer.readLine();
@@ -223,6 +298,15 @@ public class StubMachine implements CentralSystemTicketInterface {
             } catch (IOException ex) {
                 System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
         }
+    }
+
+    private void testConnection() throws IOException {
+        if(socket.isClosed())
+            initConnection();
+    }
+    
+    public int getOfflineSaleSize(){
+        return offlineSales.size();
     }
     
 }

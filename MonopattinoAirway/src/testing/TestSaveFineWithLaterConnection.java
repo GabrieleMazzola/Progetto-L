@@ -10,7 +10,7 @@ public class TestSaveFineWithLaterConnection {
 
 
     public static void main(String[] args) throws IOException {
-        TicketCollector tCollector = new TicketCollector("192.168.1.106");
+        TicketCollector tCollector = new TicketCollector("192.168.1.145");
 
         System.out.println("Stato controllore: "+tCollector.loginCollector("COLLECTOR", "COLLECTOR")+" == TRUE");
         System.out.println("Multe Offline: "+tCollector.getOfflineFinesNumber()+" == 0");
