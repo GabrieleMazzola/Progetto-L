@@ -40,7 +40,7 @@ public class CreateUserTest {
     @Test
     public void TestCreateUser(){
         
-        assertTrue(tMachine.createUser("Simone", "Colosi", "CLS", "Colosi", "classico0000", "colosisimone@gmail.com"));
+        assertTrue(tMachine.createUser("Simone", "Colosi", "CLS", "Colosi", "classico0000", "tyu"));
         
         assertTrue(tMachine.getLoggedUsername()=="-");
         

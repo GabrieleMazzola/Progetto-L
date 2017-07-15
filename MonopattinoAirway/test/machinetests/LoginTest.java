@@ -1,10 +1,7 @@
 package machinetests;
 
-import centralsystem.CSystem;
 import centralsystem.factory.CSystemFactory;
-import communication.SocketHandler;
 import database.factories.SimMapperFactory;
-import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

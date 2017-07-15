@@ -38,7 +38,7 @@ public class RequestCodesforMoreMachine {
 
         CSystemFactory.getInstance().buildLightCSystem(SimMapperFactory.class.getName());
         TicketMachine tMachine = new TicketMachine(1, 5000, "localhost");
-        TicketMachine tMachine2 = new TicketMachine(2,5000,"localhost");
+        TicketMachine tMachine2 = new TicketMachine(2, 5000,"localhost");
         
         try {
             Thread.sleep(4000);
@@ -46,7 +46,8 @@ public class RequestCodesforMoreMachine {
         catch(InterruptedException exc) {
             System.out.println(exc);
         }
-        assertTrue(tMachine.getSerialsAmount() > 10);
-        assertTrue(tMachine2.getSerialsAmount() > 10);
+        assertTrue(tMachine.getSerialsAmount() == 30);
+        assertTrue(tMachine2.getSerialsAmount() == 30);
+                
     }
 }
