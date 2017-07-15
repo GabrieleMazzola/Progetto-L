@@ -22,11 +22,11 @@ public class TestLogIn {
         //Vendita biglietto
         System.out.println("Inserire il tipo di biglietto da comprare:");
         String type = buffer.readLine();
-        machine.setTicketToSell(type);
-        System.out.println("Inserire monete:");
-        double money = Double.parseDouble(buffer.readLine());
-        machine.insertMoney(money);  
-        System.out.println("Usare debug per controllare se ha messo il ticket dentro il database");
+//        machine.setTicketToSell(type);
+//        System.out.println("Inserire monete:");
+//        double money = Double.parseDouble(buffer.readLine());
+//        machine.insertMoney(money);  
+//        System.out.println("Usare debug per controllare se ha messo il ticket dentro il database");
     }
     
 }

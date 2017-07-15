@@ -2,6 +2,7 @@ package gui.ticketmachine;
 
 import gui.BridgeSceneGrid;
 import com.google.zxing.WriterException;
+import controller.TicketMachineSession;
 import items.Sale;
 import java.io.IOException;
 import javafx.scene.control.Button;
@@ -10,25 +11,24 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import singleton.CodeHandler;
 import singleton.QRCodeHandler;
-import ticketmachine.TicketMachine;
 
 public class ShowTicketScene extends BridgeSceneGrid{
-    private Label date, duration,owner, type, changeLabel;
+    private Label serialCode, date, duration, owner, type, changeLabel;
     private Image qrCode;
     private ImageView qrCodeView;
     private Button ok;
     
     /**
      *
-     * @param tMachine
+     * @param controller
      * @param ticket
      */
-    public ShowTicketScene(TicketMachine tMachine, Sale ticket) {
+    public ShowTicketScene(TicketMachineSession controller, Sale ticket) {
         istantiateGrid();
         
         ok = new Button("Ok");
         ok.setOnAction(e -> {
-            tMachine.logout();
+            controller.logout();
         });
         
         QRCodeHandler qrCodeHandler = QRCodeHandler.getInstance();
@@ -45,6 +45,8 @@ public class ShowTicketScene extends BridgeSceneGrid{
         qrCodeView = new ImageView();
         qrCodeView.setImage(qrCode);
         
+        serialCode = new Label("Serial code: " + ticket.getSerialCode());
+        
         if(ticket.getUsername()!= null)
             owner = new Label("Owner: " + ticket.getUsername());
         else
@@ -57,18 +59,19 @@ public class ShowTicketScene extends BridgeSceneGrid{
         if(ticket.getExpiryDate()!= null)
             duration = new Label("Deadline: "+ticket.getExpiryDate());
         
-        int buffer = (int)Math.round((tMachine.getInsertedMoney() - tMachine.getCost())*100);
+        int buffer = (int)Math.round(controller.getChange()*100);
         double change = (double)buffer/100;
         if(change > 0) {
             changeLabel = new Label("Your change: " + change + "€");
-            add(changeLabel, 5, 0);
+            add(changeLabel, 6, 0);
         }
-         
+        
         add(qrCodeView, 0, 0);
-        add(owner, 1, 0);
-        add(type, 2, 0);
-        add(date, 3, 0);
-        add(duration, 4, 0);
-        add(ok, 6, 1);
+        add(serialCode, 1, 0);
+        add(owner, 2, 0);
+        add(type, 3, 0);
+        add(date, 4, 0);
+        add(duration, 5, 0);
+        add(ok, 7, 1);
     }
 }

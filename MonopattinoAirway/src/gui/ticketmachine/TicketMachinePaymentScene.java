@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,10 +21,10 @@ public class TicketMachinePaymentScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public TicketMachinePaymentScene(TicketMachine tMachine) {
+    public TicketMachinePaymentScene(TicketMachine tMachine, TicketMachineSession controller) {
         istantiateGrid();
         
-        textCost = new Label("Cost: "+tMachine.getSelectedTicketCost());
+        textCost = new Label("Cost: "+controller.getSelectedProductCost());
         text = new Label("Choose your payment method");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         

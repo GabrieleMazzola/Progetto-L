@@ -1,10 +1,10 @@
 package gui.ticketmachine;
 
 import com.jfoenix.controls.JFXButton;
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.WhiteBigButton;
 import gui.WhiteSmallButton;
-import static java.awt.SystemColor.text;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -26,21 +26,21 @@ public class TicketMachineMainScene extends BridgeSceneGrid {
      *
      * @param tMachine
      */
-    public TicketMachineMainScene(TicketMachine tMachine) {
+    public TicketMachineMainScene(TicketMachineSession controller) {
         
         greetings = new Label("Hello!");
         greetings.setFont(Font.font("Tahoma", FontWeight.BOLD, 53));
         
         login = new WhiteBigButton("Login");
         login.setOnAction(e -> {
-            tMachine.setOperation(Operation.LOGGING_IN);
+            controller.selectLogin();
         });
         
         signUp = new WhiteSmallButton("Sign up");
         signUp.setLayoutX(435.0);
         signUp.setLayoutY(185.0);
         signUp.setOnAction(e -> {
-            tMachine.setOperation(Operation.CREATING_USER);
+            controller.selectSignup();
         });
         HBox boxSignUp = new HBox();
         boxSignUp.setAlignment(Pos.BOTTOM_RIGHT);
@@ -48,7 +48,7 @@ public class TicketMachineMainScene extends BridgeSceneGrid {
         
         goOn = new WhiteBigButton("Continue without login");
         goOn.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_PHYSICAL);
+            controller.selectBuyPhysicalTicket();
         });
         
         Separator hSeparator = new Separator();

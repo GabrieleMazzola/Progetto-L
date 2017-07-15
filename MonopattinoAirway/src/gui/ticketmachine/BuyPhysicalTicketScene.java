@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.WhiteBigButton;
 import gui.WhiteSmallButton;
@@ -13,16 +14,17 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
 
 public class BuyPhysicalTicketScene extends BridgeSceneGrid{
+    private TicketMachineSession controller;
     private final Text text;
     private Button back;
     
-    public BuyPhysicalTicketScene(TicketMachine tMachine){
-    
+    public BuyPhysicalTicketScene(TicketMachine tMachine, TicketMachineSession controller){
+        this.controller = controller;
+        
         text = new Text("Choose your ticket");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
@@ -31,7 +33,7 @@ public class BuyPhysicalTicketScene extends BridgeSceneGrid{
         
         back = new WhiteSmallButton("Back");
         back.setOnAction(e->{
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
         });
        
         istantiateGrid();
@@ -48,13 +50,7 @@ public class BuyPhysicalTicketScene extends BridgeSceneGrid{
         for(Product product : simpleTickets) {
             Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
             button.setOnAction(e -> {
-                try {
-                    tMachine.setTicketToSell(product.getType());
-                    tMachine.setOperation(Operation.SELECTING_PAYMENT);
-                }
-                catch(ClassNotFoundException|IllegalAccessException|InstantiationException ex) {
-                    ex.printStackTrace();
-                }
+                controller.startSale(product.getType());
             });
             add(button, row%3 + 2, column%3);
             column++;

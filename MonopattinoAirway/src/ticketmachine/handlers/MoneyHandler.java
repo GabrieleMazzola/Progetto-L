@@ -8,19 +8,11 @@ import java.util.List;
  * @author Zubeer
  */
 public class MoneyHandler {
-    private double insertedMoney;
-
-    /**
-     *
-     */
     protected List<Tank> moneyTank;
 
-    /**
-     *
-     */
+    
     public MoneyHandler() {
         moneyTank  = new ArrayList<>();
-        insertedMoney = 0;
         moneyTank.add(new Tank(200));
         moneyTank.add(new Tank(100));
         moneyTank.add(new Tank(50));
@@ -35,14 +27,6 @@ public class MoneyHandler {
         moneyTank.add(new Tank(0.05));
         moneyTank.add(new Tank(0.02));
         moneyTank.add(new Tank(0.01));
-    }
-    
-    /**
-     *
-     * @return
-     */
-    public double getInsertedMoney() {
-        return insertedMoney;
     }
    
     /**
@@ -123,7 +107,7 @@ public class MoneyHandler {
      * @return 0 se il resto viene dato correttamente. Il resto viene fornito con
      * il minor numero di monete possibili
      */
-    public double giveChange(double cost){
+    public double giveChange(double cost, double insertedMoney){
         int stillToGive = (int)Math.round(insertedMoney*100 - cost*100);
         for(Tank tank : moneyTank) {
             int quantity =  (int) (stillToGive/(tank.getValue()*100));
@@ -132,27 +116,7 @@ public class MoneyHandler {
             tank.subtractQuantity(quantity);
             stillToGive -= quantity*tank.getValue()*100;
         }
-        return stillToGive;
-    }
-    
-    /**
-     * Aggiunge la quantità specificata alle monete inserite
-     * @param money
-     * @return 
-     */
-    public double addToInsertedMoney(double money) {
-        insertedMoney += money;
-        //Serve per fare in modo che inserted money abbia 2 cifre decimali
-        int temp = (int)Math.round(insertedMoney*100);
-        insertedMoney = (double)temp/(double)100;
-        return insertedMoney;
-    }
-    
-    /**
-     * Setta a 0 le monete inserite. Chiamato quando viene effettuata la vendita
-     */
-    public void resetInsertedMoney() {
-        insertedMoney = 0;
+        return insertedMoney - cost + stillToGive;
     }
     
     /**

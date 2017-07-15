@@ -2,6 +2,7 @@ package gui.ticketmachine;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.PasswordFieldFL;
 import gui.TextFieldFL;
@@ -16,13 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
-import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
+
 public class CreateUserScene extends BridgeSceneGrid{
     
     private Text text, fail;
@@ -31,11 +27,8 @@ public class CreateUserScene extends BridgeSceneGrid{
     private VBox boxFields;
     private Button ok, homepage;
     
-    /**
-     *
-     * @param tMachine
-     */
-    public CreateUserScene(TicketMachine tMachine) {
+    
+    public CreateUserScene(TicketMachineSession controller) {
         text = new Text("Insert your data");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
@@ -67,16 +60,25 @@ public class CreateUserScene extends BridgeSceneGrid{
                 String email = emailField.getText();
                 String psw = pswField.getText();
                 String checkPsw = checkPswField.getText();
-            
-                if(psw.equals(checkPsw)) {
-                    tMachine.createUser(name, surname, cf, username, psw, email);
-                    tMachine.setOperation(Operation.LOGGING_IN);
+                
+                if(!psw.equals(checkPsw)) {
+                    fail.setText("Password mismatch");
+                    fail.setFill(Color.RED);
+                    add(fail, 10, 0, 2, 1);
+                    pswField.setText("");
+                    checkPswField.setText("");
+                }
+                else if(!controller.signup(name, surname, cf, username, psw, email)) {
+                    fail.setText("Username not available");
+                    fail.setFill(Color.RED);
+                    add(fail, 10, 0, 2, 1);
                     resetFields();
                 }
                 else {
                     fail.setText("Password mismatch");
                     fail.setFill(Color.RED);
                     add(fail, 10, 0, 2, 1);
+                    resetFields();
                 }
             }
             else {
@@ -88,17 +90,13 @@ public class CreateUserScene extends BridgeSceneGrid{
         
         homepage = new WhiteSmallButton("Homepage");
         homepage.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
             grid.getChildren().remove(fail);
             resetFields();
         });
         
-        
-        
         istantiateGrid();
         
-        //add(text, 0, 0, 2, 1);
-        //add(hSeparator, 2, 0, 2, 1);
         add(boxFields, 1, 1, 1, 1);
         add(homepage, 2, 2);
         add(ok, 2, 3);

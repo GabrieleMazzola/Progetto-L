@@ -19,7 +19,6 @@ public class TicketMachine extends Observable{
     private UpdateHandler updateHandler;
     private String logged;
     private Operation operation;
-    private Product toSell;
     
     private Map<String,Product> products;
     
@@ -75,10 +74,6 @@ public class TicketMachine extends Observable{
         return resources.hasEnoughResources();
     }
     
-    public double getInsertedMoney() {
-        return moneyTank.getInsertedMoney();
-    }
-    
     public String getLoggedUsername() {
         return logged;
     }
@@ -107,42 +102,15 @@ public class TicketMachine extends Observable{
         return products;
     }
     
-    public double getSelectedTicketCost() {
-        if(toSell != null)
-            return toSell.getCost();
-        else return -1;
+    //__________________Metodi per la vendita di biglietti______________________
+    
+    public Product getProduct(String type) {
+        return products.get(type);
     }
     
-    //__________________Metodi per la vendita di biglietti______________________
-    /**
-     * Setta il tipo di biglietto da vendere. In tal modo la macchinetta sa
-     * quanto bisogna che l'utente paghi. Se la macchinetta non può stampare viene
-     * mandata una notifica alla GUI
-     * @param type
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.lang.InstantiationException
-     * @throws java.lang.IllegalAccessException
-     */
-    public void setTicketToSell(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        //Se può stampare viene settato il costo
-        if(canPrint() && codesHandler.hasSerials()) {
-             toSell = products.get(type);  
-        } else {
-            notifyChange(false);
-        }
-    }
-
-    /**
-     * Effettua il pagamento tramite carta di credito. La carta di credito viene
-     * passata come argomento della funzione. Se il pagamento va a buon fine il
-     * biglietto viene stampato tramite printTicket()
-     * @param cCardNumber
-     * @return Vero se il pagamento va a buon fine, falso altrimenti
-     */
-    public boolean buyTicketCreditCard(String cCardNumber) {
-        if(checkCreditCard(cCardNumber)) {
-            printTicket();
-            endSale();
+    public boolean sellTicket(Product toSell, String cardNumber) {
+        if(checkCreditCard(cardNumber, toSell.getCost())) {
+            //createSale(toSell);
             return true;
         }
         else {
@@ -150,36 +118,16 @@ public class TicketMachine extends Observable{
         }
     }
     
-    /**
-     * Consente di inserire una moneta/banconota del valore specificato. Nel caso 
-     * in cui i soldi inseriti siano sufficienti per comprare il biglietto selezionato
-     * viene automaticamente effettuata la vendita restituendo eventualmente il resto.
-     * @param money
-     */
-    public void insertMoney(double money) {
-        addInsertedMoney(money); 
-        if (insertedEnoughMoney()) {
-            printTicket();
-            double rest = outputChange();
-            if(rest!=0)
-                printRest();
-            endSale();
-        }
+    public double sellTicket(Product toSell, double amountPaid) {
+        //createSale(toSell);
+        printTicket();
+        return moneyTank.giveChange(toSell.getCost(), amountPaid);
     }
     
-    /**
-     * Aggiunge la quantità indicata al money handler, tenendo traccia di tutte
-     * quelle inserite precedentemente dall'inizio della vendita
-     * @param money 
-     */
-    private void addInsertedMoney(double money) {
+    
+    public void insertMoney(double money) {
         moneyTank.addMoney(money);
         notifyChange(money);
-        notifyChange(moneyTank.addToInsertedMoney(money));
-    }
-    
-    private boolean insertedEnoughMoney() {
-        return moneyTank.getInsertedMoney() >= toSell.getCost();
     }
     
     /**
@@ -189,19 +137,9 @@ public class TicketMachine extends Observable{
     private void printTicket() {
         if(codesHandler.mustRequestCodes())
             codesHandler.startUpdateSerial();
-
-        Sale sale = createSale();
-        
-        stub.addSale(sale);
-        
-        setOperation(Operation.PRINTING_TICKET);
+        resources.printTicket();
                 
         notifyChange(isActive());
-        notifyChange(sale);
-    }
-    
-    private void printRest(){   
-        resources.printTicket();
     }
 
     
@@ -210,24 +148,17 @@ public class TicketMachine extends Observable{
      * prima nella vendita
      * @return ticketcode
      */
-    private Sale createSale(){
+    public Sale createSale(Product toSell){
         Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), logged, toSell, getClientIPAddress());
-        if(logged=="-")
+        if(logged.equals("-"))
             resources.printTicket();
+        stub.addSale(sale);
+        notifyChange(sale);
         return sale;
     }
-
-    private double outputChange() {
-        return moneyTank.giveChange(toSell.getCost());
-    }
     
-    private boolean checkCreditCard(String credCardNumber) {
-        return stub.cardPayment(credCardNumber, toSell.getCost());
-    }
-    
-    private void endSale(){
-        moneyTank.resetInsertedMoney();
-        toSell=null;
+    private boolean checkCreditCard(String credCardNumber, double cost) {
+        return stub.cardPayment(credCardNumber, cost);
     }
     
     //__________________Metodi per la gestione dei codici_______________________
@@ -317,10 +248,10 @@ public class TicketMachine extends Observable{
         setChanged();
         notifyObservers(arg);
     }
-
-    public double getCost() {
-        return toSell.getCost();
-    }
+//
+//    public double getCost() {
+//        return toSell.getCost();
+//    }
 
     public String getClientIPAddress() {
         return stub.getClientIPAddress();
@@ -348,5 +279,4 @@ public class TicketMachine extends Observable{
     	System.err.println("\n\nProducts initialized: ");
     	System.err.println(sb.toString());
     }
-    
 }

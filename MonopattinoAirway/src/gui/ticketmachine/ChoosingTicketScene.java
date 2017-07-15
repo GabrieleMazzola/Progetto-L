@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.WhiteSmallButton;
 import gui.WhiteWideButton;
@@ -24,7 +25,7 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public ChoosingTicketScene(TicketMachine tMachine) {
+    public ChoosingTicketScene(TicketMachine tMachine, TicketMachineSession controller) {
         
         greetings = new Text("Hello, " + tMachine.getLoggedUsername() + "!");
         greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
@@ -34,21 +35,21 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
         
         singleTicket = new WhiteWideButton("Simple Ticket");
         singleTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SINGLE);
+            controller.selectBuyTicket();
         });
         multiTicket = new WhiteWideButton("Multi Ticket");
         multiTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SINGLE);
+            controller.selectBuyTicket();
             //TODO aggiungere possibilità di vendita di un biglietto multiplo
         });
         seasonTicket = new WhiteWideButton("Season Ticket");
         seasonTicket.setOnAction(e -> {
-            tMachine.setOperation(Operation.BUYING_SEASON);
+            controller.selectBuySeason();
         });
         
         logout = new WhiteSmallButton("Logout");
         logout.setOnAction(e -> {
-            tMachine.logout();
+            controller.logout();
         });
         
         istantiateGrid();

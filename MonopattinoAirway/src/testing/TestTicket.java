@@ -16,10 +16,10 @@ public class TestTicket {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Inserire il tipo di biglietto da comprare:");
             String type = buffer.readLine();
-            machine.setTicketToSell(type);
-            System.out.println("Inserire monete:");
-            double money = Double.parseDouble(buffer.readLine());
-            machine.insertMoney(money);   
+//            machine.setTicketToSell(type);
+//            System.out.println("Inserire monete:");
+//            double money = Double.parseDouble(buffer.readLine());
+//            machine.insertMoney(money);   
         }    
         
     }

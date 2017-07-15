@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import items.Product;
 import java.util.ArrayList;
@@ -21,13 +22,16 @@ import ticketmachine.TicketMachine;
 public class BuyPhysicalScene extends BridgeSceneGrid{
     private final Text text;
     private Button back;
+    private TicketMachineSession controller;
     
     /**
      *
      * @param tMachine
      */
-    public BuyPhysicalScene(TicketMachine tMachine){
-    
+    public BuyPhysicalScene(TicketMachine tMachine, TicketMachineSession controller){
+        
+        this.controller = controller;
+        
         text = new Text("Choose a ticket");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         
@@ -53,13 +57,7 @@ public class BuyPhysicalScene extends BridgeSceneGrid{
         for(Product product : simpleTickets) {
             Button button = new Button(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
             button.setOnAction(e -> {
-                try {
-                    tMachine.setTicketToSell(product.getType());
-                    tMachine.setOperation(Operation.SELECTING_PAYMENT);
-                }
-                catch(ClassNotFoundException|IllegalAccessException|InstantiationException ex) {
-                    ex.printStackTrace();
-                }
+                controller.startSale(product.getType());
             });
             add(button, row%3 + 2, column%3);
             column++;

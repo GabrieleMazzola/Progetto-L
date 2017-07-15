@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.WhiteBigButton;
 import items.Product;
@@ -20,7 +21,7 @@ import ticketmachine.TicketMachine;
  * @author Zubeer
  */
 public class BuySeasonScene extends BridgeSceneGrid{
-
+    private TicketMachineSession controller;
     private final Text text;
     private Button back;
     
@@ -28,8 +29,8 @@ public class BuySeasonScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public BuySeasonScene(TicketMachine tMachine){
-    
+    public BuySeasonScene(TicketMachine tMachine, TicketMachineSession controller){
+        this.controller = controller;
         text = new Text("Choose your season, " + tMachine.getLoggedUsername());
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
@@ -38,7 +39,7 @@ public class BuySeasonScene extends BridgeSceneGrid{
         
         back = new Button("Back");
         back.setOnAction(e->{
-            tMachine.setOperation(Operation.CHOOSING_TICKET);
+            controller.back();
         });
        
         istantiateGrid();
@@ -55,13 +56,7 @@ public class BuySeasonScene extends BridgeSceneGrid{
         for(Product product : simpleTickets) {
             Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " months");
             button.setOnAction(e -> {
-                try {
-                    tMachine.setTicketToSell(product.getType());
-                    tMachine.setOperation(Operation.SELECTING_PAYMENT);
-                }
-                catch(ClassNotFoundException|IllegalAccessException|InstantiationException ex) {
-                    ex.printStackTrace();
-                }
+                controller.startSale(product.getType());
             });
             add(button, row%3 + 2, column%3);
             column++;

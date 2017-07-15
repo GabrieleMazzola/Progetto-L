@@ -1,5 +1,6 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.LimitedTextField;
 import gui.BridgeSceneGrid;
 import gui.WhiteSmallButton;
@@ -12,8 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
-import ticketmachine.TicketMachine;
 
 /**
  *
@@ -33,24 +32,28 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public InsertCreditCardScene(TicketMachine tMachine) {
+    public InsertCreditCardScene(TicketMachineSession controller) {
         label = new Label("Insert your credit card number please");
         label.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         
         firstFour = new LimitedTextField(4);
         firstFour.setOnKeyPressed(e -> {
             String keyPressed = e.getCharacter();
-            if(firstFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) secondFour.requestFocus();
+            
+            if(firstFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) 
+                secondFour.requestFocus();
         });
         secondFour = new LimitedTextField(4);
         secondFour.setOnKeyPressed(e -> {
             String keyPressed = e.getCharacter();
-            if(secondFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) thirdFour.requestFocus();
+            if(secondFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) 
+                thirdFour.requestFocus();
         });
         thirdFour = new LimitedTextField(4);
         thirdFour.setOnKeyPressed(e -> {
             String keyPressed = e.getCharacter();
-            if(thirdFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) fourthFour.requestFocus();
+            if(thirdFour.hasReachedLimit() && !keyPressed.equals(KeyCode.BACK_SPACE)) 
+                fourthFour.requestFocus();
         });
         fourthFour = new LimitedTextField(4);
         
@@ -61,6 +64,7 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
         
         confirm = new WhiteSmallButton("Ok");
         confirm.setOnAction(e -> {
+            grid.getChildren().remove(fail);
             if(!completlyFilled()) {
                 fail = new Text("You must fill in all the spaces");
                 fail.setFill(Color.RED);
@@ -68,7 +72,7 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
             }
             else {
                 String cCardNumber = firstFour.getText() + secondFour.getText() + thirdFour.getText() + fourthFour.getText();
-                if(!tMachine.buyTicketCreditCard(cCardNumber)) {
+                if(!controller.insertingCardNumber(cCardNumber)) {
                     fail = new Text("Invalid credit card");
                     fail.setFill(Color.RED);
                     add(fail, 2, 1);
@@ -82,7 +86,7 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
         
         homepage = new WhiteSmallButton("Back");
         homepage.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
         });
         
         boxBtns = new HBox();

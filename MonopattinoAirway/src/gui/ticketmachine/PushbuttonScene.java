@@ -1,6 +1,8 @@
 package gui.ticketmachine;
 
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
+import gui.WhiteSmallButton;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.geometry.Pos;
@@ -20,43 +22,43 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
                     two, one, fiftyCents, twentyCents, tenCents, fiveCents,
                     twoCents, oneCent, homePage;
     private Label display, toPay;
-    //TODO aggiungere Label per far vedere quanto ancora va inserito
-    private TicketMachine tMachine;
+    private TicketMachineSession controller;
     
     /**
      *
      * @param tMachine
      */
-    public PushbuttonScene(TicketMachine tMachine) {
-        this.tMachine = tMachine;
+    public PushbuttonScene(TicketMachine tMachine, TicketMachineSession controller) {
+        this.controller = controller;
         tMachine.addObserver(this);
         
-        twoHundred = new Button("200€");
-        oneHundred = new Button("100€");
-        fifty = new Button("50€");
-        twenty = new Button("20€");
-        ten = new Button("10€");
-        five = new Button("5€");
-        two = new Button("2€");
-        one = new Button("1€");
-        fiftyCents = new Button("0,50€");
-        twentyCents = new Button("0,20€");
-        tenCents = new Button("0,10€");
-        fiveCents = new Button("0,05€");
-        twoCents = new Button("0,02€");
-        oneCent = new Button("0,01€");
-        homePage = new Button("Homepage");
+        twoHundred = new WhiteSmallButton("200€");
+        oneHundred = new WhiteSmallButton("100€");
+        fifty = new WhiteSmallButton("50€");
+        twenty = new WhiteSmallButton("20€");
+        ten = new WhiteSmallButton("10€");
+        five = new WhiteSmallButton("5€");
+        two = new WhiteSmallButton("2€");
+        one = new WhiteSmallButton("1€");
+        fiftyCents = new WhiteSmallButton("0,50€");
+        twentyCents = new WhiteSmallButton("0,20€");
+        tenCents = new WhiteSmallButton("0,10€");
+        fiveCents = new WhiteSmallButton("0,05€");
+        twoCents = new WhiteSmallButton("0,02€");
+        oneCent = new WhiteSmallButton("0,01€");
+        homePage = new WhiteSmallButton("Homepage");
         homePage.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
+            controller.back();
         });
         HBox boxHomePage = new HBox();
         boxHomePage.setAlignment(Pos.CENTER_RIGHT);
         boxHomePage.getChildren().add(homePage);
         rescaleButtons();
         
-        display = new Label(tMachine.getInsertedMoney() + "");
+        display = new Label(controller.getInsertedMoney() + "");
         display.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
-        double remaining = tMachine.getCost() - tMachine.getInsertedMoney();
+        double remaining = controller.getSelectedProductCost() - controller.getInsertedMoney();
         toPay = new Label("remaining: " + remaining);
         toPay.setFont(Font.font("Tahoma", FontWeight.BOLD, 13));
         
@@ -83,20 +85,20 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
     }
     
     private void addActionToButtons() {
-        twoHundred.setOnAction(e -> {tMachine.insertMoney(200);});
-        oneHundred.setOnAction(e -> {tMachine.insertMoney(100);});
-        fifty.setOnAction(e -> {tMachine.insertMoney(50);});
-        twenty.setOnAction(e -> {tMachine.insertMoney(20);});
-        ten.setOnAction(e -> {tMachine.insertMoney(10);});
-        five.setOnAction(e -> {tMachine.insertMoney(5);});
-        two.setOnAction(e -> {tMachine.insertMoney(2);});
-        one.setOnAction(e -> {tMachine.insertMoney(1);});
-        fiftyCents.setOnAction(e -> {tMachine.insertMoney(0.5f);});
-        twentyCents.setOnAction(e -> { tMachine.insertMoney(0.2f);});
-        tenCents.setOnAction(e -> { tMachine.insertMoney(0.1f);});
-        fiveCents.setOnAction(e -> { tMachine.insertMoney(0.05f);});
-        twoCents.setOnAction(e -> { tMachine.insertMoney(0.02f);});
-        oneCent.setOnAction(e -> { tMachine.insertMoney(0.01f);});
+        twoHundred.setOnAction(e -> {controller.insertingMoney(200);});
+        oneHundred.setOnAction(e -> {controller.insertingMoney(100);});
+        fifty.setOnAction(e -> {controller.insertingMoney(50);});
+        twenty.setOnAction(e -> {controller.insertingMoney(20);});
+        ten.setOnAction(e -> {controller.insertingMoney(10);});
+        five.setOnAction(e -> {controller.insertingMoney(5);});
+        two.setOnAction(e -> {controller.insertingMoney(2);});
+        one.setOnAction(e -> {controller.insertingMoney(1);});
+        fiftyCents.setOnAction(e -> {controller.insertingMoney(0.5f);});
+        twentyCents.setOnAction(e -> {controller.insertingMoney(0.2f);});
+        tenCents.setOnAction(e -> {controller.insertingMoney(0.1f);});
+        fiveCents.setOnAction(e -> {controller.insertingMoney(0.05f);});
+        twoCents.setOnAction(e -> {controller.insertingMoney(0.02f);});
+        oneCent.setOnAction(e -> {controller.insertingMoney(0.01f);});
     }
     
     private void rescaleButtons() {
@@ -147,8 +149,8 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof Double) {
-            display.setText(tMachine.getInsertedMoney() + "");
-            int buf = (int)Math.round((tMachine.getCost() - tMachine.getInsertedMoney())*100);
+            display.setText(controller.getInsertedMoney() + "");
+            int buf = (int)Math.round((controller.getSelectedProductCost() - controller.getInsertedMoney())*100);
             double remaining = (double) buf / 100;
             toPay.setText("remaining: " + remaining);
         }

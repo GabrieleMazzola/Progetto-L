@@ -2,6 +2,7 @@ package gui.ticketmachine;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
 import gui.PasswordFieldFL;
 import gui.TextFieldFL;
@@ -20,10 +21,7 @@ import javafx.scene.text.Text;
 import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
+
 public class LoginScene extends BridgeSceneGrid{
     private Text text, fail;
     private JFXTextField textUser;
@@ -31,19 +29,16 @@ public class LoginScene extends BridgeSceneGrid{
     private Button signIn, cancel;
     private HBox boxBtns, boxError;
     private VBox boxFields;
-    private TicketMachine tMachine;
     
     /**
      *
      * @param tMachine
      */
-    public LoginScene(TicketMachine tMachine) {
-        this.tMachine = tMachine;
+    public LoginScene(TicketMachineSession controller) {
         istantiateGrid();
         
         text = new Text("Insert your credentials");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
-        grid.add(text, 0, 0, 2, 1);
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
@@ -71,28 +66,29 @@ public class LoginScene extends BridgeSceneGrid{
             if (emptyFields()) {
                 boxError.getChildren().clear();
                 fail.setText("Fill in the fields");
+                boxError.getChildren().clear();
                 boxError.getChildren().add(fail);
             }
             
-            else if(!tMachine.login(name, psw)) {
+            else if(!controller.login(name, psw)) {
                 textPassword.setText("");
                 boxError.getChildren().clear();
                 fail.setText("Wrong credentials");
+                boxError.getChildren().clear();
                 boxError.getChildren().add(fail);
             }
             else{
                 textPassword.setText("");
                 textUser.setText("");
                 boxError.getChildren().clear();
-                tMachine.setOperation(Operation.CHOOSING_TICKET);
             }
         });
         
         cancel = new WhiteSmallButton("Cancel");
         cancel.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
             textUser.setText("");
             textPassword.setText("");
+            controller.back();
         });
         
         boxBtns = new HBox();
