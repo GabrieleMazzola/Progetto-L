@@ -13,14 +13,13 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
 /**
  *
  * @author Zubeer
  */
-public class BuySeasonScene extends BridgeSceneGrid{
+public class SelectSeasonGrid extends BridgeSceneGrid{
     private TicketMachineSession controller;
     private final Text text;
     private Button back;
@@ -29,7 +28,7 @@ public class BuySeasonScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public BuySeasonScene(TicketMachine tMachine, TicketMachineSession controller){
+    public SelectSeasonGrid(TicketMachine tMachine, TicketMachineSession controller){
         this.controller = controller;
         text = new Text("Choose your season, " + tMachine.getLoggedUsername());
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));

@@ -3,6 +3,7 @@ package gui.ticketmachine;
 import gui.BridgeSceneGrid;
 import com.google.zxing.WriterException;
 import controller.TicketMachineSession;
+import gui.WhiteSmallButton;
 import items.Sale;
 import java.io.IOException;
 import javafx.scene.control.Button;
@@ -12,7 +13,7 @@ import javafx.scene.image.ImageView;
 import singleton.CodeHandler;
 import singleton.QRCodeHandler;
 
-public class ShowTicketScene extends BridgeSceneGrid{
+public class ShowTicketGrid extends BridgeSceneGrid{
     private Label serialCode, date, duration, owner, type, changeLabel;
     private Image qrCode;
     private ImageView qrCodeView;
@@ -23,10 +24,10 @@ public class ShowTicketScene extends BridgeSceneGrid{
      * @param controller
      * @param ticket
      */
-    public ShowTicketScene(TicketMachineSession controller, Sale ticket) {
+    public ShowTicketGrid(TicketMachineSession controller, Sale ticket) {
         istantiateGrid();
         
-        ok = new Button("Ok");
+        ok = new WhiteSmallButton("Ok");
         ok.setOnAction(e -> {
             controller.logout();
         });

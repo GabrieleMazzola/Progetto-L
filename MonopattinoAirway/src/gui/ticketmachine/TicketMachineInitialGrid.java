@@ -18,7 +18,7 @@ import ticketmachine.*;
  *
  * @author Zubeer
  */
-public class TicketMachineMainScene extends BridgeSceneGrid {
+public class TicketMachineInitialGrid extends BridgeSceneGrid {
     private Label greetings;
     private JFXButton login, signUp, goOn;
     
@@ -26,7 +26,7 @@ public class TicketMachineMainScene extends BridgeSceneGrid {
      *
      * @param tMachine
      */
-    public TicketMachineMainScene(TicketMachineSession controller) {
+    public TicketMachineInitialGrid(TicketMachineSession controller) {
         
         greetings = new Label("Hello!");
         greetings.setFont(Font.font("Tahoma", FontWeight.BOLD, 53));

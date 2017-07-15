@@ -10,22 +10,18 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
-public class ChoosingTicketScene extends BridgeSceneGrid{
+
+public class ChoosingTicketTypeGrid extends BridgeSceneGrid{
     private Text greetings;
-    private Button singleTicket, multiTicket, seasonTicket, logout;
+    private Button singleTicket, seasonTicket, logout;
     
     /**
      *
      * @param tMachine
      */
-    public ChoosingTicketScene(TicketMachine tMachine, TicketMachineSession controller) {
+    public ChoosingTicketTypeGrid(TicketMachine tMachine, TicketMachineSession controller) {
         
         greetings = new Text("Hello, " + tMachine.getLoggedUsername() + "!");
         greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
@@ -36,11 +32,6 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
         singleTicket = new WhiteWideButton("Simple Ticket");
         singleTicket.setOnAction(e -> {
             controller.selectBuyTicket();
-        });
-        multiTicket = new WhiteWideButton("Multi Ticket");
-        multiTicket.setOnAction(e -> {
-            controller.selectBuyTicket();
-            //TODO aggiungere possibilità di vendita di un biglietto multiplo
         });
         seasonTicket = new WhiteWideButton("Season Ticket");
         seasonTicket.setOnAction(e -> {
@@ -57,7 +48,6 @@ public class ChoosingTicketScene extends BridgeSceneGrid{
         add(hSeparator, 1, 0, 4, 1);
         add(singleTicket, 2, 0);
         add(seasonTicket, 2, 1);
-        add(multiTicket, 3, 0);
         add(logout, 0, 3);
     }
 }

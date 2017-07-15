@@ -2,43 +2,38 @@ package gui.ticketmachine;
 
 import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
+import gui.WhiteSmallButton;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import ticketmachine.*;;
+;
 
 
-public class TicketMachinePaymentScene extends BridgeSceneGrid{
-
-
-    public Label text, textCost; 
+public class ChoosingPaymentGrid extends BridgeSceneGrid{
+    public Label text,textCost;
     public Button cash, cCard, homePage;
     
-    /**
-     *
-     * @param tMachine
-     */
-    public TicketMachinePaymentScene(TicketMachine tMachine, TicketMachineSession controller) {
+    public ChoosingPaymentGrid(TicketMachineSession controller) {
         istantiateGrid();
         
         textCost = new Label("Cost: "+controller.getSelectedProductCost());
         text = new Label("Choose your payment method");
-        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
-        cash = new Button("Cash");
+        cash = new WhiteSmallButton("Cash");
         cash.setOnAction(e -> {
-            tMachine.setOperation(Operation.INSERTING_COINS);
+            controller.selectCashPayment();
         });
-        cCard = new Button("Credit Card");
+        cCard = new WhiteSmallButton("Credit Card");
         cCard.setOnAction(e -> {
-            tMachine.setOperation(Operation.INSERTING_CCARD);
+            controller.selectCardPayment();
         });
-        homePage = new Button("Homepage");
+        homePage = new WhiteSmallButton("Homepage");
         homePage.setOnAction(e -> {
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
         });
         HBox boxHomePage = new HBox();
         boxHomePage.setAlignment(Pos.CENTER_RIGHT);

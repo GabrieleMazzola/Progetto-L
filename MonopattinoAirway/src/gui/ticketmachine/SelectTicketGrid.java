@@ -17,16 +17,15 @@ import javafx.scene.text.Text;
 import ticketmachine.TicketMachine;
 
 
-public class BuyPhysicalSeasonScene extends BridgeSceneGrid{
+public class SelectTicketGrid extends BridgeSceneGrid{
     private TicketMachineSession controller;
-    private final Text text;
+    private Text text;
     private Button back;
     
-    public BuyPhysicalSeasonScene(TicketMachine tMachine, TicketMachineSession controller){
-        
+    public SelectTicketGrid(TicketMachine tMachine, TicketMachineSession controller){
         this.controller = controller;
         
-        text = new Text("Choose your season");
+        text = new Text("Choose a ticket");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
@@ -36,15 +35,16 @@ public class BuyPhysicalSeasonScene extends BridgeSceneGrid{
         back.setOnAction(e->{
             controller.back();
         });
-       
+        
         istantiateGrid();
         add(text, 0, 0, 3, 1);
         add(hSeparator, 1, 0, 3, 1);
         addAllButtons(tMachine);
+        
     }
     
     private void addAllButtons(TicketMachine tMachine) {
-        List<Product> simpleTickets = getAllPhysicalTickets(tMachine);
+        List<Product> simpleTickets = getAllSimpleTickets(tMachine);
         int row = 0;
         int column = 0;
         
@@ -62,20 +62,20 @@ public class BuyPhysicalSeasonScene extends BridgeSceneGrid{
         this.add(back, row%3 + 2, 3);
     }
     
-    private List<Product> getAllPhysicalTickets(TicketMachine tMachine) {
-        List<Product> seasonTickets = new ArrayList();
+    private List<Product> getAllSimpleTickets(TicketMachine tMachine) {
+        List<Product> simpleTickets = new ArrayList();
         
         Map<String, Product> products = tMachine.getAvailableProducts();
         for(Map.Entry<String, Product> product : products.entrySet()) {
-            if(isPhysical(product.getValue()))
-                seasonTickets.add(product.getValue());
+            if(isSimpleType(product.getValue()))
+                simpleTickets.add(product.getValue());
         }
         
-        return seasonTickets;
+        return simpleTickets;
     }
     
-    private boolean isPhysical(Product p) {
+    private boolean isSimpleType(Product p) {
         String type = p.getType();
-        return type.charAt(0) == 'Q';
+        return type.charAt(0) == 'T';
     }
 }

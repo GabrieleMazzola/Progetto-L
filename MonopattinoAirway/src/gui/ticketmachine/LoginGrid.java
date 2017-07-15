@@ -18,11 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
-import ticketmachine.TicketMachine;
 
 
-public class LoginScene extends BridgeSceneGrid{
+public class LoginGrid extends BridgeSceneGrid{
     private Text text, fail;
     private JFXTextField textUser;
     private JFXPasswordField textPassword;
@@ -34,7 +32,7 @@ public class LoginScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public LoginScene(TicketMachineSession controller) {
+    public LoginGrid(TicketMachineSession controller) {
         istantiateGrid();
         
         text = new Text("Insert your credentials");

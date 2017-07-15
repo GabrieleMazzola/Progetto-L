@@ -17,7 +17,7 @@ import ticketmachine.*;
  *
  * @author Zubeer
  */
-public class PushbuttonScene extends BridgeSceneGrid implements Observer{
+public class PushbuttonGrid extends BridgeSceneGrid implements Observer{
     private Button  twoHundred, oneHundred, fifty, twenty, ten, five,
                     two, one, fiftyCents, twentyCents, tenCents, fiveCents,
                     twoCents, oneCent, homePage;
@@ -28,7 +28,7 @@ public class PushbuttonScene extends BridgeSceneGrid implements Observer{
      *
      * @param tMachine
      */
-    public PushbuttonScene(TicketMachine tMachine, TicketMachineSession controller) {
+    public PushbuttonGrid(TicketMachine tMachine, TicketMachineSession controller) {
         this.controller = controller;
         tMachine.addObserver(this);
         

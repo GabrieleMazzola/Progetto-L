@@ -2,6 +2,8 @@ package gui.ticketmachine;
 
 import controller.TicketMachineSession;
 import gui.BridgeSceneGrid;
+import gui.WhiteBigButton;
+import gui.WhiteSmallButton;
 import items.Product;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,35 +14,27 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.Operation;
 import ticketmachine.TicketMachine;
 
-/**
- *
- * @author Zubeer
- */
-public class BuyPhysicalScene extends BridgeSceneGrid{
+
+public class SelectPSeasonGrid extends BridgeSceneGrid{
+    private TicketMachineSession controller;
     private final Text text;
     private Button back;
-    private TicketMachineSession controller;
     
-    /**
-     *
-     * @param tMachine
-     */
-    public BuyPhysicalScene(TicketMachine tMachine, TicketMachineSession controller){
+    public SelectPSeasonGrid(TicketMachine tMachine, TicketMachineSession controller){
         
         this.controller = controller;
         
-        text = new Text("Choose a ticket");
-        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
+        text = new Text("Choose your season");
+        text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
-        back = new Button("Back");
+        back = new WhiteSmallButton("Back");
         back.setOnAction(e->{
-            tMachine.setOperation(Operation.SELLING_TICKET);
+            controller.back();
         });
        
         istantiateGrid();
@@ -55,7 +49,7 @@ public class BuyPhysicalScene extends BridgeSceneGrid{
         int column = 0;
         
         for(Product product : simpleTickets) {
-            Button button = new Button(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
+            Button button = new WhiteBigButton(product.getDescription() + "\n-\n" + product.getDuration() + " minutes");
             button.setOnAction(e -> {
                 controller.startSale(product.getType());
             });
@@ -82,6 +76,6 @@ public class BuyPhysicalScene extends BridgeSceneGrid{
     
     private boolean isPhysical(Product p) {
         String type = p.getType();
-        return type.charAt(0) == 'P' || type.charAt(0) == 'Q';
+        return type.charAt(0) == 'Q';
     }
 }

@@ -6,12 +6,14 @@ import ticketmachine.TicketMachine;
 
 
 public class TicketMachineSession {
+    private String logged;  //Qui o ticketMachine?
     private double insertedMoney, change;
     private Product toSell;
     private TicketMachine tMachine;
     private Operation current, previous;
     
     public TicketMachineSession(TicketMachine tMachine) {
+        logged = "-";
         this.tMachine = tMachine;
         insertedMoney = 0;
         current = previous = Operation.SELLING_TICKET;

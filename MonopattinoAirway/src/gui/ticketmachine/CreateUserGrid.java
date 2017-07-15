@@ -19,7 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
-public class CreateUserScene extends BridgeSceneGrid{
+public class CreateUserGrid extends BridgeSceneGrid{
     
     private Text text, fail;
     private JFXTextField nameField, surnameField, emailField, cfField, usernameField;
@@ -28,7 +28,7 @@ public class CreateUserScene extends BridgeSceneGrid{
     private Button ok, homepage;
     
     
-    public CreateUserScene(TicketMachineSession controller) {
+    public CreateUserGrid(TicketMachineSession controller) {
         text = new Text("Insert your data");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         

@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
  *
  * @author Zubeer
  */
-public class InsertCreditCardScene extends BridgeSceneGrid{
+public class InsertCreditCardGrid extends BridgeSceneGrid{
     private LimitedTextField firstFour, secondFour, thirdFour, fourthFour;
     private HBox boxField;
     private Label label;
@@ -32,7 +32,7 @@ public class InsertCreditCardScene extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public InsertCreditCardScene(TicketMachineSession controller) {
+    public InsertCreditCardGrid(TicketMachineSession controller) {
         label = new Label("Insert your credit card number please");
         label.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         

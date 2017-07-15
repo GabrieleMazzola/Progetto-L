@@ -12,11 +12,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
-public class ChoosingPhysicalScene extends BridgeSceneGrid{
+public class ChoosingPhysicalTypeGrid extends BridgeSceneGrid{
     private Text text;
     private Button singleTicket, seasonTicket, back;
     
-    public ChoosingPhysicalScene(TicketMachineSession controller) {
+    public ChoosingPhysicalTypeGrid(TicketMachineSession controller) {
         
         text = new Text("Choose your ticket");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));

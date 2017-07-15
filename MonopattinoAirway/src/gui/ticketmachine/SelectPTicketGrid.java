@@ -17,12 +17,12 @@ import javafx.scene.text.Text;
 import ticketmachine.TicketMachine;
 
 
-public class BuyPhysicalTicketScene extends BridgeSceneGrid{
+public class SelectPTicketGrid extends BridgeSceneGrid{
     private TicketMachineSession controller;
     private final Text text;
     private Button back;
     
-    public BuyPhysicalTicketScene(TicketMachine tMachine, TicketMachineSession controller){
+    public SelectPTicketGrid(TicketMachine tMachine, TicketMachineSession controller){
         this.controller = controller;
         
         text = new Text("Choose your ticket");
