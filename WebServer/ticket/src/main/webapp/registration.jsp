@@ -73,7 +73,7 @@ session.removeAttribute("result");
 				 </div>
 			 </div>
 			  
-			  <input type="submit"  class="btn btn-default col-sm-10" value="Invia">
+			  <input type="submit"  class="btn btn-primary col-sm-10" value="Invia">
 			  
 			</form> 
 			

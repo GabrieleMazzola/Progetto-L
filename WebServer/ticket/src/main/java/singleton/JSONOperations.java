@@ -311,7 +311,7 @@ public class JSONOperations {
 			ArrayList<Sale> sales = new ArrayList<>();
 			
 			for (Object JSONsale : jArr) {
-				Product product = TicketOnline.getInstance().getProduct((String)((JSONObject)JSONsale).get(AddSale.TYPE.toString())); //far si che ritorna un solo prodotto
+				Product product = TicketOnline.getInstance().getProduct((String)((JSONObject)JSONsale).get(AddSale.TYPE.toString())); 
 				
 					sales.add(new Sale(DateOperations.getInstance().parse((String)((JSONObject)JSONsale).get(AddSale.SALEDATE.toString())), 
 										((Long)((JSONObject)JSONsale).get(AddSale.SERIALCODE.toString())),
@@ -354,6 +354,17 @@ public class JSONOperations {
           
           return root.toJSONString();
       
+    }
+
+    public String getSalePacket(Long valueOf) {
+          JSONObject root = new JSONObject();
+          root.put(JsonFields.METHOD.toString(), getSale.GETSALE.toString());
+          JSONObject data = new JSONObject();
+          data.put(getSale.SERIALCODE.toString(), valueOf);
+          root.put(JsonFields.DATA.toString(), data);
+          
+          return root.toJSONString();
+
     }
     
     

@@ -5,16 +5,21 @@ import java.util.Calendar;
 
 import singleton.DateOperations;
 import items.Sale;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import singleton.JSONOperations;
+import singleton.SerialEncryption;
 
 /**
 *
 *La classe si occupa di costruire i biglietti di un certo utente
 **/
-public class SaleFactory {
+public class SaleHandler {
 	ArrayList<Sale> Sales;
 	int position = 0;
-	public SaleFactory(String JsonMyTickets) {
+	public SaleHandler(String JsonMyTickets) {
 		System.out.println("Eseguito sales");
 		Sales = new ArrayList();
 		decodeJson(JsonMyTickets);
@@ -40,7 +45,17 @@ public class SaleFactory {
 	public String getDescription(){
 		return Sales.get(position).getProduct().getDescription();
 	}
-	
+	public String getCode(){
+            String SerialToEncrypt = (String.valueOf(Sales.get(position).getSerialCode()));
+            String result = SerialEncryption.getInstance().encryptSerial(SerialToEncrypt);
+            System.out.println(result);
+            try {
+                return URLEncoder.encode(result, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
 	//TODO sostituibile con pattern Mapper
 	public String getBuyDay(){
 		return (singleton.DateOperations.getInstance().getDay(Sales.get(position).getSaleDate())); 

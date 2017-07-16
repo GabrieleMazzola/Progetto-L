@@ -17,8 +17,10 @@ import org.eclipse.persistence.oxm.record.FormattedWriterRecord;
 import org.progettol.webserver.beans.User;
 
 import centralsystem.Stub;
+import java.io.PrintWriter;
 import singleton.DateOperations;
 import singleton.JSONOperations;
+import singleton.SerialEncryption;
 
 /**
  * Servlet implementation class WebServer
@@ -81,6 +83,7 @@ public class WebServer extends HttpServlet {
 			}
 			break;
 		default:
+                    
 			
 		}
 	}
@@ -91,7 +94,7 @@ public class WebServer extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		User user = (User)session.getAttribute("user");
 
-	    System.out.println(" @ azione get http webserver.java: "+action);
+	    System.out.println(" @ azione get : "+action);
 	    if(action == null) {
 	    	response.sendRedirect("/ticket/");
 	    	return;
@@ -101,8 +104,20 @@ public class WebServer extends HttpServlet {
 			if(session != null)session.invalidate();
 			response.sendRedirect("/ticket/");
 			break;
+                case "check":
+                        String value = request.getParameter("value");
+                        if(value != null){
+                            session.setAttribute("value", value);
+                            newRequest(request,response,"/ticketCheck.jsp");
+                        }else{
+                            PrintWriter out = response.getWriter(); 
+                            out.print("valueError");
+                        }
+                        
+                    break;
 		default:
-			response.setStatus(404);
+                    PrintWriter out = response.getWriter(); 
+                    out.print("ERRORE ACTION");
 		}
 		
 	}

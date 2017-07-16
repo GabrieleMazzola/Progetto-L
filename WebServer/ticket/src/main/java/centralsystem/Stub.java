@@ -10,6 +10,10 @@ import org.json.simple.parser.ParseException;
 import singleton.DateOperations;
 import items.Fine;
 import items.Product;
+import items.Sale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jsonenumerations.AddSale;
 import jsonenumerations.JsonFields;
 import machineonline.TicketOnline;
 import singleton.JSONOperations;
@@ -322,6 +326,36 @@ public class Stub {
 		}
 			return JSONOperations.getInstance().booleanPacket(false);
 	}
+
+        public Sale getSale(String serialCode) {
+            Sale sale;
+            try{
+                    String packet = JSONOperations.getInstance().getSalePacket(Long.valueOf(serialCode));
+
+                    ConnectionHandler conn = new ConnectionHandler();
+
+                    System.out.println("Checking in system .. Sending : " + packet);
+                    String line = conn.sendAndReceive(packet);
+                    conn.closeConnection();
+                    JSONParser parser = new JSONParser();               
+                    JSONObject obj = (JSONObject)parser.parse(line);
+                    //Struttura JSON di risposta : {"d":"d"}
+                    Product product = TicketOnline.getInstance().getProduct((String)((JSONObject)obj).get(AddSale.TYPE.toString())); 
+                    sale = new Sale(DateOperations.getInstance().parse((String)((JSONObject)obj).get(AddSale.SALEDATE.toString())), 
+										((Long)((JSONObject)obj).get(AddSale.SERIALCODE.toString())),
+										(String)((JSONObject)obj).get(AddSale.USERNAME.toString()),
+										product,
+										(String)((JSONObject)obj).get(AddSale.SELLERMACHINEIP.toString()));
+                    
+                    return sale;
+		} catch (IOException|ParseException e) {
+			e.printStackTrace();
+		} catch (java.text.ParseException ex) {
+                Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+            }
+		System.out.println("Biglietto inesistente.");
+		return null;
+        }
 
 
 }

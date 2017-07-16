@@ -1,7 +1,7 @@
 @CHARSET "ISO-8859-1";
 
 .logo{
-	max-width: 42px;
+    max-width: 245px;
     width: auto;
     height: auto;
     float:left;
@@ -101,9 +101,22 @@ body {
 .offer-content{
 	padding:0 20px 10px;
 }
+.SingleSale{
+     display: inline-block;
+     max-width: 300px;
+    
+}
 
 
 .SaleContainer{
 	margin: 0 auto;
-	
+	text-align: center;
+}
+.SaleContainer .btn{
+    margin-top:50px;
+    
+}
+.SaleDescription{
+    text-align: left;
+    font-size: 14px !important;
 }

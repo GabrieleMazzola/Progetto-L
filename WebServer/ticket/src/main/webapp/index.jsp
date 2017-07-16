@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/ticket/css/style.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>MonopattinoAirways | Homepage</title>
 </head>
 <body>
 
@@ -18,7 +18,7 @@
 	
 	  <h1>Benvenuto sul MonopattinoAirway!</h1>
 	  <p>Il sito è in versione limitata (monopattino), entra nella community dei viaggiatori.</p>
-	  <p><a class="btn btn-success btn-lg" href="registration.jsp" role="button">Registrati</a>
+	  <p><a class="btn btn-primary btn-lg" href="registration.jsp" role="button">Registrati</a>
 	  <a class="btn btn-default btn-lg" href="login.jsp" role="button">Login</a>
 	  </p>
   </div>
