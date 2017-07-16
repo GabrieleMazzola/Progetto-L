@@ -1,6 +1,7 @@
 package machinetests;
 
 import centralsystem.factory.CSystemFactory;
+import controller.TicketMachineSession;
 import database.factories.SimMapperFactory;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,8 +21,6 @@ public class BuyTicketTests {
     
     @BeforeClass
     public static void setUpClass() {
-
-            
         CSystemFactory.getInstance().buildLightCSystem(SimMapperFactory.class.getName());
         tMachine = new TicketMachine(0,5000, "localhost");
     }
@@ -39,24 +38,15 @@ public class BuyTicketTests {
     }
 
     @Test
-    public void testBuyPhysicalTicketCash() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-        
-        
-        
-        try {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException exc) {
-            System.out.println(exc);
-        }
-        
+    public void testBuyPhysicalTicketCash() {
         double prevMoney = tMachine.getTotalMoney();
-
         double prevInkLvl = tMachine.getInk();
         
-        tMachine.setTicketToSell("P1");
-        tMachine.insertMoney(0.5);
-        tMachine.insertMoney(1);
+        TicketMachineSession session = new TicketMachineSession(tMachine);
+        
+        session.startSale("P1");
+        session.insertingMoney(0.5);
+        session.insertingMoney(1);
         
         double afterMoney = tMachine.getTotalMoney();
         double afterInkLvl = tMachine.getInk();
@@ -66,21 +56,13 @@ public class BuyTicketTests {
     }
 
     @Test
-    public void testBuyPhysicalTicketCCard() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-
-        
-        try {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException exc) {
-            System.out.println(exc);
-        }
-        
+    public void testBuyPhysicalTicketCCard() {
         double prevMoney = tMachine.getTotalMoney();
         double prevInkLvl = tMachine.getInk();
         
-        tMachine.setTicketToSell("P1");
-        tMachine.buyTicketCreditCard("2222222222222222");
+        TicketMachineSession session = new TicketMachineSession(tMachine);
+        session.startSale("P1");
+        session.insertingCardNumber("2222222222222222");
         
         double afterMoney = tMachine.getTotalMoney();
         double afterInkLvl = tMachine.getInk();
@@ -90,58 +72,59 @@ public class BuyTicketTests {
     }
     
     @Test 
-    public void testBuyOnlineTicket() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-            
-            double prevMoney=tMachine.getTotalMoney();
-            double prevInkLvl = tMachine.getInk();
-            
-            tMachine.login("ADMIN", "ADMIN");
-            tMachine.setTicketToSell("T1");
-            tMachine.buyTicketCreditCard("0000000000000000");
-            
-            double afterMoney = tMachine.getTotalMoney();
-            double afterInkLvl = tMachine.getInk();
+    public void testBuyOnlineTicket() {
+        double prevMoney=tMachine.getTotalMoney();
+        double prevInkLvl = tMachine.getInk();
 
-            assertTrue(afterMoney == prevMoney);
-            assertTrue(prevInkLvl == afterInkLvl);
-            tMachine.logout();
-    }
-    
-    @Test
-    public void testBuyOnlineSeason() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-    
-            double prevMoney=tMachine.getTotalMoney();
-            double prevInkLvl = tMachine.getInk();
-            
-            tMachine.login("ADMIN", "ADMIN");
-            tMachine.setTicketToSell("S1");
-            tMachine.buyTicketCreditCard("0000000000000000");
-            
-            double afterMoney = tMachine.getTotalMoney();
-            double afterInkLvl = tMachine.getInk();
-
-            assertTrue(afterMoney == prevMoney);
-            assertTrue(prevInkLvl == afterInkLvl);
-            tMachine.logout();
-    
-    }
-    
-    @Test
-    public void testBuyPhysicalSeason() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-    
-            double prevMoney=tMachine.getTotalMoney();
-            double prevInkLvl = tMachine.getInk();
-            
-            tMachine.setTicketToSell("Q1");
-            tMachine.buyTicketCreditCard("0000000000000000");
-            
-            double afterMoney = tMachine.getTotalMoney();
-            double afterInkLvl = tMachine.getInk();
-
-            assertTrue(afterMoney == prevMoney);
-            assertTrue(prevInkLvl > afterInkLvl);
+        TicketMachineSession session = new TicketMachineSession(tMachine);
+        assertFalse(session.login("ADMIN1", "ADMIN"));
+        assertTrue(session.login("ADMIN", "ADMIN"));
         
+        session.startSale("T1");
+        session.insertingCardNumber("0000000000000000");
+
+        double afterMoney = tMachine.getTotalMoney();
+        double afterInkLvl = tMachine.getInk();
+
+        assertTrue(afterMoney == prevMoney);
+        assertTrue(prevInkLvl == afterInkLvl);
+        tMachine.logout();
     }
-            
-            
+    
+    @Test
+    public void testBuyOnlineSeason() {
+        double prevMoney=tMachine.getTotalMoney();
+        double prevInkLvl = tMachine.getInk();
+
+        TicketMachineSession session = new TicketMachineSession(tMachine);
+        assertFalse(session.login("ADMIN1", "ADMIN"));
+        assertTrue(session.login("ADMIN", "ADMIN"));
+        
+        session.startSale("S1");
+        session.insertingCardNumber("0000000000000000");
+
+        double afterMoney = tMachine.getTotalMoney();
+        double afterInkLvl = tMachine.getInk();
+
+        assertTrue(afterMoney == prevMoney);
+        assertTrue(prevInkLvl == afterInkLvl);
+        tMachine.logout();
+    
+    }
+    
+    @Test
+    public void testBuyPhysicalSeason() {
+        double prevMoney=tMachine.getTotalMoney();
+        double prevInkLvl = tMachine.getInk();
+        
+        TicketMachineSession session = new TicketMachineSession(tMachine);
+        session.startSale("S1");
+        session.insertingCardNumber("0000000000000000");
+
+        double afterMoney = tMachine.getTotalMoney();
+        double afterInkLvl = tMachine.getInk();
+
+        assertTrue(afterMoney == prevMoney);
+        assertTrue(prevInkLvl > afterInkLvl);
+    }      
 }
