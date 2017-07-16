@@ -55,7 +55,7 @@ public class CSystemCollectorTests {
     
     @Test
     public void checkIfTicketExists(){
-        assertFalse(cs.existsTicket(22)); /*Scoprire come ottenere un seriale*/
+        assertFalse(cs.existsTicket(22)); 
     }
 
 }

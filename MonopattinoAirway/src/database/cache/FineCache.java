@@ -20,7 +20,7 @@ public class FineCache implements CacheInterface{
     }
     
     /**
-     *
+     *Aggiunge una nuova Fine 
      * @param arg
      */
     @Override
@@ -30,9 +30,9 @@ public class FineCache implements CacheInterface{
     }
     
     /**
-     *
+     *A partire dall'id della Fine, ritorna la Fine corrispondente
      * @param id
-     * @return
+     * @return la Fine associata all'id
      */
     @Override
     public Fine get(String id) {
@@ -42,11 +42,7 @@ public class FineCache implements CacheInterface{
         }
         return null;
     }
-    
-    /**
-     *
-     * @return
-     */
+
     @Override
     public int getSize() {
         return cache.size();

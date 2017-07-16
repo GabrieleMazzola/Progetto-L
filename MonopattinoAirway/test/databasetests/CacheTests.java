@@ -33,8 +33,7 @@ public class CacheTests {
 
     @Test
     public void testCache() {
-        UserMapper mapper = new SimUserMapper();    
-        System.out.println(mapper.getCacheSize());
+        UserMapper mapper = new SimUserMapper();  
         assertTrue(mapper.getCacheSize() == 1);
         mapper.get("ManuManu");
         assertTrue(mapper.getCacheSize() == 1);

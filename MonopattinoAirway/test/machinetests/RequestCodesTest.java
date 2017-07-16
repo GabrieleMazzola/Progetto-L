@@ -1,10 +1,7 @@
 package machinetests;
 
-import centralsystem.CSystem;
 import centralsystem.factory.CSystemFactory;
-import communication.SocketHandler;
 import database.factories.SimMapperFactory;
-import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,6 +18,7 @@ public class RequestCodesTest {
     
     @BeforeClass
     public static void setUpClass() {
+        CSystemFactory.getInstance().buildLightCSystem(SimMapperFactory.class.getName());
     }
     
     @AfterClass
@@ -38,7 +36,6 @@ public class RequestCodesTest {
     @Test
     public void testRquestCodes() {
 
-        CSystemFactory.getInstance().buildLightCSystem(SimMapperFactory.class.getName());
         TicketMachine tMachine = new TicketMachine(1, 5000, "localhost");
         
         try {
@@ -47,7 +44,35 @@ public class RequestCodesTest {
         catch(InterruptedException exc) {
             System.out.println(exc);
         }
-        System.out.println("(TEST)Codici: "+tMachine.getSerialsAmount());
-        assertTrue(tMachine.getSerialsAmount() > 10);
+        assertTrue(tMachine.getSerialsAmount() == 30);
+    }
+    
+    @Test
+    public void testRequestCodes() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+        
+        
+        TicketMachine tMachine = new TicketMachine(2,5000,"localhost");
+        
+        try {
+            Thread.sleep(4000);
+        }
+        catch(InterruptedException exc) {
+            System.out.println(exc);
+        }
+        
+        for(int i=0; i<11; i++){
+            tMachine.setTicketToSell("P1");
+            tMachine.insertMoney(20);
+        }
+        
+        try {
+            Thread.sleep(4000);
+        }
+        catch(InterruptedException exc) {
+            System.out.println(exc);
+        }
+        
+        assertTrue(tMachine.getSerialsAmount()==49);
+        
     }
 }

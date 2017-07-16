@@ -9,7 +9,7 @@ import ticketmachine.TicketMachine;
 public class TestTicket {
     
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
-        TicketMachine machine = new TicketMachine(1, 5000, "192.168.1.9");
+        TicketMachine machine = new TicketMachine(1, 5000, "192.168.1.145");
         
         //Dato che la macchinetta deve attendere che il thread iniziale sia concluso mettiamo un buffered reader di controllo
         while(true){

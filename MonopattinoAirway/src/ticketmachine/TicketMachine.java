@@ -284,4 +284,9 @@ public class TicketMachine extends Observable{
     	System.err.println("\n\nProducts initialized: ");
     	System.err.println(sb.toString());
     }
+    
+    public int getOfflineSaleSize(){
+        return stub.getOfflineSaleSize();
+    }
+      
 }

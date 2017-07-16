@@ -15,5 +15,5 @@ public interface CentralSystemTicketInterface {
     
     public boolean updateMachineStatus(MachineStatus status);
     
-    public boolean addSale(Sale sale);
+    public Boolean addSale(Sale sale);
 }
