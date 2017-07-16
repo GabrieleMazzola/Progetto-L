@@ -50,17 +50,17 @@ public class TicketCollector extends Observable{
  */    
     public boolean loginCollector(String username,String psw){
     	if(connected){
-    		return true;
+            return true;
     	}
     	if(stub.collectorLogin(username,psw)){
-    		connected = true;
-    		this.username = username;
-                finesStartNumber = requestFinesStartNumber();
-    		return true;
+            connected = true;
+            this.username = username;
+            finesStartNumber = requestFinesStartNumber();
+            return true;
     	}else{
-    		connected = false;
-                finesStartNumber = null;
-    		return false;
+            connected = false;
+            finesStartNumber = null;
+            return false;
     	}
     }
 

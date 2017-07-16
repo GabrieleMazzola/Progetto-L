@@ -39,18 +39,18 @@ public class MoneyTankSwingPanel extends JPanel implements Observer{
         this.tMachine = tMachine;
         tMachine.addObserver(this);
         
-        labelTwoHundred = new JLabel(tMachine.getAmountOf(200) + "");
-        labelOneHundred = new JLabel(tMachine.getAmountOf(100) + "");
-        labelFifty = new JLabel(tMachine.getAmountOf(50) + "");
-        labelTwenty = new JLabel(tMachine.getAmountOf(20) + "");
-        labelTen = new JLabel(tMachine.getAmountOf(10) + "");
-        labelFive = new JLabel(tMachine.getAmountOf(5) + "");
-        labelTwo = new JLabel(tMachine.getAmountOf(2) + "");
-        labelOne = new JLabel(tMachine.getAmountOf(1) + "");
-        labelFiftyCents = new JLabel(tMachine.getAmountOf(0.5f) + "");
-        labelTwentyCents = new JLabel(tMachine.getAmountOf(0.2f) + "");
-        labelTenCents = new JLabel(tMachine.getAmountOf(0.1f) + "");
-        labelFiveCents = new JLabel(tMachine.getAmountOf(0.05f) + "");
+        labelTwoHundred = new JLabel(Math.round(tMachine.getAmountByIndex(0)) + "");
+        labelOneHundred = new JLabel(tMachine.getAmountByIndex(1) + "");
+        labelFifty = new JLabel(tMachine.getAmountByIndex(2) + "");
+        labelTwenty = new JLabel(tMachine.getAmountByIndex(3) + "");
+        labelTen = new JLabel(tMachine.getAmountByIndex(4) + "");
+        labelFive = new JLabel(tMachine.getAmountByIndex(5) + "");
+        labelTwo = new JLabel(tMachine.getAmountByIndex(6) + "");
+        labelOne = new JLabel(tMachine.getAmountByIndex(7) + "");
+        labelFiftyCents = new JLabel(tMachine.getAmountByIndex(8) + "");
+        labelTwentyCents = new JLabel(tMachine.getAmountByIndex(9) + "");
+        labelTenCents = new JLabel(tMachine.getAmountByIndex(10) + "");
+        labelFiveCents = new JLabel(tMachine.getAmountByIndex(11) + "");
         
         this.add(twoHundred);
         this.add(labelTwoHundred);

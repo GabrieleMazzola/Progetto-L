@@ -24,7 +24,7 @@ public class CallUpdateMachineStatusCommand extends Command {
      */
     @Override
     public String execute(JSONObject data){
-        
+        System.out.println("Updating");
         int machineCode = ((Double)data.get(UpdateMachineStatus.MACHINECODE.toString())).intValue();
         double inkLevel = (double) data.get(UpdateMachineStatus.INKLEVEL.toString());
         double paperLevel = (double) data.get(UpdateMachineStatus.PAPERLEVEL.toString());
