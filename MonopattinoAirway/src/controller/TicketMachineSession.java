@@ -70,14 +70,14 @@ public class TicketMachineSession {
         if(insertedMoney >= toSell.getCost()) {
             change = tMachine.sellTicket(toSell, insertedMoney);
             tMachine.createSale(toSell);
-            setNewOperation(Operation.PRINTING_TICKET);
+            //setNewOperation(Operation.PRINTING_TICKET);
         }
     }
     
     public boolean insertingCardNumber(String cardNumber) {
         if(tMachine.sellTicket(toSell, cardNumber)) {
             tMachine.createSale(toSell);
-            setNewOperation(Operation.PRINTING_TICKET);
+            //setNewOperation(Operation.PRINTING_TICKET);
             return true;
         }
         else
@@ -89,12 +89,7 @@ public class TicketMachineSession {
     }
     
     public boolean login(String username, String password) {
-        if(tMachine.login(username, password)) {
-            setNewOperation(Operation.CHOOSING_TICKET);
-            return true;
-        }
-        else
-            return false;
+        return tMachine.login(username, password);
     }
     
     public void selectSignup() {
@@ -103,6 +98,10 @@ public class TicketMachineSession {
     
     public boolean signup(String name, String surname, String cf, String username, String psw, String email) {
         return tMachine.createUser(name, surname, cf, username, psw, email);
+    }
+    
+    public void afterLogin() {
+        setNewOperation(Operation.CHOOSING_TICKET);
     }
     
     public boolean logout() {

@@ -19,7 +19,7 @@ import ticketcollector.TicketCollector;
  *
  * @author Zubeer
  */
-public class VerifyTicketScene extends BridgeSceneGrid{
+public class VerifyTicketGrid extends BridgeSceneGrid{
     private Text text, serialCodeText, resultText;
     private TextField serialCodeField;
     private Button verify, back;
@@ -29,7 +29,7 @@ public class VerifyTicketScene extends BridgeSceneGrid{
      *
      * @param collector
      */
-    public VerifyTicketScene(TicketCollector collector) {
+    public VerifyTicketGrid(TicketCollector collector) {
         text = new Text("Which ticket shall I check?");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         

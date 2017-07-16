@@ -16,7 +16,7 @@ public class UpdateHandler {
     /**
      *
      */
-    public static final int UPDATE_REPEAT_TIME = 5*60*1000;
+    public static final int UPDATE_REPEAT_TIME = 5*1000;
     
     private TicketMachine machine;
     
@@ -31,9 +31,6 @@ public class UpdateHandler {
         initUpdateMachineTask();
     }
     
-    /**
-     *
-     */
     public void start() {
         timer.schedule(updateMachineTask,2000,UPDATE_REPEAT_TIME);
     }

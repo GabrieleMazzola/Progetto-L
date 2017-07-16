@@ -14,7 +14,7 @@ import ticketcollector.TicketCollector;
  *
  * @author Zubeer
  */
-public class ChoosingOperationScene extends BridgeSceneGrid{
+public class ChoosingOperationGrid extends BridgeSceneGrid{
     private Text text;
     private Button makeFineButton, verifyTicket, logout;
     
@@ -22,7 +22,7 @@ public class ChoosingOperationScene extends BridgeSceneGrid{
      *
      * @param collector
      */
-    public ChoosingOperationScene(TicketCollector collector) {
+    public ChoosingOperationGrid(TicketCollector collector) {
         text = new Text("Beware people! " + collector.getUsername() + " is here!");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         

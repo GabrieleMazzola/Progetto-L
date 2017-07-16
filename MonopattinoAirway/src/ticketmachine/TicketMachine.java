@@ -66,10 +66,6 @@ public class TicketMachine extends Observable{
         return resources.getPaperPercentage();
     }
     
-    /**
-     *
-     * @return
-     */
     public boolean canPrint() {
         return resources.hasEnoughResources();
     }
@@ -108,9 +104,14 @@ public class TicketMachine extends Observable{
         return products.get(type);
     }
     
+    /**
+     * Vende un biglietto con pagamento tramite carta di credito
+     * @param toSell
+     * @param cardNumber
+     * @return Vero se il pagamento viene effettuato
+     */
     public boolean sellTicket(Product toSell, String cardNumber) {
         if(checkCreditCard(cardNumber, toSell.getCost())) {
-            //createSale(toSell);
             return true;
         }
         else {
@@ -118,8 +119,13 @@ public class TicketMachine extends Observable{
         }
     }
     
+    /**
+     * Vende un biglietto con pagamento tramite contanti
+     * @param toSell
+     * @param amountPaid
+     * @return Il resto che è possibile erogare
+     */
     public double sellTicket(Product toSell, double amountPaid) {
-        //createSale(toSell);
         printTicket();
         return moneyTank.giveChange(toSell.getCost(), amountPaid);
     }
@@ -131,8 +137,7 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * Stampa il biglietto. La stampa viene effettuata mandando una notifica alla
-     * GUI
+     * Stampa il biglietto riducendo le risorse disponibili per la macchinetta
      */
     private void printTicket() {
         if(codesHandler.mustRequestCodes())

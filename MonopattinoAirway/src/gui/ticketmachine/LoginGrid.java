@@ -78,6 +78,7 @@ public class LoginGrid extends BridgeSceneGrid{
             else{
                 textPassword.setText("");
                 textUser.setText("");
+                controller.afterLogin();
                 boxError.getChildren().clear();
             }
         });

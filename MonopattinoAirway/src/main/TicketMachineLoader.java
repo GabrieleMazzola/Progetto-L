@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import ticketmachine.*;
 
 
-public class GUITicketMachine extends Application {
+public class TicketMachineLoader extends Application {
     private static TicketMachine tMachine;
     
     @Override

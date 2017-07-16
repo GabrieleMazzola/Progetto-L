@@ -19,7 +19,7 @@ import ticketcollector.TicketCollector;
  *
  * @author Zubeer
  */
-public class LoginCollectorScene extends BridgeSceneGrid{
+public class LoginCollectorGrid extends BridgeSceneGrid{
     private Text text, username, password, fail;
     private TextField textUser;
     private PasswordField textPassword;
@@ -30,7 +30,7 @@ public class LoginCollectorScene extends BridgeSceneGrid{
      *
      * @param collector
      */
-    public LoginCollectorScene(TicketCollector collector) {
+    public LoginCollectorGrid(TicketCollector collector) {
         istantiateGrid();
         
         fail = new Text();

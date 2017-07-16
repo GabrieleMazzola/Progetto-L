@@ -18,7 +18,7 @@ import ticketcollector.TicketCollector;
  *
  * @author Zubeer
  */
-public class MakeFineScene extends BridgeSceneGrid{
+public class MakeFineGrid extends BridgeSceneGrid{
     private Text text, cfText, amountText, resultText;
     private TextField cfField, amountField;
     private Button send, back;
@@ -28,7 +28,7 @@ public class MakeFineScene extends BridgeSceneGrid{
      *
      * @param collector
      */
-    public MakeFineScene(TicketCollector collector) {
+    public MakeFineGrid(TicketCollector collector) {
         
         text = new Text("It's a great day to make fines!");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));

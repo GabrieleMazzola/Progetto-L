@@ -1,7 +1,10 @@
 package gui.ticketmachine;
 
 import controller.TicketMachineSession;
+import gui.ticketmachine.commands.*;
 import items.Sale;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.scene.Scene;
@@ -11,55 +14,20 @@ import ticketmachine.TicketMachine;
 
 
 public class TicketMachineStage extends Stage implements Observer{
-    private Scene mainScene, buySimpleTicketScene, buySeasonScene, choosePhysical, paymentMethodScene, choosingTicketScene, 
-                  createUserScene, moneyScene, loginScene, showTicketScene, insertCardNumberScene, errorScene, buyPSeason, buyPTicket;
     private TicketMachineSession controller;
     private TicketMachine tMachine;
+    private Map<Operation, SceneDispatcherCommand> scenes;
+    
     private final int width = 750, height = 600;
     
     public TicketMachineStage(TicketMachine tMachine) {
         this.tMachine = tMachine;
         tMachine.addObserver(this);
-        
         controller = new TicketMachineSession(tMachine);
         
-        //Costruisco la scena principale
-        TicketMachineInitialGrid mainSceneGrid = new TicketMachineInitialGrid(controller);
-        mainScene = new Scene(mainSceneGrid.asParent());
+        initSceneMap();
         
-        //Costruisco la scena di vendita dei biglietti fisici
-        ChoosingPhysicalTypeGrid physicalScene = new ChoosingPhysicalTypeGrid(controller);
-        choosePhysical = new Scene(physicalScene.asParent());
-        
-        SelectTicketGrid buySimpleScene = new SelectTicketGrid(tMachine, controller);
-        buySimpleTicketScene = new Scene(buySimpleScene.asParent());
-        
-        SelectPTicketGrid buyPTicketGrid = new SelectPTicketGrid(tMachine, controller);
-        buyPTicket = new Scene(buyPTicketGrid.asParent());
-        
-        //Costruisco la scena della scelta del metodo di pagamento
-//        ChoosingPaymentGrid paymentGrid = new ChoosingPaymentGrid(controller);
-//        paymentMethodScene = new Scene(paymentGrid.asParent());
-        
-        SelectPSeasonGrid buyPSeasonGrid = new SelectPSeasonGrid(tMachine, controller);
-        buyPSeason = new Scene(buyPSeasonGrid.asParent());
-        
-        //Costruisco la scena di login
-        LoginGrid loginGrid = new LoginGrid(controller);
-        loginScene = new Scene(loginGrid.asParent());
-        
-        //Costruisco la scena di registrazione utente
-        CreateUserGrid userGrid = new CreateUserGrid(controller);
-        createUserScene = new Scene(userGrid.asParent());
-        
-        //Costruisco la scena del numero della carta di credito
-        InsertCreditCardGrid cCardScene = new InsertCreditCardGrid(controller);
-        insertCardNumberScene = new Scene(cCardScene.asParent());
-        
-        //Costruisco la scena d'errore
-        ErrorScene errorGrid = new ErrorScene(tMachine, "Ticket machine unable to operate. Waiting for assistance");
-        errorScene = new Scene(errorGrid.asParent());
-        
+        Scene mainScene = new Scene(new TicketMachineInitialGrid(controller).asParent());
         setScene(mainScene);
         setSize();
     }
@@ -67,77 +35,17 @@ public class TicketMachineStage extends Stage implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof String) {
-            
-        }
-        else if(arg instanceof Operation) {
-            switch((Operation)arg) {
-                case SELLING_TICKET:
-                    setScene(mainScene);
-                    setSize();
-                    break;
-                case SELECTING_PAYMENT:
-                    ChoosingPaymentGrid paymentGrid = new ChoosingPaymentGrid(controller);
-                    paymentMethodScene = new Scene(paymentGrid.asParent());
-                    setScene(paymentMethodScene);
-                    setSize();
-                    break;
-                case INSERTING_COINS:
-                    PushbuttonGrid moneyGrid = new PushbuttonGrid(tMachine, controller);
-                    moneyScene = new Scene(moneyGrid.asParent());
-                    setScene(moneyScene);
-                    setSize();
-                    break;
-                case LOGGING_IN:
-                    setScene(loginScene);
-                    setSize();
-                    break;
-                case CREATING_USER:
-                    setScene(createUserScene);
-                    setSize();
-                    break;
-                case PRINTING_TICKET:
-                    break;
-                case INSERTING_CCARD:
-                    setScene(insertCardNumberScene);
-                    setSize();
-                    break;
-                case BUYING_PHYSICAL:
-                    setScene(choosePhysical);
-                    setSize();
-                    break;
-                case BUYING_PSEASON:
-                    setScene(buyPSeason);
-                    setSize();
-                    break;
-                case BUYING_PTICKET:
-                    setScene(buyPTicket);
-                    setSize();
-                    break;
-                case CHOOSING_TICKET:
-                    ChoosingTicketTypeGrid choosingScene = new ChoosingTicketTypeGrid(tMachine, controller);
-                    choosingTicketScene = new Scene(choosingScene.asParent());
-                    setScene(choosingTicketScene);
-                    setSize();
-                    break;
-                case BUYING_SINGLE:
-                    setScene(buySimpleTicketScene);
-                    setSize();
-                    break;
-                case BUYING_SEASON:
-                    if(tMachine.hasLogged()){
-                        SelectSeasonGrid seasonGrid = new SelectSeasonGrid(tMachine, controller);
-                        buySeasonScene = new Scene(seasonGrid.asParent());
-                        setScene(buySeasonScene);
-                        setSize();
-                    }  
-                    break;    
-            }
+        if(arg instanceof Operation) {
+            Operation op = (Operation)arg;
+            Scene scene = scenes.get(op).selectScene(tMachine, controller);
+            setScene(scene);
+            setSize();
         }
         
         else if (arg instanceof Boolean) {
             if(!(boolean)arg) {
-                setScene(errorScene);
+                ErrorScene errorGrid = new ErrorScene(tMachine, "Ticket Machine " + tMachine.getCod() + " can't operate :(");
+                setScene(new Scene(errorGrid.asParent()));
                 setSize();
             }
         }
@@ -145,7 +53,7 @@ public class TicketMachineStage extends Stage implements Observer{
         else if(arg instanceof Sale) {
             Sale ticket = (Sale) arg;
             ShowTicketGrid showTicketGrid = new ShowTicketGrid(controller, ticket);
-            showTicketScene = new Scene(showTicketGrid.asParent());
+            Scene showTicketScene = new Scene(showTicketGrid.asParent());
             setScene(showTicketScene);
             setSize();
         }
@@ -154,5 +62,21 @@ public class TicketMachineStage extends Stage implements Observer{
     private void setSize() {
         setHeight(height);
         setWidth(width);
+    }
+
+    private void initSceneMap() {
+        scenes = new HashMap();
+        scenes.put(Operation.SELLING_TICKET, new MainSceneCommand());
+        scenes.put(Operation.SELECTING_PAYMENT, new SelectingPaymentCommand());
+        scenes.put(Operation.INSERTING_COINS, new InsertingCoinsCommand());
+        scenes.put(Operation.LOGGING_IN, new LoggingCommand());
+        scenes.put(Operation.CREATING_USER, new CreatingUserCommand());
+        scenes.put(Operation.CHOOSING_TICKET, new ChoosingTicketCommand());
+        scenes.put(Operation.INSERTING_CCARD, new InsertingCardCommand());
+        scenes.put(Operation.BUYING_PHYSICAL, new BuyPhysicalCommand());
+        scenes.put(Operation.BUYING_PSEASON, new BuyPSeasonCommand());
+        scenes.put(Operation.BUYING_PTICKET, new BuyPTicketCommand());
+        scenes.put(Operation.BUYING_SINGLE, new BuyTicketCommand());
+        scenes.put(Operation.BUYING_SEASON, new BuySeasonCommand());
     }
 }
