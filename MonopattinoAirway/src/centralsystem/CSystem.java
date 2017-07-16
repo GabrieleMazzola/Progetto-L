@@ -5,11 +5,15 @@ import bank.BankAdapter;
 import centralsystem.interfaces.CentralSystemCollectorInterface;
 import centralsystem.interfaces.CentralSystemTicketInterface;
 import console.LogCS;
-import database.DatabaseAdapter;
+import database.DatabaseFacade;
 import database.people.User;
 import productsfactories.central.CentralProductsFactory;
 import items.*;;
 import java.util.*;
+import singleton.JSONOperations;
+import ticketmachine.MachineStatus;import java.util.*;
+import singleton.JSONOperations;
+import ticketmachine.MachineStatus;import java.util.*;
 import singleton.JSONOperations;
 import ticketmachine.MachineStatus;import java.util.*;
 import singleton.JSONOperations;
@@ -21,7 +25,7 @@ import ticketmachine.MachineStatus;
  */
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface{
     
-    private final DatabaseAdapter database;
+    private final DatabaseFacade database;
     private Map<Integer,MachineStatus> statusList;
     private Map<String,Product> products;
     private BankAdapter bank;
@@ -32,7 +36,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param className 
      */
     public CSystem(String className) {
-        this.database = new DatabaseAdapter(className); 
+        this.database = new DatabaseFacade(className); 
         this.bank = new BankAdapter();
         statusList = new HashMap();
         products = CentralProductsFactory.getInstance().getProducts();
@@ -100,7 +104,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     * Permette di effettuare il login dell'utente, comunicando al DatabaseAdapter le credenziali
+     * Permette di effettuare il login dell'utente, comunicando al DatabaseFacade le credenziali
      * @param username
      * @param psw
      * @return Vero se le credenziali sono giuste, falso altrimenti
@@ -132,7 +136,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     * Permette di effettuare il login del Collector, comunicando al DatabaseAdapter le credenziali
+     * Permette di effettuare il login del Collector, comunicando al DatabaseFacade le credenziali
      * @param username
      * @param psw
      * @return Vero se le credenziali sono giuste, falso altrimenti
