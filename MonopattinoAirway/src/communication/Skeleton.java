@@ -24,6 +24,7 @@ import enums.jsonenumerations.StatisticsInformation;
 import enums.jsonenumerations.TicketTypes;
 import enums.jsonenumerations.UpdateMachineStatus;
 import enums.jsonenumerations.UserLogin;
+import enums.jsonenumerations.GetSale;
 import java.net.SocketException;
 
 /*Classe che viene lanciata come thread dal SocketHandler, e che rimane in attesa di comunicazione
@@ -129,5 +130,6 @@ public class Skeleton extends Thread {
         commandMap.put(StatisticsInformation.STATISTICSINFORMATION.toString(), new CallStatisticsInformationCommand(csystem));
         commandMap.put(MyValidTickets.MYVALIDTICKETS.toString(), new CallMyValidTicketsCommand(csystem));
         commandMap.put(RequestFinesStartNumber.REQUESTFINESSTARTNUMBER.toString(), new CallRequestFinesStartNumberCommand(csystem));
+        commandMap.put(GetSale.GETSALE.toString(), new CallGetSaleCommand(csystem));
     }    
 }

@@ -174,7 +174,9 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     public Set<Sale> getSalesByType(String type) {
         return database.getSalesByType(type);
     }
-    
+    public Sale getSale(String serialCode){
+        return database.getSale(serialCode);
+    }
     public Set<Sale> getSalesByUsername(String username) {
         return database.getSalesByUsername(username);
     }

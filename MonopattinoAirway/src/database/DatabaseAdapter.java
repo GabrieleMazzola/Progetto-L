@@ -201,4 +201,8 @@ public class DatabaseAdapter{
     public User getUser(String username) {
         return (User)userMapper.get(username);
     }
+
+    public Sale getSale(String serialCode) {
+        return (Sale)saleMapper.get(serialCode);
+    }
 }
