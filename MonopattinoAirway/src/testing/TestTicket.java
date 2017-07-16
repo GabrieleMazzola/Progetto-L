@@ -19,7 +19,8 @@ public class TestTicket {
 //            machine.setTicketToSell(type);
 //            System.out.println("Inserire monete:");
 //            double money = Double.parseDouble(buffer.readLine());
-//            machine.insertMoney(money);   
+//            machine.insertMoney(money); 
+//            System.out.println("Sale offline: "+machine.getOfflineSaleSize());
         }    
         
     }
