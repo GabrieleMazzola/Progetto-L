@@ -1,4 +1,4 @@
-package testhandlers;
+package handlerstests;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -67,6 +67,18 @@ public class MoneyHandlerTests {
         assertEquals(1.00, mHandler.giveChange(2, 3), 0.1);
         assertTrue(mHandler.getQuantityOf(1.00)==9);
         
-
+        assertEquals(0.01, mHandler.giveChange(0, 0.01), 0.1);
+        
+    }
+    
+    @Test
+    public void giveChangeEnoughMoneyTest(){
+    
+        mHandler.setQuantityOf(1.00, 0);
+        
+        assertEquals(1.00, mHandler.giveChange(2, 3), 0.1);
+        assertTrue(mHandler.getQuantityOf(1.00)==0);
+        assertTrue(mHandler.getQuantityOf(0.50)==8);
+        
     }
 }
