@@ -146,6 +146,7 @@ public class StubMachine implements CentralSystemTicketInterface {
      */
     @Override
     public boolean updateMachineStatus(MachineStatus status) {
+        status.setSellerIp(this.getClientIPAddress());
         try {
             testConnection();
             String packet = JSONOperations.getInstance().updateMachineStatusPacket(status);
@@ -198,7 +199,7 @@ public class StubMachine implements CentralSystemTicketInterface {
 
     @Override
     public Boolean addSale(Sale sale) {
-        
+        sale.setSellerMachineIp(this.getClientIPAddress());
         this.offlineSales.add(sale);
         
         try {
@@ -247,7 +248,8 @@ public class StubMachine implements CentralSystemTicketInterface {
      * e le mette in una mappa.
      * @return La mappa con tutte le istanze dei Product acquistabili
      */
-    public Map<String, Product> getProductList() {
+    @Override
+    public Map<String, Product> ticketTypes() {
         
         Map<String, Product> products = new HashMap<>();
         try {
@@ -280,23 +282,6 @@ public class StubMachine implements CentralSystemTicketInterface {
             System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
         }
         return products;
-    }
-
-    public void userEmailRequest(String email) {
-        try {
-            testConnection();
-            String packet = JSONOperations.getInstance().requestEmailTo(email);
-            toServer.println(packet);
-            String line = fromServer.readLine();
-            
-            JSONParser parser = new JSONParser();
-            JSONObject obj = (JSONObject) parser.parse(line);
-            
-            } catch (ParseException ex) {
-                System.err.println("Error: SubMachine.java - updateMachineStatus() parsing error");
-            } catch (IOException ex) {
-                System.err.println("Error: SubMachine.java - updateMachineStatus() fromServer read error");
-        }
     }
 
     private void testConnection() throws IOException {

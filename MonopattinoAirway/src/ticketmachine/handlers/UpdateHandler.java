@@ -43,8 +43,7 @@ public class UpdateHandler {
                 double inkPercentage = machine.getInk();
                 double paperPercentage = machine.getPaper();
                 boolean active = machine.isActive();
-                String ipAddress = machine.getClientIPAddress();
-                machine.updateMachineStatus(new MachineStatus(cod, ipAddress, inkPercentage, paperPercentage, active));
+                machine.updateMachineStatus(new MachineStatus(cod, null, inkPercentage, paperPercentage, active));
             };
         };
     }

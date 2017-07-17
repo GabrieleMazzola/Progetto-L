@@ -23,7 +23,7 @@ interface CentralSystemWebServerInterface {
     public Set<Sale> getValidSalesByUsername(String username);
 
     
-    Long countAllFinesMadeBy(String collectorUsername);
+    Long requestFinesStartNumber(String collectorUsername);
 
     boolean userLogin(String username, String password);
 }

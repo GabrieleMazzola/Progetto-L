@@ -95,4 +95,8 @@ public class Sale {
         
         return sb.toString();
     }
+
+    public void setSellerMachineIp(String clientIPAddress) {
+        this.sellerMachineIp = clientIPAddress;
+    }
 }

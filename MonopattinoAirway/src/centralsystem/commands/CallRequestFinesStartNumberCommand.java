@@ -26,7 +26,7 @@ public class CallRequestFinesStartNumberCommand extends Command{
         centralSystem.addMessageToLog("attempted request fines start number");
         System.out.println(data.toJSONString());
         String collectorUsername = (String)data.get(RequestFinesStartNumber.COLLECTORUSERNAME.toString());
-        Long startNumber = centralSystem.countAllFinesMadeBy(collectorUsername);
+        Long startNumber = centralSystem.requestFinesStartNumber(collectorUsername);
         
         data = new JSONObject();
         data.put(JsonFields.DATA.toString(), startNumber);

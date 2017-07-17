@@ -1,5 +1,6 @@
 package ticketcollector;
 
+import centralsystem.interfaces.CentralSystemCollectorInterface;
 import communication.StubCollector;
 import items.Fine;
 import java.io.IOException;
@@ -7,20 +8,12 @@ import java.util.Observable;
 
 
 public class TicketCollector extends Observable{
-    private final StubCollector stub;
+    private final CentralSystemCollectorInterface stub;
     private CollectorOperation operation;
 
     
     public TicketCollector(String ipAddress) throws IOException {
         stub = new StubCollector(ipAddress, 5000);
-    }
-    
-    /**
-     *
-     * @throws IOException
-     */
-    public void initConnection() throws IOException{
-        stub.initConnection();
     }
     
     public void setOperation(CollectorOperation newOperation) {
@@ -53,13 +46,6 @@ public class TicketCollector extends Observable{
  */    
     public Boolean addFine(Fine fine){
         return stub.makeFine(fine);
-    }
-/**
- * Acquisizione offline del numero delle multe 
- * @return Vero se vengono acquisite 
- */    
-    public int getOfflineFinesNumber() {
-        return stub.getOfflineFinesSize();
     }
 
     public Long requestFinesStartNumber(String username) {

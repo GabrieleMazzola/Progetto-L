@@ -57,5 +57,9 @@ public class MachineStatus {
     public void setActive(boolean active) {
         this.active = active;
     }
+    
+    public void setSellerIp(String ip){
+        this.sellerIp = ip;
+    }
 
 }

@@ -1,5 +1,6 @@
 package ticketmachine;
 
+import centralsystem.interfaces.CentralSystemTicketInterface;
 import ticketmachine.handlers.ResourcesHandler;
 import communication.StubMachine;
 import items.Product;
@@ -15,7 +16,7 @@ public class TicketMachine extends Observable{
     private ResourcesHandler resources;
     private MoneyHandler moneyTank;
     private TicketMachineCodeHandler codesHandler;
-    private StubMachine stub;
+    private CentralSystemTicketInterface stub;
     private UpdateHandler updateHandler;
     private Operation operation;
     
@@ -39,7 +40,7 @@ public class TicketMachine extends Observable{
             stub = null;
         }
         
-        this.products = stub.getProductList();
+        this.products = stub.ticketTypes();
         
         printProducts();
         
@@ -148,7 +149,7 @@ public class TicketMachine extends Observable{
      * @return ticketcode
      */
     public Sale createSale(Product toSell, String toWho){
-        Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), toWho, toSell, getClientIPAddress());
+        Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), toWho, toSell, null);
         if(toWho.equals("-"))
             resources.printTicket();
         stub.addSale(sale);
@@ -233,9 +234,6 @@ public class TicketMachine extends Observable{
 //        return toSell.getCost();
 //    }
 
-    public String getClientIPAddress() {
-        return stub.getClientIPAddress();
-    }
 
     /**
      *
@@ -244,11 +242,6 @@ public class TicketMachine extends Observable{
     public void updateMachineStatus(MachineStatus machineStatus) {
         stub.updateMachineStatus(machineStatus);
     }
-
-    public void getUserFromEmail(String email) {
-        stub.userEmailRequest(email);
-    }
-    
     
     private void printProducts(){
     	StringBuilder sb = new StringBuilder();
@@ -259,9 +252,5 @@ public class TicketMachine extends Observable{
     	System.err.println("\n\nProducts initialized: ");
     	System.err.println(sb.toString());
     }
-    
-    public int getOfflineSaleSize(){
-        return stub.getOfflineSaleSize();
-    }
-      
+
 }

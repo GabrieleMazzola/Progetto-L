@@ -10,17 +10,8 @@ import database.people.User;
 import productsfactories.central.CentralProductsFactory;
 import items.*;;
 import java.util.*;
-import singleton.JSONOperations;
-import ticketmachine.MachineStatus;import java.util.*;
-import singleton.JSONOperations;
-import ticketmachine.MachineStatus;import java.util.*;
-import singleton.JSONOperations;
 import ticketmachine.MachineStatus;
 
-/**
- *
- * @author Zubeer
- */
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface,CentralSystemWebServerInterface{
     
     private final DatabaseFacade database;
@@ -263,8 +254,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      *
      * @return
      */
-    public String ticketTypes(){
-        return JSONOperations.getInstance().ticketTypesPacket(products);
+    public Map<String,Product> ticketTypes(){
+        return this.products;
     }
 
     public Set<Sale> getAllSales() {
@@ -280,7 +271,8 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param collectorUsername
      * @return
      */
-    public Long countAllFinesMadeBy(String collectorUsername) {
+    @Override
+    public Long requestFinesStartNumber(String collectorUsername) {
         return database.countAllFinesMadeBy(collectorUsername);
     }
 

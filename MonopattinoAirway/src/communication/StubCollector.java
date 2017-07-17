@@ -194,6 +194,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
      * @return Un long, che è il numero di multe fatte dal Collector, o null se avviene un problema
      * di comunicazione o di parsing del pacchetto JSON di risposta
      */
+    @Override
     public Long requestFinesStartNumber(String collectorUsername) {
         try {
             

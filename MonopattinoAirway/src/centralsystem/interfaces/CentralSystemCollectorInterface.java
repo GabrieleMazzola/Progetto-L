@@ -9,4 +9,6 @@ public interface CentralSystemCollectorInterface {
     
     public boolean collectorLogin(String username,String psw);
     
+    public Long requestFinesStartNumber(String collectorUsername);
+    
 }

@@ -1,6 +1,8 @@
  package centralsystem.interfaces;
 
+import items.Product;
 import items.Sale;
+import java.util.Map;
 import ticketmachine.MachineStatus;
 
 public interface CentralSystemTicketInterface {
@@ -16,4 +18,6 @@ public interface CentralSystemTicketInterface {
     public boolean updateMachineStatus(MachineStatus status);
     
     public Boolean addSale(Sale sale);
+    
+    public Map<String,Product> ticketTypes();
 }
