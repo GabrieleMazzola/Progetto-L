@@ -59,7 +59,7 @@ public class Stub implements  CentralSystemWebServerInterface{
 		return saleList;
 	}
 	
-            @Override
+        @Override
 	 public Set<Sale> getValidSalesByUsername(String username){
 		Set<Sale> saleList = new HashSet<Sale>();
 		try{
