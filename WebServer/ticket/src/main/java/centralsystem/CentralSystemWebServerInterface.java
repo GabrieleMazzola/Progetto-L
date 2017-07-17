@@ -30,7 +30,7 @@ public interface CentralSystemWebServerInterface {
 
     String createUser(String name, String surname, String cf, String username, String password, String email);
 
-    Long countAllFinesMadeBy(String collectorUsername);
+    Long requestFinesStartNumber(String collectorUsername);
     boolean userLogin(String username, String password);
     
 }

@@ -1,8 +1,6 @@
 package machineonline;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,7 @@ import items.Product;
 
 public class TicketOnline{
 	
-	private TicketMachineCodeHandler codesHandler;
+    private TicketMachineCodeHandler codesHandler;
     private StubOnline stub;
     
     private Map<String,Product> products;

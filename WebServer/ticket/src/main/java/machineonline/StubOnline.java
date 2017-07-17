@@ -2,7 +2,6 @@ package machineonline;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +10,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import items.Product;
-import items.SimpleSeason;
-import items.SimpleTicket;
 import jsonenumerations.JsonFields;
 import jsonenumerations.TicketTypes;
 import singleton.JSONOperations;

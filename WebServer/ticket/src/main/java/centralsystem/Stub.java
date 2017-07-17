@@ -22,14 +22,14 @@ import machineonline.TicketOnline;
 import org.json.simple.JSONArray;
 import singleton.JSONOperations;
 
-public class Stub implements  CentralSystemWebServerInterface{
+public class Stub implements CentralSystemWebServerInterface{
 
 	private static Stub instance;
 	
 	private Stub(){
 	}
 	
-    public static synchronized Stub getInstance() {
+    public static synchronized CentralSystemWebServerInterface getInstance() {
         if (instance == null) {
             instance = new Stub();
         }
@@ -80,83 +80,6 @@ public class Stub implements  CentralSystemWebServerInterface{
 		}
 		System.err.println("ERRORE GETVALIDSALEBYUSERNAME");
 		return saleList;
-	}	
-
-    
-	public String buyTicket(String username, String cardNumber,String type){
-		
-		
-		TicketOnline onlineMachine = TicketOnline.getInstance();	
-		
-		//STAMPE LOG
-		System.err.print("BUY TICKET: ");
-		
-		//RILEVAMENTO COSTO
-		Product item = TicketOnline.getInstance().getProduct(type);
-		
-		//STAMPE LOG
-		System.out.print("Description: "+ item.getDescription());
-		System.out.print(",  Type : " + item.getType());
-		System.out.print(",  Cost : " + item.getCost());
-		System.out.print(".  Paying...");
-		
-		//PAGAMENTO
-		boolean result = onlineMachine.creditCardPayment(cardNumber,item.getCost());
-		
-		System.out.println("Risultato pagamento :" + result);
-		
-		//AGGIUNTA DELLA VENDITA
-		if(result){
-			return addSale(onlineMachine,username,item.getType());
-		}
-		
-		//STAMPA SERIALI
-		onlineMachine.printSerials();
-		
-		System.out.println("Sending to app : "+ result);
-		return JSONOperations.getInstance().booleanPacket(result);
-
-	}
-	
-	
-	private String addSale(TicketOnline onlineMachine,String username,String type) {
-		
-		
-		
-		Long serialCode = onlineMachine.useOneSerial();
-		System.err.println("ADDSALE: Seriale comprato: " + serialCode);
-		String sellDate = DateOperations.getInstance().toString(new Date());
-
-		
-		ConnectionHandler conn = new ConnectionHandler();
-		String packet = JSONOperations.getInstance().addSalePacket(username,serialCode,sellDate,type,conn.getIP());
-
-		try{
-			System.out.println("addSale to system :" + packet);
-			
-			//INVIO INFORMAZIONI VENDITA
-			String line = conn.sendAndReceive(packet);
-			conn.closeConnection();
-			JSONParser parser = new JSONParser();               
-            JSONObject obj = (JSONObject)parser.parse(line);
-            //STAMPA RISULTATO
-            System.out.println("Result: " + obj.toJSONString());
-            if((Boolean)obj.get(JsonFields.DATA.toString())){
-            	
-            	//STAMPA SERIALI
-            	onlineMachine.printSerials();
-            	return JSONOperations.getInstance().booleanPacket(true);
-            }
-            
-		}catch(IOException|ParseException e){
-			e.printStackTrace();
-		}
-		//STAMPA SERIALI
-		onlineMachine.printSerials();
-		System.err.println("ADDSALE FALLITA");
-		
-		return JSONOperations.getInstance().booleanPacket(false);
-		
 	}
 
 	//COLLECTOR REQUESTS
@@ -164,7 +87,7 @@ public class Stub implements  CentralSystemWebServerInterface{
 	
 	
     @Override
-	public Long countAllFinesMadeBy(String collectorUsername) {
+	public Long requestFinesStartNumber(String collectorUsername) {
 	    try{
 	      String request = JSONOperations.getInstance().requestFinesStartNumberPacket(collectorUsername);
 	      

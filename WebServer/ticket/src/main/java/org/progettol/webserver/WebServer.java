@@ -1,8 +1,6 @@
 package org.progettol.webserver;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,16 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.persistence.oxm.record.FormattedWriterRecord;
 import org.progettol.webserver.beans.User;
 
 import centralsystem.Stub;
 import java.io.PrintWriter;
-import singleton.DateOperations;
 import singleton.JSONOperations;
-import singleton.SerialEncryption;
 
 /**
  * Servlet implementation class WebServer

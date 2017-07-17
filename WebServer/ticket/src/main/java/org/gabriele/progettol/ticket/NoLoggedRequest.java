@@ -1,6 +1,7 @@
 package org.gabriele.progettol.ticket;
 
 
+import centralsystem.CentralSystemWebServerInterface;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -24,7 +25,7 @@ public class NoLoggedRequest {
 
 	
 	
-	Stub systemStub = Stub.getInstance();
+	CentralSystemWebServerInterface systemStub = Stub.getInstance();
     
     
     @GET

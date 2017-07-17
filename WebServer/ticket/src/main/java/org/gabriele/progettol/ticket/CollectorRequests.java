@@ -1,6 +1,7 @@
 package org.gabriele.progettol.ticket;
 
 
+import centralsystem.CentralSystemWebServerInterface;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,7 +23,7 @@ import singleton.JSONOperations;
 public class CollectorRequests {
 
 	
-	Stub systemStub = Stub.getInstance();
+	CentralSystemWebServerInterface systemStub = Stub.getInstance();
 	
 	
 	
@@ -52,7 +53,7 @@ public class CollectorRequests {
 	@Path("/startnumber/{collectorUsername}")
 	public String startNumber(@PathParam("collectorUsername") String collectorUsername){
 	    
-		Long result = systemStub.countAllFinesMadeBy(collectorUsername);
+		Long result = systemStub.requestFinesStartNumber(collectorUsername);
                 JSONObject data = new JSONObject();
                 if(result != null){
                    

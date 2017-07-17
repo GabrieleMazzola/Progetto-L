@@ -1,5 +1,6 @@
 package org.gabriele.progettol.ticket;
 
+import centralsystem.CentralSystemWebServerInterface;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -13,9 +14,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.internal.util.Base64;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import centralsystem.Stub;
 import singleton.JSONOperations;
@@ -28,7 +26,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
 	private static final String SECURED_URL_PREFIX = "secured";
 
-	Stub systemStub = Stub.getInstance();
+	CentralSystemWebServerInterface systemStub = Stub.getInstance();
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
