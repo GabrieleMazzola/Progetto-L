@@ -3,10 +3,7 @@ package ticketmachine.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Zubeer
- */
+
 public class MoneyHandler {
     protected List<Tank> moneyTank;
 

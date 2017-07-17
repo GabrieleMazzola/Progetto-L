@@ -20,7 +20,7 @@ public class TicketMachineLoader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {        
-        tMachine = new TicketMachine(0, 5000, "localhost");
+        tMachine = new TicketMachine(0, 5000, "10.87.156.248");
 
          MoneyTankFrame debug = new MoneyTankFrame(tMachine);
          debug.setVisible(true);
