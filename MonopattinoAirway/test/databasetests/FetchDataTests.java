@@ -98,7 +98,7 @@ public class FetchDataTests {
     
     @Test
     public void testFetchFine() {
-        cs.addFine(new Fine("0", "Patate", 90, "areds"));
+        cs.makeFine(new Fine("0", "Patate", 90, "areds"));
         assertTrue(cs.getFineById(0) != null);
         assertTrue(cs.getFineById(10) == null);
     }
@@ -106,9 +106,9 @@ public class FetchDataTests {
     @Test
     public void testFetchFineByCF() {
         
-        cs.addFine(new Fine("0", "cf", 90, "areds"));
-        cs.addFine(new Fine("0", "cf", 70, "areds"));
-        cs.addFine(new Fine("0", "cf", 50, "areds"));
+        cs.makeFine(new Fine("0", "cf", 90, "areds"));
+        cs.makeFine(new Fine("0", "cf", 70, "areds"));
+        cs.makeFine(new Fine("0", "cf", 50, "areds"));
         
         Set<Fine> fines = cs.getFinesOf("cf");
         assertTrue(fines.size() == 3);

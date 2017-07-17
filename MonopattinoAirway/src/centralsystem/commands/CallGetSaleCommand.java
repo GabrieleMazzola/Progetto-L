@@ -9,7 +9,7 @@ import centralsystem.CSystem;
 import enums.jsonenumerations.AddSale;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.MakeFine;
-import enums.jsonenumerations.MyTickets;
+import enums.jsonenumerations.GetSalesByUsername;
 import enums.jsonenumerations.GetSale;
 import items.Fine;
 import items.Sale;

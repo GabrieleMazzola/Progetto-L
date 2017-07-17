@@ -16,8 +16,8 @@ import enums.jsonenumerations.CreateUser;
 import enums.jsonenumerations.ExistsTicket;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.MakeFine;
-import enums.jsonenumerations.MyTickets;
-import enums.jsonenumerations.MyValidTickets;
+import enums.jsonenumerations.GetSalesByUsername;
+import enums.jsonenumerations.GetValidSalesByUsername;
 import enums.jsonenumerations.RequestCodes;
 import enums.jsonenumerations.RequestFinesStartNumber;
 import enums.jsonenumerations.StatisticsInformation;
@@ -117,18 +117,18 @@ public class Skeleton extends Thread {
 
     private void initCommands() {
         commandMap.put(CreateUser.CREATEUSER.toString(), new CallCreateUserCommand(csystem));
-        commandMap.put(MakeFine.MAKEFINE.toString(), new CallAddFineCommand(csystem));
+        commandMap.put(MakeFine.MAKEFINE.toString(), new CallMakeFineCommand(csystem));
         commandMap.put(CollectorLogin.COLLECTORLOGIN.toString(), new CallCollectorLoginCommand(csystem));
         commandMap.put(UserLogin.USERLOGIN.toString(), new CallUserLoginCommand(csystem));
         commandMap.put(CardPayment.CARDPAYMENT.toString(), new CallCardPaymentCommand(csystem));
         commandMap.put(ExistsTicket.EXISTSTICKET.toString(), new CallExistsTicketCommand(csystem));
-        commandMap.put(MyTickets.MYTICKETS.toString(), new CallMyTicketsCommand(csystem));
+        commandMap.put(GetSalesByUsername.GETSALESBYUSERNAME.toString(), new CallGetSalesByUsernameCommand(csystem));
         commandMap.put(RequestCodes.NUMBEROFCODES.toString(), new CallRequestCodesCommand(csystem));
         commandMap.put(UpdateMachineStatus.UPDATEMACHINESTATUS.toString(), new CallUpdateMachineStatusCommand(csystem));
         commandMap.put(AddSale.ADDSALE.toString(), new CallAddSaleCommand(csystem));
         commandMap.put(TicketTypes.TICKETTYPES.toString(), new CallTicketTypesCommand(csystem));
         commandMap.put(StatisticsInformation.STATISTICSINFORMATION.toString(), new CallStatisticsInformationCommand(csystem));
-        commandMap.put(MyValidTickets.MYVALIDTICKETS.toString(), new CallMyValidTicketsCommand(csystem));
+        commandMap.put(GetValidSalesByUsername.GETVALIDSALESBYUSERNAME.toString(), new CallGetValidSalesByUsernameCommand(csystem));
         commandMap.put(RequestFinesStartNumber.REQUESTFINESSTARTNUMBER.toString(), new CallRequestFinesStartNumberCommand(csystem));
         commandMap.put(GetSale.GETSALE.toString(), new CallGetSaleCommand(csystem));
     }    

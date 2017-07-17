@@ -50,7 +50,7 @@ public class CSystemCollectorTests {
     @Test
     public void doFine(){
         Fine fine = new Fine("444","AJEJE BRAZORF",60,"Simone");
-        assertTrue(cs.addFine(fine));
+        assertTrue(cs.makeFine(fine));
     }
     
     @Test

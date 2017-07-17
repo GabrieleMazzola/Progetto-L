@@ -7,9 +7,9 @@ import enums.jsonenumerations.MakeFine;
 import org.json.simple.JSONObject;
 
 
-public class CallAddFineCommand extends Command {
+public class CallMakeFineCommand extends Command {
 
-    public CallAddFineCommand(CSystem centralSystem) {
+    public CallMakeFineCommand(CSystem centralSystem) {
         super(centralSystem);
     }
     
@@ -19,7 +19,7 @@ public class CallAddFineCommand extends Command {
      * CentralSystem per memorizzarla nel database. Viene memorizzato il valore di ritorno del
      * metodo del CentralSystem, e viene messo in un pacchetto JSON
      * @param data
-     * @return Una stringa che rappresenta il valore di ritorno del metodo addFine del CentralSystem 
+     * @return Una stringa che rappresenta il valore di ritorno del metodo addSale del CentralSystem 
      */
     @Override
     public String execute(JSONObject data){
@@ -32,7 +32,7 @@ public class CallAddFineCommand extends Command {
         
         //TODO cambiare la creazione di FINE nei json e in ogni dove
         Fine fine = new Fine(id, cf, amount,collectorUsername);
-        boolean result = centralSystem.addFine(fine);
+        boolean result = centralSystem.makeFine(fine);
         data = new JSONObject();
         data.put(JsonFields.DATA.toString(), result);
 

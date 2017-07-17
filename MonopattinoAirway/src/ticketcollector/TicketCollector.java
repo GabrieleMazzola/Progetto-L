@@ -90,7 +90,7 @@ public class TicketCollector extends Observable{
             Fine fine = new Fine(username+finesStartNumber, cf, amount, username);
             finesStartNumber++;
             
-            return stub.addFine(fine);
+            return stub.makeFine(fine);
         }
         return null;
     }

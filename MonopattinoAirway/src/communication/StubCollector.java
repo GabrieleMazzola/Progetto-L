@@ -105,7 +105,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
      * in caso di errore durante il parsing del pacchetto JSON
      */
     @Override
-    public Boolean addFine(Fine f){
+    public Boolean makeFine(Fine f){
         addOfflineFine(f);
 
         try{

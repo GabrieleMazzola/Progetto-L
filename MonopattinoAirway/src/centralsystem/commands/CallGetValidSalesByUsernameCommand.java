@@ -9,20 +9,31 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import singleton.DateOperations;
 
-public class CallStatisticsInformationCommand extends Command{
+public class CallGetValidSalesByUsernameCommand extends Command{
     
-    public CallStatisticsInformationCommand(CSystem centralSystem) {
+    public CallGetValidSalesByUsernameCommand(CSystem centralSystem) {
         super(centralSystem);
     }
 
+    /**
+     * Prende un pacchetto JSON in ingresso,e estrae l'username dell'utente che effettua la richiesta.
+     * Chiama il metodo del CentralSystem per estrarre tutte le Sale associate a quell'utente,
+     * e con data di scadenza non ancora passata. 
+     * Viene memorizzato un JSONArray che contiene tutte le informazioni delle sale ottenute così, 
+     * e quest'ultimo viene messo in un pacchetto JSON.
+     * @param data
+     * @return Una stringa che rappresenta il JSONArray delle Sale     
+     */
     @Override
     public String execute(JSONObject data) {
-            centralSystem.addMessageToLog("attempted statistics information..");
-            
-            Set<Sale> saleList = centralSystem.getAllSales();
-            JSONArray jsonList = new JSONArray();
-            data = new JSONObject();
-            
+        centralSystem.addMessageToLog("Request my tickets...");
+        
+       
+        String username = (String)data.get(GetSalesByUsername.USERNAME.toString());
+        data = new JSONObject();
+        Set<Sale> saleList =  centralSystem.getValidSalesByUsername(username);
+        JSONArray jsonList = new JSONArray();
+ 
         for (Sale sale : saleList) {
             JSONObject jsonSale = new JSONObject();  
             
@@ -35,8 +46,6 @@ public class CallStatisticsInformationCommand extends Command{
             jsonList.add(jsonSale);
             
         }
-        
-        centralSystem.addMessageToLog("Request successfully handled");
         data.put(JsonFields.DATA.toString(), jsonList);
         return data.toString();
     }

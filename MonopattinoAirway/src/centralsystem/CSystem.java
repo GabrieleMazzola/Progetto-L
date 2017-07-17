@@ -19,7 +19,7 @@ import ticketmachine.MachineStatus;
  *
  * @author Zubeer
  */
-public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface{
+public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface,CentralSystemWebServerInterface{
     
     private final DatabaseAdapter database;
     private Map<Integer,MachineStatus> statusList;
@@ -143,7 +143,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     @Override
-    public Boolean addFine(Fine f) {
+    public Boolean makeFine(Fine f) {
     	return database.addFine(f);
     }
     
@@ -281,4 +281,23 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     public Long countAllFinesMadeBy(String collectorUsername) {
         return database.countAllFinesMadeBy(collectorUsername);
     }
+
+    
+    
+    
+   
+
+    
+
+    
+
+   
+
+    
+
+    
+
+    
+
+    
 }
