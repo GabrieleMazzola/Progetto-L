@@ -30,6 +30,10 @@ public class TicketMachineStage extends Stage implements Observer{
         Scene mainScene = new Scene(new TicketMachineInitialGrid(controller).asParent());
         setScene(mainScene);
         setSize();
+        
+        setOnCloseRequest(e -> {
+            close();
+        });
     }
     
     
@@ -56,6 +60,7 @@ public class TicketMachineStage extends Stage implements Observer{
             Scene showTicketScene = new Scene(showTicketGrid.asParent());
             setScene(showTicketScene);
             setSize();
+            controller = new TicketMachineSession(tMachine);
         }
     }
     

@@ -40,22 +40,22 @@ public class CSystemUserTests {
     }
     
     @Test
-    public void CreateUserNonExisting(){
+    public void createNonExistingUser(){
         assertTrue(cs.createUser("NONADMIN", "NONADMIN", "NNDMN", "NONADMIN", "NONADMIN", "colosisimone@gmail.com"));
     }
     
     @Test
-    public void CreateUserExisting(){
+    public void createExeistingUser(){
         assertFalse(cs.createUser("ADMIN", "ADMIN", "ADMIN", "ADMIN", "ADMIN", "colosisimone@gmail.com"));
     }
     
     @Test
-    public void UserLoginRight(){
+    public void correctUserLogin(){
         assertTrue(cs.userLogin("ADMIN", "ADMIN"));
     }
     
     @Test
-    public void UserLoginWrong(){
+    public void incorrectUserLogin(){
         assertFalse(cs.userLogin("ADMIN", "NONADMIN"));
     }
 }

@@ -11,14 +11,9 @@ import productsfactories.central.CentralProductsFactory;
 import items.*;;
 import java.util.*;
 import singleton.JSONOperations;
-import ticketmachine.MachineStatus;import java.util.*;
-import singleton.JSONOperations;
 import ticketmachine.MachineStatus;
 
-/**
- *
- * @author Zubeer
- */
+
 public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface{
     
     private final DatabaseAdapter database;
@@ -29,7 +24,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     
     /**
      * Inizializza tutti i coponenti relativi a connessione e comunicazione
-     * @param className 
+     * @param className il nome della classe del database da utilizzare
      */
     public CSystem(String className) {
         this.database = new DatabaseAdapter(className); 
@@ -45,7 +40,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     *
+     *Aggiunge un messaggio al log
      * @param message
      */
     public void addMessageToLog(String message) {

@@ -10,7 +10,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketmachine.TicketMachine;
 
 
 public class ChoosingTicketTypeGrid extends BridgeSceneGrid{
@@ -21,9 +20,9 @@ public class ChoosingTicketTypeGrid extends BridgeSceneGrid{
      *
      * @param tMachine
      */
-    public ChoosingTicketTypeGrid(TicketMachine tMachine, TicketMachineSession controller) {
+    public ChoosingTicketTypeGrid(TicketMachineSession controller) {
         
-        greetings = new Text("Hello, " + tMachine.getLoggedUsername() + "!");
+        greetings = new Text("Hello, " + controller.getLoggedUsername() + "!");
         greetings.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();

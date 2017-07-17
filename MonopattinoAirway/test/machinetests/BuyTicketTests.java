@@ -16,9 +16,6 @@ public class BuyTicketTests {
     
     private static TicketMachine tMachine;
     
-    public BuyTicketTests() {
-    }
-    
     @BeforeClass
     public static void setUpClass() {
         CSystemFactory.getInstance().buildLightCSystem(SimMapperFactory.class.getName());
@@ -77,7 +74,6 @@ public class BuyTicketTests {
         double prevInkLvl = tMachine.getInk();
 
         TicketMachineSession session = new TicketMachineSession(tMachine);
-        assertFalse(session.login("ADMIN1", "ADMIN"));
         assertTrue(session.login("ADMIN", "ADMIN"));
         
         session.startSale("T1");

@@ -44,9 +44,9 @@ public class CreateUserTest {
         
         assertTrue(tMachine.getLoggedUsername()=="-");
         
-        assertFalse(tMachine.login("Pippo", "classico0000"));
-        assertFalse(tMachine.login("Colosi", "patate"));
-        assertTrue(tMachine.login("Colosi", "classico0000"));
+        assertFalse(tMachine.verifyLogin("Pippo", "classico0000"));
+        assertFalse(tMachine.verifyLogin("Colosi", "patate"));
+        assertTrue(tMachine.verifyLogin("Colosi", "classico0000"));
         assertTrue(tMachine.getLoggedUsername().equals("Colosi"));
         
         assertTrue(tMachine.logout());

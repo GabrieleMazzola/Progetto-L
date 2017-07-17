@@ -44,7 +44,7 @@ public class LoginTest {
         catch(InterruptedException exc) {
             System.out.println(exc);
         }
-        assertTrue(tMachine.login("ADMIN", "ADMIN"));
-        assertFalse(tMachine.login("admin", "admin"));
+        assertTrue(tMachine.verifyLogin("ADMIN", "ADMIN"));
+        assertFalse(tMachine.verifyLogin("admin", "admin"));
     }
 }

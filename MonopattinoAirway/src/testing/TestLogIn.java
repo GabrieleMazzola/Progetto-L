@@ -18,7 +18,7 @@ public class TestLogIn {
         System.out.println("PWD:");
         String password = buffer.readLine();
         //LogIn
-        machine.login(username, password);
+        machine.verifyLogin(username, password);
         //Vendita biglietto
         System.out.println("Inserire il tipo di biglietto da comprare:");
         String type = buffer.readLine();

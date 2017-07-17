@@ -17,7 +17,6 @@ public class TicketMachine extends Observable{
     private TicketMachineCodeHandler codesHandler;
     private StubMachine stub;
     private UpdateHandler updateHandler;
-    private String logged;
     private Operation operation;
     
     private Map<String,Product> products;
@@ -50,7 +49,7 @@ public class TicketMachine extends Observable{
         
         operation = Operation.SELLING_TICKET;
         
-        logged = "-";
+        //logged = "-";
     }
     
     //__________________Metodi getter___________________________________________
@@ -70,9 +69,9 @@ public class TicketMachine extends Observable{
         return resources.hasEnoughResources();
     }
     
-    public String getLoggedUsername() {
-        return logged;
-    }
+//    public String getLoggedUsername() {
+//        return logged;
+//    }
 
     public double getTotalMoney() {
         return moneyTank.getTotal();
@@ -111,12 +110,7 @@ public class TicketMachine extends Observable{
      * @return Vero se il pagamento viene effettuato
      */
     public boolean sellTicket(Product toSell, String cardNumber) {
-        if(checkCreditCard(cardNumber, toSell.getCost())) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return checkCreditCard(cardNumber, toSell.getCost());
     }
     
     /**
@@ -153,9 +147,9 @@ public class TicketMachine extends Observable{
      * prima nella vendita
      * @return ticketcode
      */
-    public Sale createSale(Product toSell){
-        Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), logged, toSell, getClientIPAddress());
-        if(logged.equals("-"))
+    public Sale createSale(Product toSell, String toWho){
+        Sale sale = new Sale(new Date(), codesHandler.popSerialNumber(), toWho, toSell, getClientIPAddress());
+        if(toWho.equals("-"))
             resources.printTicket();
         stub.addSale(sale);
         notifyChange(sale);
@@ -212,42 +206,23 @@ public class TicketMachine extends Observable{
     }
     
     /**
-     * Effettua il login con i dati specificati
+     * Effettua il verifyLogin con i dati specificati
      * @param username
      * @param password
-     * @return Vero se il login ha successo, falso altrimenti
+     * @return Vero se il verifyLogin ha successo, falso altrimenti
      */
-    public boolean login(String username, String password) {
-        if(stub.userLogin(username, password)) {
-            notifyChange(operation);
-            logged = username;
-            notifyChange(logged);
-            
-            return true;
-        }
-        else 
-            return false;
-    }
-    
-    /**
-     * Effettua il logout settando a "-" il nome dell'utente loggato
-     * @return Vero
-     */
-    public boolean logout() {
-        logged = "-";
-        notifyChange(logged);
-        setOperation(Operation.SELLING_TICKET);
-        return true;
+    public boolean verifyLogin(String username, String password) {
+        return stub.userLogin(username, password);
     }
     
     /**
      *
      * @return
      */
-    public boolean hasLogged(){
-        return logged != "-" && logged != null;
-    
-    }
+//    public boolean hasLogged(){
+//        return logged != "-" && logged != null;
+//    
+//    }
     
     private void notifyChange(Object arg) {
         setChanged();

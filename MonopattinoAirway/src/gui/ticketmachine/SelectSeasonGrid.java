@@ -30,7 +30,7 @@ public class SelectSeasonGrid extends BridgeSceneGrid{
      */
     public SelectSeasonGrid(TicketMachine tMachine, TicketMachineSession controller){
         this.controller = controller;
-        text = new Text("Choose your season, " + tMachine.getLoggedUsername());
+        text = new Text("Choose your season, " + controller.getLoggedUsername());
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
         Separator hSeparator = new Separator();

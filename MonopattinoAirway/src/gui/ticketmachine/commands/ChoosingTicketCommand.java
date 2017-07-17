@@ -13,7 +13,7 @@ public class ChoosingTicketCommand implements SceneDispatcherCommand{
 
     @Override
     public Scene selectScene(TicketMachine tMachine, TicketMachineSession controller) {
-        ChoosingTicketTypeGrid choosingScene = new ChoosingTicketTypeGrid(tMachine, controller);
+        ChoosingTicketTypeGrid choosingScene = new ChoosingTicketTypeGrid(controller);
         return new Scene(choosingScene.asParent());
     }
     
