@@ -354,8 +354,10 @@ public class Stub implements  CentralSystemWebServerInterface{
                     ConnectionHandler conn = new ConnectionHandler();
 
                     System.out.println("Checking in system .. Sending : " + packet);
+                    
                     String line = conn.sendAndReceive(packet);
                     conn.closeConnection();
+                    System.out.println("Checking sale ... recived " + line );
                     JSONParser parser = new JSONParser();               
                     JSONObject obj = (JSONObject)parser.parse(line);
                     //Struttura JSON di risposta : {"d":"d"}

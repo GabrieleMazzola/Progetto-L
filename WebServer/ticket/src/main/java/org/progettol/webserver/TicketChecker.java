@@ -27,7 +27,7 @@ public class TicketChecker {
             sale = Stub.getInstance().getSale(serialCode);
             return sale;
         }catch(Exception e){
-            System.err.println("Errore nella verifica della sale, valore inserita: " + value);
+            System.err.println("Errore nella verifica della sale, valore inserita: " + value + e);
         }
         return null;
     } 
