@@ -1,3 +1,4 @@
+<%@page import="centralsystem.CentralSystemWebServerInterface"%>
 <%@page import="java.net.InetAddress"%>
 <%@page import="avvio.Start"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -26,7 +27,7 @@
 <div class="SaleContainer">
 <% 
 	String result = (String) session.getAttribute("result");
-	Stub CentralSystemStub = Stub.getInstance(); 
+	CentralSystemWebServerInterface CentralSystemStub = Stub.getInstance(); 
 	SaleHandler saleFactory;
 	//TODO controllare se user è diverso da null
 	%>
