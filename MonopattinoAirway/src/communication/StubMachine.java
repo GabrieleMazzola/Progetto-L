@@ -11,8 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import enums.jsonenumerations.JsonFields;
 import enums.jsonenumerations.TicketTypes;
-import java.util.ArrayList;
-import java.util.List;
 import productsfactories.client.ClientProductsFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,13 +27,12 @@ public class StubMachine implements CentralSystemTicketInterface {
     private PrintWriter toServer;
     private TicketMachine machine;
     private Thread codesThread;
-    private List<Sale> offlineSales;
+    
     
     public StubMachine(String systemAddress, int systemPort, TicketMachine machine) throws IOException {
         this.systemAddress = systemAddress;
         this.systemPort = systemPort;
         this.machine = machine;
-        offlineSales = new ArrayList<>();
         initConnection();
 
     }
@@ -200,7 +197,7 @@ public class StubMachine implements CentralSystemTicketInterface {
     @Override
     public Boolean addSale(Sale sale) {
         sale.setSellerMachineIp(this.getClientIPAddress());
-        this.offlineSales.add(sale);
+        this.machine.addSalesOffline(sale);
         
         try {
             
@@ -220,8 +217,9 @@ public class StubMachine implements CentralSystemTicketInterface {
     
     public Boolean saveSaleOffline() throws IOException, ParseException{
     
-        while(!socket.isClosed() && !offlineSales.isEmpty()){
-            Sale sale = offlineSales.get(0);
+        
+        while(!socket.isClosed() && !machine.getSalesOffline().isEmpty()){
+            Sale sale = machine.getSalesOffline().get(0);
             String packet = JSONOperations.getInstance().addSale(sale);
             toServer.println(packet);
             String line = fromServer.readLine();
@@ -232,11 +230,11 @@ public class StubMachine implements CentralSystemTicketInterface {
             if(!(boolean)obj.get(JsonFields.DATA.toString()))
                 return null;
             else{
-                offlineSales.remove(0);
+                machine.getSalesOffline().remove(0);
             }
         }
         
-        if(offlineSales.isEmpty())
+        if(machine.getSalesOffline().isEmpty())
             return true;
         
         return false;
@@ -289,8 +287,5 @@ public class StubMachine implements CentralSystemTicketInterface {
             initConnection();
     }
     
-    public int getOfflineSaleSize(){
-        return offlineSales.size();
-    }
     
 }

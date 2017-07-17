@@ -42,15 +42,12 @@ public class CreateUserTest {
         
         assertTrue(tMachine.createUser("Simone", "Colosi", "CLS", "Colosi", "classico0000", "tyu"));
         
-        assertTrue(tMachine.getLoggedUsername()=="-");
+       
         
         assertFalse(tMachine.verifyLogin("Pippo", "classico0000"));
         assertFalse(tMachine.verifyLogin("Colosi", "patate"));
         assertTrue(tMachine.verifyLogin("Colosi", "classico0000"));
-        assertTrue(tMachine.getLoggedUsername().equals("Colosi"));
-        
-        assertTrue(tMachine.logout());
-        assertTrue(tMachine.getLoggedUsername()=="-");
+
 
     }
 }

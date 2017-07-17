@@ -84,7 +84,6 @@ public class BuyTicketTests {
 
         assertTrue(afterMoney == prevMoney);
         assertTrue(prevInkLvl == afterInkLvl);
-        tMachine.logout();
     }
     
     @Test
@@ -104,7 +103,6 @@ public class BuyTicketTests {
 
         assertTrue(afterMoney == prevMoney);
         assertTrue(prevInkLvl == afterInkLvl);
-        tMachine.logout();
     
     }
     

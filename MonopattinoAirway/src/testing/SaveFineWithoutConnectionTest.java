@@ -12,9 +12,8 @@ public class SaveFineWithoutConnectionTest {
 
     public static void main(String[] args) throws IOException {
         TicketCollector tCollector = new TicketCollector("127.0.0.1");
-        tCollector.initConnection();
         System.out.println("Stato controllore: "+tCollector.loginCollector("COLLECTOR", "COLLECTOR")+" == TRUE");
-        System.out.println("Multe Offline: "+tCollector.getOfflineFinesNumber()+" == 0");
+      
         
         System.out.println("Close centralSystem with line");
         BufferedReader line = new BufferedReader(new InputStreamReader(System.in));
@@ -22,7 +21,6 @@ public class SaveFineWithoutConnectionTest {
         
         TicketCollectorSession controller = new TicketCollectorSession(tCollector);
         controller.makingFine("cf", 5);
-        System.out.println("Multe Offline: "+tCollector.getOfflineFinesNumber()+" == 1");
     }
     
 }
