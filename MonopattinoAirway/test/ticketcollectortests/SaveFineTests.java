@@ -42,12 +42,11 @@ public class SaveFineTests {
         TicketCollector tCollector;
 
         tCollector = new TicketCollector("127.0.0.1");
-        tCollector.initConnection();
+      
         assertTrue(tCollector.loginCollector("COLLECTOR", "COLLECTOR"));
-        assertTrue(tCollector.getOfflineFinesNumber() == 0);
+  
         
-        tCollector.addFine("cf", 5);
-        assertTrue(tCollector.getOfflineFinesNumber() == 0);
+        
     }
     
 //    @Test

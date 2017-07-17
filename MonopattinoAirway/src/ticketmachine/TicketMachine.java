@@ -19,6 +19,7 @@ public class TicketMachine extends Observable{
     private CentralSystemTicketInterface stub;
     private UpdateHandler updateHandler;
     private Operation operation;
+    private List<Sale> offlineSales;
     
     private Map<String,Product> products;
     
@@ -49,7 +50,7 @@ public class TicketMachine extends Observable{
         this.updateHandler.start();
         
         operation = Operation.SELLING_TICKET;
-        
+        offlineSales = new ArrayList<>();
         //logged = "-";
     }
     
@@ -251,6 +252,22 @@ public class TicketMachine extends Observable{
     	}
     	System.err.println("\n\nProducts initialized: ");
     	System.err.println(sb.toString());
+    }
+    
+    public void addSalesOffline(Sale e){
+        offlineSales.add(e);
+    }
+    
+    public void removeSalesOffline(){
+        offlineSales.remove(0);
+    }
+    
+    public List<Sale> getSalesOffline(){
+        return offlineSales;
+    }
+    
+    public int getOfflineFinesNumber(){
+        return offlineSales.size();
     }
 
 }
