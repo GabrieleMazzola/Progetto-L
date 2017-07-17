@@ -109,7 +109,7 @@ public class TicketOnline{
 	    return this.codesHandler.popSerialNumber();
 	}
 	
-        public boolean makeSale(String username, String creditCardNumber, String ticketType){
+        public synchronized boolean makeSale(String username, String creditCardNumber, String ticketType){
             Product product = this.getProduct(ticketType);
             if( product != null ){
                     if(this.creditCardPayment(creditCardNumber, product.getCost())){
