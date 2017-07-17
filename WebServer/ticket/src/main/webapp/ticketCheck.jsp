@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="singleton.DateOperations"%>
 <%@page import="items.Sale"%>
@@ -29,7 +30,8 @@
             <% if(sale != null){ %> 
             <h3><%=sale.getProduct().getDescription()%></h3>
             <h4>Acquistato da: <%=sale.getUsername()%><br>
-                Il titolo di viaggio è valido fino al <%=DateOperations.getInstance().toString(sale.getExpiryDate())%></h4><br>
+                <% Date data = sale.getExpiryDate();%>
+                Il titolo di viaggio è valido fino al <%=DateOperations.getInstance().getDay(data)%>/<%=DateOperations.getInstance().getMonth(data)%>/<%=DateOperations.getInstance().getYear(data)%>  <%=DateOperations.getInstance().getHour(data)%>:<%=DateOperations.getInstance().getMinute(data)%></h4><br>
                 <%if(sale.getExpiryDate().after(Calendar.getInstance().getTime())){%>
                 <div class="alert alert-success">
                     <strong>Valido!</strong> Il tuo titolo di viaggio è valido.
