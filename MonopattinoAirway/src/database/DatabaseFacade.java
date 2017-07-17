@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Zubeer
  */
-public class DatabaseAdapter{
+public class DatabaseFacade{
     
     private UserMapper userMapper;
     private CollectorMapper collectorMapper;
@@ -24,7 +24,7 @@ public class DatabaseAdapter{
      *
      * @param className
      */
-    public DatabaseAdapter(String className){
+    public DatabaseFacade(String className){
         try{
             userMapper = MapperFactory.getInstance(className).createUserMapper();
             collectorMapper = MapperFactory.getInstance(className).createCollectorMapper();
@@ -200,5 +200,9 @@ public class DatabaseAdapter{
  */
     public User getUser(String username) {
         return (User)userMapper.get(username);
+    }
+
+    public Sale getSale(String serialCode) {
+        return (Sale)saleMapper.get(serialCode);
     }
 }

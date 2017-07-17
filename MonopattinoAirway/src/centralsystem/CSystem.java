@@ -5,18 +5,25 @@ import bank.BankAdapter;
 import centralsystem.interfaces.CentralSystemCollectorInterface;
 import centralsystem.interfaces.CentralSystemTicketInterface;
 import console.LogCS;
-import database.DatabaseAdapter;
+import database.DatabaseFacade;
 import database.people.User;
 import productsfactories.central.CentralProductsFactory;
 import items.*;;
 import java.util.*;
 import singleton.JSONOperations;
+import ticketmachine.MachineStatus;import java.util.*;
+import singleton.JSONOperations;
+import ticketmachine.MachineStatus;import java.util.*;
+import singleton.JSONOperations;
 import ticketmachine.MachineStatus;
 
-
-public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface{
+/**
+ *
+ * @author Zubeer
+ */
+public class CSystem extends Observable implements CentralSystemCollectorInterface,CentralSystemTicketInterface,CentralSystemWebServerInterface{
     
-    private final DatabaseAdapter database;
+    private final DatabaseFacade database;
     private Map<Integer,MachineStatus> statusList;
     private Map<String,Product> products;
     private BankAdapter bank;
@@ -27,7 +34,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
      * @param className il nome della classe del database da utilizzare
      */
     public CSystem(String className) {
-        this.database = new DatabaseAdapter(className); 
+        this.database = new DatabaseFacade(className); 
         this.bank = new BankAdapter();
         statusList = new HashMap();
         products = CentralProductsFactory.getInstance().getProducts();
@@ -95,7 +102,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     * Permette di effettuare il login dell'utente, comunicando al DatabaseAdapter le credenziali
+     * Permette di effettuare il login dell'utente, comunicando al DatabaseFacade le credenziali
      * @param username
      * @param psw
      * @return Vero se le credenziali sono giuste, falso altrimenti
@@ -127,7 +134,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     /**
-     * Permette di effettuare il login del Collector, comunicando al DatabaseAdapter le credenziali
+     * Permette di effettuare il login del Collector, comunicando al DatabaseFacade le credenziali
      * @param username
      * @param psw
      * @return Vero se le credenziali sono giuste, falso altrimenti
@@ -138,7 +145,7 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     }
     
     @Override
-    public Boolean addFine(Fine f) {
+    public Boolean makeFine(Fine f) {
     	return database.addFine(f);
     }
     
@@ -169,7 +176,9 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     public Set<Sale> getSalesByType(String type) {
         return database.getSalesByType(type);
     }
-    
+    public Sale getSale(String serialCode){
+        return database.getSale(serialCode);
+    }
     public Set<Sale> getSalesByUsername(String username) {
         return database.getSalesByUsername(username);
     }
@@ -274,4 +283,23 @@ public class CSystem extends Observable implements CentralSystemCollectorInterfa
     public Long countAllFinesMadeBy(String collectorUsername) {
         return database.countAllFinesMadeBy(collectorUsername);
     }
+
+    
+    
+    
+   
+
+    
+
+    
+
+   
+
+    
+
+    
+
+    
+
+    
 }

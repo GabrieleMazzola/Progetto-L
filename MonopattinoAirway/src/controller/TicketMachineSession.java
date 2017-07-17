@@ -6,7 +6,7 @@ import ticketmachine.TicketMachine;
 
 
 public class TicketMachineSession {
-    private String logged;  //Qui o ticketMachine?
+    private String logged;
     private double insertedMoney, change;
     private Product toSell;
     private TicketMachine tMachine;

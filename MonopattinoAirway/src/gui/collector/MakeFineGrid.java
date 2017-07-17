@@ -1,5 +1,6 @@
 package gui.collector;
 
+import controller.TicketCollectorSession;
 import gui.BridgeSceneGrid;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,8 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketcollector.CollectorOperation;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -26,9 +25,9 @@ public class MakeFineGrid extends BridgeSceneGrid{
     
     /**
      *
-     * @param collector
+     * @param controller
      */
-    public MakeFineGrid(TicketCollector collector) {
+    public MakeFineGrid(TicketCollectorSession controller) {
         
         text = new Text("It's a great day to make fines!");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
@@ -53,9 +52,8 @@ public class MakeFineGrid extends BridgeSceneGrid{
         
         send = new Button("Send");
         send.setOnAction(e -> {
-            //TODO controlli
             double amount = Double.valueOf(amountField.getText());
-            Boolean result = collector.addFine(cfField.getText(), amount);
+            Boolean result = controller.makingFine(cfField.getText(), amount);
             if(result == null) {
                 resultText.setFill(Color.YELLOW);
                 resultText.setText("Cannot parse");
@@ -75,7 +73,7 @@ public class MakeFineGrid extends BridgeSceneGrid{
         
         back = new Button("Back");
         back.setOnAction(e -> {
-            collector.setOperation(CollectorOperation.SELECTING_OPERATION);
+            controller.back();
         });
         
         boxBtns = new HBox();

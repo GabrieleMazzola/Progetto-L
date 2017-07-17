@@ -1,8 +1,8 @@
 package gui.collector.commands;
 
+import controller.TicketCollectorSession;
 import gui.collector.MakeFineGrid;
 import javafx.scene.Scene;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -11,8 +11,8 @@ import ticketcollector.TicketCollector;
 public class MakingFineCommand implements CollectorSceneDispatcher{
 
     @Override
-    public Scene buildScene(TicketCollector collector) {
-        MakeFineGrid fineGrid = new MakeFineGrid(collector);
+    public Scene buildScene(TicketCollectorSession controller) {
+        MakeFineGrid fineGrid = new MakeFineGrid(controller);
         return new Scene(fineGrid.asParent());
     }
 }

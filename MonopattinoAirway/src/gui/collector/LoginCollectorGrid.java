@@ -1,5 +1,6 @@
 package gui.collector;
 
+import controller.TicketCollectorSession;
 import gui.BridgeSceneGrid;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -30,7 +31,7 @@ public class LoginCollectorGrid extends BridgeSceneGrid{
      *
      * @param collector
      */
-    public LoginCollectorGrid(TicketCollector collector) {
+    public LoginCollectorGrid(TicketCollectorSession controller) {
         istantiateGrid();
         
         fail = new Text();
@@ -60,7 +61,7 @@ public class LoginCollectorGrid extends BridgeSceneGrid{
                 add(fail, 5, 0, 2, 1);
             }
             
-            else if(!collector.loginCollector(name, psw)) {
+            else if(!controller.login(name, psw)) {
                 textPassword.setText("");
                 fail.setText("Invalid credentials");
                 fail.setFont(Font.font("Tahoma", FontWeight.BLACK, 12));
@@ -69,7 +70,6 @@ public class LoginCollectorGrid extends BridgeSceneGrid{
             else{
                 textPassword.setText("");
                 textUser.setText("");
-                collector.setOperation(CollectorOperation.SELECTING_OPERATION);
             }
         });
         

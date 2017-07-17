@@ -17,7 +17,7 @@ import ticketmachine.MachineStatus;
  * Le informazioni sono mostrate graficamente per ogni macchinetta
  */
 public class MachineStatusPanel extends JPanel implements Observer{
-    private Map<Integer, MachineLeafPanel> contents;
+    private Map<String, MachineLeafPanel> contents;
     private Box box;
     private JLabel activeLabel, idLabel, ipLabel, inkLvlLabel, paperLvlLabel;
     private JPanel labelPanel;
@@ -60,8 +60,8 @@ public class MachineStatusPanel extends JPanel implements Observer{
         }
     }
     
-    private boolean alredyHas(int id) {
-        return contents.containsKey(id);
+    private boolean alredyHas(String ip) {
+        return contents.containsKey(ip);
     }
     
     private void repaintContent(MachineStatus status) {
@@ -71,14 +71,14 @@ public class MachineStatusPanel extends JPanel implements Observer{
         boolean active = status.isActive();
         String sellerIp = status.getSellerIp();
                 
-        if(alredyHas(id)) {
-            contents.get((int)Math.round(id)).updateInkLevel((int)Math.round(inkLvl));
-            contents.get((int)Math.round(id)).updatePaperLevel((int)Math.round(paperLvl));
+        if(alredyHas(sellerIp)) {
+            contents.get(sellerIp).updateInkLevel((int)Math.round(inkLvl));
+            contents.get(sellerIp).updatePaperLevel((int)Math.round(paperLvl));
         }
         else {
             MachineLeafPanel newPanel = new MachineLeafPanel(id, inkLvl, paperLvl, sellerIp);
             box.add(newPanel);
-            contents.put(id, newPanel);
+            contents.put(sellerIp, newPanel);
         }
         
         if(!active) contents.get(id).colorImage(Color.RED);

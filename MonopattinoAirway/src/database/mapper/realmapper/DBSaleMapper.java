@@ -154,7 +154,7 @@ public class DBSaleMapper extends ConcreteMapper implements SaleMapper{
     @Override
     protected String buildSelectQuery(String id) {
         StringBuilder str = new StringBuilder();
-        str.append("SELECT * FROM ").append(tableName).append(" WHERE code = ").append(id).append(";");
+        str.append("SELECT * FROM ").append(tableName).append(" WHERE serialcode = ").append(id).append(";");
         return str.toString();
     }
     

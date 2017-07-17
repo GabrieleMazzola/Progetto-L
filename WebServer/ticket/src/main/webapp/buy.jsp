@@ -34,11 +34,13 @@
 
 
 
- 
+ <%if(result != null) if(result.equals("true") && user != null){ %> <h3 style="color:green; text-align: center;">Comprato!</h3><%
+		session.removeAttribute("result");
+	}%>
 		<div class="form-group row">
 				 <label for="cardNumber" class=" col-form-label col-form-label-lg">Card Number</label>
 				 <div class="">
-				 	<input type="text" class="form-control col-sm-12" name="cardNumber" id="cardNumber" maxlength="16" value="2222222222222222"  aria-describedby="basic-addon1">
+				 	<input type="text" class="form-control col-sm-12" name="cardNumber" id="cardNumber" maxlength="16" value="2222222222222222">
 				 </div>
 		</div>
 		
@@ -55,16 +57,14 @@
 		</div>
 	</div>
   <br>
-  <input type="submit" class="btn btn-default col-sm-12" value="Submit">
+  <input type="submit" class="btn btn-primary col-sm-12" value="Submit">
 </form> 
  <% }else{
 		response.sendRedirect("login.jsp");
  }
 	%>
 	
-	<%if(result != null) if(result.equals("true") && user != null){ %> <h3 style="color:green">Comprato!</h3><%
-		session.removeAttribute("result");
-	}%>
+	
 	</div>
 	</div>
 </div>

@@ -1,8 +1,8 @@
 package gui.collector.commands;
 
+import controller.TicketCollectorSession;
 import gui.collector.LoginCollectorGrid;
 import javafx.scene.Scene;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -11,8 +11,8 @@ import ticketcollector.TicketCollector;
 public class LoginCommand implements CollectorSceneDispatcher{
     
     @Override
-    public Scene buildScene(TicketCollector collector) {
-        LoginCollectorGrid loginGrid = new LoginCollectorGrid(collector);
+    public Scene buildScene(TicketCollectorSession controller) {
+        LoginCollectorGrid loginGrid = new LoginCollectorGrid(controller);
         return new Scene(loginGrid.asParent());
     }
 }

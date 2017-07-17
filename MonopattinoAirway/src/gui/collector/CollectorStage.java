@@ -1,7 +1,7 @@
 package gui.collector;
 
+import controller.TicketCollectorSession;
 import gui.collector.commands.*;
-import static java.awt.SystemColor.window;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -18,6 +18,7 @@ import ticketcollector.TicketCollector;
 public class CollectorStage extends Stage implements Observer{
     private Map<CollectorOperation, CollectorSceneDispatcher> scenes;
     private TicketCollector collector;
+    private TicketCollectorSession controller;
     
     private final int width = 750, height = 600;
     
@@ -27,12 +28,14 @@ public class CollectorStage extends Stage implements Observer{
         
         initSceneMap();
         
-        Scene loginScene = scenes.get(CollectorOperation.LOGGING_IN).buildScene(collector);
+        controller = new TicketCollectorSession(collector);
+        
+        Scene loginScene = scenes.get(CollectorOperation.LOGGING_IN).buildScene(controller);
         setScene(loginScene);
         setSize();
         
         setOnCloseRequest(e -> {
-            collector.logOut();
+            controller.logout();
         });
     }
     
@@ -42,13 +45,14 @@ public class CollectorStage extends Stage implements Observer{
         scenes.put(CollectorOperation.MAKING_FINE, new MakingFineCommand());
         scenes.put(CollectorOperation.SELECTING_OPERATION, new SelectingOperationCommand());
         scenes.put(CollectorOperation.VERIFYING_TICKET, new VerifyTicketCommand());
+        scenes.put(CollectorOperation.LOGGING_OUT, new LogoutCommand());
     }
     
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof CollectorOperation) {
             CollectorOperation operation = (CollectorOperation)arg;
-            Scene scene = scenes.get(operation).buildScene(collector);
+            Scene scene = scenes.get(operation).buildScene(controller);
             setScene(scene);
             setSize();
         }

@@ -1,5 +1,6 @@
 package testing;
 
+import controller.TicketCollectorSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +19,9 @@ public class SaveFineWithoutConnectionTest {
         System.out.println("Close centralSystem with line");
         BufferedReader line = new BufferedReader(new InputStreamReader(System.in));
         String ciao =line.readLine();
-            
-        tCollector.addFine("cf", 5);
+        
+        TicketCollectorSession controller = new TicketCollectorSession(tCollector);
+        controller.makingFine("cf", 5);
         System.out.println("Multe Offline: "+tCollector.getOfflineFinesNumber()+" == 1");
     }
     

@@ -10,11 +10,19 @@ import org.json.simple.parser.ParseException;
 import singleton.DateOperations;
 import items.Fine;
 import items.Product;
+import items.Sale;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jsonenumerations.AddSale;
 import jsonenumerations.JsonFields;
 import machineonline.TicketOnline;
+import org.json.simple.JSONArray;
 import singleton.JSONOperations;
 
-public class Stub {
+public class Stub implements  CentralSystemWebServerInterface{
 
 	private static Stub instance;
 	
@@ -28,46 +36,53 @@ public class Stub {
         return instance;
     }
     
-	public String myTickets(String username){
+    @Override
+	 public Set<Sale> getSalesByUsername(String username){
+              Set<Sale> saleList = new HashSet<Sale>();
 		try{
-			String packet = JSONOperations.getInstance().myTicketsPacket(username);
+			String packet = JSONOperations.getInstance().getSalesByUsernamePacket(username);
 			ConnectionHandler conn = new ConnectionHandler();
 			System.out.println("Checking my tickets.. sending to system: "+ packet);
 			
 			String line = conn.sendAndReceive(packet);
 			conn.closeConnection();
 			JSONParser parser = new JSONParser();               
-            JSONObject obj = (JSONObject)parser.parse(line);
-            System.out.println("sending to app the result: " + obj.toJSONString());
-            return obj.toJSONString();
-            
+                        JSONObject obj = (JSONObject)parser.parse(line);
+                        System.out.println("sending to app the result: " + obj.toJSONString());
+                        saleList.addAll(JSONOperations.getInstance().decodeSales(line));
+           
+                        return saleList;
 		}catch(IOException|ParseException e){
 			e.printStackTrace();
 		}
-		System.err.println("ERRORE MYTICKETS");
-		return null;
+		System.err.println("ERRORE GETSALEBYUSERNAME");
+		return saleList;
 	}
 	
-	public String myValidTickets(String username) {
+            @Override
+	 public Set<Sale> getValidSalesByUsername(String username){
+		Set<Sale> saleList = new HashSet<Sale>();
 		try{
-			String packet = JSONOperations.getInstance().myValidTicketsPacket(username);
+			String packet = JSONOperations.getInstance().getValidSalesByUsername(username);
 			ConnectionHandler conn = new ConnectionHandler();
-			System.out.println("Checking my tickets.. sending to system: "+ packet);
+			System.out.println("Checking my  valid tickets.. sending to system: "+ packet);
 			
 			String line = conn.sendAndReceive(packet);
 			conn.closeConnection();
 			JSONParser parser = new JSONParser();               
-            JSONObject obj = (JSONObject)parser.parse(line);
-            System.out.println("Sending to app the result: " + obj.toJSONString());
-            return obj.toJSONString();
-            
+                        JSONObject obj = (JSONObject)parser.parse(line);
+                        System.out.println("sending to app the result: " + obj.toJSONString());
+                        saleList.addAll(JSONOperations.getInstance().decodeSales(line));
+           
+                        return saleList;
 		}catch(IOException|ParseException e){
 			e.printStackTrace();
 		}
-		System.err.println("ERRORE MYVALIDTICKETS");
-		return null;
+		System.err.println("ERRORE GETVALIDSALEBYUSERNAME");
+		return saleList;
 	}	
 
+    
 	public String buyTicket(String username, String cardNumber,String type){
 		
 		
@@ -148,7 +163,8 @@ public class Stub {
 
 	
 	
-	public String requestFinesStartNumber(String collectorUsername) {
+    @Override
+	public Long countAllFinesMadeBy(String collectorUsername) {
 	    try{
 	      String request = JSONOperations.getInstance().requestFinesStartNumberPacket(collectorUsername);
 	      
@@ -156,24 +172,31 @@ public class Stub {
 	      System.out.println("--Requesting start number for collector: " + collectorUsername + " —\nSending : " + request);
 	      String answer = conn.sendAndReceive(request);
 	      conn.closeConnection();
+              JSONParser parser = new JSONParser();               
+              JSONObject obj = (JSONObject)parser.parse(answer);
+              
 	      System.out.println("Sending to app: " + answer);
 	      
-	          return answer;
+	          return (Long)obj.get(JsonFields.DATA.toString());
 	    }catch(IOException ex){
-	      return JSONOperations.getInstance().booleanPacket(false);
-	    }
+	      return null;
+	    } catch (ParseException ex) {
+                Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
 	  }
 
 	
 	
 	
 	
-	public String makeFine(String id,String cf,double amount,String collectorUsername){
+   
+	public Boolean makeFine(Fine f){
 	    
 	    String message = "Errore Connessione";
 	    
 	    try{
-	      String packet = JSONOperations.getInstance().makeFinePacket(new Fine(id,cf,amount, collectorUsername));
+	      String packet = JSONOperations.getInstance().makeFinePacket(f);
 	      
 	      
 	      ConnectionHandler conn = new ConnectionHandler();
@@ -189,10 +212,8 @@ public class Stub {
 	          //Struttura JSON di risposta : {"data":"boolean"}
 	          if((Boolean)obj.get(JsonFields.DATA.toString())){
 	            message = "Multa creata con successo";
-	            String result = JSONOperations.getInstance().msgPacket(true, message);
-	            System.out.println("Multa creata, sending : "+ result);
-	            //return JSONOperations.getInstance().booleanPacket(true);
-	            return result;
+	           
+	            return true;
 	          }
 	          
 	          message = "Creazione multa fallita";
@@ -204,10 +225,7 @@ public class Stub {
 	      e.printStackTrace();
 	      message = "Eccezione di Parsing";
 	    }
-	    
-	    String result = JSONOperations.getInstance().msgPacket(false, message);
-	    System.out.println("Operazione fallita, sending : " + result);
-	    return  result;
+	    return  false;
 	  }
 	
 	
@@ -215,7 +233,8 @@ public class Stub {
 	
 	
 	
-	public String checkTicket(String ticketID){
+   
+	public boolean existsTicket(Long ticketID){
 
 		try{
 			String packet = JSONOperations.getInstance().existsTicketPacket(Long.valueOf(ticketID));
@@ -231,13 +250,13 @@ public class Stub {
 	        //Struttura JSON di risposta : {"data":"boolean"}
 	        if( (Boolean)obj.get(JsonFields.DATA.toString())){
 	        	System.out.println("Biglietto esistente.");
-	        	return JSONOperations.getInstance().booleanPacket(true);
+	        	return true;
 	        }
 		} catch (IOException|ParseException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Biglietto inesistente.");
-		return  JSONOperations.getInstance().booleanPacket(false);
+		return  false;
 	}
 	
 	//FILTRO LOGIN
@@ -245,6 +264,7 @@ public class Stub {
 	
 	
 	
+    @Override
 	public boolean userLogin(String username,String password){
 		try{			
 			ConnectionHandler conn = new ConnectionHandler();
@@ -271,6 +291,7 @@ public class Stub {
 	
 	
 	
+    @Override
 	public boolean collectorLogin(String username,String password){
 		try{			
 			ConnectionHandler conn = new ConnectionHandler();
@@ -300,7 +321,8 @@ public class Stub {
 	
 	
 	
-	public String registration(String name,String surname,String cf, String username, String password, String email){
+    @Override
+	public String createUser(String name,String surname,String cf, String username, String password, String email){
 		try{
 			String request = JSONOperations.getInstance().createUser(name, surname, cf, username, password, email);
 			
@@ -322,6 +344,41 @@ public class Stub {
 		}
 			return JSONOperations.getInstance().booleanPacket(false);
 	}
+
+    @Override
+        public Sale getSale(String serialCode) {
+            Sale sale;
+            try{
+                    String packet = JSONOperations.getInstance().getSalePacket(Long.valueOf(serialCode));
+
+                    ConnectionHandler conn = new ConnectionHandler();
+
+                    System.out.println("Checking in system .. Sending : " + packet);
+                    String line = conn.sendAndReceive(packet);
+                    conn.closeConnection();
+                    JSONParser parser = new JSONParser();               
+                    JSONObject obj = (JSONObject)parser.parse(line);
+                    //Struttura JSON di risposta : {"d":"d"}
+                    Product product = TicketOnline.getInstance().getProduct((String)((JSONObject)obj).get(AddSale.TYPE.toString())); 
+                    sale = new Sale(DateOperations.getInstance().parse((String)((JSONObject)obj).get(AddSale.SALEDATE.toString())), 
+										((Long)((JSONObject)obj).get(AddSale.SERIALCODE.toString())),
+										(String)((JSONObject)obj).get(AddSale.USERNAME.toString()),
+										product,
+										(String)((JSONObject)obj).get(AddSale.SELLERMACHINEIP.toString()));
+                    
+                    return sale;
+		} catch (IOException|ParseException e) {
+			e.printStackTrace();
+		} catch (java.text.ParseException ex) {
+                Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+            }
+		System.out.println("Biglietto inesistente.");
+		return null;
+        }
+
+   
+
+   
 
 
 }

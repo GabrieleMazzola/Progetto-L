@@ -1,8 +1,8 @@
 package gui.collector.commands;
 
+import controller.TicketCollectorSession;
 import gui.collector.ChoosingOperationGrid;
 import javafx.scene.Scene;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -11,8 +11,8 @@ import ticketcollector.TicketCollector;
 public class SelectingOperationCommand implements CollectorSceneDispatcher{
 
     @Override
-    public Scene buildScene(TicketCollector collector) {
-        ChoosingOperationGrid choosingGrid = new ChoosingOperationGrid(collector);
+    public Scene buildScene(TicketCollectorSession controller) {
+        ChoosingOperationGrid choosingGrid = new ChoosingOperationGrid(controller);
         return new Scene(choosingGrid.asParent());
     }
     

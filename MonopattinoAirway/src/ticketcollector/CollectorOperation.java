@@ -6,10 +6,7 @@ package ticketcollector;
  */
 public enum CollectorOperation {
 
-    /**
-     *
-     */
-    LOGGING_IN,
+    LOGGING_IN, LOGGING_OUT,
 
     /**
      *

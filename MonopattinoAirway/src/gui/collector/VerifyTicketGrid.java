@@ -1,5 +1,6 @@
 package gui.collector;
 
+import controller.TicketCollectorSession;
 import gui.BridgeSceneGrid;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,8 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketcollector.CollectorOperation;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -27,9 +26,9 @@ public class VerifyTicketGrid extends BridgeSceneGrid{
     
     /**
      *
-     * @param collector
+     * @param controller
      */
-    public VerifyTicketGrid(TicketCollector collector) {
+    public VerifyTicketGrid(TicketCollectorSession controller) {
         text = new Text("Which ticket shall I check?");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         
@@ -56,7 +55,7 @@ public class VerifyTicketGrid extends BridgeSceneGrid{
         verify = new Button("Verify");
         verify.setOnAction(e -> {
             Long serialCode = Long.valueOf(serialCodeField.getText());
-            Boolean result = collector.existsTicket(serialCode);
+            Boolean result = controller.checkingTicket(serialCode);
             
             if(result == null) {
                 resultText.setFill(Color.YELLOW);
@@ -79,7 +78,7 @@ public class VerifyTicketGrid extends BridgeSceneGrid{
         
         back = new Button("Back");
         back.setOnAction(e -> {
-            collector.setOperation(CollectorOperation.SELECTING_OPERATION);
+            controller.back();
         });
         
         istantiateGrid();

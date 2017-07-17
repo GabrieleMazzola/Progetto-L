@@ -1,9 +1,9 @@
 package enums.jsonenumerations;
 
 
-public enum MyTickets {
+public enum GetSalesByUsername {
     
-    MYTICKETS,
+    GETSALESBYUSERNAME,
     
     USERNAME,
     SERIALCODE,

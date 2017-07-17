@@ -1,5 +1,6 @@
 package gui.collector;
 
+import controller.TicketCollectorSession;
 import gui.BridgeSceneGrid;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
@@ -7,8 +8,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import ticketcollector.CollectorOperation;
-import ticketcollector.TicketCollector;
 
 /**
  *
@@ -20,10 +19,10 @@ public class ChoosingOperationGrid extends BridgeSceneGrid{
     
     /**
      *
-     * @param collector
+     * @param controller
      */
-    public ChoosingOperationGrid(TicketCollector collector) {
-        text = new Text("Beware people! " + collector.getUsername() + " is here!");
+    public ChoosingOperationGrid(TicketCollectorSession controller) {
+        text = new Text("Beware people! " + controller.getUsername() + " is here!");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 20));
         
         Separator hSeparator = new Separator();
@@ -31,18 +30,17 @@ public class ChoosingOperationGrid extends BridgeSceneGrid{
         
         makeFineButton = new Button("Make fine");
         makeFineButton.setOnAction(e -> {
-            collector.setOperation(CollectorOperation.MAKING_FINE);
+            controller.selectedMakingFine();
         });
         
         verifyTicket = new Button("Verify");
         verifyTicket.setOnAction(e -> {
-            collector.setOperation(CollectorOperation.VERIFYING_TICKET);
+            controller.selectedCheckingTicket();
         });
         
         logout = new Button("Logout");
         logout.setOnAction(e -> {
-            collector.logOut();
-            collector.setOperation(CollectorOperation.LOGGING_IN);
+            controller.logout();
         });
         
         istantiateGrid();

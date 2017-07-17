@@ -43,7 +43,7 @@
 					<input type="password" class="form-control col-sm-12" placeholder="password" id="passw" name="password" aria-describedby="basic-addon1">
 				</div>
 			</div>
-	 		  <input type="submit"  class="btn btn-default col-sm-12" value="Invia">
+	 		  <input type="submit"  class="btn btn-primary col-sm-12" value="Invia">
 		  
 		</form> 
 

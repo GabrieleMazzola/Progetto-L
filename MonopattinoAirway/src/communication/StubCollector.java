@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import enums.jsonenumerations.JsonFields;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -105,7 +103,7 @@ public class StubCollector implements CentralSystemCollectorInterface{
      * in caso di errore durante il parsing del pacchetto JSON
      */
     @Override
-    public Boolean addFine(Fine f){
+    public Boolean makeFine(Fine f){
         addOfflineFine(f);
 
         try{

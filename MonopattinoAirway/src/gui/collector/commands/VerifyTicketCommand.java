@@ -1,16 +1,15 @@
 package gui.collector.commands;
 
+import controller.TicketCollectorSession;
 import gui.collector.VerifyTicketGrid;
-import gui.collector.commands.CollectorSceneDispatcher;
 import javafx.scene.Scene;
-import ticketcollector.TicketCollector;
 
 
 public class VerifyTicketCommand implements CollectorSceneDispatcher{
 
     @Override
-    public Scene buildScene(TicketCollector collector) {
-        VerifyTicketGrid verifyingGrid = new VerifyTicketGrid(collector);
+    public Scene buildScene(TicketCollectorSession controller) {
+        VerifyTicketGrid verifyingGrid = new VerifyTicketGrid(controller);
         return new Scene(verifyingGrid.asParent());
     }
     
