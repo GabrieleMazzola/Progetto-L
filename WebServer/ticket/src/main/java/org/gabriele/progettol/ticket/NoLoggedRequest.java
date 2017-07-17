@@ -36,7 +36,7 @@ public class NoLoggedRequest {
 								@PathParam("password") String password,
 								@PathParam("email") String email){
 		
-		return systemStub.registration(name, surname, cf, username, password, email);
+		return systemStub.createUser(name, surname, cf, username, password, email);
     }
     
     @GET

@@ -9,6 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import centralsystem.Stub;
+import items.Fine;
+import jsonenumerations.JsonFields;
+import org.json.simple.JSONObject;
 import singleton.JSONOperations;
 
 
@@ -39,17 +42,25 @@ public class CollectorRequests {
 				              	@PathParam("cf") String cf,
 				              	@PathParam("amount") double amount,
 				              	@PathParam("collectorUsername") String collectorUsername){
-	    
-		return systemStub.makeFine(id,cf,amount,collectorUsername);
-	    
+            Fine f = new Fine(id,cf,amount,collectorUsername);
+	    String result = JSONOperations.getInstance().booleanPacket(systemStub.makeFine(f));
+            System.out.println("Multa creata, sending : "+ result);
+	    return result;
 	}
 	
 	@GET
 	@Path("/startnumber/{collectorUsername}")
 	public String startNumber(@PathParam("collectorUsername") String collectorUsername){
 	    
-		return systemStub.requestFinesStartNumber(collectorUsername);
-	    
+		Long result = systemStub.countAllFinesMadeBy(collectorUsername);
+                JSONObject data = new JSONObject();
+                if(result != null){
+                   
+                    data.put(JsonFields.DATA.toString(), result);
+                    return data.toJSONString();
+                }
+                data.put(JsonFields.DATA.toString(), result);
+                    return data.toJSONString();
 	}
 	
 	
@@ -57,8 +68,8 @@ public class CollectorRequests {
 	@Path("/tickets/{id}")
 	public String checkTicket(@PathParam("id") String ticketID){
 		
-		return systemStub.checkTicket(ticketID);
-		
+		Boolean bool =  systemStub.existsTicket(Long.parseLong(ticketID));
+		return JSONOperations.getInstance().booleanPacket(bool);
 	}	
 	
 }

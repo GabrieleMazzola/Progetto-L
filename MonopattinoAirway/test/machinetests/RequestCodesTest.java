@@ -1,6 +1,7 @@
 package machinetests;
 
 import centralsystem.factory.CSystemFactory;
+import controller.TicketMachineSession;
 import database.factories.SimMapperFactory;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -52,6 +53,7 @@ public class RequestCodesTest {
         
         
         TicketMachine tMachine = new TicketMachine(2,5000,"localhost");
+        TicketMachineSession session = new TicketMachineSession(tMachine);
         
         try {
             Thread.sleep(4000);
@@ -61,8 +63,8 @@ public class RequestCodesTest {
         }
         
         for(int i=0; i<11; i++){
-            tMachine.setTicketToSell("P1");
-            tMachine.insertMoney(20);
+            session.startSale("P1");
+            session.insertingMoney(20);
         }
         
         try {

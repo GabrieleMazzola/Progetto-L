@@ -32,13 +32,13 @@ public class JSONOperations {
     
     /**
      * Struttura JSON:
-     * {"METHOD":"MYTICKETS","DATA":{"USERNAME":"String"}}
+ {"METHOD":"GETSALESBYUSERNAME","DATA":{"USERNAME":"String"}}
      */
-	  public String myTicketsPacket(String username) {
+	  public String getSalesByUsernamePacket(String username) {
 	        JSONObject root = new JSONObject();
-	        root.put(JsonFields.METHOD.toString(), MyTickets.MYTICKETS.toString());
+	        root.put(JsonFields.METHOD.toString(), GetSalesByUsername.GETSALESBYUSERNAME.toString());
 	        JSONObject data = new JSONObject();
-	        data.put(MyTickets.USERNAME.toString(), username);
+	        data.put(GetSalesByUsername.USERNAME.toString(), username);
 	        root.put(JsonFields.DATA.toString(), data);
 	    return root.toJSONString();
 	  }
@@ -333,11 +333,12 @@ public class JSONOperations {
 		}
 		return null;
 	}
-    public String myValidTicketsPacket(String username) {
+    
+    public String getValidSalesByUsername(String username) {
         JSONObject root = new JSONObject();
-          root.put(JsonFields.METHOD.toString(), MyValidTickets.MYVALIDTICKETS.toString());
+          root.put(JsonFields.METHOD.toString(), GetValidSalesByUsername.GETVALIDSALESBYUSERNAME.toString());
           JSONObject data = new JSONObject();
-          data.put(MyTickets.USERNAME.toString(), username);
+          data.put(GetSalesByUsername.USERNAME.toString(), username);
           root.put(JsonFields.DATA.toString(), data);
       return root.toJSONString();     
       }

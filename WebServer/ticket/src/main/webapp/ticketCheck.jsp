@@ -42,7 +42,7 @@
                 <%}
             }else{%>  
                 <div class="alert alert-danger">
-                    <strong>Errore!</strong> Il tuo tiolo di viaggio non è valido o c'è stato un errore.
+                    <strong>Errore!</strong> Il tuo tiolo di viaggio non è valido.
                 </div>  
             <%}%>
              

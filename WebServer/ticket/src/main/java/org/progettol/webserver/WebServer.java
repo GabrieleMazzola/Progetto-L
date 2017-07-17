@@ -73,7 +73,7 @@ public class WebServer extends HttpServlet {
 			
 			break;
 		case "registration":
-			String result = Stub.getInstance().registration(request.getParameter("name"), request.getParameter("surname"), request.getParameter("cf"), request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
+			String result = Stub.getInstance().createUser(request.getParameter("name"), request.getParameter("surname"), request.getParameter("cf"), request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
 			if(JSONOperations.getInstance().booleanParser(result)){
 				session.setAttribute("result", "true");
 				newRequest(request,response,"/profile.jsp");

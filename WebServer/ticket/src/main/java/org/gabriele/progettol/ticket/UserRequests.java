@@ -5,6 +5,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import centralsystem.Stub;
+import items.Sale;
+import java.util.Set;
+import jsonenumerations.GetSalesByUsername;
+import jsonenumerations.JsonFields;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import singleton.DateOperations;
 import singleton.JSONOperations;
 
 
@@ -33,16 +40,43 @@ public class UserRequests {
 	public String myTickets(@PathParam("username") String username){
 			
 		System.err.println("MYTICKETS");
-		return systemStub.myTickets(username);		
-		
+		Set<Sale> saleList = systemStub.getSalesByUsername(username);
+                JSONArray jsonList = new JSONArray();
+                JSONObject data = new JSONObject();
+                for (Sale sale : saleList) {
+                    JSONObject jsonSale = new JSONObject();  
+                    jsonSale.put(GetSalesByUsername.SERIALCODE.toString(),sale.getSerialCode()); 
+                    jsonSale.put(GetSalesByUsername.SALEDATE.toString(), DateOperations.getInstance().toString(sale.getSaleDate()));
+                    jsonSale.put(GetSalesByUsername.TYPE.toString(), sale.getType());
+                    jsonSale.put(GetSalesByUsername.SELLERMACHINEIP.toString(), sale.getSellerMachineIp());
+                    jsonSale.put(GetSalesByUsername.USERNAME.toString(), sale.getUsername());
+                    jsonList.add(jsonSale);
+
+                }
+                data.put(JsonFields.DATA.toString(), jsonList);
+                return data.toString();
 	}
 	
 	@GET
 	@Path("/myvalidtickets/{username}")
 	public String myValidTickets(@PathParam("username") String username){
 			
-		System.err.println("MYVALIDTICKETS");
-		return systemStub.myValidTickets(username);		
+		System.err.println("GETVALIDSALESBYUSERNAME");
+		Set<Sale> saleList = systemStub.getValidSalesByUsername(username);
+                JSONArray jsonList = new JSONArray();
+                JSONObject data = new JSONObject();
+                for (Sale sale : saleList) {
+                    JSONObject jsonSale = new JSONObject();  
+                    jsonSale.put(GetSalesByUsername.SERIALCODE.toString(),sale.getSerialCode()); 
+                    jsonSale.put(GetSalesByUsername.SALEDATE.toString(), DateOperations.getInstance().toString(sale.getSaleDate()));
+                    jsonSale.put(GetSalesByUsername.TYPE.toString(), sale.getType());
+                    jsonSale.put(GetSalesByUsername.SELLERMACHINEIP.toString(), sale.getSellerMachineIp());
+                    jsonSale.put(GetSalesByUsername.USERNAME.toString(), sale.getUsername());
+                    jsonList.add(jsonSale);
+
+                }
+                data.put(JsonFields.DATA.toString(), jsonList);
+                return data.toString();		
 		
 	}
 	

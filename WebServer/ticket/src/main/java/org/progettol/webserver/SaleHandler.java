@@ -7,6 +7,7 @@ import singleton.DateOperations;
 import items.Sale;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import singleton.JSONOperations;
@@ -19,10 +20,10 @@ import singleton.SerialEncryption;
 public class SaleHandler {
 	ArrayList<Sale> Sales;
 	int position = 0;
-	public SaleHandler(String JsonMyTickets) {
+	public SaleHandler(Set Sale) {
 		System.out.println("Eseguito sales");
 		Sales = new ArrayList();
-		decodeJson(JsonMyTickets);
+		Sales.addAll(Sale);
 	}
 
 	private void decodeJson(String JsonMyTickets) {

@@ -33,8 +33,8 @@
 	
 	<% if(user != null){
 		
-			String json = CentralSystemStub.myTickets(user.getUsername());
-			saleFactory = new SaleHandler(json);
+			
+			saleFactory = new SaleHandler( CentralSystemStub.getSalesByUsername(user.getUsername()));
 			%>
 	<div class="saleBox">
 		<div class="container">

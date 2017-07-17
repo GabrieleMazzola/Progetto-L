@@ -120,3 +120,12 @@ body {
     text-align: left;
     font-size: 14px !important;
 }
+.centerHomepage {
+    text-align: center;
+    margin: 0 auto;
+    
+}
+.centerHomepage .btn{
+    
+    width: 25%;
+}
