@@ -10,7 +10,7 @@ import machineonline.TicketOnline;
 public class Start implements ServletContextListener {
 
 	
-	public static final String CSYSTEM_IP = "localhost";
+	public static final String CSYSTEM_IP = "10.87.156.248";
 	public static final int CSYSTEM_PORT = 5000;
 
 

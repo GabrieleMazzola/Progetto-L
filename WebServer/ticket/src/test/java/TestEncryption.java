@@ -20,10 +20,15 @@ public class TestEncryption {
      */
     public static void main(String[] args) {
         
-        long serialCode = Long.valueOf("0");
-        System.out.println(serialCode);
-        Sale sal = Stub.getInstance().getSale("0");
-        System.out.println(sal.getSerialCode());
+        long serialCode = Long.valueOf("13");
+        String ciao = SerialEncryption.getInstance().encryptSerial("10");
+        System.out.println(ciao);
+        
+        String res1 = SerialEncryption.getInstance().decryptSerial("QVC6E4X6342REPILIRXEECX2IM4U4UDDAQFVVV4LVD65RLMDTAKZT23F3LKVLUMTSE43GPP5YSJWJ3LR67URZ7RXCF7CP3TVVNJTY4A=");
+        String res = SerialEncryption.getInstance().decryptSerial("QVC6E4X6342REPILIRXEECX2IM4U4UDDAQFVVV4LVD65RLMDTAKZT23F3LKVLUMTSE43GPP5YSJWJ3LR67URZ7RXCF7CP3TVVNJTY4A=");
+        System.out.println(res1);
+        System.out.println(res);
+        
     }
     
 }

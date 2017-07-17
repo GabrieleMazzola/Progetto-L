@@ -22,7 +22,7 @@ import ticketmachine.*;
 
 public class StubMachine implements CentralSystemTicketInterface {
     
-    private String systemAddress;
+    private String systemAddress, localAddress;
     private int systemPort;
     private Socket socket;
     private BufferedReader fromServer;
@@ -46,6 +46,7 @@ public class StubMachine implements CentralSystemTicketInterface {
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new PrintWriter(socket.getOutputStream(), true);
         socket.setSoTimeout(500);
+        localAddress = socket.getLocalAddress().getHostAddress();
     }
     
     private void closeConnection() {
@@ -192,8 +193,6 @@ public class StubMachine implements CentralSystemTicketInterface {
     }
     
     public String getClientIPAddress() {
-        String localAddress = null;
-        localAddress = socket.getLocalAddress().getHostAddress();
         return localAddress;
     }
 
