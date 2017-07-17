@@ -5,7 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import avvio.Start;
+import centralsystem.Stub;
 import items.Product;
+import items.Sale;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TicketOnline{
 	
@@ -102,6 +109,20 @@ public class TicketOnline{
 	    return this.codesHandler.popSerialNumber();
 	}
 	
+        public boolean makeSale(String username, String creditCardNumber, String ticketType){
+            Product product = this.getProduct(ticketType);
+            if( product != null ){
+                    if(this.creditCardPayment(creditCardNumber, product.getCost())){
+                        try {
+                            return Stub.getInstance().addSale(new Sale(Calendar.getInstance().getTime(), TicketOnline.getInstance().useOneSerial(), username, product, InetAddress.getLocalHost().getHostAddress()));
+                        } catch (UnknownHostException ex) {
+                            Logger.getLogger(TicketOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                }
+            return false;
+        }
 	
 
       

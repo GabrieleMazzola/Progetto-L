@@ -32,5 +32,7 @@ public interface CentralSystemWebServerInterface {
 
     Long requestFinesStartNumber(String collectorUsername);
     boolean userLogin(String username, String password);
+
+    public boolean addSale(Sale sale);
     
 }
