@@ -32,6 +32,7 @@ public class CreateUserGrid extends BridgeSceneGrid{
         text = new Text("Insert your data");
         text.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 40));
         
+        fail = new Text();
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.HORIZONTAL);
         
